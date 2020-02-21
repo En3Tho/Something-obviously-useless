@@ -58,9 +58,8 @@ namespace LearnIntermediateLanguage
                 .Remainder(il.LoadArgument(0), il.LoadArgument(1))                
                 .StoreLocal(0, il.NewObject<(int, int), Types<int, int>>())
                 .LoadField<(int, int)>("Item2", il.LoadLocal(0))                
-                .LoadField<(int, int)>("Item1", il.LoadLocal(0))
-                .NewObject<(int, int), Types<int, int>>()
-                .Return())
+                .LoadField<(int, int)>("Item1", il.LoadLocal(0))                
+                .Return(il.NewObject<(int, int), Types<int, int>>()))
                 .Build();
 
             var result = func(5, 10);

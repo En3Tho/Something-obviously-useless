@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
@@ -17,8 +18,8 @@ namespace LearnIntermediateLanguage
             TypeBuilder typeBuilder = moduleBuilder.DefineType("IntIntClass", TypeAttributes.Public, typeof(ValueType));
             var fieldBuilder = typeBuilder.DefineField("In1", typeof(int), FieldAttributes.Public);
             var methodBuilder = typeBuilder.DefineMethod("GetInt1", MethodAttributes.Public);
-            var propertyBuilder = typeBuilder.DefineProperty("Int1Prop", PropertyAttributes.None, typeof(int), Array.Empty<Type>());            
-        }        
+            var propertyBuilder = typeBuilder.DefineProperty("Int1Prop", PropertyAttributes.None, typeof(int), Array.Empty<Type>());
+        }
     }
 
     public abstract class TypeBuilderBase
@@ -28,9 +29,19 @@ namespace LearnIntermediateLanguage
         private static readonly int FieldHashCode = "field".GetHashCode();
         private static readonly int PropertyHashCode = "property".GetHashCode();
 
-        protected TypeBuilder _typeBuilder;
+        public AssemblyBuilder AssemblyBuilder { get; }
+        public ModuleBuilder ModuleBuilder { get; }
+        public TypeBuilder TypeBuilder { get; }
+
         protected Dictionary<int, MemberInfo> _members;
         protected Dictionary<int, CustomAttributeBuilder> _attributes;
+
+        protected TypeBuilderBase(AssemblyBuilder assemblyBuilder, ModuleBuilder moduleBuilder, string name, TypeAttributes attributes, Type baseType)
+        {
+            AssemblyBuilder = assemblyBuilder;
+            ModuleBuilder = moduleBuilder;
+            TypeBuilder = moduleBuilder.DefineType(name, attributes, baseType);
+        }
 
         private void AddMember(MemberInfo info)
         {
@@ -71,7 +82,7 @@ namespace LearnIntermediateLanguage
                 ConstructorBuilder _ => CtorHashCode,
                 MethodBuilder _ => MethodHashCode,
                 _ => throw new InvalidOperationException("Unsupported type")
-            };        
+            };
 
         public void WithPublicFields(params FieldDescriptor[] descriptors) => WithFields(FieldAttributes.Public, descriptors);
         public void WithPrivateFields(params FieldDescriptor[] descriptors) => WithFields(FieldAttributes.Private, descriptors);
@@ -82,7 +93,7 @@ namespace LearnIntermediateLanguage
         {
             foreach (var descriptor in descriptors)
             {
-                AddMember(_typeBuilder.DefineField(descriptor.Name, descriptor.Type, descriptor.Attributes | attributes));
+                AddMember(TypeBuilder.DefineField(descriptor.Name, descriptor.Type, descriptor.Attributes | attributes));
             }
         }
 
@@ -95,26 +106,26 @@ namespace LearnIntermediateLanguage
         {
             foreach (var descriptor in descriptors)
             {
-                var member = _typeBuilder.DefineMethod(descriptor.Name, descriptor.Attributes | attributes, descriptor.ReturnType, descriptor.ParameterTypes);
+                var member = TypeBuilder.DefineMethod(descriptor.Name, descriptor.Attributes | attributes, descriptor.ReturnType, descriptor.ParameterTypes);
                 descriptor.Generator(member.GetILGenerator());
                 AddMember(member);
             }
         }
-      
+
         public void WithProperties(PropertyAttributes attributes, params PropertyDescriptor[] descriptors)
         {
             foreach (var descriptor in descriptors)
             {
-                var member = _typeBuilder.DefineProperty(descriptor.Name, descriptor.Attributes | attributes, descriptor.Type, Array.Empty<Type>());
+                var member = TypeBuilder.DefineProperty(descriptor.Name, descriptor.Attributes | attributes, descriptor.Type, Array.Empty<Type>());
 
                 // TODO: Checks
                 var getMethodDesc = descriptor.GetMethod;
-                var getMethod = _typeBuilder.DefineMethod(getMethodDesc.Name, getMethodDesc.Attributes, getMethodDesc.ReturnType, getMethodDesc.ParameterTypes);
+                var getMethod = TypeBuilder.DefineMethod(getMethodDesc.Name, getMethodDesc.Attributes, getMethodDesc.ReturnType, getMethodDesc.ParameterTypes);
                 getMethodDesc.Generator(getMethod.GetILGenerator());
 
                 // TODO: Checks
                 var setMethodDesc = descriptor.SetMethod;
-                var setMethod = _typeBuilder.DefineMethod(setMethodDesc.Name, setMethodDesc.Attributes, setMethodDesc.ReturnType, setMethodDesc.ParameterTypes);
+                var setMethod = TypeBuilder.DefineMethod(setMethodDesc.Name, setMethodDesc.Attributes, setMethodDesc.ReturnType, setMethodDesc.ParameterTypes);
                 setMethodDesc.Generator(getMethod.GetILGenerator());
 
                 member.SetGetMethod(getMethod);
@@ -132,12 +143,21 @@ namespace LearnIntermediateLanguage
 
     public class ClassBuilder : TypeBuilderBase
     {
-        
+        public ClassBuilder(AssemblyBuilder assemblyBuilder, ModuleBuilder moduleBuilder, string name, TypeAttributes attributes, Type baseType)
+            : base(assemblyBuilder, moduleBuilder, name, attributes | TypeAttributes.Class, baseType)
+        {
+            if (baseType.IsValueType)
+                throw new ArgumentException("Base type of class should not be value type", nameof(baseType));
+        }
     }
 
-    public class StructBilder : TypeBuilderBase
+    public class StructBuilder : TypeBuilderBase
     {
-
+        public StructBuilder(AssemblyBuilder assemblyBuilder, ModuleBuilder moduleBuilder, string name, TypeAttributes attributes)
+            : base(assemblyBuilder, moduleBuilder, name, attributes ^ TypeAttributes.Class, typeof(ValueType))
+        {
+                
+        }
     }
 
     public struct ConstructorDescriptor
@@ -149,9 +169,9 @@ namespace LearnIntermediateLanguage
 
     public struct FieldDescriptor
     {
-       public readonly string Name;
-       public readonly Type Type;
-       public readonly FieldAttributes Attributes;
+        public readonly string Name;
+        public readonly Type Type;
+        public readonly FieldAttributes Attributes;
     }
 
     public struct MethodDescriptor
@@ -170,6 +190,16 @@ namespace LearnIntermediateLanguage
         public readonly MethodDescriptor GetMethod;
         public readonly MethodDescriptor SetMethod;
         public readonly PropertyAttributes Attributes;
+
+        public void WithGetMethod(MethodDescriptor descriptor)
+        {
+
+        }
+
+        public void WithSetMethod(MethodDescriptor descriptor)
+        {
+
+        }
     }
 
     public struct AttributeDescriptor
