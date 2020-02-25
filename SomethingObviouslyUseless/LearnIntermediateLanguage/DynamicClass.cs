@@ -154,7 +154,7 @@ namespace LearnIntermediateLanguage
     public class StructBuilder : TypeBuilderBase
     {
         public StructBuilder(AssemblyBuilder assemblyBuilder, ModuleBuilder moduleBuilder, string name, TypeAttributes attributes)
-            : base(assemblyBuilder, moduleBuilder, name, attributes ^ TypeAttributes.Class, typeof(ValueType))
+            : base(assemblyBuilder, moduleBuilder, name, attributes | TypeAttributes.Class ^ TypeAttributes.Class, typeof(ValueType))
         {
                 
         }

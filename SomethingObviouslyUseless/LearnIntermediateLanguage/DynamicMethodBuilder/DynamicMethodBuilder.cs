@@ -21,7 +21,9 @@ namespace LearnIntermediateLanguage
         {
             action(ILGenerator);
             return this;
-        }       
+        }
+
+        // TODO: static Create<T>, Create(Type)
 
         public T Build()
         {
@@ -33,10 +35,10 @@ namespace LearnIntermediateLanguage
             return _dynamicMethod.CreateDelegate<T>(target);
         }
 
-        private static DynamicMethod GetMethod(string methodName, (Type, Type[]) types)
-            => new DynamicMethod(methodName, types.Item1, types.Item2);
+        private static DynamicMethod GetMethod(string methodName, (Type returnType, Type[] parameterTypes) types)
+            => new DynamicMethod(methodName, types.returnType, types.parameterTypes);
        
-        private static (Type, Type[]) GetArguments()
+        private static (Type returnType, Type[] parameterTypes) GetArguments()
         {
             var invoke = typeof(T).GetMethod("Invoke");
             return (invoke.ReturnType, invoke.GetParameters().Select(x => x.ParameterType).ToArray());
