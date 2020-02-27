@@ -6,64 +6,70 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 {
     public static class MiscellaneousExtensions
     {
-        #region Validate
+        #region Should
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Validate<T>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple, Func<T, bool> func)
+        public static (T, T, T, T, T, T, T) Should<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
         {
-            if (func(tuple.value1)) ValueTupleValidationException.Throw(nameof(tuple.value1));
-            if (func(tuple.value2)) ValueTupleValidationException.Throw(nameof(tuple.value2));
-            if (func(tuple.value3)) ValueTupleValidationException.Throw(nameof(tuple.value3));
-            if (func(tuple.value4)) ValueTupleValidationException.Throw(nameof(tuple.value4));
-            if (func(tuple.value5)) ValueTupleValidationException.Throw(nameof(tuple.value5));
-            if (func(tuple.value6)) ValueTupleValidationException.Throw(nameof(tuple.value6));
-            if (func(tuple.value7)) ValueTupleValidationException.Throw(nameof(tuple.value7));
+            if (!func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (!func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            if (!func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
+            if (!func(tuple.v4)) ValueTupleValidationException.Throw(nameof(tuple.v4));
+            if (!func(tuple.v5)) ValueTupleValidationException.Throw(nameof(tuple.v5));
+            if (!func(tuple.v6)) ValueTupleValidationException.Throw(nameof(tuple.v6));
+            if (!func(tuple.v7)) ValueTupleValidationException.Throw(nameof(tuple.v7));
+            return tuple;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Validate<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, Func<T, bool> func)
+        public static (T, T, T, T, T, T) Should<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
         {
-            if (func(tuple.value1)) ValueTupleValidationException.Throw(nameof(tuple.value1));
-            if (func(tuple.value2)) ValueTupleValidationException.Throw(nameof(tuple.value2));
-            if (func(tuple.value3)) ValueTupleValidationException.Throw(nameof(tuple.value3));
-            if (func(tuple.value4)) ValueTupleValidationException.Throw(nameof(tuple.value4));
-            if (func(tuple.value5)) ValueTupleValidationException.Throw(nameof(tuple.value5));
-            if (func(tuple.value6)) ValueTupleValidationException.Throw(nameof(tuple.value6));
+            if (!func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (!func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            if (!func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
+            if (!func(tuple.v4)) ValueTupleValidationException.Throw(nameof(tuple.v4));
+            if (!func(tuple.v5)) ValueTupleValidationException.Throw(nameof(tuple.v5));
+            if (!func(tuple.v6)) ValueTupleValidationException.Throw(nameof(tuple.v6));
+            return tuple;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Validate<T>(this (T value1, T value2, T value3, T value4, T value5) tuple, Func<T, bool> func)
+        public static (T, T, T, T, T) Should<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
         {
-            if (func(tuple.value1)) ValueTupleValidationException.Throw(nameof(tuple.value1));
-            if (func(tuple.value2)) ValueTupleValidationException.Throw(nameof(tuple.value2));
-            if (func(tuple.value3)) ValueTupleValidationException.Throw(nameof(tuple.value3));
-            if (func(tuple.value4)) ValueTupleValidationException.Throw(nameof(tuple.value4));
-            if (func(tuple.value5)) ValueTupleValidationException.Throw(nameof(tuple.value5));
+            if (func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            if (func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
+            if (func(tuple.v4)) ValueTupleValidationException.Throw(nameof(tuple.v4));
+            if (func(tuple.v5)) ValueTupleValidationException.Throw(nameof(tuple.v5));
+            return tuple;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Validate<T>(this (T value1, T value2, T value3, T value4) tuple, Func<T, bool> func)
+        public static (T, T, T, T) Should<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
         {
-            if (func(tuple.value1)) ValueTupleValidationException.Throw(nameof(tuple.value1));
-            if (func(tuple.value2)) ValueTupleValidationException.Throw(nameof(tuple.value2));
-            if (func(tuple.value3)) ValueTupleValidationException.Throw(nameof(tuple.value3));
-            if (func(tuple.value4)) ValueTupleValidationException.Throw(nameof(tuple.value4));
+            if (func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            if (func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
+            if (func(tuple.v4)) ValueTupleValidationException.Throw(nameof(tuple.v4));
+            return tuple;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Validate<T>(this (T value1, T value2, T value3) tuple, Func<T, bool> func)
+        public static (T, T, T) Should<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func)
         {
-            if (func(tuple.value1)) ValueTupleValidationException.Throw(nameof(tuple.value1));
-            if (func(tuple.value2)) ValueTupleValidationException.Throw(nameof(tuple.value2));
-            if (func(tuple.value3)) ValueTupleValidationException.Throw(nameof(tuple.value3));
+            if (func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            if (func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
+            return tuple;
 
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Validate<T>(this (T value1, T value2) tuple, Func<T, bool> func)
+        public static (T, T) Should<T>(this (T v1, T v2) tuple, Func<T, bool> func)
         {
-            if (func(tuple.value1)) ValueTupleValidationException.Throw(nameof(tuple.value1));
-            if (func(tuple.value2)) ValueTupleValidationException.Throw(nameof(tuple.value2));
+            if (func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            return tuple;
         }
 
         #endregion
@@ -71,45 +77,66 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #region ShouldNot
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T, T) ShouldNot<T>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple, Func<T, bool> func)
+        public static (T, T, T, T, T, T, T) ShouldNot<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
         {
-            tuple.Validate(func);
+            if (func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            if (func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
+            if (func(tuple.v4)) ValueTupleValidationException.Throw(nameof(tuple.v4));
+            if (func(tuple.v5)) ValueTupleValidationException.Throw(nameof(tuple.v5));
+            if (func(tuple.v6)) ValueTupleValidationException.Throw(nameof(tuple.v6));
+            if (func(tuple.v7)) ValueTupleValidationException.Throw(nameof(tuple.v7));
             return tuple;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T) ShouldNot<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, Func<T, bool> func)
+        public static (T, T, T, T, T, T) ShouldNot<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
         {
-            tuple.Validate(func);
+            if (func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            if (func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
+            if (func(tuple.v4)) ValueTupleValidationException.Throw(nameof(tuple.v4));
+            if (func(tuple.v5)) ValueTupleValidationException.Throw(nameof(tuple.v5));
+            if (func(tuple.v6)) ValueTupleValidationException.Throw(nameof(tuple.v6));
             return tuple;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T) ShouldNot<T>(this (T value1, T value2, T value3, T value4, T value5) tuple, Func<T, bool> func)
+        public static (T, T, T, T, T) ShouldNot<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
         {
-            tuple.Validate(func);
+            if (func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            if (func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
+            if (func(tuple.v4)) ValueTupleValidationException.Throw(nameof(tuple.v4));
+            if (func(tuple.v5)) ValueTupleValidationException.Throw(nameof(tuple.v5));
             return tuple;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T) ShouldNot<T>(this (T value1, T value2, T value3, T value4) tuple, Func<T, bool> func)
+        public static (T, T, T, T) ShouldNot<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
         {
-            tuple.Validate(func);
+            if (func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            if (func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
+            if (func(tuple.v4)) ValueTupleValidationException.Throw(nameof(tuple.v4));
             return tuple;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T) ShouldNot<T>(this (T value1, T value2, T value3) tuple, Func<T, bool> func)
+        public static (T, T, T) ShouldNot<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func)
         {
-            tuple.Validate(func);
+            if (func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
+            if (func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
             return tuple;
 
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T) ShouldNot<T>(this (T value1, T value2) tuple, Func<T, bool> func)
+        public static (T, T) ShouldNot<T>(this (T v1, T v2) tuple, Func<T, bool> func)
         {
-            tuple.Validate(func);
+            if (func(tuple.v1)) ValueTupleValidationException.Throw(nameof(tuple.v1));
+            if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
             return tuple;
         }
 
@@ -118,109 +145,109 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #region Contains
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple, T value) where T : IEquatable<T>
-                => value.Equals(tuple.value1)
-                || value.Equals(tuple.value2)
-                || value.Equals(tuple.value3)
-                || value.Equals(tuple.value4)
-                || value.Equals(tuple.value5)
-                || value.Equals(tuple.value6)
-                || value.Equals(tuple.value7);
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, T value) where T : IEquatable<T>
+                => value.Equals(tuple.v1)
+                || value.Equals(tuple.v2)
+                || value.Equals(tuple.v3)
+                || value.Equals(tuple.v4)
+                || value.Equals(tuple.v5)
+                || value.Equals(tuple.v6)
+                || value.Equals(tuple.v7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, T value) where T : IEquatable<T>
-               => value.Equals(tuple.value1)
-               || value.Equals(tuple.value2)
-               || value.Equals(tuple.value3)
-               || value.Equals(tuple.value4)
-               || value.Equals(tuple.value5)
-               || value.Equals(tuple.value6);
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, T value) where T : IEquatable<T>
+               => value.Equals(tuple.v1)
+               || value.Equals(tuple.v2)
+               || value.Equals(tuple.v3)
+               || value.Equals(tuple.v4)
+               || value.Equals(tuple.v5)
+               || value.Equals(tuple.v6);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T value1, T value2, T value3, T value4, T value5) tuple, T value) where T : IEquatable<T>
-               => value.Equals(tuple.value1)
-               || value.Equals(tuple.value2)
-               || value.Equals(tuple.value3)
-               || value.Equals(tuple.value4)
-               || value.Equals(tuple.value5);
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, T value) where T : IEquatable<T>
+               => value.Equals(tuple.v1)
+               || value.Equals(tuple.v2)
+               || value.Equals(tuple.v3)
+               || value.Equals(tuple.v4)
+               || value.Equals(tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T value1, T value2, T value3, T value4) tuple, T value) where T : IEquatable<T>
-              => value.Equals(tuple.value1)
-              || value.Equals(tuple.value2)
-              || value.Equals(tuple.value3)
-              || value.Equals(tuple.value4);
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4) tuple, T value) where T : IEquatable<T>
+              => value.Equals(tuple.v1)
+              || value.Equals(tuple.v2)
+              || value.Equals(tuple.v3)
+              || value.Equals(tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T value1, T value2, T value3) tuple, T value) where T : IEquatable<T>
-              => value.Equals(tuple.value1)
-              || value.Equals(tuple.value2)
-              || value.Equals(tuple.value3);
+        public static bool Contains<T>(this (T v1, T v2, T v3) tuple, T value) where T : IEquatable<T>
+              => value.Equals(tuple.v1)
+              || value.Equals(tuple.v2)
+              || value.Equals(tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T value1, T value2) tuple, T value) where T : IEquatable<T>
-              => value.Equals(tuple.value1)
-              || value.Equals(tuple.value2);
+        public static bool Contains<T>(this (T v1, T v2) tuple, T value) where T : IEquatable<T>
+              => value.Equals(tuple.v1)
+              || value.Equals(tuple.v2);
 
         #endregion
 
         #region ForEach
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<T>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple, Action<T> action)
+        public static void ForEach<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Action<T> action)
         {
-            action(tuple.value1);
-            action(tuple.value2);
-            action(tuple.value3);
-            action(tuple.value4);
-            action(tuple.value5);
-            action(tuple.value6);
-            action(tuple.value7);
+            action(tuple.v1);
+            action(tuple.v2);
+            action(tuple.v3);
+            action(tuple.v4);
+            action(tuple.v5);
+            action(tuple.v6);
+            action(tuple.v7);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, Action<T> action)
+        public static void ForEach<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Action<T> action)
         {
-            action(tuple.value1);
-            action(tuple.value2);
-            action(tuple.value3);
-            action(tuple.value4);
-            action(tuple.value5);
-            action(tuple.value6);
+            action(tuple.v1);
+            action(tuple.v2);
+            action(tuple.v3);
+            action(tuple.v4);
+            action(tuple.v5);
+            action(tuple.v6);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<T>(this (T value1, T value2, T value3, T value4, T value5) tuple, Action<T> action)
+        public static void ForEach<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Action<T> action)
         {
-            action(tuple.value1);
-            action(tuple.value2);
-            action(tuple.value3);
-            action(tuple.value4);
-            action(tuple.value5);
+            action(tuple.v1);
+            action(tuple.v2);
+            action(tuple.v3);
+            action(tuple.v4);
+            action(tuple.v5);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<T>(this (T value1, T value2, T value3, T value4) tuple, Action<T> action)
+        public static void ForEach<T>(this (T v1, T v2, T v3, T v4) tuple, Action<T> action)
         {
-            action(tuple.value1);
-            action(tuple.value2);
-            action(tuple.value3);
-            action(tuple.value4);
+            action(tuple.v1);
+            action(tuple.v2);
+            action(tuple.v3);
+            action(tuple.v4);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<T>(this (T value1, T value2, T value3) tuple, Action<T> action)
+        public static void ForEach<T>(this (T v1, T v2, T v3) tuple, Action<T> action)
         {
-            action(tuple.value1);
-            action(tuple.value2);
-            action(tuple.value3);
+            action(tuple.v1);
+            action(tuple.v2);
+            action(tuple.v3);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<T>(this (T value1, T value2) tuple, Action<T> action)
+        public static void ForEach<T>(this (T v1, T v2) tuple, Action<T> action)
         {
-            action(tuple.value1);
-            action(tuple.value2);
+            action(tuple.v1);
+            action(tuple.v2);
         }
 
         #endregion
@@ -228,317 +255,317 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #region Select
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (U, U, U, U, U, U, U) Select<T, U>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple, Func<T, U> func)
-            => (func(tuple.value1),
-                func(tuple.value2),
-                func(tuple.value3),
-                func(tuple.value4),
-                func(tuple.value5),
-                func(tuple.value6),
-                func(tuple.value7));
+        public static (U, U, U, U, U, U, U) Select<T, U>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, U> func)
+            => (func(tuple.v1),
+                func(tuple.v2),
+                func(tuple.v3),
+                func(tuple.v4),
+                func(tuple.v5),
+                func(tuple.v6),
+                func(tuple.v7));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (U, U, U, U, U, U) Select<T, U>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, Func<T, U> func)
-            => (func(tuple.value1),
-                func(tuple.value2),
-                func(tuple.value3),
-                func(tuple.value4),
-                func(tuple.value5),
-                func(tuple.value6));
+        public static (U, U, U, U, U, U) Select<T, U>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, U> func)
+            => (func(tuple.v1),
+                func(tuple.v2),
+                func(tuple.v3),
+                func(tuple.v4),
+                func(tuple.v5),
+                func(tuple.v6));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (U, U, U, U, U) Select<T, U>(this (T value1, T value2, T value3, T value4, T value5) tuple, Func<T, U> func)
-            => (func(tuple.value1),
-                func(tuple.value2),
-                func(tuple.value3),
-                func(tuple.value4),
-                func(tuple.value5));
+        public static (U, U, U, U, U) Select<T, U>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, U> func)
+            => (func(tuple.v1),
+                func(tuple.v2),
+                func(tuple.v3),
+                func(tuple.v4),
+                func(tuple.v5));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (U, U, U, U) Select<T, U>(this (T value1, T value2, T value3, T value4) tuple, Func<T, U> func)
-            => (func(tuple.value1),
-                func(tuple.value2),
-                func(tuple.value3),
-                func(tuple.value4));
+        public static (U, U, U, U) Select<T, U>(this (T v1, T v2, T v3, T v4) tuple, Func<T, U> func)
+            => (func(tuple.v1),
+                func(tuple.v2),
+                func(tuple.v3),
+                func(tuple.v4));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (U, U, U) Select<T, U>(this (T value1, T value2, T value3) tuple, Func<T, U> func)
-            => (func(tuple.value1),
-                func(tuple.value2),
-                func(tuple.value3));
+        public static (U, U, U) Select<T, U>(this (T v1, T v2, T v3) tuple, Func<T, U> func)
+            => (func(tuple.v1),
+                func(tuple.v2),
+                func(tuple.v3));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (U, U) Select<T, U>(this (T value1, T value2) tuple, Func<T, U> func)
-            => (func(tuple.value1),
-                func(tuple.value2));
+        public static (U, U) Select<T, U>(this (T v1, T v2) tuple, Func<T, U> func)
+            => (func(tuple.v1),
+                func(tuple.v2));
 
         #endregion
 
         #region Concat
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T) Concat<T>(this (T value1, T value2) tuple, T value)
-            => (tuple.value1, tuple.value2, value);
+        public static (T, T, T) Concat<T>(this (T v1, T v2) tuple, T value)
+            => (tuple.v1, tuple.v2, value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T) Concat<T>(this (T value1, T value2, T value3) tuple, T value)
-            => (tuple.value1, tuple.value2, tuple.value3, value);
+        public static (T, T, T, T) Concat<T>(this (T v1, T v2, T v3) tuple, T value)
+            => (tuple.v1, tuple.v2, tuple.v3, value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T) Concat<T>(this (T value1, T value2, T value3, T value4) tuple, T value)
-            => (tuple.value1, tuple.value2, tuple.value3, tuple.value4, value);
+        public static (T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3, T v4) tuple, T value)
+            => (tuple.v1, tuple.v2, tuple.v3, tuple.v4, value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T) Concat<T>(this (T value1, T value2, T value3, T value4, T value5) tuple, T value)
-           => (tuple.value1, tuple.value2, tuple.value3, tuple.value4, tuple.value5, value);
+        public static (T, T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, T value)
+           => (tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T, T) Concat<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, T value)
-           => (tuple.value1, tuple.value2, tuple.value3, tuple.value4, tuple.value5, tuple.value6, value);
+        public static (T, T, T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, T value)
+           => (tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T) Concat<T>(this (T value1, T value2) tuple, (T value1, T value2) other)
-            => (tuple.value1, tuple.value2, other.value1, other.value2);
+        public static (T, T, T, T) Concat<T>(this (T v1, T v2) tuple, (T v1, T v2) other)
+            => (tuple.v1, tuple.v2, other.v1, other.v2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T) Concat<T>(this (T value1, T value2, T value3) tuple, (T value1, T value2) other)
-            => (tuple.value1, tuple.value2, tuple.value3, other.value1, other.value2);
+        public static (T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3) tuple, (T v1, T v2) other)
+            => (tuple.v1, tuple.v2, tuple.v3, other.v1, other.v2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T) Concat<T>(this (T value1, T value2) tuple, (T value1, T value2, T value3) other)
-            => (tuple.value1, tuple.value2, other.value1, other.value2, other.value3);
+        public static (T, T, T, T, T) Concat<T>(this (T v1, T v2) tuple, (T v1, T v2, T v3) other)
+            => (tuple.v1, tuple.v2, other.v1, other.v2, other.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T) Concat<T>(this (T value1, T value2, T value3) tuple, (T value1, T value2, T value3) other)
-            => (tuple.value1, tuple.value2, tuple.value3, other.value1, other.value2, other.value3);
+        public static (T, T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3) tuple, (T v1, T v2, T v3) other)
+            => (tuple.v1, tuple.v2, tuple.v3, other.v1, other.v2, other.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T) Concat<T>(this (T value1, T value2, T value3, T value4) tuple, (T value1, T value2) other)
-            => (tuple.value1, tuple.value2, tuple.value3, tuple.value4, other.value1, other.value2);
+        public static (T, T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3, T v4) tuple, (T v1, T v2) other)
+            => (tuple.v1, tuple.v2, tuple.v3, tuple.v4, other.v1, other.v2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T) Concat<T>(this (T value1, T value2) tuple, (T value1, T value2, T value3, T value4) other)
-            => (tuple.value1, tuple.value2, other.value1, other.value2, other.value3, other.value4);
+        public static (T, T, T, T, T, T) Concat<T>(this (T v1, T v2) tuple, (T v1, T v2, T v3, T v4) other)
+            => (tuple.v1, tuple.v2, other.v1, other.v2, other.v3, other.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T, T) Concat<T>(this (T value1, T value2, T value3, T value4, T value5) tuple, (T value1, T value2) other)
-            => (tuple.value1, tuple.value2, tuple.value3, tuple.value4, tuple.value5, other.value1, other.value2);
+        public static (T, T, T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, (T v1, T v2) other)
+            => (tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, other.v1, other.v2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T, T) Concat<T>(this (T value1, T value2) tuple, (T value1, T value2, T value3, T value4, T value5) other)
-            => (tuple.value1, tuple.value2, other.value1, other.value2, other.value3, other.value4, other.value5);
+        public static (T, T, T, T, T, T, T) Concat<T>(this (T v1, T v2) tuple, (T v1, T v2, T v3, T v4, T v5) other)
+            => (tuple.v1, tuple.v2, other.v1, other.v2, other.v3, other.v4, other.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T, T) Concat<T>(this (T value1, T value2, T value3, T value4) tuple, (T value1, T value2, T value3) other)
-            => (tuple.value1, tuple.value2, tuple.value3, tuple.value4, other.value1, other.value2, other.value3);
+        public static (T, T, T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3, T v4) tuple, (T v1, T v2, T v3) other)
+            => (tuple.v1, tuple.v2, tuple.v3, tuple.v4, other.v1, other.v2, other.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T, T) Concat<T>(this (T value1, T value2, T value3) tuple, (T value1, T value2, T value3, T value4) other)
-            => (tuple.value1, tuple.value2, tuple.value3, other.value1, other.value2, other.value3, other.value4);
+        public static (T, T, T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3) tuple, (T v1, T v2, T v3, T v4) other)
+            => (tuple.v1, tuple.v2, tuple.v3, other.v1, other.v2, other.v3, other.v4);
 
         #endregion
 
         #region Any
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Any<T>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple, Func<T, bool> func)
-               => func(tuple.value1)
-               || func(tuple.value2)
-               || func(tuple.value3)
-               || func(tuple.value4)
-               || func(tuple.value5)
-               || func(tuple.value6)
-               || func(tuple.value7);
+        public static bool Any<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
+               => func(tuple.v1)
+               || func(tuple.v2)
+               || func(tuple.v3)
+               || func(tuple.v4)
+               || func(tuple.v5)
+               || func(tuple.v6)
+               || func(tuple.v7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Any<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, Func<T, bool> func)
-               => func(tuple.value1)
-               || func(tuple.value2)
-               || func(tuple.value3)
-               || func(tuple.value4)
-               || func(tuple.value5)
-               || func(tuple.value6);
+        public static bool Any<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
+               => func(tuple.v1)
+               || func(tuple.v2)
+               || func(tuple.v3)
+               || func(tuple.v4)
+               || func(tuple.v5)
+               || func(tuple.v6);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Any<T>(this (T value1, T value2, T value3, T value4, T value5) tuple, Func<T, bool> func)
-              => func(tuple.value1)
-              || func(tuple.value2)
-              || func(tuple.value3)
-              || func(tuple.value4)
-              || func(tuple.value5);
+        public static bool Any<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
+              => func(tuple.v1)
+              || func(tuple.v2)
+              || func(tuple.v3)
+              || func(tuple.v4)
+              || func(tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Any<T>(this (T value1, T value2, T value3, T value4) tuple, Func<T, bool> func)
-              => func(tuple.value1)
-              || func(tuple.value2)
-              || func(tuple.value3)
-              || func(tuple.value4);
+        public static bool Any<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
+              => func(tuple.v1)
+              || func(tuple.v2)
+              || func(tuple.v3)
+              || func(tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Any<T>(this (T value1, T value2, T value3) tuple, Func<T, bool> func)
-              => func(tuple.value1)
-              || func(tuple.value2)
-              || func(tuple.value3);
+        public static bool Any<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func)
+              => func(tuple.v1)
+              || func(tuple.v2)
+              || func(tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Any<T>(this (T value1, T value2) tuple, Func<T, bool> func)
-             => func(tuple.value1)
-             || func(tuple.value2);
+        public static bool Any<T>(this (T v1, T v2) tuple, Func<T, bool> func)
+             => func(tuple.v1)
+             || func(tuple.v2);
 
         #endregion
 
         #region All
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool All<T>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple, Func<T, bool> func)
-               => func(tuple.value1)
-               && func(tuple.value2)
-               && func(tuple.value3)
-               && func(tuple.value4)
-               && func(tuple.value5)
-               && func(tuple.value6)
-               && func(tuple.value7);
+        public static bool All<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
+               => func(tuple.v1)
+               && func(tuple.v2)
+               && func(tuple.v3)
+               && func(tuple.v4)
+               && func(tuple.v5)
+               && func(tuple.v6)
+               && func(tuple.v7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool All<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, Func<T, bool> func)
-               => func(tuple.value1)
-               && func(tuple.value2)
-               && func(tuple.value3)
-               && func(tuple.value4)
-               && func(tuple.value5)
-               && func(tuple.value6);
+        public static bool All<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
+               => func(tuple.v1)
+               && func(tuple.v2)
+               && func(tuple.v3)
+               && func(tuple.v4)
+               && func(tuple.v5)
+               && func(tuple.v6);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool All<T>(this (T value1, T value2, T value3, T value4, T value5) tuple, Func<T, bool> func)
-              => func(tuple.value1)
-              && func(tuple.value2)
-              && func(tuple.value3)
-              && func(tuple.value4)
-              && func(tuple.value5);
+        public static bool All<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
+              => func(tuple.v1)
+              && func(tuple.v2)
+              && func(tuple.v3)
+              && func(tuple.v4)
+              && func(tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool All<T>(this (T value1, T value2, T value3, T value4) tuple, Func<T, bool> func)
-              => func(tuple.value1)
-              && func(tuple.value2)
-              && func(tuple.value3)
-              && func(tuple.value4);
+        public static bool All<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
+              => func(tuple.v1)
+              && func(tuple.v2)
+              && func(tuple.v3)
+              && func(tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool All<T>(this (T value1, T value2, T value3) tuple, Func<T, bool> func)
-              => func(tuple.value1)
-              && func(tuple.value2)
-              && func(tuple.value3);
+        public static bool All<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func)
+              => func(tuple.v1)
+              && func(tuple.v2)
+              && func(tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool All<T>(this (T value1, T value2) tuple, Func<T, bool> func)
-             => func(tuple.value1)
-             && func(tuple.value2);
+        public static bool All<T>(this (T v1, T v2) tuple, Func<T, bool> func)
+             => func(tuple.v1)
+             && func(tuple.v2);
 
         #endregion
 
         #region Aggregate
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Aggregate<T>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple, Func<T, T, T> func)
-            => func(tuple.value7, func(tuple.value6, func(tuple.value5, func(tuple.value4, func(tuple.value3, func(tuple.value1, tuple.value2))))));
+        public static T Aggregate<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, T, T> func)
+            => func(tuple.v7, func(tuple.v6, func(tuple.v5, func(tuple.v4, func(tuple.v3, func(tuple.v1, tuple.v2))))));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Aggregate<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, Func<T, T, T> func)
-            => func(tuple.value6, func(tuple.value5, func(tuple.value4, func(tuple.value3, func(tuple.value1, tuple.value2)))));
+        public static T Aggregate<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, T, T> func)
+            => func(tuple.v6, func(tuple.v5, func(tuple.v4, func(tuple.v3, func(tuple.v1, tuple.v2)))));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Aggregate<T>(this (T value1, T value2, T value3, T value4, T value5) tuple, Func<T, T, T> func)
-            => func(tuple.value5, func(tuple.value4, func(tuple.value3, func(tuple.value1, tuple.value2))));
+        public static T Aggregate<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, T, T> func)
+            => func(tuple.v5, func(tuple.v4, func(tuple.v3, func(tuple.v1, tuple.v2))));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Aggregate<T>(this (T value1, T value2, T value3, T value4) tuple, Func<T, T, T> func)
-            => func(tuple.value4, func(tuple.value3, func(tuple.value1, tuple.value2)));
+        public static T Aggregate<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, T, T> func)
+            => func(tuple.v4, func(tuple.v3, func(tuple.v1, tuple.v2)));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Aggregate<T>(this (T value1, T value2, T value3) tuple, Func<T, T, T> func)
-            => func(tuple.value3, func(tuple.value1, tuple.value2));
+        public static T Aggregate<T>(this (T v1, T v2, T v3) tuple, Func<T, T, T> func)
+            => func(tuple.v3, func(tuple.v1, tuple.v2));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T Aggregate<T>(this (T value1, T value2) tuple, Func<T, T, T> func)
-           => func(tuple.value1, tuple.value2);
+        public static T Aggregate<T>(this (T v1, T v2) tuple, Func<T, T, T> func)
+           => func(tuple.v1, tuple.v2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U Aggregate<T, U>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple, Func<T, U, U> func, U value)
-            => func(tuple.value7, func(tuple.value6, func(tuple.value5, func(tuple.value4, func(tuple.value3, func(tuple.value2, func(tuple.value1, value)))))));
+        public static U Aggregate<T, U>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, U, U> func, U value)
+            => func(tuple.v7, func(tuple.v6, func(tuple.v5, func(tuple.v4, func(tuple.v3, func(tuple.v2, func(tuple.v1, value)))))));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U Aggregate<T, U>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, Func<T, U, U> func, U value)
-            => func(tuple.value6, func(tuple.value5, func(tuple.value4, func(tuple.value3, func(tuple.value2, func(tuple.value1, value))))));
+        public static U Aggregate<T, U>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, U, U> func, U value)
+            => func(tuple.v6, func(tuple.v5, func(tuple.v4, func(tuple.v3, func(tuple.v2, func(tuple.v1, value))))));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U Aggregate<T, U>(this (T value1, T value2, T value3, T value4, T value5) tuple, Func<T, U, U> func, U value)
-            => func(tuple.value5, func(tuple.value4, func(tuple.value3, func(tuple.value2, func(tuple.value1, value)))));
+        public static U Aggregate<T, U>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, U, U> func, U value)
+            => func(tuple.v5, func(tuple.v4, func(tuple.v3, func(tuple.v2, func(tuple.v1, value)))));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U Aggregate<T, U>(this (T value1, T value2, T value3, T value4) tuple, Func<T, U, U> func, U value)
-            => func(tuple.value4, func(tuple.value3, func(tuple.value2, func(tuple.value1, value))));
+        public static U Aggregate<T, U>(this (T v1, T v2, T v3, T v4) tuple, Func<T, U, U> func, U value)
+            => func(tuple.v4, func(tuple.v3, func(tuple.v2, func(tuple.v1, value))));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U Aggregate<T, U>(this (T value1, T value2, T value3) tuple, Func<T, U, U> func, U value)
-            => func(tuple.value3, func(tuple.value2, func(tuple.value1, value)));
+        public static U Aggregate<T, U>(this (T v1, T v2, T v3) tuple, Func<T, U, U> func, U value)
+            => func(tuple.v3, func(tuple.v2, func(tuple.v1, value)));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static U Aggregate<T, U>(this (T value1, T value2) tuple, Func<T, U, U> func, U value)
-            => func(tuple.value2, func(tuple.value1, value));
+        public static U Aggregate<T, U>(this (T v1, T v2) tuple, Func<T, U, U> func, U value)
+            => func(tuple.v2, func(tuple.v1, value));
 
         #endregion
 
         #region AsEnumerable
 
-        public static IEnumerable<T> AsEnumerable<T>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple)
+        public static IEnumerable<T> AsEnumerable<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple)
         {
-            yield return tuple.value1;
-            yield return tuple.value2;
-            yield return tuple.value3;
-            yield return tuple.value4;
-            yield return tuple.value5;
-            yield return tuple.value6;
-            yield return tuple.value7;
+            yield return tuple.v1;
+            yield return tuple.v2;
+            yield return tuple.v3;
+            yield return tuple.v4;
+            yield return tuple.v5;
+            yield return tuple.v6;
+            yield return tuple.v7;
         }
 
-        public static IEnumerable<T> AsEnumerable<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple)
+        public static IEnumerable<T> AsEnumerable<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple)
         {
-            yield return tuple.value1;
-            yield return tuple.value2;
-            yield return tuple.value3;
-            yield return tuple.value4;
-            yield return tuple.value5;
-            yield return tuple.value6;
-        }
-        
-        public static IEnumerable<T> AsEnumerable<T>(this (T value1, T value2, T value3, T value4, T value5) tuple)
-        {
-            yield return tuple.value1;
-            yield return tuple.value2;
-            yield return tuple.value3;
-            yield return tuple.value4;
-            yield return tuple.value5;
+            yield return tuple.v1;
+            yield return tuple.v2;
+            yield return tuple.v3;
+            yield return tuple.v4;
+            yield return tuple.v5;
+            yield return tuple.v6;
         }
 
-        public static IEnumerable<T> AsEnumerable<T>(this (T value1, T value2, T value3, T value4) tuple)
+        public static IEnumerable<T> AsEnumerable<T>(this (T v1, T v2, T v3, T v4, T v5) tuple)
         {
-            yield return tuple.value1;
-            yield return tuple.value2;
-            yield return tuple.value3;
-            yield return tuple.value4;
+            yield return tuple.v1;
+            yield return tuple.v2;
+            yield return tuple.v3;
+            yield return tuple.v4;
+            yield return tuple.v5;
         }
 
-        public static IEnumerable<T> AsEnumerable<T>(this (T value1, T value2, T value3) tuple)
+        public static IEnumerable<T> AsEnumerable<T>(this (T v1, T v2, T v3, T v4) tuple)
         {
-            yield return tuple.value1;
-            yield return tuple.value2;
-            yield return tuple.value3;
+            yield return tuple.v1;
+            yield return tuple.v2;
+            yield return tuple.v3;
+            yield return tuple.v4;
         }
 
-        public static IEnumerable<T> AsEnumerable<T>(this (T value1, T value2) tuple)
+        public static IEnumerable<T> AsEnumerable<T>(this (T v1, T v2, T v3) tuple)
         {
-            yield return tuple.value1;
-            yield return tuple.value2;
+            yield return tuple.v1;
+            yield return tuple.v2;
+            yield return tuple.v3;
+        }
+
+        public static IEnumerable<T> AsEnumerable<T>(this (T v1, T v2) tuple)
+        {
+            yield return tuple.v1;
+            yield return tuple.v2;
         }
 
         #endregion
@@ -546,75 +573,75 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #region TryGetValue
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.value1)) { value = tuple.value1; return true; }
-            if (func(tuple.value2)) { value = tuple.value2; return true; }
-            if (func(tuple.value3)) { value = tuple.value3; return true; }
-            if (func(tuple.value4)) { value = tuple.value4; return true; }
-            if (func(tuple.value5)) { value = tuple.value5; return true; }
-            if (func(tuple.value6)) { value = tuple.value6; return true; }
-            if (func(tuple.value7)) { value = tuple.value7; return true; }
+            if (func(tuple.v1)) { value = tuple.v1; return true; }
+            if (func(tuple.v2)) { value = tuple.v2; return true; }
+            if (func(tuple.v3)) { value = tuple.v3; return true; }
+            if (func(tuple.v4)) { value = tuple.v4; return true; }
+            if (func(tuple.v5)) { value = tuple.v5; return true; }
+            if (func(tuple.v6)) { value = tuple.v6; return true; }
+            if (func(tuple.v7)) { value = tuple.v7; return true; }
 
             value = default;
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.value1)) { value = tuple.value1; return true; }
-            if (func(tuple.value2)) { value = tuple.value2; return true; }
-            if (func(tuple.value3)) { value = tuple.value3; return true; }
-            if (func(tuple.value4)) { value = tuple.value4; return true; }
-            if (func(tuple.value5)) { value = tuple.value5; return true; }
-            if (func(tuple.value6)) { value = tuple.value6; return true; }
+            if (func(tuple.v1)) { value = tuple.v1; return true; }
+            if (func(tuple.v2)) { value = tuple.v2; return true; }
+            if (func(tuple.v3)) { value = tuple.v3; return true; }
+            if (func(tuple.v4)) { value = tuple.v4; return true; }
+            if (func(tuple.v5)) { value = tuple.v5; return true; }
+            if (func(tuple.v6)) { value = tuple.v6; return true; }
 
             value = default;
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T value1, T value2, T value3, T value4, T value5) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.value1)) { value = tuple.value1; return true; }
-            if (func(tuple.value2)) { value = tuple.value2; return true; }
-            if (func(tuple.value3)) { value = tuple.value3; return true; }
-            if (func(tuple.value4)) { value = tuple.value4; return true; }
-            if (func(tuple.value5)) { value = tuple.value5; return true; }
+            if (func(tuple.v1)) { value = tuple.v1; return true; }
+            if (func(tuple.v2)) { value = tuple.v2; return true; }
+            if (func(tuple.v3)) { value = tuple.v3; return true; }
+            if (func(tuple.v4)) { value = tuple.v4; return true; }
+            if (func(tuple.v5)) { value = tuple.v5; return true; }
 
             value = default;
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T value1, T value2, T value3, T value4) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.value1)) { value = tuple.value1; return true; }
-            if (func(tuple.value2)) { value = tuple.value2; return true; }
-            if (func(tuple.value3)) { value = tuple.value3; return true; }
-            if (func(tuple.value4)) { value = tuple.value4; return true; }
+            if (func(tuple.v1)) { value = tuple.v1; return true; }
+            if (func(tuple.v2)) { value = tuple.v2; return true; }
+            if (func(tuple.v3)) { value = tuple.v3; return true; }
+            if (func(tuple.v4)) { value = tuple.v4; return true; }
 
             value = default;
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T value1, T value2, T value3) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.value1)) { value = tuple.value1; return true; }
-            if (func(tuple.value2)) { value = tuple.value2; return true; }
-            if (func(tuple.value3)) { value = tuple.value3; return true; }
+            if (func(tuple.v1)) { value = tuple.v1; return true; }
+            if (func(tuple.v2)) { value = tuple.v2; return true; }
+            if (func(tuple.v3)) { value = tuple.v3; return true; }
 
             value = default;
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T value1, T value2) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.value1)) { value = tuple.value1; return true; }
-            if (func(tuple.value2)) { value = tuple.value2; return true; }
+            if (func(tuple.v1)) { value = tuple.v1; return true; }
+            if (func(tuple.v2)) { value = tuple.v2; return true; }
 
             value = default;
             return false;
@@ -625,204 +652,204 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #region AsArray
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] AsArray<T>(this (T value1, T value2, T value3, T value4, T value5, T value6, T value7) tuple)
-            => new T[] { tuple.value1, tuple.value2, tuple.value3, tuple.value4, tuple.value5, tuple.value6, tuple.value7 };
+        public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple)
+            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] AsArray<T>(this (T value1, T value2, T value3, T value4, T value5, T value6) tuple)
-            => new T[] { tuple.value1, tuple.value2, tuple.value3, tuple.value4, tuple.value5, tuple.value6 };
+        public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple)
+            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] AsArray<T>(this (T value1, T value2, T value3, T value4, T value5) tuple)
-            => new T[] { tuple.value1, tuple.value2, tuple.value3, tuple.value4, tuple.value5 };
+        public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5) tuple)
+            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] AsArray<T>(this (T value1, T value2, T value3, T value4) tuple)
-            => new T[] { tuple.value1, tuple.value2, tuple.value3, tuple.value4 };
+        public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4) tuple)
+            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] AsArray<T>(this (T value1, T value2, T value3) tuple)
-            => new T[] { tuple.value1, tuple.value2, tuple.value3 };
+        public static T[] AsArray<T>(this (T v1, T v2, T v3) tuple)
+            => new T[] { tuple.v1, tuple.v2, tuple.v3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] AsArray<T>(this (T value1, T value2) tuple)
-            => new T[] { tuple.value1, tuple.value2 };
+        public static T[] AsArray<T>(this (T v1, T v2) tuple)
+            => new T[] { tuple.v1, tuple.v2 };
 
         #endregion
 
         #region ToArray
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> value1, ICollection<T> value2, ICollection<T> value3, ICollection<T> value4, ICollection<T> value5, ICollection<T> value6, ICollection<T> value7) tuple)
-        {            
-            var count = (tuple.value1.Count, tuple.value2.Count, tuple.value3.Count, tuple.value4.Count, tuple.value5.Count, tuple.value6.Count, tuple.value7.Count).Sum();
+        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4, ICollection<T> v5, ICollection<T> v6, ICollection<T> v7) tuple)
+        {
+            var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count + tuple.v5.Count + tuple.v6.Count + tuple.v7.Count;
+            if (count == 0) return Array.Empty<T>();
+            T[] result = new T[count];
+            count = 0;
+            tuple.v1.CopyTo(result, count); count += tuple.v1.Count;
+            tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
+            tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
+            tuple.v4.CopyTo(result, count); count += tuple.v4.Count;
+            tuple.v5.CopyTo(result, count); count += tuple.v5.Count;
+            tuple.v6.CopyTo(result, count); count += tuple.v6.Count;
+            tuple.v7.CopyTo(result, count);
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4, ICollection<T> v5, ICollection<T> v6) tuple)
+        {
+            var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count + tuple.v5.Count + tuple.v6.Count;
             if (count == 0) return Array.Empty<T>();
             T[] result = new T[count];
 
-            tuple.value1.CopyTo(result, 0); count = tuple.value1.Count;
-            tuple.value2.CopyTo(result, count); count += tuple.value2.Count;
-            tuple.value3.CopyTo(result, count); count += tuple.value3.Count;
-            tuple.value4.CopyTo(result, count); count += tuple.value4.Count;
-            tuple.value5.CopyTo(result, count); count += tuple.value5.Count;
-            tuple.value6.CopyTo(result, count); count += tuple.value6.Count;
-            tuple.value7.CopyTo(result, count);
+            tuple.v1.CopyTo(result, 0); count = tuple.v1.Count;
+            tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
+            tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
+            tuple.v4.CopyTo(result, count); count += tuple.v4.Count;
+            tuple.v5.CopyTo(result, count); count += tuple.v5.Count;
+            tuple.v6.CopyTo(result, count);
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> value1, ICollection<T> value2, ICollection<T> value3, ICollection<T> value4, ICollection<T> value5, ICollection<T> value6) tuple)
+        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4, ICollection<T> v5) tuple)
         {
-            var count = (tuple.value1.Count, tuple.value2.Count, tuple.value3.Count, tuple.value4.Count, tuple.value5.Count, tuple.value6.Count).Sum();
+            var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count + tuple.v5.Count;
             if (count == 0) return Array.Empty<T>();
             T[] result = new T[count];
 
-            tuple.value1.CopyTo(result, 0); count = tuple.value1.Count;
-            tuple.value2.CopyTo(result, count); count += tuple.value2.Count;
-            tuple.value3.CopyTo(result, count); count += tuple.value3.Count;
-            tuple.value4.CopyTo(result, count); count += tuple.value4.Count;
-            tuple.value5.CopyTo(result, count); count += tuple.value5.Count;
-            tuple.value6.CopyTo(result, count);
+            tuple.v1.CopyTo(result, 0); count = tuple.v1.Count;
+            tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
+            tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
+            tuple.v4.CopyTo(result, count); count += tuple.v4.Count;
+            tuple.v5.CopyTo(result, count);
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> value1, ICollection<T> value2, ICollection<T> value3, ICollection<T> value4, ICollection<T> value5) tuple)
+        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4) tuple)
         {
-            var count = (tuple.value1.Count, tuple.value2.Count, tuple.value3.Count, tuple.value4.Count, tuple.value5.Count).Sum();
+            var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count;
             if (count == 0) return Array.Empty<T>();
             T[] result = new T[count];
 
-            tuple.value1.CopyTo(result, 0); count = tuple.value1.Count;
-            tuple.value2.CopyTo(result, count); count += tuple.value2.Count;
-            tuple.value3.CopyTo(result, count); count += tuple.value3.Count;
-            tuple.value4.CopyTo(result, count); count += tuple.value4.Count;
-            tuple.value5.CopyTo(result, count);
+            tuple.v1.CopyTo(result, 0); count = tuple.v1.Count;
+            tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
+            tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
+            tuple.v4.CopyTo(result, count);
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> value1, ICollection<T> value2, ICollection<T> value3, ICollection<T> value4) tuple)
+        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3) tuple)
         {
-            var count = (tuple.value1.Count, tuple.value2.Count, tuple.value3.Count, tuple.value4.Count).Sum();
+            var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count;
             if (count == 0) return Array.Empty<T>();
             T[] result = new T[count];
 
-            tuple.value1.CopyTo(result, 0); count = tuple.value1.Count;
-            tuple.value2.CopyTo(result, count); count += tuple.value2.Count;
-            tuple.value3.CopyTo(result, count); count += tuple.value3.Count;
-            tuple.value4.CopyTo(result, count);
+            tuple.v1.CopyTo(result, 0); count = tuple.v1.Count;
+            tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
+            tuple.v3.CopyTo(result, count);
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> value1, ICollection<T> value2, ICollection<T> value3) tuple)
+        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2) tuple)
         {
-            var count = (tuple.value1.Count, tuple.value2.Count, tuple.value3.Count).Sum();
+            var count = tuple.v1.Count + tuple.v2.Count;
             if (count == 0) return Array.Empty<T>();
             T[] result = new T[count];
 
-            tuple.value1.CopyTo(result, 0); count = tuple.value1.Count;
-            tuple.value2.CopyTo(result, count); count += tuple.value2.Count;
-            tuple.value3.CopyTo(result, count);
+            tuple.v1.CopyTo(result, 0);
+            tuple.v2.CopyTo(result, tuple.v1.Count);
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> value1, ICollection<T> value2) tuple)
+        public static T[] ToArray<T>(this (T[] v1, T[] v2, T[] v3, T[] v4, T[] v5, T[] v6, T[] v7) tuple)
         {
-            var count = (tuple.value1.Count, tuple.value2.Count).Sum();
-            if (count == 0) return Array.Empty<T>();
-            T[] result = new T[count];
-
-            tuple.value1.CopyTo(result, 0);
-            tuple.value2.CopyTo(result, tuple.value1.Count);
-            return result;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] value1, T[] value2, T[] value3, T[] value4, T[] value5, T[] value6, T[] value7) tuple)
-        {
-            var length = (tuple.value1.Length, tuple.value2.Length, tuple.value3.Length, tuple.value4.Length, tuple.value5.Length, tuple.value6.Length, tuple.value7.Length).Sum();
+            var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length + tuple.v5.Length + tuple.v6.Length + tuple.v7.Length;
             if (length == 0) return Array.Empty<T>();
             T[] result = new T[length];
 
-            Array.Copy(tuple.value1, 0, result, 0, tuple.value1.Length); length = tuple.value1.Length;
-            Array.Copy(tuple.value2, 0, result, length, tuple.value2.Length); length += tuple.value2.Length;
-            Array.Copy(tuple.value3, 0, result, length, tuple.value3.Length); length += tuple.value3.Length;
-            Array.Copy(tuple.value4, 0, result, length, tuple.value4.Length); length += tuple.value4.Length;
-            Array.Copy(tuple.value5, 0, result, length, tuple.value5.Length); length += tuple.value5.Length;
-            Array.Copy(tuple.value6, 0, result, length, tuple.value6.Length); length += tuple.value6.Length;
-            Array.Copy(tuple.value7, 0, result, length, tuple.value7.Length);
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
+            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
+            Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length); length += tuple.v4.Length;
+            Array.Copy(tuple.v5, 0, result, length, tuple.v5.Length); length += tuple.v5.Length;
+            Array.Copy(tuple.v6, 0, result, length, tuple.v6.Length); length += tuple.v6.Length;
+            Array.Copy(tuple.v7, 0, result, length, tuple.v7.Length);
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] value1, T[] value2, T[] value3, T[] value4, T[] value5, T[] value6) tuple)
+        public static T[] ToArray<T>(this (T[] v1, T[] v2, T[] v3, T[] v4, T[] v5, T[] v6) tuple)
         {
-            var length = (tuple.value1.Length, tuple.value2.Length, tuple.value3.Length, tuple.value4.Length, tuple.value5.Length, tuple.value6.Length).Sum();
+            var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length + tuple.v5.Length + tuple.v6.Length;
             if (length == 0) return Array.Empty<T>();
             T[] result = new T[length];
 
-            Array.Copy(tuple.value1, 0, result, 0, tuple.value1.Length); length = tuple.value1.Length;
-            Array.Copy(tuple.value2, 0, result, length, tuple.value2.Length); length += tuple.value2.Length;
-            Array.Copy(tuple.value3, 0, result, length, tuple.value3.Length); length += tuple.value3.Length;
-            Array.Copy(tuple.value4, 0, result, length, tuple.value4.Length); length += tuple.value4.Length;
-            Array.Copy(tuple.value5, 0, result, length, tuple.value5.Length); length += tuple.value5.Length;
-            Array.Copy(tuple.value6, 0, result, length, tuple.value6.Length);
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
+            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
+            Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length); length += tuple.v4.Length;
+            Array.Copy(tuple.v5, 0, result, length, tuple.v5.Length); length += tuple.v5.Length;
+            Array.Copy(tuple.v6, 0, result, length, tuple.v6.Length);
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] value1, T[] value2, T[] value3, T[] value4, T[] value5) tuple)
+        public static T[] ToArray<T>(this (T[] v1, T[] v2, T[] v3, T[] v4, T[] v5) tuple)
         {
-            var length = (tuple.value1.Length, tuple.value2.Length, tuple.value3.Length, tuple.value4.Length, tuple.value5.Length).Sum();
+            var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length + tuple.v5.Length;
             if (length == 0) return Array.Empty<T>();
             T[] result = new T[length];
 
-            Array.Copy(tuple.value1, 0, result, 0, tuple.value1.Length); length = tuple.value1.Length;
-            Array.Copy(tuple.value2, 0, result, length, tuple.value2.Length); length += tuple.value2.Length;
-            Array.Copy(tuple.value3, 0, result, length, tuple.value3.Length); length += tuple.value3.Length;
-            Array.Copy(tuple.value4, 0, result, length, tuple.value4.Length); length += tuple.value4.Length;
-            Array.Copy(tuple.value5, 0, result, length, tuple.value5.Length);
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
+            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
+            Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length); length += tuple.v4.Length;
+            Array.Copy(tuple.v5, 0, result, length, tuple.v5.Length);
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] value1, T[] value2, T[] value3, T[] value4) tuple)
+        public static T[] ToArray<T>(this (T[] v1, T[] v2, T[] v3, T[] v4) tuple)
         {
-            var length = (tuple.value1.Length, tuple.value2.Length, tuple.value3.Length, tuple.value4.Length).Sum();
+            var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length;
             if (length == 0) return Array.Empty<T>();
             T[] result = new T[length];
 
-            Array.Copy(tuple.value1, 0, result, 0, tuple.value1.Length); length = tuple.value1.Length;
-            Array.Copy(tuple.value2, 0, result, length, tuple.value2.Length); length += tuple.value2.Length;
-            Array.Copy(tuple.value3, 0, result, length, tuple.value3.Length); length += tuple.value3.Length;
-            Array.Copy(tuple.value4, 0, result, length, tuple.value4.Length);
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
+            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
+            Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length);
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] value1, T[] value2, T[] value3) tuple)
+        public static T[] ToArray<T>(this (T[] v1, T[] v2, T[] v3) tuple)
         {
-            var length = (tuple.value1.Length, tuple.value2.Length, tuple.value3.Length).Sum();
+            var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length;
             if (length == 0) return Array.Empty<T>();
             T[] result = new T[length];
 
-            Array.Copy(tuple.value1, 0, result, 0, tuple.value1.Length); length = tuple.value1.Length;
-            Array.Copy(tuple.value2, 0, result, length, tuple.value2.Length); length += tuple.value2.Length;
-            Array.Copy(tuple.value3, 0, result, length, tuple.value3.Length);
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
+            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length);
             return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] value1, T[] value2) tuple)
+        public static T[] ToArray<T>(this (T[] v1, T[] v2) tuple)
         {
-            var length = (tuple.value1.Length, tuple.value2.Length).Sum();
+            var length = tuple.v1.Length + tuple.v2.Length;
             if (length == 0) return Array.Empty<T>();
             T[] result = new T[length];
 
-            Array.Copy(tuple.value1, 0, result, 0, tuple.value1.Length); length = tuple.value1.Length;
-            Array.Copy(tuple.value2, 0, result, length, tuple.value2.Length);
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length);
             return result;
         }
 
@@ -831,252 +858,252 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #region Sum
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (int value1, int value2, int value3, int value4, int value5, int value6, int value7) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6 + tuple.value7;
+        public static int Sum(this (int v1, int v2, int v3, int v4, int v5, int v6, int v7) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (int value1, int value2, int value3, int value4, int value5, int value6) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6;
+        public static int Sum(this (int v1, int v2, int v3, int v4, int v5, int v6) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (int value1, int value2, int value3, int value4, int value5) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5;
+        public static int Sum(this (int v1, int v2, int v3, int v4, int v5) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (int value1, int value2, int value3, int value4) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4;
+        public static int Sum(this (int v1, int v2, int v3, int v4) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (int value1, int value2, int value3) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3;
+        public static int Sum(this (int v1, int v2, int v3) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (int value1, int value2) tuple)
-            => tuple.value1 + tuple.value2;
+        public static int Sum(this (int v1, int v2) tuple)
+            => tuple.v1 + tuple.v2;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Sum(this (uint value1, uint value2, uint value3, uint value4, uint value5, uint value6, uint value7) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6 + tuple.value7;
+        public static uint Sum(this (uint v1, uint v2, uint v3, uint v4, uint v5, uint v6, uint v7) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Sum(this (uint value1, uint value2, uint value3, uint value4, uint value5, uint value6) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6;
+        public static uint Sum(this (uint v1, uint v2, uint v3, uint v4, uint v5, uint v6) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Sum(this (uint value1, uint value2, uint value3, uint value4, uint value5) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5;
+        public static uint Sum(this (uint v1, uint v2, uint v3, uint v4, uint v5) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Sum(this (uint value1, uint value2, uint value3, uint value4) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4;
+        public static uint Sum(this (uint v1, uint v2, uint v3, uint v4) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Sum(this (uint value1, uint value2, uint value3) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3;
+        public static uint Sum(this (uint v1, uint v2, uint v3) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint Sum(this (uint value1, uint value2) tuple)
-            => tuple.value1 + tuple.value2;
+        public static uint Sum(this (uint v1, uint v2) tuple)
+            => tuple.v1 + tuple.v2;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long Sum(this (long value1, int value2, int value3, int value4, int value5, int value6, int value7) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6 + tuple.value7;
+        public static long Sum(this (long v1, int v2, int v3, int v4, int v5, int v6, int v7) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long Sum(this (long value1, int value2, int value3, int value4, int value5, int value6) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6;
+        public static long Sum(this (long v1, int v2, int v3, int v4, int v5, int v6) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long Sum(this (long value1, int value2, int value3, int value4, int value5) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5;
+        public static long Sum(this (long v1, int v2, int v3, int v4, int v5) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long Sum(this (long value1, int value2, int value3, int value4) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4;
+        public static long Sum(this (long v1, int v2, int v3, int v4) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long Sum(this (long value1, int value2, int value3) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3;
+        public static long Sum(this (long v1, int v2, int v3) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long Sum(this (long value1, int value2) tuple)
-            => tuple.value1 + tuple.value2;
+        public static long Sum(this (long v1, int v2) tuple)
+            => tuple.v1 + tuple.v2;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong Sum(this (ulong value1, uint value2, uint value3, uint value4, uint value5, uint value6, uint value7) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6 + tuple.value7;
+        public static ulong Sum(this (ulong v1, uint v2, uint v3, uint v4, uint v5, uint v6, uint v7) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong Sum(this (ulong value1, uint value2, uint value3, uint value4, uint value5, uint value6) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6;
+        public static ulong Sum(this (ulong v1, uint v2, uint v3, uint v4, uint v5, uint v6) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong Sum(this (ulong value1, uint value2, uint value3, uint value4, uint value5) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5;
+        public static ulong Sum(this (ulong v1, uint v2, uint v3, uint v4, uint v5) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong Sum(this (ulong value1, uint value2, uint value3, uint value4) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4;
+        public static ulong Sum(this (ulong v1, uint v2, uint v3, uint v4) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong Sum(this (ulong value1, uint value2, uint value3) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3;
+        public static ulong Sum(this (ulong v1, uint v2, uint v3) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong Sum(this (ulong value1, uint value2) tuple)
-            => tuple.value1 + tuple.value2;
+        public static ulong Sum(this (ulong v1, uint v2) tuple)
+            => tuple.v1 + tuple.v2;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (short value1, short value2, short value3, short value4, short value5, short value6, short value7) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6 + tuple.value7;
+        public static int Sum(this (short v1, short v2, short v3, short v4, short v5, short v6, short v7) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (short value1, short value2, short value3, short value4, short value5, short value6) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6;
+        public static int Sum(this (short v1, short v2, short v3, short v4, short v5, short v6) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (short value1, short value2, short value3, short value4, short value5) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5;
+        public static int Sum(this (short v1, short v2, short v3, short v4, short v5) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (short value1, short value2, short value3, short value4) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4;
+        public static int Sum(this (short v1, short v2, short v3, short v4) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (short value1, short value2, short value3) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3;
+        public static int Sum(this (short v1, short v2, short v3) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (short value1, short value2) tuple)
-            => tuple.value1 + tuple.value2;
+        public static int Sum(this (short v1, short v2) tuple)
+            => tuple.v1 + tuple.v2;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (ushort value1, ushort value2, ushort value3, ushort value4, ushort value5, ushort value6, ushort value7) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6 + tuple.value7;
+        public static int Sum(this (ushort v1, ushort v2, ushort v3, ushort v4, ushort v5, ushort v6, ushort v7) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (ushort value1, ushort value2, ushort value3, ushort value4, ushort value5, ushort value6) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6;
+        public static int Sum(this (ushort v1, ushort v2, ushort v3, ushort v4, ushort v5, ushort v6) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (ushort value1, ushort value2, ushort value3, ushort value4, ushort value5) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5;
+        public static int Sum(this (ushort v1, ushort v2, ushort v3, ushort v4, ushort v5) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (ushort value1, ushort value2, ushort value3, ushort value4) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4;
+        public static int Sum(this (ushort v1, ushort v2, ushort v3, ushort v4) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (ushort value1, ushort value2, ushort value3) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3;
+        public static int Sum(this (ushort v1, ushort v2, ushort v3) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (ushort value1, ushort value2) tuple)
-            => tuple.value1 + tuple.value2;
+        public static int Sum(this (ushort v1, ushort v2) tuple)
+            => tuple.v1 + tuple.v2;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (byte value1, byte value2, byte value3, byte value4, byte value5, byte value6, byte value7) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6 + tuple.value7;
+        public static int Sum(this (byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (byte value1, byte value2, byte value3, byte value4, byte value5, byte value6) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6;
+        public static int Sum(this (byte v1, byte v2, byte v3, byte v4, byte v5, byte v6) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (byte value1, byte value2, byte value3, byte value4, byte value5) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5;
+        public static int Sum(this (byte v1, byte v2, byte v3, byte v4, byte v5) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (byte value1, byte value2, byte value3, byte value4) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4;
+        public static int Sum(this (byte v1, byte v2, byte v3, byte v4) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (byte value1, byte value2, byte value3) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3;
+        public static int Sum(this (byte v1, byte v2, byte v3) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (byte value1, byte value2) tuple)
-            => tuple.value1 + tuple.value2;
+        public static int Sum(this (byte v1, byte v2) tuple)
+            => tuple.v1 + tuple.v2;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (sbyte value1, sbyte value2, sbyte value3, sbyte value4, sbyte value5, sbyte value6, sbyte value7) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6 + tuple.value7;
+        public static int Sum(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4, sbyte v5, sbyte v6, sbyte v7) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (sbyte value1, sbyte value2, sbyte value3, sbyte value4, sbyte value5, sbyte value6) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5 + tuple.value6;
+        public static int Sum(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4, sbyte v5, sbyte v6) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (sbyte value1, sbyte value2, sbyte value3, sbyte value4, sbyte value5) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4 + tuple.value5;
+        public static int Sum(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4, sbyte v5) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (sbyte value1, sbyte value2, sbyte value3, sbyte value4) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3 + tuple.value4;
+        public static int Sum(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (sbyte value1, sbyte value2, sbyte value3) tuple)
-            => tuple.value1 + tuple.value2 + tuple.value3;
+        public static int Sum(this (sbyte v1, sbyte v2, sbyte v3) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Sum(this (sbyte value1, sbyte value2) tuple)
-            => tuple.value1 + tuple.value2;
+        public static int Sum(this (sbyte v1, sbyte v2) tuple)
+            => tuple.v1 + tuple.v2;
 
         #endregion
 
         #region Cast
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T, T) Cast<T, U>(this (U value1, U value2, U value3, U value4, U value5, U value6, U value7) tuple)
-            => ((T)(object)tuple.value1, (T)(object)tuple.value2, (T)(object)tuple.value3, (T)(object)tuple.value4, (T)(object)tuple.value5, (T)(object)tuple.value6, (T)(object)tuple.value7);
+        public static (TOut, TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6, TIn v7) tuple) where TIn : class
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5, (TOut)(object)tuple.v6, (TOut)(object)tuple.v7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T) Cast<T, U>(this (U value1, U value2, U value3, U value4, U value5, U value6) tuple)
-            => ((T)(object)tuple.value1, (T)(object)tuple.value2, (T)(object)tuple.value3, (T)(object)tuple.value4, (T)(object)tuple.value5, (T)(object)tuple.value6);
+        public static (TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6) tuple) where TIn : class
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5, (TOut)(object)tuple.v6);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T) Cast<T, U>(this (U value1, U value2, U value3, U value4, U value5) tuple)
-            => ((T)(object)tuple.value1, (T)(object)tuple.value2, (T)(object)tuple.value3, (T)(object)tuple.value4, (T)(object)tuple.value5);
+        public static (TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5) tuple) where TIn : class
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T) Cast<T, U>(this (U value1, U value2, U value3, U value4) tuple)
-            => ((T)(object)tuple.value1, (T)(object)tuple.value2, (T)(object)tuple.value3, (T)(object)tuple.value4);
+        public static (TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4) tuple) where TIn : class
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T) Cast<T, U>(this (U value1, U value2, U value3) tuple)
-            => ((T)(object)tuple.value1, (T)(object)tuple.value2, (T)(object)tuple.value3);
+        public static (TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3) tuple) where TIn : class
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T) Cast<T, U>(this (U value1, U value2) tuple)
-           => ((T)(object)tuple.value1, (T)(object)tuple.value2);
+        public static (TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2) tuple) where TIn : class
+           => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2);
 
         #endregion
 
         #region As
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T, T) As<U, T>(this (U value1, U value2, U value3, U value4, U value5, U value6, U value7) tuple) where T : class
-            => (tuple.value1 as T, tuple.value2 as T, tuple.value3 as T, tuple.value4 as T, tuple.value5 as T, tuple.value6 as T, tuple.value7 as T);
+        public static (TOut, TOut, TOut, TOut, TOut, TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6, TIn v7) tuple) where TOut : class where TIn : class
+            => (tuple.v1 as TOut, tuple.v2 as TOut, tuple.v3 as TOut, tuple.v4 as TOut, tuple.v5 as TOut, tuple.v6 as TOut, tuple.v7 as TOut);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T, T) As<U, T>(this (U value1, U value2, U value3, U value4, U value5, U value6) tuple) where T : class
-            => (tuple.value1 as T, tuple.value2 as T, tuple.value3 as T, tuple.value4 as T, tuple.value5 as T, tuple.value6 as T);
+        public static (TOut, TOut, TOut, TOut, TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6) tuple) where TOut : class where TIn : class
+            => (tuple.v1 as TOut, tuple.v2 as TOut, tuple.v3 as TOut, tuple.v4 as TOut, tuple.v5 as TOut, tuple.v6 as TOut);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T, T) As<U, T>(this (U value1, U value2, U value3, U value4, U value5) tuple) where T : class
-            => (tuple.value1 as T, tuple.value2 as T, tuple.value3 as T, tuple.value4 as T, tuple.value5 as T);
+        public static (TOut, TOut, TOut, TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5) tuple) where TOut : class where TIn : class
+            => (tuple.v1 as TOut, tuple.v2 as TOut, tuple.v3 as TOut, tuple.v4 as TOut, tuple.v5 as TOut);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T, T) As<U, T>(this (U value1, U value2, U value3, U value4) tuple) where T : class
-            => (tuple.value1 as T, tuple.value2 as T, tuple.value3 as T, tuple.value4 as T);
+        public static (TOut, TOut, TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4) tuple) where TOut : class where TIn : class
+            => (tuple.v1 as TOut, tuple.v2 as TOut, tuple.v3 as TOut, tuple.v4 as TOut);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T, T) As<U, T>(this (U value1, U value2, U value3) tuple) where T : class
-            => (tuple.value1 as T, tuple.value2 as T, tuple.value3 as T);
+        public static (TOut, TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3) tuple) where TOut : class where TIn : class
+            => (tuple.v1 as TOut, tuple.v2 as TOut, tuple.v3 as TOut);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T, T) As<U, T>(this (U value1, U value2) tuple) where T : class
-            => (tuple.value1 as T, tuple.value2 as T);
+        public static (TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2) tuple) where TOut : class where TIn : class
+            => (tuple.v1 as TOut, tuple.v2 as TOut);
 
         #endregion
     }

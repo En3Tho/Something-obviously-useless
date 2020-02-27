@@ -1,5 +1,4 @@
-﻿using System;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using ExtensionsAndStuff.ReferenceStackAllocation;
 
 namespace Benchmarks.Benchmarks
@@ -11,10 +10,9 @@ namespace Benchmarks.Benchmarks
         public void CreateObjectsArray()
         {
             var arr = new object[64];
-            var span = arr.AsSpan();
-            for (int i = 0; i < span.Length; i++)
+            for (int i = 0; i < arr.Length; i++)
             {
-                span[i] = new object();
+                arr[i] = new object();
             }
         }
 
@@ -26,6 +24,6 @@ namespace Benchmarks.Benchmarks
             {
                 span[i] = new object();
             }
-        }
+        }     
     }
 }
