@@ -8,7 +8,7 @@ namespace Benchmarks
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<ValueTupleBenchmarks>();
+            BenchmarkRunner.Run<StackAllocVsClass>();
             Console.ReadLine();
         }
     }
