@@ -24,6 +24,6 @@ namespace Benchmarks.Benchmarks
             {
                 span[i] = new object();
             }
-        }     
+        }
     }
 }

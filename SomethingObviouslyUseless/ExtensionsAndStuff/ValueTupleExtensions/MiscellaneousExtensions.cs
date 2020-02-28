@@ -61,7 +61,6 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
             if (func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
             return tuple;
-
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -129,7 +128,6 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (func(tuple.v2)) ValueTupleValidationException.Throw(nameof(tuple.v2));
             if (func(tuple.v3)) ValueTupleValidationException.Throw(nameof(tuple.v3));
             return tuple;
-
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -146,17 +144,17 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, T value) where T : IEquatable<T>
-                => value.Equals(tuple.v1)
-                || value.Equals(tuple.v2)
-                || value.Equals(tuple.v3)
-                || value.Equals(tuple.v4)
-                || value.Equals(tuple.v5)
-                || value.Equals(tuple.v6)
-                || value.Equals(tuple.v7);
+            => value.Equals(tuple.v1)
+               || value.Equals(tuple.v2)
+               || value.Equals(tuple.v3)
+               || value.Equals(tuple.v4)
+               || value.Equals(tuple.v5)
+               || value.Equals(tuple.v6)
+               || value.Equals(tuple.v7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, T value) where T : IEquatable<T>
-               => value.Equals(tuple.v1)
+            => value.Equals(tuple.v1)
                || value.Equals(tuple.v2)
                || value.Equals(tuple.v3)
                || value.Equals(tuple.v4)
@@ -165,7 +163,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, T value) where T : IEquatable<T>
-               => value.Equals(tuple.v1)
+            => value.Equals(tuple.v1)
                || value.Equals(tuple.v2)
                || value.Equals(tuple.v3)
                || value.Equals(tuple.v4)
@@ -173,21 +171,21 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Contains<T>(this (T v1, T v2, T v3, T v4) tuple, T value) where T : IEquatable<T>
-              => value.Equals(tuple.v1)
-              || value.Equals(tuple.v2)
-              || value.Equals(tuple.v3)
-              || value.Equals(tuple.v4);
+            => value.Equals(tuple.v1)
+               || value.Equals(tuple.v2)
+               || value.Equals(tuple.v3)
+               || value.Equals(tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Contains<T>(this (T v1, T v2, T v3) tuple, T value) where T : IEquatable<T>
-              => value.Equals(tuple.v1)
-              || value.Equals(tuple.v2)
-              || value.Equals(tuple.v3);
+            => value.Equals(tuple.v1)
+               || value.Equals(tuple.v2)
+               || value.Equals(tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Contains<T>(this (T v1, T v2) tuple, T value) where T : IEquatable<T>
-              => value.Equals(tuple.v1)
-              || value.Equals(tuple.v2);
+            => value.Equals(tuple.v1)
+               || value.Equals(tuple.v2);
 
         #endregion
 
@@ -317,11 +315,11 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (T, T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, T value)
-           => (tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, value);
+            => (tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (T, T, T, T, T, T, T) Concat<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, T value)
-           => (tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, value);
+            => (tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (T, T, T, T) Concat<T>(this (T v1, T v2) tuple, (T v1, T v2) other)
@@ -369,7 +367,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Any<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
-               => func(tuple.v1)
+            => func(tuple.v1)
                || func(tuple.v2)
                || func(tuple.v3)
                || func(tuple.v4)
@@ -379,7 +377,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Any<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
-               => func(tuple.v1)
+            => func(tuple.v1)
                || func(tuple.v2)
                || func(tuple.v3)
                || func(tuple.v4)
@@ -388,29 +386,29 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Any<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
-              => func(tuple.v1)
-              || func(tuple.v2)
-              || func(tuple.v3)
-              || func(tuple.v4)
-              || func(tuple.v5);
+            => func(tuple.v1)
+               || func(tuple.v2)
+               || func(tuple.v3)
+               || func(tuple.v4)
+               || func(tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Any<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
-              => func(tuple.v1)
-              || func(tuple.v2)
-              || func(tuple.v3)
-              || func(tuple.v4);
+            => func(tuple.v1)
+               || func(tuple.v2)
+               || func(tuple.v3)
+               || func(tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Any<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func)
-              => func(tuple.v1)
-              || func(tuple.v2)
-              || func(tuple.v3);
+            => func(tuple.v1)
+               || func(tuple.v2)
+               || func(tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Any<T>(this (T v1, T v2) tuple, Func<T, bool> func)
-             => func(tuple.v1)
-             || func(tuple.v2);
+            => func(tuple.v1)
+               || func(tuple.v2);
 
         #endregion
 
@@ -418,7 +416,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool All<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
-               => func(tuple.v1)
+            => func(tuple.v1)
                && func(tuple.v2)
                && func(tuple.v3)
                && func(tuple.v4)
@@ -428,7 +426,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool All<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
-               => func(tuple.v1)
+            => func(tuple.v1)
                && func(tuple.v2)
                && func(tuple.v3)
                && func(tuple.v4)
@@ -437,29 +435,29 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool All<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
-              => func(tuple.v1)
-              && func(tuple.v2)
-              && func(tuple.v3)
-              && func(tuple.v4)
-              && func(tuple.v5);
+            => func(tuple.v1)
+               && func(tuple.v2)
+               && func(tuple.v3)
+               && func(tuple.v4)
+               && func(tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool All<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
-              => func(tuple.v1)
-              && func(tuple.v2)
-              && func(tuple.v3)
-              && func(tuple.v4);
+            => func(tuple.v1)
+               && func(tuple.v2)
+               && func(tuple.v3)
+               && func(tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool All<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func)
-              => func(tuple.v1)
-              && func(tuple.v2)
-              && func(tuple.v3);
+            => func(tuple.v1)
+               && func(tuple.v2)
+               && func(tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool All<T>(this (T v1, T v2) tuple, Func<T, bool> func)
-             => func(tuple.v1)
-             && func(tuple.v2);
+            => func(tuple.v1)
+               && func(tuple.v2);
 
         #endregion
 
@@ -487,7 +485,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Aggregate<T>(this (T v1, T v2) tuple, Func<T, T, T> func)
-           => func(tuple.v1, tuple.v2);
+            => func(tuple.v1, tuple.v2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static U Aggregate<T, U>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, U, U> func, U value)
@@ -575,13 +573,47 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.v1)) { value = tuple.v1; return true; }
-            if (func(tuple.v2)) { value = tuple.v2; return true; }
-            if (func(tuple.v3)) { value = tuple.v3; return true; }
-            if (func(tuple.v4)) { value = tuple.v4; return true; }
-            if (func(tuple.v5)) { value = tuple.v5; return true; }
-            if (func(tuple.v6)) { value = tuple.v6; return true; }
-            if (func(tuple.v7)) { value = tuple.v7; return true; }
+            if (func(tuple.v1))
+            {
+                value = tuple.v1;
+                return true;
+            }
+
+            if (func(tuple.v2))
+            {
+                value = tuple.v2;
+                return true;
+            }
+
+            if (func(tuple.v3))
+            {
+                value = tuple.v3;
+                return true;
+            }
+
+            if (func(tuple.v4))
+            {
+                value = tuple.v4;
+                return true;
+            }
+
+            if (func(tuple.v5))
+            {
+                value = tuple.v5;
+                return true;
+            }
+
+            if (func(tuple.v6))
+            {
+                value = tuple.v6;
+                return true;
+            }
+
+            if (func(tuple.v7))
+            {
+                value = tuple.v7;
+                return true;
+            }
 
             value = default;
             return false;
@@ -590,12 +622,41 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.v1)) { value = tuple.v1; return true; }
-            if (func(tuple.v2)) { value = tuple.v2; return true; }
-            if (func(tuple.v3)) { value = tuple.v3; return true; }
-            if (func(tuple.v4)) { value = tuple.v4; return true; }
-            if (func(tuple.v5)) { value = tuple.v5; return true; }
-            if (func(tuple.v6)) { value = tuple.v6; return true; }
+            if (func(tuple.v1))
+            {
+                value = tuple.v1;
+                return true;
+            }
+
+            if (func(tuple.v2))
+            {
+                value = tuple.v2;
+                return true;
+            }
+
+            if (func(tuple.v3))
+            {
+                value = tuple.v3;
+                return true;
+            }
+
+            if (func(tuple.v4))
+            {
+                value = tuple.v4;
+                return true;
+            }
+
+            if (func(tuple.v5))
+            {
+                value = tuple.v5;
+                return true;
+            }
+
+            if (func(tuple.v6))
+            {
+                value = tuple.v6;
+                return true;
+            }
 
             value = default;
             return false;
@@ -604,11 +665,35 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.v1)) { value = tuple.v1; return true; }
-            if (func(tuple.v2)) { value = tuple.v2; return true; }
-            if (func(tuple.v3)) { value = tuple.v3; return true; }
-            if (func(tuple.v4)) { value = tuple.v4; return true; }
-            if (func(tuple.v5)) { value = tuple.v5; return true; }
+            if (func(tuple.v1))
+            {
+                value = tuple.v1;
+                return true;
+            }
+
+            if (func(tuple.v2))
+            {
+                value = tuple.v2;
+                return true;
+            }
+
+            if (func(tuple.v3))
+            {
+                value = tuple.v3;
+                return true;
+            }
+
+            if (func(tuple.v4))
+            {
+                value = tuple.v4;
+                return true;
+            }
+
+            if (func(tuple.v5))
+            {
+                value = tuple.v5;
+                return true;
+            }
 
             value = default;
             return false;
@@ -617,10 +702,29 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.v1)) { value = tuple.v1; return true; }
-            if (func(tuple.v2)) { value = tuple.v2; return true; }
-            if (func(tuple.v3)) { value = tuple.v3; return true; }
-            if (func(tuple.v4)) { value = tuple.v4; return true; }
+            if (func(tuple.v1))
+            {
+                value = tuple.v1;
+                return true;
+            }
+
+            if (func(tuple.v2))
+            {
+                value = tuple.v2;
+                return true;
+            }
+
+            if (func(tuple.v3))
+            {
+                value = tuple.v3;
+                return true;
+            }
+
+            if (func(tuple.v4))
+            {
+                value = tuple.v4;
+                return true;
+            }
 
             value = default;
             return false;
@@ -629,9 +733,23 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryGetValue<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.v1)) { value = tuple.v1; return true; }
-            if (func(tuple.v2)) { value = tuple.v2; return true; }
-            if (func(tuple.v3)) { value = tuple.v3; return true; }
+            if (func(tuple.v1))
+            {
+                value = tuple.v1;
+                return true;
+            }
+
+            if (func(tuple.v2))
+            {
+                value = tuple.v2;
+                return true;
+            }
+
+            if (func(tuple.v3))
+            {
+                value = tuple.v3;
+                return true;
+            }
 
             value = default;
             return false;
@@ -640,8 +758,17 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryGetValue<T>(this (T v1, T v2) tuple, Func<T, bool> func, out T value)
         {
-            if (func(tuple.v1)) { value = tuple.v1; return true; }
-            if (func(tuple.v2)) { value = tuple.v2; return true; }
+            if (func(tuple.v1))
+            {
+                value = tuple.v1;
+                return true;
+            }
+
+            if (func(tuple.v2))
+            {
+                value = tuple.v2;
+                return true;
+            }
 
             value = default;
             return false;
@@ -653,27 +780,27 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple)
-            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7 };
+            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple)
-            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6 };
+            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5) tuple)
-            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5 };
+            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4) tuple)
-            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4 };
+            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3) tuple)
-            => new T[] { tuple.v1, tuple.v2, tuple.v3 };
+            => new T[] {tuple.v1, tuple.v2, tuple.v3};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2) tuple)
-            => new T[] { tuple.v1, tuple.v2 };
+            => new T[] {tuple.v1, tuple.v2};
 
         #endregion
 
@@ -684,7 +811,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count + tuple.v5.Count + tuple.v6.Count + tuple.v7.Count;
             if (count == 0) return Array.Empty<T>();
-            T[] result = new T[count];
+            var result = new T[count];
             count = 0;
             tuple.v1.CopyTo(result, count); count += tuple.v1.Count;
             tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
@@ -701,9 +828,9 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count + tuple.v5.Count + tuple.v6.Count;
             if (count == 0) return Array.Empty<T>();
-            T[] result = new T[count];
-
-            tuple.v1.CopyTo(result, 0); count = tuple.v1.Count;
+            var result = new T[count];
+            count = 0;
+            tuple.v1.CopyTo(result, count); count += tuple.v1.Count;
             tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
             tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
             tuple.v4.CopyTo(result, count); count += tuple.v4.Count;
@@ -717,9 +844,9 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count + tuple.v5.Count;
             if (count == 0) return Array.Empty<T>();
-            T[] result = new T[count];
-
-            tuple.v1.CopyTo(result, 0); count = tuple.v1.Count;
+            var result = new T[count];
+            count = 0;
+            tuple.v1.CopyTo(result, 0); count += tuple.v1.Count;
             tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
             tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
             tuple.v4.CopyTo(result, count); count += tuple.v4.Count;
@@ -732,9 +859,9 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count;
             if (count == 0) return Array.Empty<T>();
-            T[] result = new T[count];
-
-            tuple.v1.CopyTo(result, 0); count = tuple.v1.Count;
+            var result = new T[count];
+            count = 0;
+            tuple.v1.CopyTo(result, count); count += tuple.v1.Count;
             tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
             tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
             tuple.v4.CopyTo(result, count);
@@ -746,9 +873,10 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count;
             if (count == 0) return Array.Empty<T>();
-            T[] result = new T[count];
+            var result = new T[count];
 
-            tuple.v1.CopyTo(result, 0); count = tuple.v1.Count;
+            count = 0;
+            tuple.v1.CopyTo(result, count); count += tuple.v1.Count;
             tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
             tuple.v3.CopyTo(result, count);
             return result;
@@ -759,7 +887,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var count = tuple.v1.Count + tuple.v2.Count;
             if (count == 0) return Array.Empty<T>();
-            T[] result = new T[count];
+            var result = new T[count];
 
             tuple.v1.CopyTo(result, 0);
             tuple.v2.CopyTo(result, tuple.v1.Count);
@@ -771,9 +899,10 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length + tuple.v5.Length + tuple.v6.Length + tuple.v7.Length;
             if (length == 0) return Array.Empty<T>();
-            T[] result = new T[length];
+            var result = new T[length];
 
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            length = 0;
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length += tuple.v1.Length;
             Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
             Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
             Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length); length += tuple.v4.Length;
@@ -788,9 +917,10 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length + tuple.v5.Length + tuple.v6.Length;
             if (length == 0) return Array.Empty<T>();
-            T[] result = new T[length];
+            var result = new T[length];
 
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            length = 0;
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length += tuple.v1.Length;
             Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
             Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
             Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length); length += tuple.v4.Length;
@@ -804,9 +934,10 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length + tuple.v5.Length;
             if (length == 0) return Array.Empty<T>();
-            T[] result = new T[length];
+            var result = new T[length];
 
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            length = 0;
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length += tuple.v1.Length;
             Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
             Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
             Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length); length += tuple.v4.Length;
@@ -819,9 +950,10 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length;
             if (length == 0) return Array.Empty<T>();
-            T[] result = new T[length];
+            var result = new T[length];
 
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            length = 0;
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length += tuple.v1.Length;
             Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
             Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
             Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length);
@@ -833,9 +965,10 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length;
             if (length == 0) return Array.Empty<T>();
-            T[] result = new T[length];
+            var result = new T[length];
 
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
+            length = 0;
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length += tuple.v1.Length;
             Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
             Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length);
             return result;
@@ -846,14 +979,14 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             var length = tuple.v1.Length + tuple.v2.Length;
             if (length == 0) return Array.Empty<T>();
-            T[] result = new T[length];
+            var result = new T[length];
 
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length = tuple.v1.Length;
-            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length);
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length);
+            Array.Copy(tuple.v2, 0, result, tuple.v1.Length, tuple.v2.Length);
             return result;
         }
 
-        #endregion        
+        #endregion
 
         #region Sum
 
@@ -1055,27 +1188,27 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6, TIn v7) tuple) where TIn : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5, (TOut)(object)tuple.v6, (TOut)(object)tuple.v7);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5, (TOut) (object) tuple.v6, (TOut) (object) tuple.v7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6) tuple) where TIn : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5, (TOut)(object)tuple.v6);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5, (TOut) (object) tuple.v6);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5) tuple) where TIn : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4) tuple) where TIn : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3) tuple) where TIn : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2) tuple) where TIn : class
-           => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2);
 
         #endregion
 
