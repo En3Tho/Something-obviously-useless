@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BenchmarkDotNet.Attributes;
 using ExtensionsAndStuff.ReferenceStackAllocation;
+using ExtensionsAndStuff.RefStructs;
 using ExtensionsAndStuff.RefStructs.SpanList;
 
 namespace Benchmarks.Benchmarks
@@ -28,6 +29,16 @@ namespace Benchmarks.Benchmarks
         public void List()
         {
             var list = new List<object>();
+            foreach (var item in Objects)
+            {
+                list.Add(item);
+            }
+        }
+
+        [Benchmark]
+        public void MiniList()
+        {
+            var list = new MiniList<object>();
             foreach (var item in Objects)
             {
                 list.Add(item);

@@ -44,7 +44,7 @@ namespace Benchmarks.Benchmarks
             list.Add(new object());
             list.Add(new object());
 
-            Holder.ParamsTuple(list.SliceToCount());
+            Holder.ParamsTuple(list.Slice());
         }
 
         public void Tst()

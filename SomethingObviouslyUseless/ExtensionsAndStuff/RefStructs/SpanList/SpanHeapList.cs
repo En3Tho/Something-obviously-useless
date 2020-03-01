@@ -3,19 +3,22 @@ using System.Runtime.CompilerServices;
 
 namespace ExtensionsAndStuff.RefStructs.SpanList
 {
-    public ref struct SpanHeapList<T> where T : class
+    public ref struct SpanHeapList<T>
     {
-        public Span<T> Span { get; }
+        private readonly Span<T> _sourceSpan;
+        private Span<T> _localSpan;
+        private int _localIndex;
         public int Count { get; private set; }
-        private SimpleArrayResizeable<T> _resizeable;
 
         public SpanHeapList(Span<T> span)
         {
-            Span = span;
+            _sourceSpan = span;
+            _localSpan = span;
             Count = 0;
-            _resizeable = null;
+            _localIndex = 0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Add(T value)
         {
             AddInternal(value);
@@ -24,26 +27,53 @@ namespace ExtensionsAndStuff.RefStructs.SpanList
         public T this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => index < Span.Length ? Span[index] : _resizeable[index - Span.Length];
+            get => index < _sourceSpan.Length ? _sourceSpan[index] : _localSpan[index - _sourceSpan.Length];
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void AddInternal(T value)
         {
-            if (Count < Span.Length)
-                Span[Count] = value;
-            else if (_resizeable != null)
-                _resizeable.Add(value);
-            else
-                CreateAndAddToResizeable(value);
+            if (_localIndex >= _localSpan.Length)
+                CreateAndAddToResizeable();
 
+            _localSpan[_localIndex++] = value;
             Count++;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private void CreateAndAddToResizeable(T value)
+        private void CreateAndAddToResizeable()
         {
-            _resizeable = new SimpleArrayResizeable<T>();
-            _resizeable.Add(value);
+            if (_localSpan.Length == 0)
+            {
+                _localSpan = new T[_sourceSpan.Length];
+                _localIndex = 0;
+            }
+            else
+            {
+                var copy = new T[_localSpan.Length * 2];
+                _localSpan.CopyTo(copy);
+                _localSpan = copy;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SpanContainer Slice()
+        {
+            return Count > _sourceSpan.Length
+                ? new SpanContainer(_sourceSpan, _localSpan.Slice(0, Count - _sourceSpan.Length))
+                : new SpanContainer(_sourceSpan.Slice(0, Count), Span<T>.Empty);
+        }
+
+        public ref struct SpanContainer
+        {
+            public SpanContainer(Span<T> sourceSpan, Span<T> arraySpan)
+            {
+                SourceSpan = sourceSpan;
+                ArraySpan = arraySpan;
+            }
+
+            public Span<T> SourceSpan { get; }
+            public Span<T> ArraySpan { get; }
         }
     }
 
