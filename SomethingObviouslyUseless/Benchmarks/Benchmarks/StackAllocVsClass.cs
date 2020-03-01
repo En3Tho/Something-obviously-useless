@@ -19,7 +19,7 @@ namespace Benchmarks.Benchmarks
         [Benchmark]
         public void CreateObjectsStack()
         {
-            var span = StackAlloc.AllocSpan64<object>();
+            var span = StackAlloc.Alloc64<object>().AsSpan();
             for (int i = 0; i < span.Length; i++)
             {
                 span[i] = new object();

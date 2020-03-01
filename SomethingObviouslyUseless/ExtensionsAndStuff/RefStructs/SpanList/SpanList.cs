@@ -1,54 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace ExtensionsAndStuff.RefStructs.SpanList
 {
-    public ref struct SpanList<T> where T : class
+    public ref struct SpanList<T>
     {
         public Span<T> Span { get; }
         public int Count { get; private set; }
-        private IResizeable<T> _resizeable;
-        private readonly ArrayResizePolicy _policy;
 
-        public SpanList(Span<T> span, ArrayResizePolicy policy)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SpanList(Span<T> span)
         {
             Span = span;
             Count = 0;
-            _policy = policy;
-            _resizeable = null;
         }
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Add(T value)
         {
-            AddInternal(value);
+            Span[Count++] = value;
         }
 
         public T this[int index]
         {
-            get
-                => index < Span.Length ? Span[index] : _resizeable[index - Span.Length];
-        }
-        
-        private void AddInternal(T value)
-        {
-            if (Count < Span.Length)
-                Span[Count] = value;
-            else if (_resizeable != null)
-                _resizeable.Add(value);
-            else
-                CreateAndAddToResizeable(value);
-
-            Count++;
-        }
-
-        private void CreateAndAddToResizeable(T value)
-        {
-            _resizeable = _policy switch
-            {
-                ArrayResizePolicy.Jagged => new JaggedArrayResizeable<T>(),
-                ArrayResizePolicy.List => new SimpleArrayResizeable<T>(),
-                _ => throw new InvalidOperationException("Non resizeable policy is chosen")
-            };
-            _resizeable.Add(value);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => Span[index];
         }
     }
+
+    public static class SpanList
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static SpanList<T> Create<T>(Span<T> span) => new SpanList<T>(span);
+    }
+
 }

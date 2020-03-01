@@ -25,7 +25,7 @@ namespace ExtensionsAndStuff.RefStructs.SpanList
         {
             if (_globalIndex < _arrays.Length)
             {
-                var _inner = _arrays[_globalIndex];
+                var _inner = _arrays[_globalIndex]; // TODO: check globalArray != null
                 if (_localIndex < _inner.Length)
                 {
                     _inner[_localIndex] = value;

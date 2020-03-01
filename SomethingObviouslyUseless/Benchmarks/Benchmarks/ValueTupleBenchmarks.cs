@@ -22,7 +22,7 @@ namespace Benchmarks.Benchmarks
         {
             Array1 = new int[Count];
             Array2 = new int[Count];
-            Array3 = new int[Count];
+            Array3 = new int[Count];         
             AsCollection = (Array1, Array2, Array3).As<int[], ICollection<int>>();
         }
 

@@ -8,7 +8,7 @@ namespace Benchmarks
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<TupleVsArrayParams>();
+            BenchmarkRunner.Run<SpanHeapListVsList>();
             Console.ReadLine();
         }
     }

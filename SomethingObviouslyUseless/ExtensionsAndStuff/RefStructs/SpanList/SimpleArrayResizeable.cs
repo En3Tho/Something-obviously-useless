@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 
 namespace ExtensionsAndStuff.RefStructs.SpanList
@@ -7,6 +8,11 @@ namespace ExtensionsAndStuff.RefStructs.SpanList
     {
         private int count;
         private T[] _array;
+
+        public SimpleArrayResizeable(int length)
+        {
+            _array = new T[length];
+        }
 
         public SimpleArrayResizeable()
         {
