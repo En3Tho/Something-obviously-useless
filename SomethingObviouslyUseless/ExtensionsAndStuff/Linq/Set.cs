@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
- 
-namespace System.Linq
+
+namespace ExtensionsAndStuff.Linq
 {
     /// <summary>
     /// A lightweight hash set.

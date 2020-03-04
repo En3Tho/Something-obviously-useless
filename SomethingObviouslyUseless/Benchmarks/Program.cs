@@ -13,7 +13,7 @@ namespace Benchmarks
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<ListVsSpanEnumerable>();
+            BenchmarkRunner.Run<SpanCopyVsArrayCopy>();
 
             Console.ReadLine();
         }

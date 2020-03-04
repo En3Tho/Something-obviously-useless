@@ -14,6 +14,14 @@ namespace ExtensionsAndStuff.RefStructs
             Value = value;
             _disposer = disposer;
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Disposable(T value, Action<T> starter, Action<T> disposer)
+        {
+            starter(value);
+            Value = value;
+            _disposer = disposer;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Dispose()

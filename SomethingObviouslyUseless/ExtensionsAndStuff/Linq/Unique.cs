@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ExtensionsAndStuff.HelperClasses;
 
-namespace System.Linq
+namespace ExtensionsAndStuff.Linq
 {
     public static partial class Enumerable
     {
