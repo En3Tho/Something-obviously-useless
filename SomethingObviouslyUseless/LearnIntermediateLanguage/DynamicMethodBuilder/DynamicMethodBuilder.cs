@@ -8,7 +8,7 @@ namespace LearnIntermediateLanguage
     public class DynamicMethodBuilder<T> where T : Delegate
     {
         private readonly DynamicMethod _dynamicMethod;
-        private ILGenerator _ILGenerator;
+        private ILGenerator? _ILGenerator;
 
         public ILGenerator ILGenerator => _ILGenerator ??= _dynamicMethod.GetILGenerator();
 

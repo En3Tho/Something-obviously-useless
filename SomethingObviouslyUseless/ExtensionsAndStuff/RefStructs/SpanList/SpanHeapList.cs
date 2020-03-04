@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace ExtensionsAndStuff.RefStructs.SpanList
 {
@@ -43,9 +46,9 @@ namespace ExtensionsAndStuff.RefStructs.SpanList
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void CreateAndAddToResizeable()
         {
-            if (_localSpan.Length == 0)
+            if (_localSpan == _sourceSpan)
             {
-                _localSpan = new T[_sourceSpan.Length];
+                _localSpan = new T[_localSpan.Length]; // total length * 2
                 _localIndex = 0;
             }
             else

@@ -28,7 +28,7 @@ namespace Benchmarks.Benchmarks
         [Benchmark]
         public void List()
         {
-            var list = new List<object>();
+            var list = new List<object>(64);
             foreach (var item in Objects)
             {
                 list.Add(item);

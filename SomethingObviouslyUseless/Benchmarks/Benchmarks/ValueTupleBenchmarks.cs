@@ -33,12 +33,6 @@ namespace Benchmarks.Benchmarks
         }
 
         [Benchmark]
-        public int[] TestTupleToArrayFunkyAsCollection()
-        {
-            return AsCollection.ToArray();
-        }
-
-        [Benchmark]
         public int[] TestTupleToArray()
         {
             return (Array1, Array2, Array3).ToArray();

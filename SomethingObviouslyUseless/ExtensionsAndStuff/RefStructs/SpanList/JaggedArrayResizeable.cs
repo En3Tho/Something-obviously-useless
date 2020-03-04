@@ -4,7 +4,7 @@ using System.Runtime.Intrinsics.X86;
 
 namespace ExtensionsAndStuff.RefStructs.SpanList
 {
-    internal class JaggedArrayResizeable<T> : IResizeable<T> where T : class
+    internal class JaggedArrayResizeable<T> // TODO : ref
     {
         private const int BaseLocalArrayLength = 8;
         private const int MaxChunkIndexStartAt = 7;

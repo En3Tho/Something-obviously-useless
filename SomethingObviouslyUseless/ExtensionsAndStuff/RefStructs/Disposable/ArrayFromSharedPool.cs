@@ -7,11 +7,7 @@ namespace ExtensionsAndStuff.RefStructs
     {
         private readonly bool m_clearOnReturn;
 
-        public readonly T[] Value
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get;
-        }
+        public readonly T[] Value { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ArrayFromSharedPool(int minimumLength, bool clearOnReturn = true)

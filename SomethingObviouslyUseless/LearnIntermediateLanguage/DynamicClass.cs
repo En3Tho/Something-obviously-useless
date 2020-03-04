@@ -33,8 +33,10 @@ namespace LearnIntermediateLanguage
         public ModuleBuilder ModuleBuilder { get; }
         public TypeBuilder TypeBuilder { get; }
 
-        protected Dictionary<int, MemberInfo> _members;
-        protected Dictionary<int, CustomAttributeBuilder> _attributes;
+        protected Dictionary<int, MemberInfo> Members => _members ??= new Dictionary<int, MemberInfo>();
+        private Dictionary<int, MemberInfo>? _members;
+        protected Dictionary<int, CustomAttributeBuilder> Attributes => _attributes ??= new Dictionary<int, CustomAttributeBuilder>();
+        private Dictionary<int, CustomAttributeBuilder>? _attributes;
 
         protected TypeBuilderBase(AssemblyBuilder assemblyBuilder, ModuleBuilder moduleBuilder, string name, TypeAttributes attributes, Type baseType)
         {
@@ -47,31 +49,31 @@ namespace LearnIntermediateLanguage
         {
             var nameHashCode = info.Name.GetHashCode();
             var typeHashCode = GetTypeHashCode(info);
-            _members.Add(HashCode.Combine(nameHashCode, typeHashCode), info);
+            Members.Add(HashCode.Combine(nameHashCode, typeHashCode), info);
         }
 
         public FieldBuilder GetField(string name)
         {
             var nameHashCode = name.GetHashCode();
-            return (FieldBuilder)_members[HashCode.Combine(nameHashCode, FieldHashCode)];
+            return (FieldBuilder)Members[HashCode.Combine(nameHashCode, FieldHashCode)];
         }
 
         public MethodBuilder GetMethod(string name)
         {
             var nameHashCode = name.GetHashCode();
-            return (MethodBuilder)_members[HashCode.Combine(nameHashCode, MethodHashCode)];
+            return (MethodBuilder)Members[HashCode.Combine(nameHashCode, MethodHashCode)];
         }
 
         public ConstructorBuilder GetConstructor(string name)
         {
             var nameHashCode = name.GetHashCode();
-            return (ConstructorBuilder)_members[HashCode.Combine(nameHashCode, CtorHashCode)];
+            return (ConstructorBuilder)Members[HashCode.Combine(nameHashCode, CtorHashCode)];
         }
 
         public PropertyBuilder GetProperty(string name)
         {
             var nameHashCode = name.GetHashCode();
-            return (PropertyBuilder)_members[HashCode.Combine(nameHashCode, PropertyHashCode)];
+            return (PropertyBuilder)Members[HashCode.Combine(nameHashCode, PropertyHashCode)];
         }
 
         private static int GetTypeHashCode(MemberInfo info)

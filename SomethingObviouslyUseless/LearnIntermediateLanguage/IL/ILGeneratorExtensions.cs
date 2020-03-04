@@ -439,19 +439,19 @@ namespace LearnIntermediateLanguage.IL
 
         public static ILGenerator Call<T>(this ILGenerator generator, string methodName, params ILGenerator[] _)
         {
-            generator.Emit(OpCodes.Call, typeof(T).GetMethod(methodName));
+            generator.Emit(OpCodes.Call, typeof(T).GetMethod(methodName)!);
             return generator;
         }
 
         public static ILGenerator Call<T, U>(this ILGenerator generator, string methodName, params ILGenerator[] _) where U : struct, ITypesMarker
         {
-            generator.Emit(OpCodes.Call, typeof(T).GetMethod(methodName, typeof(U).GenericTypeArguments));
+            generator.Emit(OpCodes.Call, typeof(T).GetMethod(methodName, typeof(U).GenericTypeArguments)!);
             return generator;
         }
 
         public static ILGenerator CallCtor<T, U>(this ILGenerator generator, params ILGenerator[] _) where U : struct, ITypesMarker
         {
-            generator.Emit(OpCodes.Call, typeof(T).GetConstructor(typeof(U).GenericTypeArguments));
+            generator.Emit(OpCodes.Call, typeof(T).GetConstructor(typeof(U).GenericTypeArguments)!);
             return generator;
         }
 
@@ -481,13 +481,13 @@ namespace LearnIntermediateLanguage.IL
 
         public static ILGenerator CallVirtual<T>(this ILGenerator generator, string methodName, params ILGenerator[] _)
         {
-            generator.Emit(OpCodes.Callvirt, typeof(T).GetMethod(methodName));
+            generator.Emit(OpCodes.Callvirt, typeof(T).GetMethod(methodName)!);
             return generator;
         }
 
         public static ILGenerator CallVirtual<T, U>(this ILGenerator generator, string methodName, params ILGenerator[] _) where U : struct, ITypesMarker
         {
-            generator.Emit(OpCodes.Callvirt, typeof(T).GetMethod(methodName, typeof(U).GenericTypeArguments));
+            generator.Emit(OpCodes.Callvirt, typeof(T).GetMethod(methodName, typeof(U).GenericTypeArguments)!);
             return generator;
         }
 
@@ -1313,7 +1313,7 @@ namespace LearnIntermediateLanguage.IL
         public static ILGenerator LoadField<T>(this ILGenerator generator, string name, ILGenerator objectReference)
         {
             var field = typeof(T).GetField(name);
-            generator.Emit(OpCodes.Ldfld, field);
+            generator.Emit(OpCodes.Ldfld, field!);
             return generator;
         }
 
@@ -1326,7 +1326,7 @@ namespace LearnIntermediateLanguage.IL
         public static ILGenerator LoadField<T>(this ILGenerator generator, string name, params ILGenerator[] _)
         {
             var field = typeof(T).GetField(name);
-            generator.Emit(OpCodes.Ldfld, field);
+            generator.Emit(OpCodes.Ldfld, field!);
             return generator;
         }
 
@@ -1338,29 +1338,29 @@ namespace LearnIntermediateLanguage.IL
 
         #endregion
 
-        #region LoadFieldAdress +
+        #region LoadFieldAddress +
 
-        public static ILGenerator LoadFieldAdress<T>(this ILGenerator generator, string name, ILGenerator objectReference)
+        public static ILGenerator LoadFieldAddress<T>(this ILGenerator generator, string name, ILGenerator objectReference)
         {
             var field = typeof(T).GetField(name);
-            generator.Emit(OpCodes.Ldflda, field);
+            generator.Emit(OpCodes.Ldflda, field!);
             return generator;
         }
 
-        public static ILGenerator LoadFieldAdress(this ILGenerator generator, FieldInfo fieldInfo, ILGenerator objectReference)
+        public static ILGenerator LoadFieldAddress(this ILGenerator generator, FieldInfo fieldInfo, ILGenerator objectReference)
         {
             generator.Emit(OpCodes.Ldflda, fieldInfo);
             return generator;
         }
 
-        public static ILGenerator LoadFieldAdress<T>(this ILGenerator generator, string name, params ILGenerator[] _)
+        public static ILGenerator LoadFieldAddress<T>(this ILGenerator generator, string name, params ILGenerator[] _)
         {
             var field = typeof(T).GetField(name);
-            generator.Emit(OpCodes.Ldflda, field);
+            generator.Emit(OpCodes.Ldflda, field!);
             return generator;
         }
 
-        public static ILGenerator LoadFieldAdress(this ILGenerator generator, FieldInfo fieldInfo, params ILGenerator[] _)
+        public static ILGenerator LoadFieldAddress(this ILGenerator generator, FieldInfo fieldInfo, params ILGenerator[] _)
         {
             generator.Emit(OpCodes.Ldflda, fieldInfo);
             return generator;
@@ -1677,13 +1677,13 @@ namespace LearnIntermediateLanguage.IL
 
         public static ILGenerator NewObject<T>(this ILGenerator generator, params ILGenerator[] _)
         {
-            generator.Emit(OpCodes.Newobj, typeof(T).GetConstructor(Array.Empty<Type>()));
+            generator.Emit(OpCodes.Newobj, typeof(T).GetConstructor(Array.Empty<Type>())!);
             return generator;
         }
 
         public static ILGenerator NewObject<T, U>(this ILGenerator generator, params ILGenerator[] _) where U : ITypesMarker
         {
-            generator.Emit(OpCodes.Newobj, typeof(T).GetConstructor(typeof(U).GenericTypeArguments));
+            generator.Emit(OpCodes.Newobj, typeof(T).GetConstructor(typeof(U).GenericTypeArguments)!);
             return generator;
         }
 

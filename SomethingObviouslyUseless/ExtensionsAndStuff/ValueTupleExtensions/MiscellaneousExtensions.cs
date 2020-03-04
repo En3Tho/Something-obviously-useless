@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace ExtensionsAndStuff.ValueTupleExtensions
@@ -513,7 +514,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         #endregion
 
-        #region AsEnumerable
+        #region ToEnumerable
 
         public static IEnumerable<T> AsEnumerable<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple)
         {
@@ -571,7 +572,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #region TryGetValue
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func, [MaybeNullWhen(false)] out T value)
         {
             if (func(tuple.v1))
             {
@@ -615,12 +616,14 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                 return true;
             }
 
+#pragma warning disable CS8653
             value = default;
+#pragma warning restore
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func, [MaybeNullWhen(false)] out T value)
         {
             if (func(tuple.v1))
             {
@@ -658,12 +661,14 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                 return true;
             }
 
+#pragma warning disable CS8653
             value = default;
+#pragma warning restore
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func, [MaybeNullWhen(false)] out T value)
         {
             if (func(tuple.v1))
             {
@@ -695,12 +700,14 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                 return true;
             }
 
+#pragma warning disable CS8653
             value = default;
+#pragma warning restore
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func, [MaybeNullWhen(false)] out T value)
         {
             if (func(tuple.v1))
             {
@@ -726,12 +733,14 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                 return true;
             }
 
+#pragma warning disable CS8653
             value = default;
+#pragma warning restore
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func, [MaybeNullWhen(false)] out T value)
         {
             if (func(tuple.v1))
             {
@@ -751,12 +760,14 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                 return true;
             }
 
+#pragma warning disable CS8653
             value = default;
+#pragma warning restore
             return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T v1, T v2) tuple, Func<T, bool> func, out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2) tuple, Func<T, bool> func,  [MaybeNullWhen(false)] out T value)
         {
             if (func(tuple.v1))
             {
@@ -770,7 +781,9 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                 return true;
             }
 
+#pragma warning disable CS8653
             value = default;
+#pragma warning restore
             return false;
         }
 
@@ -1215,27 +1228,27 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #region As
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut, TOut, TOut, TOut, TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6, TIn v7) tuple) where TOut : class where TIn : class
+        public static (TOut?, TOut?, TOut?, TOut?, TOut?, TOut?, TOut?) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6, TIn v7) tuple) where TOut : class where TIn : class
             => (tuple.v1 as TOut, tuple.v2 as TOut, tuple.v3 as TOut, tuple.v4 as TOut, tuple.v5 as TOut, tuple.v6 as TOut, tuple.v7 as TOut);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut, TOut, TOut, TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6) tuple) where TOut : class where TIn : class
+        public static (TOut?, TOut?, TOut?, TOut?, TOut?, TOut?) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6) tuple) where TOut : class where TIn : class
             => (tuple.v1 as TOut, tuple.v2 as TOut, tuple.v3 as TOut, tuple.v4 as TOut, tuple.v5 as TOut, tuple.v6 as TOut);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut, TOut, TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5) tuple) where TOut : class where TIn : class
+        public static (TOut?, TOut?, TOut?, TOut?, TOut?) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5) tuple) where TOut : class where TIn : class
             => (tuple.v1 as TOut, tuple.v2 as TOut, tuple.v3 as TOut, tuple.v4 as TOut, tuple.v5 as TOut);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut, TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4) tuple) where TOut : class where TIn : class
+        public static (TOut?, TOut?, TOut?, TOut?) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4) tuple) where TOut : class where TIn : class
             => (tuple.v1 as TOut, tuple.v2 as TOut, tuple.v3 as TOut, tuple.v4 as TOut);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3) tuple) where TOut : class where TIn : class
+        public static (TOut?, TOut?, TOut?) As<TIn, TOut>(this (TIn v1, TIn v2, TIn v3) tuple) where TOut : class where TIn : class
             => (tuple.v1 as TOut, tuple.v2 as TOut, tuple.v3 as TOut);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut) As<TIn, TOut>(this (TIn v1, TIn v2) tuple) where TOut : class where TIn : class
+        public static (TOut?, TOut?) As<TIn, TOut>(this (TIn v1, TIn v2) tuple) where TOut : class where TIn : class
             => (tuple.v1 as TOut, tuple.v2 as TOut);
 
         #endregion
