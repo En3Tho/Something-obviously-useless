@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using ExtensionsAndStuff.HelperClasses;
 
 namespace ExtensionsAndStuff.ValueTupleExtensions
 {
@@ -569,6 +571,164 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         #endregion
 
+        #region FirstOrDefault
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T FirstOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v1;
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v3;
+            if (func(tuple.v1)) return tuple.v4;
+            if (func(tuple.v1)) return tuple.v5;
+            if (func(tuple.v1)) return tuple.v6;
+            if (func(tuple.v1)) return tuple.v7;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T FirstOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v1;
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v3;
+            if (func(tuple.v1)) return tuple.v4;
+            if (func(tuple.v1)) return tuple.v5;
+            if (func(tuple.v1)) return tuple.v6;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T FirstOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v1;
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v3;
+            if (func(tuple.v1)) return tuple.v4;
+            if (func(tuple.v1)) return tuple.v5;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T FirstOrDefault<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v1;
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v3;
+            if (func(tuple.v1)) return tuple.v4;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T FirstOrDefault<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v1;
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v3;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T FirstOrDefault<T>(this (T v1, T v2) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v1;
+            if (func(tuple.v1)) return tuple.v2;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        #endregion
+
+        #region LastOrDefault
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T LastOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v7;
+            if (func(tuple.v1)) return tuple.v6;
+            if (func(tuple.v1)) return tuple.v5;
+            if (func(tuple.v1)) return tuple.v4;
+            if (func(tuple.v1)) return tuple.v3;
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v1;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T LastOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v6;
+            if (func(tuple.v1)) return tuple.v5;
+            if (func(tuple.v1)) return tuple.v4;
+            if (func(tuple.v1)) return tuple.v3;
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v1;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T LastOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v5;
+            if (func(tuple.v1)) return tuple.v4;
+            if (func(tuple.v1)) return tuple.v3;
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v1;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T LastOrDefault<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v4;
+            if (func(tuple.v1)) return tuple.v3;
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v1;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T LastOrDefault<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v3;
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v1;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T LastOrDefault<T>(this (T v1, T v2) tuple, Func<T, bool> func)
+        {
+            if (func(tuple.v1)) return tuple.v2;
+            if (func(tuple.v1)) return tuple.v1;
+#pragma warning disable CS8653
+            return default;
+#pragma warning restore
+        }
+
+        #endregion
+
         #region TryGetValue
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -767,7 +927,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool TryGetValue<T>(this (T v1, T v2) tuple, Func<T, bool> func,  [MaybeNullWhen(false)] out T value)
+        public static bool TryGetValue<T>(this (T v1, T v2) tuple, Func<T, bool> func, [MaybeNullWhen(false)] out T value)
         {
             if (func(tuple.v1))
             {
@@ -826,12 +986,18 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (count == 0) return Array.Empty<T>();
             var result = new T[count];
             count = 0;
-            tuple.v1.CopyTo(result, count); count += tuple.v1.Count;
-            tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
-            tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
-            tuple.v4.CopyTo(result, count); count += tuple.v4.Count;
-            tuple.v5.CopyTo(result, count); count += tuple.v5.Count;
-            tuple.v6.CopyTo(result, count); count += tuple.v6.Count;
+            tuple.v1.CopyTo(result, count);
+            count += tuple.v1.Count;
+            tuple.v2.CopyTo(result, count);
+            count += tuple.v2.Count;
+            tuple.v3.CopyTo(result, count);
+            count += tuple.v3.Count;
+            tuple.v4.CopyTo(result, count);
+            count += tuple.v4.Count;
+            tuple.v5.CopyTo(result, count);
+            count += tuple.v5.Count;
+            tuple.v6.CopyTo(result, count);
+            count += tuple.v6.Count;
             tuple.v7.CopyTo(result, count);
             return result;
         }
@@ -843,11 +1009,16 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (count == 0) return Array.Empty<T>();
             var result = new T[count];
             count = 0;
-            tuple.v1.CopyTo(result, count); count += tuple.v1.Count;
-            tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
-            tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
-            tuple.v4.CopyTo(result, count); count += tuple.v4.Count;
-            tuple.v5.CopyTo(result, count); count += tuple.v5.Count;
+            tuple.v1.CopyTo(result, count);
+            count += tuple.v1.Count;
+            tuple.v2.CopyTo(result, count);
+            count += tuple.v2.Count;
+            tuple.v3.CopyTo(result, count);
+            count += tuple.v3.Count;
+            tuple.v4.CopyTo(result, count);
+            count += tuple.v4.Count;
+            tuple.v5.CopyTo(result, count);
+            count += tuple.v5.Count;
             tuple.v6.CopyTo(result, count);
             return result;
         }
@@ -859,10 +1030,14 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (count == 0) return Array.Empty<T>();
             var result = new T[count];
             count = 0;
-            tuple.v1.CopyTo(result, 0); count += tuple.v1.Count;
-            tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
-            tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
-            tuple.v4.CopyTo(result, count); count += tuple.v4.Count;
+            tuple.v1.CopyTo(result, 0);
+            count += tuple.v1.Count;
+            tuple.v2.CopyTo(result, count);
+            count += tuple.v2.Count;
+            tuple.v3.CopyTo(result, count);
+            count += tuple.v3.Count;
+            tuple.v4.CopyTo(result, count);
+            count += tuple.v4.Count;
             tuple.v5.CopyTo(result, count);
             return result;
         }
@@ -874,9 +1049,12 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (count == 0) return Array.Empty<T>();
             var result = new T[count];
             count = 0;
-            tuple.v1.CopyTo(result, count); count += tuple.v1.Count;
-            tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
-            tuple.v3.CopyTo(result, count); count += tuple.v3.Count;
+            tuple.v1.CopyTo(result, count);
+            count += tuple.v1.Count;
+            tuple.v2.CopyTo(result, count);
+            count += tuple.v2.Count;
+            tuple.v3.CopyTo(result, count);
+            count += tuple.v3.Count;
             tuple.v4.CopyTo(result, count);
             return result;
         }
@@ -889,8 +1067,10 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             var result = new T[count];
 
             count = 0;
-            tuple.v1.CopyTo(result, count); count += tuple.v1.Count;
-            tuple.v2.CopyTo(result, count); count += tuple.v2.Count;
+            tuple.v1.CopyTo(result, count);
+            count += tuple.v1.Count;
+            tuple.v2.CopyTo(result, count);
+            count += tuple.v2.Count;
             tuple.v3.CopyTo(result, count);
             return result;
         }
@@ -915,12 +1095,18 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             var result = new T[length];
 
             length = 0;
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length += tuple.v1.Length;
-            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
-            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
-            Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length); length += tuple.v4.Length;
-            Array.Copy(tuple.v5, 0, result, length, tuple.v5.Length); length += tuple.v5.Length;
-            Array.Copy(tuple.v6, 0, result, length, tuple.v6.Length); length += tuple.v6.Length;
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length);
+            length += tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length);
+            length += tuple.v2.Length;
+            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length);
+            length += tuple.v3.Length;
+            Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length);
+            length += tuple.v4.Length;
+            Array.Copy(tuple.v5, 0, result, length, tuple.v5.Length);
+            length += tuple.v5.Length;
+            Array.Copy(tuple.v6, 0, result, length, tuple.v6.Length);
+            length += tuple.v6.Length;
             Array.Copy(tuple.v7, 0, result, length, tuple.v7.Length);
             return result;
         }
@@ -933,11 +1119,16 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             var result = new T[length];
 
             length = 0;
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length += tuple.v1.Length;
-            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
-            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
-            Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length); length += tuple.v4.Length;
-            Array.Copy(tuple.v5, 0, result, length, tuple.v5.Length); length += tuple.v5.Length;
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length);
+            length += tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length);
+            length += tuple.v2.Length;
+            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length);
+            length += tuple.v3.Length;
+            Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length);
+            length += tuple.v4.Length;
+            Array.Copy(tuple.v5, 0, result, length, tuple.v5.Length);
+            length += tuple.v5.Length;
             Array.Copy(tuple.v6, 0, result, length, tuple.v6.Length);
             return result;
         }
@@ -950,10 +1141,14 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             var result = new T[length];
 
             length = 0;
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length += tuple.v1.Length;
-            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
-            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
-            Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length); length += tuple.v4.Length;
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length);
+            length += tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length);
+            length += tuple.v2.Length;
+            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length);
+            length += tuple.v3.Length;
+            Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length);
+            length += tuple.v4.Length;
             Array.Copy(tuple.v5, 0, result, length, tuple.v5.Length);
             return result;
         }
@@ -966,9 +1161,12 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             var result = new T[length];
 
             length = 0;
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length += tuple.v1.Length;
-            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
-            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length); length += tuple.v3.Length;
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length);
+            length += tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length);
+            length += tuple.v2.Length;
+            Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length);
+            length += tuple.v3.Length;
             Array.Copy(tuple.v4, 0, result, length, tuple.v4.Length);
             return result;
         }
@@ -981,8 +1179,10 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             var result = new T[length];
 
             length = 0;
-            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length); length += tuple.v1.Length;
-            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length); length += tuple.v2.Length;
+            Array.Copy(tuple.v1, 0, result, 0, tuple.v1.Length);
+            length += tuple.v1.Length;
+            Array.Copy(tuple.v2, 0, result, length, tuple.v2.Length);
+            length += tuple.v2.Length;
             Array.Copy(tuple.v3, 0, result, length, tuple.v3.Length);
             return result;
         }
