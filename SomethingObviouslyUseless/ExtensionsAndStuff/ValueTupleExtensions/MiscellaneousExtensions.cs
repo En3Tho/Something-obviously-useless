@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics;
 using ExtensionsAndStuff.HelperClasses;
 
 namespace ExtensionsAndStuff.ValueTupleExtensions
@@ -1199,6 +1200,120 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             return result;
         }
 
+        #endregion
+
+        #region Min
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Min(this (int v1, int v2, int v3, int v4, int v5, int v6, int v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Min(this (int v1, int v2, int v3, int v4, int v5, int v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Min(this (int v1, int v2, int v3, int v4, int v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Min(this (int v1, int v2, int v3, int v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Min(this (int v1, int v2, int v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Min(this (int v1, int v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+        
+        // TODO: primitiveTypes
+        
+        #endregion
+
+        #region Max
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Max(this (int v1, int v2, int v3, int v4, int v5, int v6, int v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Max(this (int v1, int v2, int v3, int v4, int v5, int v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Max(this (int v1, int v2, int v3, int v4, int v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Max(this (int v1, int v2, int v3, int v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Max(this (int v1, int v2, int v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Max(this (int v1, int v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        // TODO: primitiveTypes
+        
         #endregion
 
         #region Sum
