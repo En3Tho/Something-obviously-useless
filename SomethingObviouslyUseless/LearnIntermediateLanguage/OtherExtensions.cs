@@ -12,7 +12,7 @@ namespace LearnIntermediateLanguage
     {
         public static T[] Copy<T>(this T[] array, int start = 0)
         {
-            T[] result = new T[array.Length - start];
+            var result = new T[array.Length - start];
             Array.Copy(array, start, result, 0, result.Length);
             return result;
         }

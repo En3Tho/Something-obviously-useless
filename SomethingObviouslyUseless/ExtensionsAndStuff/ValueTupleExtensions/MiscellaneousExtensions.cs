@@ -433,6 +433,325 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             => (tuple.v1, tuple.v2, tuple.v3, other.v1, other.v2, other.v3, other.v4);
 
         #endregion
+        
+        #region Sort
+
+        private static (T, T, T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T, T, T) tuple, int comparison) where T : IComparable<T>
+        {
+            (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = tuple;
+            
+            if (result.i1.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+            if (result.i3.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
+            if (result.i5.CompareTo(result.i6) == comparison) MiscHelper.Swap(ref result.i5, ref result.i6);
+            if (result.i0.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
+            if (result.i3.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i3, ref result.i5);
+            if (result.i4.CompareTo(result.i6) == comparison) MiscHelper.Swap(ref result.i4, ref result.i6);
+            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (result.i4.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i4, ref result.i5);
+            if (result.i2.CompareTo(result.i6) == comparison) MiscHelper.Swap(ref result.i2, ref result.i6);
+            if (result.i0.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i0, ref result.i4);
+            if (result.i1.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i1, ref result.i5);
+            if (result.i0.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
+            if (result.i2.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i2, ref result.i5);
+            if (result.i1.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
+            if (result.i2.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
+            if (result.i2.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+
+            return result;
+        }
+
+        private static (T, T, T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T, T, T) tuple, IComparer<T> comparer, int comparison)
+        {
+            (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = tuple;
+            
+            if (comparer.Compare(result.i1, result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+            if (comparer.Compare(result.i3, result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
+            if (comparer.Compare(result.i5, result.i6) == comparison) MiscHelper.Swap(ref result.i5, ref result.i6);
+            if (comparer.Compare(result.i0, result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
+            if (comparer.Compare(result.i3, result.i5) == comparison) MiscHelper.Swap(ref result.i3, ref result.i5);
+            if (comparer.Compare(result.i4, result.i6) == comparison) MiscHelper.Swap(ref result.i4, ref result.i6);
+            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (comparer.Compare(result.i4, result.i5) == comparison) MiscHelper.Swap(ref result.i4, ref result.i5);
+            if (comparer.Compare(result.i2, result.i6) == comparison) MiscHelper.Swap(ref result.i2, ref result.i6);
+            if (comparer.Compare(result.i0, result.i4) == comparison) MiscHelper.Swap(ref result.i0, ref result.i4);
+            if (comparer.Compare(result.i1, result.i5) == comparison) MiscHelper.Swap(ref result.i1, ref result.i5);
+            if (comparer.Compare(result.i0, result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
+            if (comparer.Compare(result.i2, result.i5) == comparison) MiscHelper.Swap(ref result.i2, ref result.i5);
+            if (comparer.Compare(result.i1, result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
+            if (comparer.Compare(result.i2, result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
+            if (comparer.Compare(result.i2, result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+
+            return result;
+        }
+        
+        private static (T, T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T, T) tuple, IComparer<T> comparer, int comparison)
+        {
+            (T i0, T i1, T i2, T i3, T i4, T i5) result = tuple;
+            
+            if (comparer.Compare(result.i1, result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+            if (comparer.Compare(result.i4, result.i5) == comparison) MiscHelper.Swap(ref result.i4, ref result.i5);
+            if (comparer.Compare(result.i0, result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
+            if (comparer.Compare(result.i3, result.i5) == comparison) MiscHelper.Swap(ref result.i3, ref result.i5);
+            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (comparer.Compare(result.i3, result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
+            if (comparer.Compare(result.i2, result.i5) == comparison) MiscHelper.Swap(ref result.i2, ref result.i5);
+            if (comparer.Compare(result.i0, result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
+            if (comparer.Compare(result.i1, result.i4) == comparison) MiscHelper.Swap(ref result.i1, ref result.i4);
+            if (comparer.Compare(result.i2, result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
+            if (comparer.Compare(result.i1, result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
+            if (comparer.Compare(result.i2, result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+
+            return result;
+        }
+        
+        private static (T, T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T, T) tuple, int comparison) where T : IComparable<T>
+        {
+            (T i0, T i1, T i2, T i3, T i4, T i5) result = tuple;
+            
+            if (result.i1.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+            if (result.i4.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i4, ref result.i5);
+            if (result.i0.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
+            if (result.i3.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i3, ref result.i5);
+            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (result.i3.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
+            if (result.i2.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i2, ref result.i5);
+            if (result.i0.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
+            if (result.i1.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i1, ref result.i4);
+            if (result.i2.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
+            if (result.i1.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
+            if (result.i2.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+
+            return result;
+        }
+        
+        private static (T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T) tuple, IComparer<T> comparer, int comparison)
+        {
+            (T i0, T i1, T i2, T i3, T i4) result = tuple;
+
+            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (comparer.Compare(result.i3, result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
+            if (comparer.Compare(result.i2, result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
+            if (comparer.Compare(result.i2, result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+            if (comparer.Compare(result.i1, result.i4) == comparison) MiscHelper.Swap(ref result.i1, ref result.i4);
+            if (comparer.Compare(result.i0, result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
+            if (comparer.Compare(result.i0, result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
+            if (comparer.Compare(result.i1, result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
+            if (comparer.Compare(result.i1, result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+
+            return result;
+        }
+        
+        private static (T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T) tuple, int comparison) where T : IComparable<T>
+        {
+            (T i0, T i1, T i2, T i3, T i4) result = tuple;
+
+            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (result.i3.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
+            if (result.i2.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
+            if (result.i2.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+            if (result.i1.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i1, ref result.i4);
+            if (result.i0.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
+            if (result.i0.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
+            if (result.i1.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
+            if (result.i1.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+
+            return result;
+        }
+        
+        private static (T, T, T, T) SortInternal<T>(ref (T, T, T, T) tuple, IComparer<T> comparer, int comparison)
+        {
+            (T i0, T i1, T i2, T i3) result = tuple;
+
+            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (comparer.Compare(result.i2, result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+            if (comparer.Compare(result.i0, result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
+            if (comparer.Compare(result.i1, result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
+            if (comparer.Compare(result.i1, result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+
+            return result;
+        }
+
+        private static (T, T, T, T) SortInternal<T>(ref (T, T, T, T) tuple, int comparison) where T : IComparable<T>
+        {
+            (T i0, T i1, T i2, T i3) result = tuple;
+
+            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (result.i2.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+            if (result.i0.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
+            if (result.i1.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
+            if (result.i1.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+
+            return result;
+        }
+        private static (T, T, T) SortInternal<T>(ref (T, T, T) tuple, IComparer<T> comparer, int comparison)
+        {
+            (T i0, T i1, T i2) result = tuple;
+            if (comparer.Compare(result.i1, result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+            if (comparer.Compare(result.i0, result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
+            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            return result;
+        }
+        
+        private static (T, T, T) SortInternal<T>(ref (T, T, T) tuple, int comparison) where T : IComparable<T>
+        {
+            (T i0, T i1, T i2) result = tuple;
+            if (result.i1.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+            if (result.i0.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
+            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            return result;
+        }
+        
+        private static (T, T) SortInternal<T>(ref (T, T) tuple, IComparer<T> comparer, int comparison)
+        {
+            (T i0, T i1) result = tuple;
+            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            return result;
+        }
+        
+        private static (T, T) SortInternal<T>(ref (T, T) tuple, int comparison) where T : IComparable<T>
+        {
+            (T i0, T i1) result = tuple;
+            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            return result;
+        }
+
+        public static (T, T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, 1);
+        }
+        
+        public static (T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, 1);
+        }
+        
+        public static (T, T, T, T, T) Sort<T>(this (T, T, T, T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, 1);
+        }
+        
+        public static (T, T, T, T) Sort<T>(this (T, T, T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, 1);
+        }
+        
+        public static (T, T, T) Sort<T>(this (T, T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, 1);
+        }
+        
+        public static (T, T) Sort<T>(this (T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer,1 );
+        }
+
+        public static (T, T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T, T) tuple) where T : IComparable<T>
+        {
+            return SortInternal(ref tuple, 1);
+        }
+        
+        public static (T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T) tuple) where T : IComparable<T>
+        {
+            return SortInternal(ref tuple, 1);
+        }
+        
+        public static (T, T, T, T, T) Sort<T>(this (T, T, T, T, T) tuple) where T : IComparable<T>
+        {
+            return SortInternal(ref tuple, 1);
+        }
+        
+        public static (T, T, T, T) Sort<T>(this (T, T, T, T) tuple) where T : IComparable<T>
+        {
+            return SortInternal(ref tuple, 1);
+        }
+        
+        public static (T, T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, -1);
+        }
+        
+        public static (T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, -1);
+        }
+        
+        public static (T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, -1);
+        }
+        
+        public static (T, T, T, T) SortByDescending<T>(this (T, T, T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, -1);
+        }
+        
+        public static (T, T, T) SortByDescending<T>(this (T, T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, -1);
+        }
+        
+        public static (T, T) SortByDescending<T>(this (T, T) tuple, IComparer<T> comparer)
+        {
+            return SortInternal(ref tuple, comparer, -1);
+        }
+
+        public static (T, T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T, T) tuple) where T : IComparable<T>
+        {
+            return SortInternal(ref tuple, -1);
+        }
+        
+        public static (T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T) tuple) where T : IComparable<T>
+        {
+            return SortInternal(ref tuple, -1);
+        }
+        
+        public static (T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T) tuple) where T : IComparable<T>
+        {
+            return SortInternal(ref tuple, -1);
+        }
+        
+        public static (T, T, T, T) SortByDescending<T>(this (T, T, T, T) tuple) where T : IComparable<T>
+        {
+            return SortInternal(ref tuple, -1);
+        }
+        
+        public static (T, T, T) SortByDescending<T>(this (T, T, T) tuple) where T : IComparable<T>
+        {
+            return SortInternal(ref tuple, -1);
+        }
+        
+        public static (T, T) SortByDescending<T>(this (T, T) tuple) where T : IComparable<T>
+        {
+            return SortInternal(ref tuple, -1);
+        }
+
+        public static (T, T, T, T, T, T, T) Sort2<T>(this (T, T, T, T, T, T, T) tuple, IComparer<T> comparer)
+        {
+            static void _compareAndSwap(ref T left, ref T right, IComparer<T> _comparer)
+            {
+                if (_comparer.Compare(left, right) == -1) MiscHelper.Swap(ref left, ref right);
+            }
+            (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = tuple;
+            _compareAndSwap(ref result.i1, ref result.i2, comparer);
+            _compareAndSwap(ref result.i3, ref result.i4, comparer);
+            _compareAndSwap(ref result.i5, ref result.i6, comparer);
+            _compareAndSwap(ref result.i0, ref result.i2, comparer);
+            _compareAndSwap(ref result.i3, ref result.i5, comparer);
+            _compareAndSwap(ref result.i4, ref result.i6, comparer);
+            _compareAndSwap(ref result.i0, ref result.i1, comparer);
+            _compareAndSwap(ref result.i4, ref result.i5, comparer);
+            _compareAndSwap(ref result.i2, ref result.i6, comparer);
+            _compareAndSwap(ref result.i0, ref result.i4, comparer);
+            _compareAndSwap(ref result.i1, ref result.i5, comparer);
+            _compareAndSwap(ref result.i0, ref result.i3, comparer);
+            _compareAndSwap(ref result.i2, ref result.i5, comparer);
+            _compareAndSwap(ref result.i1, ref result.i3, comparer);
+            _compareAndSwap(ref result.i2, ref result.i4, comparer);
+            _compareAndSwap(ref result.i2, ref result.i3, comparer);
+            return result;
+        }
+
+        #endregion
 
         #region Any
 

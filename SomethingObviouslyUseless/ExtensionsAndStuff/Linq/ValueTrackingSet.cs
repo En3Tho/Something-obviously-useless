@@ -8,7 +8,7 @@ namespace ExtensionsAndStuff.Linq
     /// A lightweight hash set.
     /// </summary>
     /// <typeparam name="TElement">The type of the set's items.</typeparam>
-    internal sealed class Set<TElement>
+    internal sealed class ValueTrackingSet<TElement>
     {
         /// <summary>
         /// The comparer used to hash and compare items in the set.
@@ -49,7 +49,7 @@ namespace ExtensionsAndStuff.Linq
         /// <param name="comparer">
         /// The comparer. If this is <c>null</c>, it defaults to <see cref="EqualityComparer{TElement}.Default"/>.
         /// </param>
-        public Set(IEqualityComparer<TElement>? comparer)
+        public ValueTrackingSet(IEqualityComparer<TElement>? comparer)
         {
             _comparer = comparer ?? EqualityComparer<TElement>.Default;
             _buckets = new int[7];
@@ -138,8 +138,8 @@ namespace ExtensionsAndStuff.Linq
         private void Resize()
         {
             int newSize = checked((_count * 2) + 1);
-            int[] newBuckets = new int[newSize];
-            Slot[] newSlots = new Slot[newSize];
+            var newBuckets = new int[newSize];
+            var newSlots = new Slot[newSize];
             Array.Copy(_slots, newSlots, _count);
             for (int i = 0; i < _count; i++)
             {
@@ -161,7 +161,7 @@ namespace ExtensionsAndStuff.Linq
 #if DEBUG
             Debug.Assert(!_haveRemoved, "Optimised ToArray cannot be called if Remove has been called.");
 #endif
-            TElement[] array = new TElement[_count];
+            var array = new TElement[_count];
             for (int i = 0; i != array.Length; ++i)
             {
                 array[i] = _slots[i]._value;
@@ -180,7 +180,7 @@ namespace ExtensionsAndStuff.Linq
             Debug.Assert(!_haveRemoved, "Optimised ToList cannot be called if Remove has been called.");
 #endif
             int count = _count;
-            List<TElement> list = new List<TElement>(count);
+            var list = new List<TElement>(count);
             for (int i = 0; i != count; ++i)
             {
                 list.Add(_slots[i]._value);
@@ -211,7 +211,7 @@ namespace ExtensionsAndStuff.Linq
         {
             Debug.Assert(other != null);
  
-            foreach (TElement item in other)
+            foreach (var item in other)
             {
                 Add(item);
             }

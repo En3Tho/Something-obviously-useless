@@ -49,7 +49,7 @@ namespace Benchmarks.Benchmarks
 
         public void Tst()
         {
-            List<object> list = new List<object>();            
+            var list = new List<object>();            
         }
     }
 }

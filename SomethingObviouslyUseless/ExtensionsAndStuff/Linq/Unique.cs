@@ -38,10 +38,10 @@ namespace ExtensionsAndStuff.Linq
 
         private static IEnumerable<TSource> UniqueIterator<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource>? comparer)
         {
-            Set<TSource> set = new Set<TSource>(comparer);
+            var set = new ValueTrackingSet<TSource>(comparer);
             set.UnionWith(second);
 
-            foreach (TSource element in first)
+            foreach (var element in first)
             {
                 if (!set.Remove(element))
                 {

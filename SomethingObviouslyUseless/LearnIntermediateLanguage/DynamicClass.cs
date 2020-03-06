@@ -12,10 +12,10 @@ namespace LearnIntermediateLanguage
     {
         public static void GetClassWithIntInt()
         {
-            AssemblyName assemblyName = new AssemblyName("DynamicTypes");
+            var assemblyName = new AssemblyName("DynamicTypes");
             var assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndCollect);
             var moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName + ".dll");
-            TypeBuilder typeBuilder = moduleBuilder.DefineType("IntIntClass", TypeAttributes.Public, typeof(ValueType));
+            var typeBuilder = moduleBuilder.DefineType("IntIntClass", TypeAttributes.Public, typeof(ValueType));
             var fieldBuilder = typeBuilder.DefineField("In1", typeof(int), FieldAttributes.Public);
             var methodBuilder = typeBuilder.DefineMethod("GetInt1", MethodAttributes.Public);
             var propertyBuilder = typeBuilder.DefineProperty("Int1Prop", PropertyAttributes.None, typeof(int), Array.Empty<Type>());
