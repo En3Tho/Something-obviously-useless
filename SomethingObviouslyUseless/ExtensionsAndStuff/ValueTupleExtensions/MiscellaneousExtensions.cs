@@ -253,6 +253,73 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         #endregion
+        
+        #region ForEachNext
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T,T,T,T,T,T,T) ForEachNext<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Action<T> action)
+        {
+            action(tuple.v1);
+            action(tuple.v2);
+            action(tuple.v3);
+            action(tuple.v4);
+            action(tuple.v5);
+            action(tuple.v6);
+            action(tuple.v7);
+            return tuple;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T,T,T,T,T,T) ForEachNext<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Action<T> action)
+        {
+            action(tuple.v1);
+            action(tuple.v2);
+            action(tuple.v3);
+            action(tuple.v4);
+            action(tuple.v5);
+            action(tuple.v6);
+            return tuple;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T,T,T,T,T) ForEachNext<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Action<T> action)
+        {
+            action(tuple.v1);
+            action(tuple.v2);
+            action(tuple.v3);
+            action(tuple.v4);
+            action(tuple.v5);
+            return tuple;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T,T,T,T) ForEachNext<T>(this (T v1, T v2, T v3, T v4) tuple, Action<T> action)
+        {
+            action(tuple.v1);
+            action(tuple.v2);
+            action(tuple.v3);
+            action(tuple.v4);
+            return tuple;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T,T,T) ForEachNext<T>(this (T v1, T v2, T v3) tuple, Action<T> action)
+        {
+            action(tuple.v1);
+            action(tuple.v2);
+            action(tuple.v3);
+            return tuple;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T,T) ForEachNext<T>(this (T v1, T v2) tuple, Action<T> action)
+        {
+            action(tuple.v1);
+            action(tuple.v2);
+            return tuple;
+        }
+
+        #endregion
 
         #region Select
 
@@ -1203,7 +1270,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #endregion
 
         #region Min
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Min(this (int v1, int v2, int v3, int v4, int v5, int v6, int v7) tuple)
         {
@@ -1214,7 +1281,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (num > tuple.v6) num = tuple.v6;
             return num > tuple.v7 ? tuple.v7 : num;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Min(this (int v1, int v2, int v3, int v4, int v5, int v6) tuple)
         {
@@ -1224,7 +1291,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (num > tuple.v5) num = tuple.v5;
             return num > tuple.v6 ? tuple.v6 : num;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Min(this (int v1, int v2, int v3, int v4, int v5) tuple)
         {
@@ -1233,7 +1300,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (num > tuple.v4) num = tuple.v4;
             return num > tuple.v5 ? tuple.v5 : num;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Min(this (int v1, int v2, int v3, int v4) tuple)
         {
@@ -1241,22 +1308,530 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (num > tuple.v3) num = tuple.v3;
             return num > tuple.v4 ? tuple.v4 : num;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Min(this (int v1, int v2, int v3) tuple)
         {
             var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
             return num > tuple.v3 ? tuple.v3 : num;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Min(this (int v1, int v2) tuple)
         {
             return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Min(this (uint v1, uint v2, uint v3, uint v4, uint v5, uint v6, uint v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Min(this (uint v1, uint v2, uint v3, uint v4, uint v5, uint v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Min(this (uint v1, uint v2, uint v3, uint v4, uint v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Min(this (uint v1, uint v2, uint v3, uint v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Min(this (uint v1, uint v2, uint v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Min(this (uint v1, uint v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Min(this (long v1, long v2, long v3, long v4, long v5, long v6, long v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Min(this (long v1, long v2, long v3, long v4, long v5, long v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Min(this (long v1, long v2, long v3, long v4, long v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Min(this (long v1, long v2, long v3, long v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Min(this (long v1, long v2, long v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Min(this (long v1, long v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Min(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5, ulong v6, ulong v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Min(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5, ulong v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Min(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Min(this (ulong v1, ulong v2, ulong v3, ulong v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Min(this (ulong v1, ulong v2, ulong v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Min(this (ulong v1, ulong v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Min(this (short v1, short v2, short v3, short v4, short v5, short v6, short v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Min(this (short v1, short v2, short v3, short v4, short v5, short v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Min(this (short v1, short v2, short v3, short v4, short v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Min(this (short v1, short v2, short v3, short v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Min(this (short v1, short v2, short v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Min(this (short v1, short v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Min(this (ushort v1, ushort v2, ushort v3, ushort v4, ushort v5, ushort v6, ushort v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Min(this (ushort v1, ushort v2, ushort v3, ushort v4, ushort v5, ushort v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Min(this (ushort v1, ushort v2, ushort v3, ushort v4, ushort v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Min(this (ushort v1, ushort v2, ushort v3, ushort v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Min(this (ushort v1, ushort v2, ushort v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Min(this (ushort v1, ushort v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Min(this (byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Min(this (byte v1, byte v2, byte v3, byte v4, byte v5, byte v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Min(this (byte v1, byte v2, byte v3, byte v4, byte v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Min(this (byte v1, byte v2, byte v3, byte v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Min(this (byte v1, byte v2, byte v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Min(this (byte v1, byte v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Min(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4, sbyte v5, sbyte v6, sbyte v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Min(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4, sbyte v5, sbyte v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Min(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4, sbyte v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Min(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Min(this (sbyte v1, sbyte v2, sbyte v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Min(this (sbyte v1, sbyte v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Min(this (float v1, float v2, float v3, float v4, float v5, float v6, float v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Min(this (float v1, float v2, float v3, float v4, float v5, float v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Min(this (float v1, float v2, float v3, float v4, float v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Min(this (float v1, float v2, float v3, float v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Min(this (float v1, float v2, float v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Min(this (float v1, float v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Min(this (double v1, double v2, double v3, double v4, double v5, double v6, double v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Min(this (double v1, double v2, double v3, double v4, double v5, double v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Min(this (double v1, double v2, double v3, double v4, double v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Min(this (double v1, double v2, double v3, double v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Min(this (double v1, double v2, double v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Min(this (double v1, double v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
         
-        // TODO: primitiveTypes
-        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Min(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6, decimal v7) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            if (num > tuple.v6) num = tuple.v6;
+            return num > tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Min(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6) tuple)
+        {
+            var num = tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            if (num > tuple.v5) num = tuple.v5;
+            return num > tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Min(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            if (num > tuple.v4) num = tuple.v4;
+            return num > tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Min(this (decimal v1, decimal v2, decimal v3, decimal v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num > tuple.v3) num = tuple.v3;
+            return num > tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Min(this (decimal v1, decimal v2, decimal v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num > tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Min(this (decimal v1, decimal v2) tuple)
+        {
+            return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
         #endregion
 
         #region Max
@@ -1271,7 +1846,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (num < tuple.v6) num = tuple.v6;
             return num < tuple.v7 ? tuple.v7 : num;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Max(this (int v1, int v2, int v3, int v4, int v5, int v6) tuple)
         {
@@ -1281,7 +1856,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (num < tuple.v5) num = tuple.v5;
             return num < tuple.v6 ? tuple.v6 : num;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Max(this (int v1, int v2, int v3, int v4, int v5) tuple)
         {
@@ -1290,7 +1865,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (num < tuple.v4) num = tuple.v4;
             return num < tuple.v5 ? tuple.v5 : num;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Max(this (int v1, int v2, int v3, int v4) tuple)
         {
@@ -1298,21 +1873,529 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (num < tuple.v3) num = tuple.v3;
             return num < tuple.v4 ? tuple.v4 : num;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Max(this (int v1, int v2, int v3) tuple)
         {
             var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
             return num < tuple.v3 ? tuple.v3 : num;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Max(this (int v1, int v2) tuple)
         {
             return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
         }
 
-        // TODO: primitiveTypes
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Max(this (uint v1, uint v2, uint v3, uint v4, uint v5, uint v6, uint v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Max(this (uint v1, uint v2, uint v3, uint v4, uint v5, uint v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Max(this (uint v1, uint v2, uint v3, uint v4, uint v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Max(this (uint v1, uint v2, uint v3, uint v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Max(this (uint v1, uint v2, uint v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Max(this (uint v1, uint v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Max(this (long v1, long v2, long v3, long v4, long v5, long v6, long v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Max(this (long v1, long v2, long v3, long v4, long v5, long v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Max(this (long v1, long v2, long v3, long v4, long v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Max(this (long v1, long v2, long v3, long v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Max(this (long v1, long v2, long v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Max(this (long v1, long v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Max(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5, ulong v6, ulong v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Max(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5, ulong v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Max(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Max(this (ulong v1, ulong v2, ulong v3, ulong v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Max(this (ulong v1, ulong v2, ulong v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Max(this (ulong v1, ulong v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Max(this (short v1, short v2, short v3, short v4, short v5, short v6, short v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Max(this (short v1, short v2, short v3, short v4, short v5, short v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Max(this (short v1, short v2, short v3, short v4, short v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Max(this (short v1, short v2, short v3, short v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Max(this (short v1, short v2, short v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Max(this (short v1, short v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Max(this (ushort v1, ushort v2, ushort v3, ushort v4, ushort v5, ushort v6, ushort v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Max(this (ushort v1, ushort v2, ushort v3, ushort v4, ushort v5, ushort v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Max(this (ushort v1, ushort v2, ushort v3, ushort v4, ushort v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Max(this (ushort v1, ushort v2, ushort v3, ushort v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Max(this (ushort v1, ushort v2, ushort v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Max(this (ushort v1, ushort v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Max(this (byte v1, byte v2, byte v3, byte v4, byte v5, byte v6, byte v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Max(this (byte v1, byte v2, byte v3, byte v4, byte v5, byte v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Max(this (byte v1, byte v2, byte v3, byte v4, byte v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Max(this (byte v1, byte v2, byte v3, byte v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Max(this (byte v1, byte v2, byte v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Max(this (byte v1, byte v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Max(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4, sbyte v5, sbyte v6, sbyte v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Max(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4, sbyte v5, sbyte v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Max(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4, sbyte v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Max(this (sbyte v1, sbyte v2, sbyte v3, sbyte v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Max(this (sbyte v1, sbyte v2, sbyte v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Max(this (sbyte v1, sbyte v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Max(this (float v1, float v2, float v3, float v4, float v5, float v6, float v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Max(this (float v1, float v2, float v3, float v4, float v5, float v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Max(this (float v1, float v2, float v3, float v4, float v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Max(this (float v1, float v2, float v3, float v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Max(this (float v1, float v2, float v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Max(this (float v1, float v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Max(this (double v1, double v2, double v3, double v4, double v5, double v6, double v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Max(this (double v1, double v2, double v3, double v4, double v5, double v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Max(this (double v1, double v2, double v3, double v4, double v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Max(this (double v1, double v2, double v3, double v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Max(this (double v1, double v2, double v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Max(this (double v1, double v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Max(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6, decimal v7) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            if (num < tuple.v6) num = tuple.v6;
+            return num < tuple.v7 ? tuple.v7 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Max(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            if (num < tuple.v5) num = tuple.v5;
+            return num < tuple.v6 ? tuple.v6 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Max(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            if (num < tuple.v4) num = tuple.v4;
+            return num < tuple.v5 ? tuple.v5 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Max(this (decimal v1, decimal v2, decimal v3, decimal v4) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            if (num < tuple.v3) num = tuple.v3;
+            return num < tuple.v4 ? tuple.v4 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Max(this (decimal v1, decimal v2, decimal v3) tuple)
+        {
+            var num = tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+            return num < tuple.v3 ? tuple.v3 : num;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Max(this (decimal v1, decimal v2) tuple)
+        {
+            return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
+        }
         
         #endregion
 
@@ -1510,8 +2593,204 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         public static int Sum(this (sbyte v1, sbyte v2) tuple)
             => tuple.v1 + tuple.v2;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Sum(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6, decimal v7) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Sum(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Sum(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Sum(this (decimal v1, decimal v2, decimal v3, decimal v4) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Sum(this (decimal v1, decimal v2, decimal v3) tuple)
+            => tuple.v1 + tuple.v2 + tuple.v3;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Sum(this (decimal v1, decimal v2) tuple)
+            => tuple.v1 + tuple.v2;
+        
         #endregion
 
+        #region Average
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Average(this (int v1, int v2, int v3, int v4, int v5, int v6, int v7) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Average(this (int v1, int v2, int v3, int v4, int v5, int v6) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Average(this (int v1, int v2, int v3, int v4, int v5) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Average(this (int v1, int v2, int v3, int v4) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Average(this (int v1, int v2, int v3) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Average(this (int v1, int v2) tuple)
+            => (tuple.v1 + tuple.v2) / 2;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Average(this (uint v1, uint v2, uint v3, uint v4, uint v5, uint v6, uint v7) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Average(this (uint v1, uint v2, uint v3, uint v4, uint v5, uint v6) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Average(this (uint v1, uint v2, uint v3, uint v4, uint v5) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Average(this (uint v1, uint v2, uint v3, uint v4) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Average(this (uint v1, uint v2, uint v3) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Average(this (uint v1, uint v2) tuple)
+            => (tuple.v1 + tuple.v2) / 2;
+			
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Average(this (long v1, long v2, long v3, long v4, long v5, long v6, long v7) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Average(this (long v1, long v2, long v3, long v4, long v5, long v6) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Average(this (long v1, long v2, long v3, long v4, long v5) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Average(this (long v1, long v2, long v3, long v4) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Average(this (long v1, long v2, long v3) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Average(this (long v1, long v2) tuple)
+            => (tuple.v1 + tuple.v2) / 2;
+			
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Average(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5, ulong v6, ulong v7) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Average(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5, ulong v6) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Average(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Average(this (ulong v1, ulong v2, ulong v3, ulong v4) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Average(this (ulong v1, ulong v2, ulong v3) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Average(this (ulong v1, ulong v2) tuple)
+            => (tuple.v1 + tuple.v2) / 2;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Average(this (float v1, float v2, float v3, float v4, float v5, float v6, float v7) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Average(this (float v1, float v2, float v3, float v4, float v5, float v6) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Average(this (float v1, float v2, float v3, float v4, float v5) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Average(this (float v1, float v2, float v3, float v4) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Average(this (float v1, float v2, float v3) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Average(this (float v1, float v2) tuple)
+            => (tuple.v1 + tuple.v2) / 2;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Average(this (double v1, double v2, double v3, double v4, double v5, double v6, double v7) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Average(this (double v1, double v2, double v3, double v4, double v5, double v6) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Average(this (double v1, double v2, double v3, double v4, double v5) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Average(this (double v1, double v2, double v3, double v4) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Average(this (double v1, double v2, double v3) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Average(this (double v1, double v2) tuple)
+            => (tuple.v1 + tuple.v2) / 2;
+			
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Average(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6, decimal v7) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Average(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Average(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Average(this (decimal v1, decimal v2, decimal v3, decimal v4) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Average(this (decimal v1, decimal v2, decimal v3) tuple)
+            => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Average(this (decimal v1, decimal v2) tuple)
+            => (tuple.v1 + tuple.v2) / 2;
+        
+        #endregion
+        
         #region Cast
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using BenchmarkDotNet.Running;
 using Benchmarks.Benchmarks;
 using ExtensionsAndStuff.ReferenceStackAllocation;
@@ -14,7 +16,6 @@ namespace Benchmarks
         static void Main(string[] args)
         {
             BenchmarkRunner.Run<SpanCopyVsArrayCopy>();
-
             Console.ReadLine();
         }
     }
