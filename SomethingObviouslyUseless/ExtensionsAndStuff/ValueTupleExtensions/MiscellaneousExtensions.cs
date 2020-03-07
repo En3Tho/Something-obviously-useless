@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics;
-using ExtensionsAndStuff.HelperClasses;
+using static ExtensionsAndStuff.HelperClasses.MiscHelper;
 
 namespace ExtensionsAndStuff.ValueTupleExtensions
 {
@@ -440,22 +438,22 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = tuple;
             
-            if (result.i1.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
-            if (result.i3.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
-            if (result.i5.CompareTo(result.i6) == comparison) MiscHelper.Swap(ref result.i5, ref result.i6);
-            if (result.i0.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
-            if (result.i3.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i3, ref result.i5);
-            if (result.i4.CompareTo(result.i6) == comparison) MiscHelper.Swap(ref result.i4, ref result.i6);
-            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
-            if (result.i4.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i4, ref result.i5);
-            if (result.i2.CompareTo(result.i6) == comparison) MiscHelper.Swap(ref result.i2, ref result.i6);
-            if (result.i0.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i0, ref result.i4);
-            if (result.i1.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i1, ref result.i5);
-            if (result.i0.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
-            if (result.i2.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i2, ref result.i5);
-            if (result.i1.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
-            if (result.i2.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
-            if (result.i2.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+            if (result.i1.CompareTo(result.i2) == comparison) Swap(ref result.i1, ref result.i2);
+            if (result.i3.CompareTo(result.i4) == comparison) Swap(ref result.i3, ref result.i4);
+            if (result.i5.CompareTo(result.i6) == comparison) Swap(ref result.i5, ref result.i6);
+            if (result.i0.CompareTo(result.i2) == comparison) Swap(ref result.i0, ref result.i2);
+            if (result.i3.CompareTo(result.i5) == comparison) Swap(ref result.i3, ref result.i5);
+            if (result.i4.CompareTo(result.i6) == comparison) Swap(ref result.i4, ref result.i6);
+            if (result.i0.CompareTo(result.i1) == comparison) Swap(ref result.i0, ref result.i1);
+            if (result.i4.CompareTo(result.i5) == comparison) Swap(ref result.i4, ref result.i5);
+            if (result.i2.CompareTo(result.i6) == comparison) Swap(ref result.i2, ref result.i6);
+            if (result.i0.CompareTo(result.i4) == comparison) Swap(ref result.i0, ref result.i4);
+            if (result.i1.CompareTo(result.i5) == comparison) Swap(ref result.i1, ref result.i5);
+            if (result.i0.CompareTo(result.i3) == comparison) Swap(ref result.i0, ref result.i3);
+            if (result.i2.CompareTo(result.i5) == comparison) Swap(ref result.i2, ref result.i5);
+            if (result.i1.CompareTo(result.i3) == comparison) Swap(ref result.i1, ref result.i3);
+            if (result.i2.CompareTo(result.i4) == comparison) Swap(ref result.i2, ref result.i4);
+            if (result.i2.CompareTo(result.i3) == comparison) Swap(ref result.i2, ref result.i3);
 
             return result;
         }
@@ -464,22 +462,22 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = tuple;
             
-            if (comparer.Compare(result.i1, result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
-            if (comparer.Compare(result.i3, result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
-            if (comparer.Compare(result.i5, result.i6) == comparison) MiscHelper.Swap(ref result.i5, ref result.i6);
-            if (comparer.Compare(result.i0, result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
-            if (comparer.Compare(result.i3, result.i5) == comparison) MiscHelper.Swap(ref result.i3, ref result.i5);
-            if (comparer.Compare(result.i4, result.i6) == comparison) MiscHelper.Swap(ref result.i4, ref result.i6);
-            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
-            if (comparer.Compare(result.i4, result.i5) == comparison) MiscHelper.Swap(ref result.i4, ref result.i5);
-            if (comparer.Compare(result.i2, result.i6) == comparison) MiscHelper.Swap(ref result.i2, ref result.i6);
-            if (comparer.Compare(result.i0, result.i4) == comparison) MiscHelper.Swap(ref result.i0, ref result.i4);
-            if (comparer.Compare(result.i1, result.i5) == comparison) MiscHelper.Swap(ref result.i1, ref result.i5);
-            if (comparer.Compare(result.i0, result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
-            if (comparer.Compare(result.i2, result.i5) == comparison) MiscHelper.Swap(ref result.i2, ref result.i5);
-            if (comparer.Compare(result.i1, result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
-            if (comparer.Compare(result.i2, result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
-            if (comparer.Compare(result.i2, result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+            if (comparer.Compare(result.i1, result.i2) == comparison) Swap(ref result.i1, ref result.i2);
+            if (comparer.Compare(result.i3, result.i4) == comparison) Swap(ref result.i3, ref result.i4);
+            if (comparer.Compare(result.i5, result.i6) == comparison) Swap(ref result.i5, ref result.i6);
+            if (comparer.Compare(result.i0, result.i2) == comparison) Swap(ref result.i0, ref result.i2);
+            if (comparer.Compare(result.i3, result.i5) == comparison) Swap(ref result.i3, ref result.i5);
+            if (comparer.Compare(result.i4, result.i6) == comparison) Swap(ref result.i4, ref result.i6);
+            if (comparer.Compare(result.i0, result.i1) == comparison) Swap(ref result.i0, ref result.i1);
+            if (comparer.Compare(result.i4, result.i5) == comparison) Swap(ref result.i4, ref result.i5);
+            if (comparer.Compare(result.i2, result.i6) == comparison) Swap(ref result.i2, ref result.i6);
+            if (comparer.Compare(result.i0, result.i4) == comparison) Swap(ref result.i0, ref result.i4);
+            if (comparer.Compare(result.i1, result.i5) == comparison) Swap(ref result.i1, ref result.i5);
+            if (comparer.Compare(result.i0, result.i3) == comparison) Swap(ref result.i0, ref result.i3);
+            if (comparer.Compare(result.i2, result.i5) == comparison) Swap(ref result.i2, ref result.i5);
+            if (comparer.Compare(result.i1, result.i3) == comparison) Swap(ref result.i1, ref result.i3);
+            if (comparer.Compare(result.i2, result.i4) == comparison) Swap(ref result.i2, ref result.i4);
+            if (comparer.Compare(result.i2, result.i3) == comparison) Swap(ref result.i2, ref result.i3);
 
             return result;
         }
@@ -488,18 +486,18 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4, T i5) result = tuple;
             
-            if (comparer.Compare(result.i1, result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
-            if (comparer.Compare(result.i4, result.i5) == comparison) MiscHelper.Swap(ref result.i4, ref result.i5);
-            if (comparer.Compare(result.i0, result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
-            if (comparer.Compare(result.i3, result.i5) == comparison) MiscHelper.Swap(ref result.i3, ref result.i5);
-            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
-            if (comparer.Compare(result.i3, result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
-            if (comparer.Compare(result.i2, result.i5) == comparison) MiscHelper.Swap(ref result.i2, ref result.i5);
-            if (comparer.Compare(result.i0, result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
-            if (comparer.Compare(result.i1, result.i4) == comparison) MiscHelper.Swap(ref result.i1, ref result.i4);
-            if (comparer.Compare(result.i2, result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
-            if (comparer.Compare(result.i1, result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
-            if (comparer.Compare(result.i2, result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+            if (comparer.Compare(result.i1, result.i2) == comparison) Swap(ref result.i1, ref result.i2);
+            if (comparer.Compare(result.i4, result.i5) == comparison) Swap(ref result.i4, ref result.i5);
+            if (comparer.Compare(result.i0, result.i2) == comparison) Swap(ref result.i0, ref result.i2);
+            if (comparer.Compare(result.i3, result.i5) == comparison) Swap(ref result.i3, ref result.i5);
+            if (comparer.Compare(result.i0, result.i1) == comparison) Swap(ref result.i0, ref result.i1);
+            if (comparer.Compare(result.i3, result.i4) == comparison) Swap(ref result.i3, ref result.i4);
+            if (comparer.Compare(result.i2, result.i5) == comparison) Swap(ref result.i2, ref result.i5);
+            if (comparer.Compare(result.i0, result.i3) == comparison) Swap(ref result.i0, ref result.i3);
+            if (comparer.Compare(result.i1, result.i4) == comparison) Swap(ref result.i1, ref result.i4);
+            if (comparer.Compare(result.i2, result.i4) == comparison) Swap(ref result.i2, ref result.i4);
+            if (comparer.Compare(result.i1, result.i3) == comparison) Swap(ref result.i1, ref result.i3);
+            if (comparer.Compare(result.i2, result.i3) == comparison) Swap(ref result.i2, ref result.i3);
 
             return result;
         }
@@ -508,18 +506,18 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4, T i5) result = tuple;
             
-            if (result.i1.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
-            if (result.i4.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i4, ref result.i5);
-            if (result.i0.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
-            if (result.i3.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i3, ref result.i5);
-            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
-            if (result.i3.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
-            if (result.i2.CompareTo(result.i5) == comparison) MiscHelper.Swap(ref result.i2, ref result.i5);
-            if (result.i0.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
-            if (result.i1.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i1, ref result.i4);
-            if (result.i2.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
-            if (result.i1.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
-            if (result.i2.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
+            if (result.i1.CompareTo(result.i2) == comparison) Swap(ref result.i1, ref result.i2);
+            if (result.i4.CompareTo(result.i5) == comparison) Swap(ref result.i4, ref result.i5);
+            if (result.i0.CompareTo(result.i2) == comparison) Swap(ref result.i0, ref result.i2);
+            if (result.i3.CompareTo(result.i5) == comparison) Swap(ref result.i3, ref result.i5);
+            if (result.i0.CompareTo(result.i1) == comparison) Swap(ref result.i0, ref result.i1);
+            if (result.i3.CompareTo(result.i4) == comparison) Swap(ref result.i3, ref result.i4);
+            if (result.i2.CompareTo(result.i5) == comparison) Swap(ref result.i2, ref result.i5);
+            if (result.i0.CompareTo(result.i3) == comparison) Swap(ref result.i0, ref result.i3);
+            if (result.i1.CompareTo(result.i4) == comparison) Swap(ref result.i1, ref result.i4);
+            if (result.i2.CompareTo(result.i4) == comparison) Swap(ref result.i2, ref result.i4);
+            if (result.i1.CompareTo(result.i3) == comparison) Swap(ref result.i1, ref result.i3);
+            if (result.i2.CompareTo(result.i3) == comparison) Swap(ref result.i2, ref result.i3);
 
             return result;
         }
@@ -528,15 +526,15 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4) result = tuple;
 
-            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
-            if (comparer.Compare(result.i3, result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
-            if (comparer.Compare(result.i2, result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
-            if (comparer.Compare(result.i2, result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
-            if (comparer.Compare(result.i1, result.i4) == comparison) MiscHelper.Swap(ref result.i1, ref result.i4);
-            if (comparer.Compare(result.i0, result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
-            if (comparer.Compare(result.i0, result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
-            if (comparer.Compare(result.i1, result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
-            if (comparer.Compare(result.i1, result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+            if (comparer.Compare(result.i0, result.i1) == comparison) Swap(ref result.i0, ref result.i1);
+            if (comparer.Compare(result.i3, result.i4) == comparison) Swap(ref result.i3, ref result.i4);
+            if (comparer.Compare(result.i2, result.i4) == comparison) Swap(ref result.i2, ref result.i4);
+            if (comparer.Compare(result.i2, result.i3) == comparison) Swap(ref result.i2, ref result.i3);
+            if (comparer.Compare(result.i1, result.i4) == comparison) Swap(ref result.i1, ref result.i4);
+            if (comparer.Compare(result.i0, result.i3) == comparison) Swap(ref result.i0, ref result.i3);
+            if (comparer.Compare(result.i0, result.i2) == comparison) Swap(ref result.i0, ref result.i2);
+            if (comparer.Compare(result.i1, result.i3) == comparison) Swap(ref result.i1, ref result.i3);
+            if (comparer.Compare(result.i1, result.i2) == comparison) Swap(ref result.i1, ref result.i2);
 
             return result;
         }
@@ -545,15 +543,15 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4) result = tuple;
 
-            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
-            if (result.i3.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i3, ref result.i4);
-            if (result.i2.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i2, ref result.i4);
-            if (result.i2.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
-            if (result.i1.CompareTo(result.i4) == comparison) MiscHelper.Swap(ref result.i1, ref result.i4);
-            if (result.i0.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i0, ref result.i3);
-            if (result.i0.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
-            if (result.i1.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
-            if (result.i1.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+            if (result.i0.CompareTo(result.i1) == comparison) Swap(ref result.i0, ref result.i1);
+            if (result.i3.CompareTo(result.i4) == comparison) Swap(ref result.i3, ref result.i4);
+            if (result.i2.CompareTo(result.i4) == comparison) Swap(ref result.i2, ref result.i4);
+            if (result.i2.CompareTo(result.i3) == comparison) Swap(ref result.i2, ref result.i3);
+            if (result.i1.CompareTo(result.i4) == comparison) Swap(ref result.i1, ref result.i4);
+            if (result.i0.CompareTo(result.i3) == comparison) Swap(ref result.i0, ref result.i3);
+            if (result.i0.CompareTo(result.i2) == comparison) Swap(ref result.i0, ref result.i2);
+            if (result.i1.CompareTo(result.i3) == comparison) Swap(ref result.i1, ref result.i3);
+            if (result.i1.CompareTo(result.i2) == comparison) Swap(ref result.i1, ref result.i2);
 
             return result;
         }
@@ -562,11 +560,11 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3) result = tuple;
 
-            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
-            if (comparer.Compare(result.i2, result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
-            if (comparer.Compare(result.i0, result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
-            if (comparer.Compare(result.i1, result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
-            if (comparer.Compare(result.i1, result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+            if (comparer.Compare(result.i0, result.i1) == comparison) Swap(ref result.i0, ref result.i1);
+            if (comparer.Compare(result.i2, result.i3) == comparison) Swap(ref result.i2, ref result.i3);
+            if (comparer.Compare(result.i0, result.i2) == comparison) Swap(ref result.i0, ref result.i2);
+            if (comparer.Compare(result.i1, result.i3) == comparison) Swap(ref result.i1, ref result.i3);
+            if (comparer.Compare(result.i1, result.i2) == comparison) Swap(ref result.i1, ref result.i2);
 
             return result;
         }
@@ -575,43 +573,43 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3) result = tuple;
 
-            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
-            if (result.i2.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i2, ref result.i3);
-            if (result.i0.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
-            if (result.i1.CompareTo(result.i3) == comparison) MiscHelper.Swap(ref result.i1, ref result.i3);
-            if (result.i1.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
+            if (result.i0.CompareTo(result.i1) == comparison) Swap(ref result.i0, ref result.i1);
+            if (result.i2.CompareTo(result.i3) == comparison) Swap(ref result.i2, ref result.i3);
+            if (result.i0.CompareTo(result.i2) == comparison) Swap(ref result.i0, ref result.i2);
+            if (result.i1.CompareTo(result.i3) == comparison) Swap(ref result.i1, ref result.i3);
+            if (result.i1.CompareTo(result.i2) == comparison) Swap(ref result.i1, ref result.i2);
 
             return result;
         }
         private static (T, T, T) SortInternal<T>(ref (T, T, T) tuple, IComparer<T> comparer, int comparison)
         {
             (T i0, T i1, T i2) result = tuple;
-            if (comparer.Compare(result.i1, result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
-            if (comparer.Compare(result.i0, result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
-            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (comparer.Compare(result.i1, result.i2) == comparison) Swap(ref result.i1, ref result.i2);
+            if (comparer.Compare(result.i0, result.i2) == comparison) Swap(ref result.i0, ref result.i2);
+            if (comparer.Compare(result.i0, result.i1) == comparison) Swap(ref result.i0, ref result.i1);
             return result;
         }
         
         private static (T, T, T) SortInternal<T>(ref (T, T, T) tuple, int comparison) where T : IComparable<T>
         {
             (T i0, T i1, T i2) result = tuple;
-            if (result.i1.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i1, ref result.i2);
-            if (result.i0.CompareTo(result.i2) == comparison) MiscHelper.Swap(ref result.i0, ref result.i2);
-            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (result.i1.CompareTo(result.i2) == comparison) Swap(ref result.i1, ref result.i2);
+            if (result.i0.CompareTo(result.i2) == comparison) Swap(ref result.i0, ref result.i2);
+            if (result.i0.CompareTo(result.i1) == comparison) Swap(ref result.i0, ref result.i1);
             return result;
         }
         
         private static (T, T) SortInternal<T>(ref (T, T) tuple, IComparer<T> comparer, int comparison)
         {
             (T i0, T i1) result = tuple;
-            if (comparer.Compare(result.i0, result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (comparer.Compare(result.i0, result.i1) == comparison) Swap(ref result.i0, ref result.i1);
             return result;
         }
         
         private static (T, T) SortInternal<T>(ref (T, T) tuple, int comparison) where T : IComparable<T>
         {
             (T i0, T i1) result = tuple;
-            if (result.i0.CompareTo(result.i1) == comparison) MiscHelper.Swap(ref result.i0, ref result.i1);
+            if (result.i0.CompareTo(result.i1) == comparison) Swap(ref result.i0, ref result.i1);
             return result;
         }
 
@@ -729,7 +727,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             static void _compareAndSwap(ref T left, ref T right, IComparer<T> _comparer)
             {
-                if (_comparer.Compare(left, right) == -1) MiscHelper.Swap(ref left, ref right);
+                if (_comparer.Compare(left, right) == -1) Swap(ref left, ref right);
             }
             (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = tuple;
             _compareAndSwap(ref result.i1, ref result.i2, comparer);
@@ -3113,27 +3111,27 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #region Cast
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6, TIn v7) tuple) where TIn : class
+        public static (TOut, TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6, TIn v7) tuple) where TIn : class where TOut : class
             => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5, (TOut) (object) tuple.v6, (TOut) (object) tuple.v7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6) tuple) where TIn : class
+        public static (TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6) tuple) where TIn : class where TOut : class
             => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5, (TOut) (object) tuple.v6);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5) tuple) where TIn : class
+        public static (TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5) tuple) where TIn : class where TOut : class
             => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4) tuple) where TIn : class
+        public static (TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4) tuple) where TIn : class where TOut : class
             => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3) tuple) where TIn : class
+        public static (TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3) tuple) where TIn : class where TOut : class
             => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2) tuple) where TIn : class
+        public static (TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2) tuple) where TIn : class where TOut : class
             => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2);
 
         #endregion
