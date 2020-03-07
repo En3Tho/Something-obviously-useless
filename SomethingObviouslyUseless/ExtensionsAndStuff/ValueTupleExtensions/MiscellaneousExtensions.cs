@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Xml.XPath;
 using static ExtensionsAndStuff.HelperClasses.MiscHelper;
 
 namespace ExtensionsAndStuff.ValueTupleExtensions
@@ -251,11 +253,11 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         #endregion
-        
+
         #region ForEachNext
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T,T,T,T,T,T,T) ForEachNext<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Action<T> action)
+        public static (T, T, T, T, T, T, T) ForEachNext<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Action<T> action)
         {
             action(tuple.v1);
             action(tuple.v2);
@@ -268,7 +270,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T,T,T,T,T,T) ForEachNext<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Action<T> action)
+        public static (T, T, T, T, T, T) ForEachNext<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Action<T> action)
         {
             action(tuple.v1);
             action(tuple.v2);
@@ -280,7 +282,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T,T,T,T,T) ForEachNext<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Action<T> action)
+        public static (T, T, T, T, T) ForEachNext<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Action<T> action)
         {
             action(tuple.v1);
             action(tuple.v2);
@@ -291,7 +293,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T,T,T,T) ForEachNext<T>(this (T v1, T v2, T v3, T v4) tuple, Action<T> action)
+        public static (T, T, T, T) ForEachNext<T>(this (T v1, T v2, T v3, T v4) tuple, Action<T> action)
         {
             action(tuple.v1);
             action(tuple.v2);
@@ -301,7 +303,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T,T,T) ForEachNext<T>(this (T v1, T v2, T v3) tuple, Action<T> action)
+        public static (T, T, T) ForEachNext<T>(this (T v1, T v2, T v3) tuple, Action<T> action)
         {
             action(tuple.v1);
             action(tuple.v2);
@@ -310,7 +312,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (T,T) ForEachNext<T>(this (T v1, T v2) tuple, Action<T> action)
+        public static (T, T) ForEachNext<T>(this (T v1, T v2) tuple, Action<T> action)
         {
             action(tuple.v1);
             action(tuple.v2);
@@ -431,13 +433,15 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             => (tuple.v1, tuple.v2, tuple.v3, other.v1, other.v2, other.v3, other.v4);
 
         #endregion
-        
-        #region Sort
+
+        #region Sort      
+
+        #region SortInternalSingleTuple
 
         private static (T, T, T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T, T, T) tuple, int comparison) where T : IComparable<T>
         {
             (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = tuple;
-            
+
             if (result.i1.CompareTo(result.i2) == comparison) Swap(ref result.i1, ref result.i2);
             if (result.i3.CompareTo(result.i4) == comparison) Swap(ref result.i3, ref result.i4);
             if (result.i5.CompareTo(result.i6) == comparison) Swap(ref result.i5, ref result.i6);
@@ -461,7 +465,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         private static (T, T, T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T, T, T) tuple, IComparer<T> comparer, int comparison)
         {
             (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = tuple;
-            
+
             if (comparer.Compare(result.i1, result.i2) == comparison) Swap(ref result.i1, ref result.i2);
             if (comparer.Compare(result.i3, result.i4) == comparison) Swap(ref result.i3, ref result.i4);
             if (comparer.Compare(result.i5, result.i6) == comparison) Swap(ref result.i5, ref result.i6);
@@ -481,11 +485,11 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
             return result;
         }
-        
+
         private static (T, T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T, T) tuple, IComparer<T> comparer, int comparison)
         {
             (T i0, T i1, T i2, T i3, T i4, T i5) result = tuple;
-            
+
             if (comparer.Compare(result.i1, result.i2) == comparison) Swap(ref result.i1, ref result.i2);
             if (comparer.Compare(result.i4, result.i5) == comparison) Swap(ref result.i4, ref result.i5);
             if (comparer.Compare(result.i0, result.i2) == comparison) Swap(ref result.i0, ref result.i2);
@@ -501,11 +505,11 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
             return result;
         }
-        
+
         private static (T, T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T, T) tuple, int comparison) where T : IComparable<T>
         {
             (T i0, T i1, T i2, T i3, T i4, T i5) result = tuple;
-            
+
             if (result.i1.CompareTo(result.i2) == comparison) Swap(ref result.i1, ref result.i2);
             if (result.i4.CompareTo(result.i5) == comparison) Swap(ref result.i4, ref result.i5);
             if (result.i0.CompareTo(result.i2) == comparison) Swap(ref result.i0, ref result.i2);
@@ -521,7 +525,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
             return result;
         }
-        
+
         private static (T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T) tuple, IComparer<T> comparer, int comparison)
         {
             (T i0, T i1, T i2, T i3, T i4) result = tuple;
@@ -538,7 +542,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
             return result;
         }
-        
+
         private static (T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T) tuple, int comparison) where T : IComparable<T>
         {
             (T i0, T i1, T i2, T i3, T i4) result = tuple;
@@ -555,7 +559,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
             return result;
         }
-        
+
         private static (T, T, T, T) SortInternal<T>(ref (T, T, T, T) tuple, IComparer<T> comparer, int comparison)
         {
             (T i0, T i1, T i2, T i3) result = tuple;
@@ -589,7 +593,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (comparer.Compare(result.i0, result.i1) == comparison) Swap(ref result.i0, ref result.i1);
             return result;
         }
-        
+
         private static (T, T, T) SortInternal<T>(ref (T, T, T) tuple, int comparison) where T : IComparable<T>
         {
             (T i0, T i1, T i2) result = tuple;
@@ -598,14 +602,14 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             if (result.i0.CompareTo(result.i1) == comparison) Swap(ref result.i0, ref result.i1);
             return result;
         }
-        
+
         private static (T, T) SortInternal<T>(ref (T, T) tuple, IComparer<T> comparer, int comparison)
         {
             (T i0, T i1) result = tuple;
             if (comparer.Compare(result.i0, result.i1) == comparison) Swap(ref result.i0, ref result.i1);
             return result;
         }
-        
+
         private static (T, T) SortInternal<T>(ref (T, T) tuple, int comparison) where T : IComparable<T>
         {
             (T i0, T i1) result = tuple;
@@ -613,141 +617,455 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             return result;
         }
 
-        public static (T, T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, 1);
-        }
-        
-        public static (T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, 1);
-        }
-        
-        public static (T, T, T, T, T) Sort<T>(this (T, T, T, T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, 1);
-        }
-        
-        public static (T, T, T, T) Sort<T>(this (T, T, T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, 1);
-        }
-        
-        public static (T, T, T) Sort<T>(this (T, T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, 1);
-        }
-        
-        public static (T, T) Sort<T>(this (T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer,1 );
-        }
+        #endregion
 
-        public static (T, T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T, T) tuple) where T : IComparable<T>
-        {
-            return SortInternal(ref tuple, 1);
-        }
-        
-        public static (T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T) tuple) where T : IComparable<T>
-        {
-            return SortInternal(ref tuple, 1);
-        }
-        
-        public static (T, T, T, T, T) Sort<T>(this (T, T, T, T, T) tuple) where T : IComparable<T>
-        {
-            return SortInternal(ref tuple, 1);
-        }
-        
-        public static (T, T, T, T) Sort<T>(this (T, T, T, T) tuple) where T : IComparable<T>
-        {
-            return SortInternal(ref tuple, 1);
-        }
-        
-        public static (T, T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, -1);
-        }
-        
-        public static (T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, -1);
-        }
-        
-        public static (T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, -1);
-        }
-        
-        public static (T, T, T, T) SortByDescending<T>(this (T, T, T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, -1);
-        }
-        
-        public static (T, T, T) SortByDescending<T>(this (T, T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, -1);
-        }
-        
-        public static (T, T) SortByDescending<T>(this (T, T) tuple, IComparer<T> comparer)
-        {
-            return SortInternal(ref tuple, comparer, -1);
-        }
+        #region SortInternalDoubleTuple
 
-        public static (T, T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T, T) tuple) where T : IComparable<T>
+        private static (T, T, T, T, T, T, T) SortInternal<T, U>(ref (T, T, T, T, T, T, T) values, ref (U i0, U i1, U i2, U i3, U i4, U i5, U i6) references, IComparer<U> comparer, int comparison)
         {
-            return SortInternal(ref tuple, -1);
-        }
-        
-        public static (T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T) tuple) where T : IComparable<T>
-        {
-            return SortInternal(ref tuple, -1);
-        }
-        
-        public static (T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T) tuple) where T : IComparable<T>
-        {
-            return SortInternal(ref tuple, -1);
-        }
-        
-        public static (T, T, T, T) SortByDescending<T>(this (T, T, T, T) tuple) where T : IComparable<T>
-        {
-            return SortInternal(ref tuple, -1);
-        }
-        
-        public static (T, T, T) SortByDescending<T>(this (T, T, T) tuple) where T : IComparable<T>
-        {
-            return SortInternal(ref tuple, -1);
-        }
-        
-        public static (T, T) SortByDescending<T>(this (T, T) tuple) where T : IComparable<T>
-        {
-            return SortInternal(ref tuple, -1);
-        }
+            (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = values;
 
-        public static (T, T, T, T, T, T, T) Sort2<T>(this (T, T, T, T, T, T, T) tuple, IComparer<T> comparer)
-        {
-            static void _compareAndSwap(ref T left, ref T right, IComparer<T> _comparer)
-            {
-                if (_comparer.Compare(left, right) == -1) Swap(ref left, ref right);
-            }
-            (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = tuple;
-            _compareAndSwap(ref result.i1, ref result.i2, comparer);
-            _compareAndSwap(ref result.i3, ref result.i4, comparer);
-            _compareAndSwap(ref result.i5, ref result.i6, comparer);
-            _compareAndSwap(ref result.i0, ref result.i2, comparer);
-            _compareAndSwap(ref result.i3, ref result.i5, comparer);
-            _compareAndSwap(ref result.i4, ref result.i6, comparer);
-            _compareAndSwap(ref result.i0, ref result.i1, comparer);
-            _compareAndSwap(ref result.i4, ref result.i5, comparer);
-            _compareAndSwap(ref result.i2, ref result.i6, comparer);
-            _compareAndSwap(ref result.i0, ref result.i4, comparer);
-            _compareAndSwap(ref result.i1, ref result.i5, comparer);
-            _compareAndSwap(ref result.i0, ref result.i3, comparer);
-            _compareAndSwap(ref result.i2, ref result.i5, comparer);
-            _compareAndSwap(ref result.i1, ref result.i3, comparer);
-            _compareAndSwap(ref result.i2, ref result.i4, comparer);
-            _compareAndSwap(ref result.i2, ref result.i3, comparer);
+            if (comparer.Compare(references.i1, references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+            if (comparer.Compare(references.i3, references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
+            if (comparer.Compare(references.i5, references.i6) == comparison) { Swap(ref result.i5, ref result.i6); Swap(ref references.i5, ref references.i6); }
+            if (comparer.Compare(references.i0, references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
+            if (comparer.Compare(references.i3, references.i5) == comparison) { Swap(ref result.i3, ref result.i5); Swap(ref references.i3, ref references.i5); }
+            if (comparer.Compare(references.i4, references.i6) == comparison) { Swap(ref result.i4, ref result.i6); Swap(ref references.i4, ref references.i6); }
+            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (comparer.Compare(references.i4, references.i5) == comparison) { Swap(ref result.i4, ref result.i5); Swap(ref references.i4, ref references.i5); }
+            if (comparer.Compare(references.i2, references.i6) == comparison) { Swap(ref result.i2, ref result.i6); Swap(ref references.i2, ref references.i6); }
+            if (comparer.Compare(references.i0, references.i4) == comparison) { Swap(ref result.i0, ref result.i4); Swap(ref references.i0, ref references.i4); }
+            if (comparer.Compare(references.i1, references.i5) == comparison) { Swap(ref result.i1, ref result.i5); Swap(ref references.i1, ref references.i5); }
+            if (comparer.Compare(references.i0, references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
+            if (comparer.Compare(references.i2, references.i5) == comparison) { Swap(ref result.i2, ref result.i5); Swap(ref references.i2, ref references.i5); }
+            if (comparer.Compare(references.i1, references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
+            if (comparer.Compare(references.i2, references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
+            if (comparer.Compare(references.i2, references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+
             return result;
         }
+
+        private static (T, T, T, T, T, T, T) SortInternal<T, U>(ref (T, T, T, T, T, T, T) values, ref (U i0, U i1, U i2, U i3, U i4, U i5, U i6) references, int comparison) where U : IComparable<U>
+        {
+            (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = values;
+
+            if (references.i1.CompareTo(references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+            if (references.i3.CompareTo(references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
+            if (references.i5.CompareTo(references.i6) == comparison) { Swap(ref result.i5, ref result.i6); Swap(ref references.i5, ref references.i6); }
+            if (references.i0.CompareTo(references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
+            if (references.i3.CompareTo(references.i5) == comparison) { Swap(ref result.i3, ref result.i5); Swap(ref references.i3, ref references.i5); }
+            if (references.i4.CompareTo(references.i6) == comparison) { Swap(ref result.i4, ref result.i6); Swap(ref references.i4, ref references.i6); }
+            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (references.i4.CompareTo(references.i5) == comparison) { Swap(ref result.i4, ref result.i5); Swap(ref references.i4, ref references.i5); }
+            if (references.i2.CompareTo(references.i6) == comparison) { Swap(ref result.i2, ref result.i6); Swap(ref references.i2, ref references.i6); }
+            if (references.i0.CompareTo(references.i4) == comparison) { Swap(ref result.i0, ref result.i4); Swap(ref references.i0, ref references.i4); }
+            if (references.i1.CompareTo(references.i5) == comparison) { Swap(ref result.i1, ref result.i5); Swap(ref references.i1, ref references.i5); }
+            if (references.i0.CompareTo(references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
+            if (references.i2.CompareTo(references.i5) == comparison) { Swap(ref result.i2, ref result.i5); Swap(ref references.i2, ref references.i5); }
+            if (references.i1.CompareTo(references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
+            if (references.i2.CompareTo(references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
+            if (references.i2.CompareTo(references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+
+            return result;
+        }
+
+        private static (T, T, T, T, T, T) SortInternal<T, U>(ref (T, T, T, T, T, T) tuple, ref (U i0, U i1, U i2, U i3, U i4, U i5) references, IComparer<U> comparer, int comparison)
+        {
+            (T i0, T i1, T i2, T i3, T i4, T i5) result = tuple;
+
+            if (comparer.Compare(references.i1, references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+            if (comparer.Compare(references.i4, references.i5) == comparison) { Swap(ref result.i4, ref result.i5); Swap(ref references.i4, ref references.i5); }
+            if (comparer.Compare(references.i0, references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
+            if (comparer.Compare(references.i3, references.i5) == comparison) { Swap(ref result.i3, ref result.i5); Swap(ref references.i3, ref references.i5); }
+            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (comparer.Compare(references.i3, references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
+            if (comparer.Compare(references.i2, references.i5) == comparison) { Swap(ref result.i2, ref result.i5); Swap(ref references.i2, ref references.i5); }
+            if (comparer.Compare(references.i0, references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
+            if (comparer.Compare(references.i1, references.i4) == comparison) { Swap(ref result.i1, ref result.i4); Swap(ref references.i1, ref references.i4); }
+            if (comparer.Compare(references.i2, references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
+            if (comparer.Compare(references.i1, references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
+            if (comparer.Compare(references.i2, references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+
+            return result;
+        }
+
+        private static (T, T, T, T, T, T) SortInternal<T, U>(ref (T, T, T, T, T, T) tuple, ref (U i0, U i1, U i2, U i3, U i4, U i5) references, int comparison) where U : IComparable<U>
+        {
+            (T i0, T i1, T i2, T i3, T i4, T i5) result = tuple;
+
+            if (references.i1.CompareTo(references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+            if (references.i4.CompareTo(references.i5) == comparison) { Swap(ref result.i4, ref result.i5); Swap(ref references.i4, ref references.i5); }
+            if (references.i0.CompareTo(references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
+            if (references.i3.CompareTo(references.i5) == comparison) { Swap(ref result.i3, ref result.i5); Swap(ref references.i3, ref references.i5); }
+            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (references.i3.CompareTo(references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
+            if (references.i2.CompareTo(references.i5) == comparison) { Swap(ref result.i2, ref result.i5); Swap(ref references.i2, ref references.i5); }
+            if (references.i0.CompareTo(references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
+            if (references.i1.CompareTo(references.i4) == comparison) { Swap(ref result.i1, ref result.i4); Swap(ref references.i1, ref references.i4); }
+            if (references.i2.CompareTo(references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
+            if (references.i1.CompareTo(references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
+            if (references.i2.CompareTo(references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+
+            return result;
+        }
+
+        private static (T, T, T, T, T) SortInternal<T, U>(ref (T, T, T, T, T) tuple, ref (U i0, U i1, U i2, U i3, U i4) references, IComparer<U> comparer, int comparison)
+        {
+            (T i0, T i1, T i2, T i3, T i4) result = tuple;
+
+            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (comparer.Compare(references.i3, references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
+            if (comparer.Compare(references.i2, references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
+            if (comparer.Compare(references.i2, references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+            if (comparer.Compare(references.i1, references.i4) == comparison) { Swap(ref result.i1, ref result.i4); Swap(ref references.i1, ref references.i4); }
+            if (comparer.Compare(references.i0, references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
+            if (comparer.Compare(references.i0, references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
+            if (comparer.Compare(references.i1, references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
+            if (comparer.Compare(references.i1, references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+
+            return result;
+        }
+
+        private static (T, T, T, T, T) SortInternal<T, U>(ref (T, T, T, T, T) tuple, ref (U i0, U i1, U i2, U i3, U i4) references, int comparison) where U : IComparable<U>
+        {
+            (T i0, T i1, T i2, T i3, T i4) result = tuple;
+
+            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (references.i3.CompareTo(references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
+            if (references.i2.CompareTo(references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
+            if (references.i2.CompareTo(references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+            if (references.i1.CompareTo(references.i4) == comparison) { Swap(ref result.i1, ref result.i4); Swap(ref references.i1, ref references.i4); }
+            if (references.i0.CompareTo(references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
+            if (references.i0.CompareTo(references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
+            if (references.i1.CompareTo(references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
+            if (references.i1.CompareTo(references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+
+            return result;
+        }
+
+        private static (T, T, T, T) SortInternal<T, U>(ref (T, T, T, T) tuple, ref (U i0, U i1, U i2, U i3) references, IComparer<U> comparer, int comparison)
+        {
+            (T i0, T i1, T i2, T i3) result = tuple;
+
+            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (comparer.Compare(references.i2, references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+            if (comparer.Compare(references.i0, references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
+            if (comparer.Compare(references.i1, references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
+            if (comparer.Compare(references.i1, references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+
+            return result;
+        }
+
+        private static (T, T, T, T) SortInternal<T, U>(ref (T, T, T, T) tuple, ref (U i0, U i1, U i2, U i3) references, int comparison) where U : IComparable<U>
+        {
+            (T i0, T i1, T i2, T i3) result = tuple;
+
+            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (references.i2.CompareTo(references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+            if (references.i0.CompareTo(references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
+            if (references.i1.CompareTo(references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
+            if (references.i1.CompareTo(references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+
+            return result;
+        }
+        private static (T, T, T) SortInternal<T, U>(ref (T, T, T) tuple, ref (U i0, U i1, U i2) references, IComparer<U> comparer, int comparison)
+        {
+            (T i0, T i1, T i2) result = tuple;
+            if (comparer.Compare(references.i1, references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+            if (comparer.Compare(references.i0, references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
+            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            return result;
+        }
+
+        private static (T, T, T) SortInternal<T, U>(ref (T, T, T) tuple, ref (U i0, U i1, U i2) references, int comparison) where U : IComparable<U>
+        {
+            (T i0, T i1, T i2) result = tuple;
+            if (references.i1.CompareTo(references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+            if (references.i0.CompareTo(references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
+            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            return result;
+        }
+
+        private static (T, T) SortInternal<T, U>(ref (T, T) tuple, ref (U i0, U i1) references, IComparer<U> comparer, int comparison)
+        {
+            (T i0, T i1) result = tuple;
+            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            return result;
+        }
+
+        private static (T, T) SortInternal<T, U>(ref (T, T) tuple, ref (U i0, U i1) references, int comparison) where U : IComparable<U>
+        {
+            (T i0, T i1) result = tuple;
+            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            return result;
+        }
+
+        #endregion
+
+        #region SortByValue
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T, T) tuple, IComparer<T>? comparer = null)
+            => SortInternal(ref tuple, comparer ?? Comparer<T>.Default, 1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T) tuple, IComparer<T>? comparer = null)
+            => SortInternal(ref tuple, comparer ?? Comparer<T>.Default, 1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T) Sort<T>(this (T, T, T, T, T) tuple, IComparer<T>? comparer = null)
+            => SortInternal(ref tuple, comparer ?? Comparer<T>.Default, 1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T) Sort<T>(this (T, T, T, T) tuple, IComparer<T>? comparer = null)
+            => SortInternal(ref tuple, comparer ?? Comparer<T>.Default, 1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T) Sort<T>(this (T, T, T) tuple, IComparer<T>? comparer = null)
+            => SortInternal(ref tuple, comparer ?? Comparer<T>.Default, 1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T) Sort<T>(this (T, T) tuple, IComparer<T>? comparer = null)
+            => SortInternal(ref tuple, comparer ?? Comparer<T>.Default, 1);
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T, T) tuple) where T : IComparable<T>
+            => SortInternal(ref tuple, 1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T) tuple) where T : IComparable<T>
+            => SortInternal(ref tuple, 1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T) Sort<T>(this (T, T, T, T, T) tuple) where T : IComparable<T>
+            => SortInternal(ref tuple, 1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T) Sort<T>(this (T, T, T, T) tuple) where T : IComparable<T>
+            => SortInternal(ref tuple, 1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T, T) tuple, IComparer<T> comparer)
+            => SortInternal(ref tuple, comparer, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T) tuple, IComparer<T> comparer)
+            => SortInternal(ref tuple, comparer, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T) tuple, IComparer<T> comparer)
+            => SortInternal(ref tuple, comparer, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T) SortByDescending<T>(this (T, T, T, T) tuple, IComparer<T> comparer)
+            => SortInternal(ref tuple, comparer, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T) SortByDescending<T>(this (T, T, T) tuple, IComparer<T> comparer)
+            => SortInternal(ref tuple, comparer, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T) SortByDescending<T>(this (T, T) tuple, IComparer<T> comparer)
+            => SortInternal(ref tuple, comparer, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T, T) tuple) where T : IComparable<T>
+            => SortInternal(ref tuple, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T, T) tuple) where T : IComparable<T>
+            => SortInternal(ref tuple, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T) SortByDescending<T>(this (T, T, T, T, T) tuple) where T : IComparable<T>
+            => SortInternal(ref tuple, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T) SortByDescending<T>(this (T, T, T, T) tuple) where T : IComparable<T>
+            => SortInternal(ref tuple, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T) SortByDescending<T>(this (T, T, T) tuple) where T : IComparable<T>
+            => SortInternal(ref tuple, -1);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T) SortByDescending<T>(this (T, T) tuple) where T : IComparable<T>
+            => SortInternal(ref tuple, -1);
+
+        #endregion
+
+        #region SortByFunc
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T, T) Sort<T, U>(this (T, T, T, T, T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5), getter(tuple.Item6), getter(tuple.Item7));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T, T) Sort<T, U>(this (T, T, T, T, T, T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5), getter(tuple.Item6), getter(tuple.Item7));
+            return SortInternal(ref tuple, ref unsortedValues, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T) Sort<T, U>(this (T, T, T, T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5), getter(tuple.Item6));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T) Sort<T, U>(this (T, T, T, T, T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5), getter(tuple.Item6));
+            return SortInternal(ref tuple, ref unsortedValues, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T) Sort<T, U>(this (T, T, T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T) Sort<T, U>(this (T, T, T, T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5));
+            return SortInternal(ref tuple, ref unsortedValues, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T) Sort<T, U>(this (T, T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T) Sort<T, U>(this (T, T, T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4));
+            return SortInternal(ref tuple, ref unsortedValues, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T) Sort<T, U>(this (T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T) Sort<T, U>(this (T, T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3));
+            return SortInternal(ref tuple, ref unsortedValues, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T) Sort<T, U>(this (T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T) Sort<T, U>(this (T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2));
+            return SortInternal(ref tuple, ref unsortedValues, 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T, T) SortByDescending<T, U>(this (T, T, T, T, T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5), getter(tuple.Item6), getter(tuple.Item7));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T, T) SortByDescending<T, U>(this (T, T, T, T, T, T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5), getter(tuple.Item6), getter(tuple.Item7));
+            return SortInternal(ref tuple, ref unsortedValues, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T) SortByDescending<T, U>(this (T, T, T, T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5), getter(tuple.Item6));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T, T) SortByDescending<T, U>(this (T, T, T, T, T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5), getter(tuple.Item6));
+            return SortInternal(ref tuple, ref unsortedValues, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T) SortByDescending<T, U>(this (T, T, T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T, T) SortByDescending<T, U>(this (T, T, T, T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4), getter(tuple.Item5));
+            return SortInternal(ref tuple, ref unsortedValues, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T) SortByDescending<T, U>(this (T, T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T, T) SortByDescending<T, U>(this (T, T, T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3), getter(tuple.Item4));
+            return SortInternal(ref tuple, ref unsortedValues, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T) SortByDescending<T, U>(this (T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T, T) SortByDescending<T, U>(this (T, T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2), getter(tuple.Item3));
+            return SortInternal(ref tuple, ref unsortedValues, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T) SortByDescending<T, U>(this (T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2));
+            return SortInternal(ref tuple, ref unsortedValues, comparer ?? Comparer<U>.Default, -1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static (T, T) SortByDescending<T, U>(this (T, T) tuple, Func<T, U> getter) where U : IComparable<U>
+        {
+            var unsortedValues = (getter(tuple.Item1), getter(tuple.Item2));
+            return SortInternal(ref tuple, ref unsortedValues, -1);
+        }
+
+        #endregion
 
         #endregion
 
@@ -1338,27 +1656,27 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple)
-            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7};
+            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple)
-            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6};
+            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5) tuple)
-            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5};
+            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4) tuple)
-            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4};
+            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3) tuple)
-            => new T[] {tuple.v1, tuple.v2, tuple.v3};
+            => new T[] { tuple.v1, tuple.v2, tuple.v3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2) tuple)
-            => new T[] {tuple.v1, tuple.v2};
+            => new T[] { tuple.v1, tuple.v2 };
 
         #endregion
 
@@ -2097,7 +2415,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             return tuple.v1 < tuple.v2 ? tuple.v1 : tuple.v2;
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Min(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6, decimal v7) tuple)
         {
@@ -2713,7 +3031,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             return tuple.v1 > tuple.v2 ? tuple.v1 : tuple.v2;
         }
-        
+
         #endregion
 
         #region Sum
@@ -2933,103 +3251,103 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Sum(this (decimal v1, decimal v2) tuple)
             => tuple.v1 + tuple.v2;
-        
+
         #endregion
 
         #region Average
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Average(this (int v1, int v2, int v3, int v4, int v5, int v6, int v7) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Average(this (int v1, int v2, int v3, int v4, int v5, int v6) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Average(this (int v1, int v2, int v3, int v4, int v5) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Average(this (int v1, int v2, int v3, int v4) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Average(this (int v1, int v2, int v3) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Average(this (int v1, int v2) tuple)
             => (tuple.v1 + tuple.v2) / 2;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Average(this (uint v1, uint v2, uint v3, uint v4, uint v5, uint v6, uint v7) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Average(this (uint v1, uint v2, uint v3, uint v4, uint v5, uint v6) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Average(this (uint v1, uint v2, uint v3, uint v4, uint v5) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Average(this (uint v1, uint v2, uint v3, uint v4) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Average(this (uint v1, uint v2, uint v3) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Average(this (uint v1, uint v2) tuple)
             => (tuple.v1 + tuple.v2) / 2;
-			
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Average(this (long v1, long v2, long v3, long v4, long v5, long v6, long v7) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Average(this (long v1, long v2, long v3, long v4, long v5, long v6) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Average(this (long v1, long v2, long v3, long v4, long v5) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Average(this (long v1, long v2, long v3, long v4) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Average(this (long v1, long v2, long v3) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Average(this (long v1, long v2) tuple)
             => (tuple.v1 + tuple.v2) / 2;
-			
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Average(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5, ulong v6, ulong v7) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Average(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5, ulong v6) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Average(this (ulong v1, ulong v2, ulong v3, ulong v4, ulong v5) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Average(this (ulong v1, ulong v2, ulong v3, ulong v4) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Average(this (ulong v1, ulong v2, ulong v3) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Average(this (ulong v1, ulong v2) tuple)
             => (tuple.v1 + tuple.v2) / 2;
@@ -3037,102 +3355,102 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Average(this (float v1, float v2, float v3, float v4, float v5, float v6, float v7) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Average(this (float v1, float v2, float v3, float v4, float v5, float v6) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Average(this (float v1, float v2, float v3, float v4, float v5) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Average(this (float v1, float v2, float v3, float v4) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Average(this (float v1, float v2, float v3) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Average(this (float v1, float v2) tuple)
             => (tuple.v1 + tuple.v2) / 2;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Average(this (double v1, double v2, double v3, double v4, double v5, double v6, double v7) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Average(this (double v1, double v2, double v3, double v4, double v5, double v6) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Average(this (double v1, double v2, double v3, double v4, double v5) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Average(this (double v1, double v2, double v3, double v4) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Average(this (double v1, double v2, double v3) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Average(this (double v1, double v2) tuple)
             => (tuple.v1 + tuple.v2) / 2;
-			
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Average(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6, decimal v7) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Average(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5, decimal v6) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6) / 6;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Average(this (decimal v1, decimal v2, decimal v3, decimal v4, decimal v5) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5) / 5;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Average(this (decimal v1, decimal v2, decimal v3, decimal v4) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4) / 4;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Average(this (decimal v1, decimal v2, decimal v3) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3) / 3;
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Average(this (decimal v1, decimal v2) tuple)
             => (tuple.v1 + tuple.v2) / 2;
-        
+
         #endregion
-        
+
         #region Cast
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6, TIn v7) tuple) where TIn : class where TOut : class
-            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5, (TOut) (object) tuple.v6, (TOut) (object) tuple.v7);
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5, (TOut)(object)tuple.v6, (TOut)(object)tuple.v7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6) tuple) where TIn : class where TOut : class
-            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5, (TOut) (object) tuple.v6);
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5, (TOut)(object)tuple.v6);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5) tuple) where TIn : class where TOut : class
-            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5);
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4) tuple) where TIn : class where TOut : class
-            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4);
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3) tuple) where TIn : class where TOut : class
-            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3);
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2) tuple) where TIn : class where TOut : class
-            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2);
+            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2);
 
         #endregion
 
