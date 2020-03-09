@@ -7,8 +7,8 @@ namespace ExtensionsAndStuff.RefStructs.SpanList
 {
     public ref struct SpanList<T>
     {
-        private Span<T> Span { get; }
-        public int Count { get; private set; }
+        private Span<T> Span { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
+        public int Count { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; private set; }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public SpanList(Span<T> span)
@@ -29,6 +29,7 @@ namespace ExtensionsAndStuff.RefStructs.SpanList
             get => Span[index];
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Span<T> Slice() => Span.Slice(0, Count);
     }
 
