@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ExtensionsAndStuff.HelperClasses.InterfaceBased
 {
-    class IEqutableEqualityComparer<T> : IEqualityComparer<T> where T : IEquatable<T>
+    class EquatableEqualityComparer<T> : IEqualityComparer<T> where T : IEquatable<T>
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals([AllowNull] T x, [AllowNull] T y) => x.Equals(y);
@@ -14,6 +14,6 @@ namespace ExtensionsAndStuff.HelperClasses.InterfaceBased
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int GetHashCode([DisallowNull] T obj) => obj.GetHashCode();
 
-        public static IEqutableEqualityComparer<T> Default { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; } = new IEqutableEqualityComparer<T>();
+        public static EquatableEqualityComparer<T> Default { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; } = new EquatableEqualityComparer<T>();
     }
 }

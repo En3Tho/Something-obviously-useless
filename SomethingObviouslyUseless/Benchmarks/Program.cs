@@ -1,6 +1,7 @@
 ﻿using System;
 using BenchmarkDotNet.Running;
 using Benchmarks.Benchmarks;
+using ExtensionsAndStuff.ValueTupleExtensions;
 
 namespace Benchmarks
 {
@@ -8,7 +9,7 @@ namespace Benchmarks
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<ValueTupleSorting>();           
+            BenchmarkRunner.Run<ContainsBenchmark>();           
             Console.ReadLine();
         }
     }

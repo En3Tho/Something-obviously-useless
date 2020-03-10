@@ -70,7 +70,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Equals(this (string, string, string, string, string, string, string) tuple, (string, string, string, string, string, string, string) tuple2,
-            StringComparison comparison = StringComparison.Ordinal)
+            StringComparison comparison)
         {
             return tuple.Item1.Equals(tuple2.Item1, comparison)
                    && tuple.Item2.Equals(tuple2.Item2, comparison)
@@ -83,7 +83,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Equals(this (string, string, string, string, string, string) tuple, (string, string, string, string, string, string) tuple2,
-            StringComparison comparison = StringComparison.Ordinal)
+            StringComparison comparison)
         {
             return tuple.Item1.Equals(tuple2.Item1, comparison)
                    && tuple.Item2.Equals(tuple2.Item2, comparison)
@@ -94,7 +94,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Equals(this (string, string, string, string, string) tuple, (string, string, string, string, string) tuple2, StringComparison comparison = StringComparison.Ordinal)
+        public static bool Equals(this (string, string, string, string, string) tuple, (string, string, string, string, string) tuple2, StringComparison comparison)
         {
             return tuple.Item1.Equals(tuple2.Item1, comparison)
                    && tuple.Item2.Equals(tuple2.Item2, comparison)
@@ -104,7 +104,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Equals(this (string, string, string, string) tuple, (string, string, string, string) tuple2, StringComparison comparison = StringComparison.Ordinal)
+        public static bool Equals(this (string, string, string, string) tuple, (string, string, string, string) tuple2, StringComparison comparison)
         {
             return tuple.Item1.Equals(tuple2.Item1, comparison)
                    && tuple.Item2.Equals(tuple2.Item2, comparison)
@@ -113,7 +113,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Equals(this (string, string, string) tuple, (string, string, string) tuple2, StringComparison comparison = StringComparison.Ordinal)
+        public static bool Equals(this (string, string, string) tuple, (string, string, string) tuple2, StringComparison comparison)
         {
             return tuple.Item1.Equals(tuple2.Item1, comparison)
                    && tuple.Item2.Equals(tuple2.Item2, comparison)
@@ -121,7 +121,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Equals(this (string, string) tuple, (string, string) tuple2, StringComparison comparison = StringComparison.Ordinal)
+        public static bool Equals(this (string, string) tuple, (string, string) tuple2, StringComparison comparison)
         {
             return tuple.Item1.Equals(tuple2.Item1, comparison)
                    && tuple.Item2.Equals(tuple2.Item2, comparison);

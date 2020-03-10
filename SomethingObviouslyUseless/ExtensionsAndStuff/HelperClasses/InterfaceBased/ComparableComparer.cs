@@ -6,11 +6,11 @@ using System.Text;
 
 namespace ExtensionsAndStuff.HelperClasses.DelegateBased
 {
-    class IComparableComparer<T> : IComparer<T> where T : IComparable<T>
+    class ComparableComparer<T> : IComparer<T> where T : IComparable<T>
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int Compare([AllowNull] T x, [AllowNull] T y) => x.CompareTo(y);
 
-        public static IComparableComparer<T> Default { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; } = new IComparableComparer<T>();
+        public static ComparableComparer<T> Default { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; } = new ComparableComparer<T>();
     }
 }

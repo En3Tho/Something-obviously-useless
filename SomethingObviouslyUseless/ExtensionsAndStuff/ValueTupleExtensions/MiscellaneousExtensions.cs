@@ -147,7 +147,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         #region Contains
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, T value) where T : IEquatable<T>
+        internal static bool ContainsInternal<T>(ref (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, T value) where T : IEquatable<T>
             => value.Equals(tuple.v1)
                || value.Equals(tuple.v2)
                || value.Equals(tuple.v3)
@@ -157,7 +157,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                || value.Equals(tuple.v7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, T value) where T : IEquatable<T>
+        internal static bool ContainsInternal<T>(ref (T v1, T v2, T v3, T v4, T v5, T v6) tuple, T value) where T : IEquatable<T>
             => value.Equals(tuple.v1)
                || value.Equals(tuple.v2)
                || value.Equals(tuple.v3)
@@ -166,7 +166,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                || value.Equals(tuple.v6);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, T value) where T : IEquatable<T>
+        internal static bool ContainsInternal<T>(ref (T v1, T v2, T v3, T v4, T v5) tuple, T value) where T : IEquatable<T>
             => value.Equals(tuple.v1)
                || value.Equals(tuple.v2)
                || value.Equals(tuple.v3)
@@ -174,22 +174,449 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                || value.Equals(tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T v1, T v2, T v3, T v4) tuple, T value) where T : IEquatable<T>
+        internal static bool ContainsInternal<T>(ref (T v1, T v2, T v3, T v4) tuple, T value) where T : IEquatable<T>
             => value.Equals(tuple.v1)
                || value.Equals(tuple.v2)
                || value.Equals(tuple.v3)
                || value.Equals(tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T v1, T v2, T v3) tuple, T value) where T : IEquatable<T>
+        internal static bool ContainsInternal<T>(ref (T v1, T v2, T v3) tuple, T value) where T : IEquatable<T>
             => value.Equals(tuple.v1)
                || value.Equals(tuple.v2)
                || value.Equals(tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool Contains<T>(this (T v1, T v2) tuple, T value) where T : IEquatable<T>
+        internal static bool ContainsInternal<T>(ref (T v1, T v2) tuple, T value) where T : IEquatable<T>
             => value.Equals(tuple.v1)
                || value.Equals(tuple.v2);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool ContainsInternal<T>(ref (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, T value, IEqualityComparer<T> comparer)
+            => comparer.Equals(value, tuple.v1)
+               || comparer.Equals(value, tuple.v2)
+               || comparer.Equals(value, tuple.v3)
+               || comparer.Equals(value, tuple.v4)
+               || comparer.Equals(value, tuple.v5)
+               || comparer.Equals(value, tuple.v6)
+               || comparer.Equals(value, tuple.v7);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool ContainsInternal<T>(ref (T v1, T v2, T v3, T v4, T v5, T v6) tuple, T value, IEqualityComparer<T> comparer)
+            => comparer.Equals(value, tuple.v1)
+               || comparer.Equals(value, tuple.v2)
+               || comparer.Equals(value, tuple.v3)
+               || comparer.Equals(value, tuple.v4)
+               || comparer.Equals(value, tuple.v5)
+               || comparer.Equals(value, tuple.v6);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool ContainsInternal<T>(ref (T v1, T v2, T v3, T v4, T v5) tuple, T value, IEqualityComparer<T> comparer)
+            => comparer.Equals(value, tuple.v1)
+               || comparer.Equals(value, tuple.v2)
+               || comparer.Equals(value, tuple.v3)
+               || comparer.Equals(value, tuple.v4)
+               || comparer.Equals(value, tuple.v5);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool ContainsInternal<T>(ref (T v1, T v2, T v3, T v4) tuple, T value, IEqualityComparer<T> comparer)
+            => comparer.Equals(value, tuple.v1)
+               || comparer.Equals(value, tuple.v2)
+               || comparer.Equals(value, tuple.v3)
+               || comparer.Equals(value, tuple.v4);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool ContainsInternal<T>(ref (T v1, T v2, T v3) tuple, T value, IEqualityComparer<T> comparer)
+            => comparer.Equals(value, tuple.v1)
+               || comparer.Equals(value, tuple.v2)
+               || comparer.Equals(value, tuple.v3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool ContainsInternal<T>(ref (T v1, T v2) tuple, T value, IEqualityComparer<T> comparer)
+            => comparer.Equals(value, tuple.v1)
+               || comparer.Equals(value, tuple.v2);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, T value) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, value);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, T value) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, value);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, T value) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, value);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4) tuple, T value) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, value);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2, T v3) tuple, T value) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, value);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2) tuple, T value) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, value);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, T value, IEqualityComparer<T> comparer = null)
+            => ContainsInternal(ref tuple, value, comparer ?? EqualityComparer<T>.Default);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, T value, IEqualityComparer<T> comparer = null)
+            => ContainsInternal(ref tuple, value, comparer ?? EqualityComparer<T>.Default);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, T value, IEqualityComparer<T> comparer = null)
+            => ContainsInternal(ref tuple, value, comparer ?? EqualityComparer<T>.Default);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2, T v3, T v4) tuple, T value, IEqualityComparer<T> comparer = null)
+            => ContainsInternal(ref tuple, value, comparer ?? EqualityComparer<T>.Default);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2, T v3) tuple, T value, IEqualityComparer<T> comparer = null)
+            => ContainsInternal(ref tuple, value, comparer ?? EqualityComparer<T>.Default);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Contains<T>(this (T v1, T v2) tuple, T value, IEqualityComparer<T> comparer = null)
+            => ContainsInternal(ref tuple, value, comparer ?? EqualityComparer<T>.Default);
+
+        #endregion
+
+        #region ContainsAny
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2, T v3, T v4, T v5, T v6, T v7) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3)
+               || ContainsInternal(ref tuple, other.v4)
+               || ContainsInternal(ref tuple, other.v5)
+               || ContainsInternal(ref tuple, other.v6)
+               || ContainsInternal(ref tuple, other.v7);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2, T v3, T v4, T v5, T v6) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3)
+               || ContainsInternal(ref tuple, other.v4)
+               || ContainsInternal(ref tuple, other.v5)
+               || ContainsInternal(ref tuple, other.v6);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2, T v3, T v4, T v5) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3)
+               || ContainsInternal(ref tuple, other.v4)
+               || ContainsInternal(ref tuple, other.v5);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2, T v3, T v4) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3)
+               || ContainsInternal(ref tuple, other.v4);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2, T v3) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, (T v1, T v2, T v3, T v4, T v5, T v6) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3)
+               || ContainsInternal(ref tuple, other.v4)
+               || ContainsInternal(ref tuple, other.v5)
+               || ContainsInternal(ref tuple, other.v6);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, (T v1, T v2, T v3, T v4, T v5) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3)
+               || ContainsInternal(ref tuple, other.v4)
+               || ContainsInternal(ref tuple, other.v5);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, (T v1, T v2, T v3, T v4) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3)
+               || ContainsInternal(ref tuple, other.v4);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, (T v1, T v2, T v3) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, (T v1, T v2) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, (T v1, T v2, T v3, T v4, T v5) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3)
+               || ContainsInternal(ref tuple, other.v4)
+               || ContainsInternal(ref tuple, other.v5);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, (T v1, T v2, T v3, T v4) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3)
+               || ContainsInternal(ref tuple, other.v4);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, (T v1, T v2, T v3) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, (T v1, T v2) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4) tuple, (T v1, T v2, T v3, T v4) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3)
+               || ContainsInternal(ref tuple, other.v4);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4) tuple, (T v1, T v2, T v3) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4) tuple, (T v1, T v2) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3) tuple, (T v1, T v2, T v3) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2)
+               || ContainsInternal(ref tuple, other.v3);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3) tuple, (T v1, T v2) other) where T : IEquatable<T>
+            => ContainsInternal(ref tuple, other.v1)
+               || ContainsInternal(ref tuple, other.v2);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2, T v3, T v4, T v5, T v6, T v7) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer)
+                   || ContainsInternal(ref tuple, other.v4, comparer)
+                   || ContainsInternal(ref tuple, other.v5, comparer)
+                   || ContainsInternal(ref tuple, other.v6, comparer)
+                   || ContainsInternal(ref tuple, other.v7, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2, T v3, T v4, T v5, T v6) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer)
+                   || ContainsInternal(ref tuple, other.v4, comparer)
+                   || ContainsInternal(ref tuple, other.v5, comparer)
+                   || ContainsInternal(ref tuple, other.v6, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2, T v3, T v4, T v5) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer)
+                   || ContainsInternal(ref tuple, other.v4, comparer)
+                   || ContainsInternal(ref tuple, other.v5, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2, T v3, T v4) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer)
+                   || ContainsInternal(ref tuple, other.v4, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2, T v3) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, (T v1, T v2) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, (T v1, T v2, T v3, T v4, T v5, T v6) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer)
+                   || ContainsInternal(ref tuple, other.v4, comparer)
+                   || ContainsInternal(ref tuple, other.v5, comparer)
+                   || ContainsInternal(ref tuple, other.v6, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, (T v1, T v2, T v3, T v4, T v5) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer)
+                   || ContainsInternal(ref tuple, other.v4, comparer)
+                   || ContainsInternal(ref tuple, other.v5, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, (T v1, T v2, T v3, T v4) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer)
+                   || ContainsInternal(ref tuple, other.v4, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, (T v1, T v2, T v3) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, (T v1, T v2) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, (T v1, T v2, T v3, T v4, T v5) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer)
+                   || ContainsInternal(ref tuple, other.v4, comparer)
+                   || ContainsInternal(ref tuple, other.v5, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, (T v1, T v2, T v3, T v4) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer)
+                   || ContainsInternal(ref tuple, other.v4, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, (T v1, T v2, T v3) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, (T v1, T v2) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4) tuple, (T v1, T v2, T v3, T v4) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer)
+                   || ContainsInternal(ref tuple, other.v4, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4) tuple, (T v1, T v2, T v3) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3, T v4) tuple, (T v1, T v2) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3) tuple, (T v1, T v2, T v3) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer)
+                   || ContainsInternal(ref tuple, other.v3, comparer);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool ContainsAny<T>(this (T v1, T v2, T v3) tuple, (T v1, T v2) other, IEqualityComparer<T> comparer = null)
+        {
+            comparer ??= EqualityComparer<T>.Default;
+            return ContainsInternal(ref tuple, other.v1, comparer)
+                   || ContainsInternal(ref tuple, other.v2, comparer);
+        }
 
         #endregion
 
@@ -434,7 +861,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         #endregion
 
-        #region Sort      
+        #region Sort
 
         #region SortInternalSingleTuple
 
@@ -585,6 +1012,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
             return result;
         }
+
         private static (T, T, T) SortInternal<T>(ref (T, T, T) tuple, IComparer<T> comparer, int comparison)
         {
             (T i0, T i1, T i2) result = tuple;
@@ -625,22 +1053,101 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = values;
 
-            if (comparer.Compare(references.i1, references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
-            if (comparer.Compare(references.i3, references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
-            if (comparer.Compare(references.i5, references.i6) == comparison) { Swap(ref result.i5, ref result.i6); Swap(ref references.i5, ref references.i6); }
-            if (comparer.Compare(references.i0, references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
-            if (comparer.Compare(references.i3, references.i5) == comparison) { Swap(ref result.i3, ref result.i5); Swap(ref references.i3, ref references.i5); }
-            if (comparer.Compare(references.i4, references.i6) == comparison) { Swap(ref result.i4, ref result.i6); Swap(ref references.i4, ref references.i6); }
-            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
-            if (comparer.Compare(references.i4, references.i5) == comparison) { Swap(ref result.i4, ref result.i5); Swap(ref references.i4, ref references.i5); }
-            if (comparer.Compare(references.i2, references.i6) == comparison) { Swap(ref result.i2, ref result.i6); Swap(ref references.i2, ref references.i6); }
-            if (comparer.Compare(references.i0, references.i4) == comparison) { Swap(ref result.i0, ref result.i4); Swap(ref references.i0, ref references.i4); }
-            if (comparer.Compare(references.i1, references.i5) == comparison) { Swap(ref result.i1, ref result.i5); Swap(ref references.i1, ref references.i5); }
-            if (comparer.Compare(references.i0, references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
-            if (comparer.Compare(references.i2, references.i5) == comparison) { Swap(ref result.i2, ref result.i5); Swap(ref references.i2, ref references.i5); }
-            if (comparer.Compare(references.i1, references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
-            if (comparer.Compare(references.i2, references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
-            if (comparer.Compare(references.i2, references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+            if (comparer.Compare(references.i1, references.i2) == comparison)
+            {
+                Swap(ref result.i1, ref result.i2);
+                Swap(ref references.i1, ref references.i2);
+            }
+
+            if (comparer.Compare(references.i3, references.i4) == comparison)
+            {
+                Swap(ref result.i3, ref result.i4);
+                Swap(ref references.i3, ref references.i4);
+            }
+
+            if (comparer.Compare(references.i5, references.i6) == comparison)
+            {
+                Swap(ref result.i5, ref result.i6);
+                Swap(ref references.i5, ref references.i6);
+            }
+
+            if (comparer.Compare(references.i0, references.i2) == comparison)
+            {
+                Swap(ref result.i0, ref result.i2);
+                Swap(ref references.i0, ref references.i2);
+            }
+
+            if (comparer.Compare(references.i3, references.i5) == comparison)
+            {
+                Swap(ref result.i3, ref result.i5);
+                Swap(ref references.i3, ref references.i5);
+            }
+
+            if (comparer.Compare(references.i4, references.i6) == comparison)
+            {
+                Swap(ref result.i4, ref result.i6);
+                Swap(ref references.i4, ref references.i6);
+            }
+
+            if (comparer.Compare(references.i0, references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
+            if (comparer.Compare(references.i4, references.i5) == comparison)
+            {
+                Swap(ref result.i4, ref result.i5);
+                Swap(ref references.i4, ref references.i5);
+            }
+
+            if (comparer.Compare(references.i2, references.i6) == comparison)
+            {
+                Swap(ref result.i2, ref result.i6);
+                Swap(ref references.i2, ref references.i6);
+            }
+
+            if (comparer.Compare(references.i0, references.i4) == comparison)
+            {
+                Swap(ref result.i0, ref result.i4);
+                Swap(ref references.i0, ref references.i4);
+            }
+
+            if (comparer.Compare(references.i1, references.i5) == comparison)
+            {
+                Swap(ref result.i1, ref result.i5);
+                Swap(ref references.i1, ref references.i5);
+            }
+
+            if (comparer.Compare(references.i0, references.i3) == comparison)
+            {
+                Swap(ref result.i0, ref result.i3);
+                Swap(ref references.i0, ref references.i3);
+            }
+
+            if (comparer.Compare(references.i2, references.i5) == comparison)
+            {
+                Swap(ref result.i2, ref result.i5);
+                Swap(ref references.i2, ref references.i5);
+            }
+
+            if (comparer.Compare(references.i1, references.i3) == comparison)
+            {
+                Swap(ref result.i1, ref result.i3);
+                Swap(ref references.i1, ref references.i3);
+            }
+
+            if (comparer.Compare(references.i2, references.i4) == comparison)
+            {
+                Swap(ref result.i2, ref result.i4);
+                Swap(ref references.i2, ref references.i4);
+            }
+
+            if (comparer.Compare(references.i2, references.i3) == comparison)
+            {
+                Swap(ref result.i2, ref result.i3);
+                Swap(ref references.i2, ref references.i3);
+            }
 
             return result;
         }
@@ -649,22 +1156,101 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4, T i5, T i6) result = values;
 
-            if (references.i1.CompareTo(references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
-            if (references.i3.CompareTo(references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
-            if (references.i5.CompareTo(references.i6) == comparison) { Swap(ref result.i5, ref result.i6); Swap(ref references.i5, ref references.i6); }
-            if (references.i0.CompareTo(references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
-            if (references.i3.CompareTo(references.i5) == comparison) { Swap(ref result.i3, ref result.i5); Swap(ref references.i3, ref references.i5); }
-            if (references.i4.CompareTo(references.i6) == comparison) { Swap(ref result.i4, ref result.i6); Swap(ref references.i4, ref references.i6); }
-            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
-            if (references.i4.CompareTo(references.i5) == comparison) { Swap(ref result.i4, ref result.i5); Swap(ref references.i4, ref references.i5); }
-            if (references.i2.CompareTo(references.i6) == comparison) { Swap(ref result.i2, ref result.i6); Swap(ref references.i2, ref references.i6); }
-            if (references.i0.CompareTo(references.i4) == comparison) { Swap(ref result.i0, ref result.i4); Swap(ref references.i0, ref references.i4); }
-            if (references.i1.CompareTo(references.i5) == comparison) { Swap(ref result.i1, ref result.i5); Swap(ref references.i1, ref references.i5); }
-            if (references.i0.CompareTo(references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
-            if (references.i2.CompareTo(references.i5) == comparison) { Swap(ref result.i2, ref result.i5); Swap(ref references.i2, ref references.i5); }
-            if (references.i1.CompareTo(references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
-            if (references.i2.CompareTo(references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
-            if (references.i2.CompareTo(references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+            if (references.i1.CompareTo(references.i2) == comparison)
+            {
+                Swap(ref result.i1, ref result.i2);
+                Swap(ref references.i1, ref references.i2);
+            }
+
+            if (references.i3.CompareTo(references.i4) == comparison)
+            {
+                Swap(ref result.i3, ref result.i4);
+                Swap(ref references.i3, ref references.i4);
+            }
+
+            if (references.i5.CompareTo(references.i6) == comparison)
+            {
+                Swap(ref result.i5, ref result.i6);
+                Swap(ref references.i5, ref references.i6);
+            }
+
+            if (references.i0.CompareTo(references.i2) == comparison)
+            {
+                Swap(ref result.i0, ref result.i2);
+                Swap(ref references.i0, ref references.i2);
+            }
+
+            if (references.i3.CompareTo(references.i5) == comparison)
+            {
+                Swap(ref result.i3, ref result.i5);
+                Swap(ref references.i3, ref references.i5);
+            }
+
+            if (references.i4.CompareTo(references.i6) == comparison)
+            {
+                Swap(ref result.i4, ref result.i6);
+                Swap(ref references.i4, ref references.i6);
+            }
+
+            if (references.i0.CompareTo(references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
+            if (references.i4.CompareTo(references.i5) == comparison)
+            {
+                Swap(ref result.i4, ref result.i5);
+                Swap(ref references.i4, ref references.i5);
+            }
+
+            if (references.i2.CompareTo(references.i6) == comparison)
+            {
+                Swap(ref result.i2, ref result.i6);
+                Swap(ref references.i2, ref references.i6);
+            }
+
+            if (references.i0.CompareTo(references.i4) == comparison)
+            {
+                Swap(ref result.i0, ref result.i4);
+                Swap(ref references.i0, ref references.i4);
+            }
+
+            if (references.i1.CompareTo(references.i5) == comparison)
+            {
+                Swap(ref result.i1, ref result.i5);
+                Swap(ref references.i1, ref references.i5);
+            }
+
+            if (references.i0.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i0, ref result.i3);
+                Swap(ref references.i0, ref references.i3);
+            }
+
+            if (references.i2.CompareTo(references.i5) == comparison)
+            {
+                Swap(ref result.i2, ref result.i5);
+                Swap(ref references.i2, ref references.i5);
+            }
+
+            if (references.i1.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i1, ref result.i3);
+                Swap(ref references.i1, ref references.i3);
+            }
+
+            if (references.i2.CompareTo(references.i4) == comparison)
+            {
+                Swap(ref result.i2, ref result.i4);
+                Swap(ref references.i2, ref references.i4);
+            }
+
+            if (references.i2.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i2, ref result.i3);
+                Swap(ref references.i2, ref references.i3);
+            }
 
             return result;
         }
@@ -673,18 +1259,77 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4, T i5) result = tuple;
 
-            if (comparer.Compare(references.i1, references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
-            if (comparer.Compare(references.i4, references.i5) == comparison) { Swap(ref result.i4, ref result.i5); Swap(ref references.i4, ref references.i5); }
-            if (comparer.Compare(references.i0, references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
-            if (comparer.Compare(references.i3, references.i5) == comparison) { Swap(ref result.i3, ref result.i5); Swap(ref references.i3, ref references.i5); }
-            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
-            if (comparer.Compare(references.i3, references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
-            if (comparer.Compare(references.i2, references.i5) == comparison) { Swap(ref result.i2, ref result.i5); Swap(ref references.i2, ref references.i5); }
-            if (comparer.Compare(references.i0, references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
-            if (comparer.Compare(references.i1, references.i4) == comparison) { Swap(ref result.i1, ref result.i4); Swap(ref references.i1, ref references.i4); }
-            if (comparer.Compare(references.i2, references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
-            if (comparer.Compare(references.i1, references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
-            if (comparer.Compare(references.i2, references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+            if (comparer.Compare(references.i1, references.i2) == comparison)
+            {
+                Swap(ref result.i1, ref result.i2);
+                Swap(ref references.i1, ref references.i2);
+            }
+
+            if (comparer.Compare(references.i4, references.i5) == comparison)
+            {
+                Swap(ref result.i4, ref result.i5);
+                Swap(ref references.i4, ref references.i5);
+            }
+
+            if (comparer.Compare(references.i0, references.i2) == comparison)
+            {
+                Swap(ref result.i0, ref result.i2);
+                Swap(ref references.i0, ref references.i2);
+            }
+
+            if (comparer.Compare(references.i3, references.i5) == comparison)
+            {
+                Swap(ref result.i3, ref result.i5);
+                Swap(ref references.i3, ref references.i5);
+            }
+
+            if (comparer.Compare(references.i0, references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
+            if (comparer.Compare(references.i3, references.i4) == comparison)
+            {
+                Swap(ref result.i3, ref result.i4);
+                Swap(ref references.i3, ref references.i4);
+            }
+
+            if (comparer.Compare(references.i2, references.i5) == comparison)
+            {
+                Swap(ref result.i2, ref result.i5);
+                Swap(ref references.i2, ref references.i5);
+            }
+
+            if (comparer.Compare(references.i0, references.i3) == comparison)
+            {
+                Swap(ref result.i0, ref result.i3);
+                Swap(ref references.i0, ref references.i3);
+            }
+
+            if (comparer.Compare(references.i1, references.i4) == comparison)
+            {
+                Swap(ref result.i1, ref result.i4);
+                Swap(ref references.i1, ref references.i4);
+            }
+
+            if (comparer.Compare(references.i2, references.i4) == comparison)
+            {
+                Swap(ref result.i2, ref result.i4);
+                Swap(ref references.i2, ref references.i4);
+            }
+
+            if (comparer.Compare(references.i1, references.i3) == comparison)
+            {
+                Swap(ref result.i1, ref result.i3);
+                Swap(ref references.i1, ref references.i3);
+            }
+
+            if (comparer.Compare(references.i2, references.i3) == comparison)
+            {
+                Swap(ref result.i2, ref result.i3);
+                Swap(ref references.i2, ref references.i3);
+            }
 
             return result;
         }
@@ -693,18 +1338,77 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4, T i5) result = tuple;
 
-            if (references.i1.CompareTo(references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
-            if (references.i4.CompareTo(references.i5) == comparison) { Swap(ref result.i4, ref result.i5); Swap(ref references.i4, ref references.i5); }
-            if (references.i0.CompareTo(references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
-            if (references.i3.CompareTo(references.i5) == comparison) { Swap(ref result.i3, ref result.i5); Swap(ref references.i3, ref references.i5); }
-            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
-            if (references.i3.CompareTo(references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
-            if (references.i2.CompareTo(references.i5) == comparison) { Swap(ref result.i2, ref result.i5); Swap(ref references.i2, ref references.i5); }
-            if (references.i0.CompareTo(references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
-            if (references.i1.CompareTo(references.i4) == comparison) { Swap(ref result.i1, ref result.i4); Swap(ref references.i1, ref references.i4); }
-            if (references.i2.CompareTo(references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
-            if (references.i1.CompareTo(references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
-            if (references.i2.CompareTo(references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
+            if (references.i1.CompareTo(references.i2) == comparison)
+            {
+                Swap(ref result.i1, ref result.i2);
+                Swap(ref references.i1, ref references.i2);
+            }
+
+            if (references.i4.CompareTo(references.i5) == comparison)
+            {
+                Swap(ref result.i4, ref result.i5);
+                Swap(ref references.i4, ref references.i5);
+            }
+
+            if (references.i0.CompareTo(references.i2) == comparison)
+            {
+                Swap(ref result.i0, ref result.i2);
+                Swap(ref references.i0, ref references.i2);
+            }
+
+            if (references.i3.CompareTo(references.i5) == comparison)
+            {
+                Swap(ref result.i3, ref result.i5);
+                Swap(ref references.i3, ref references.i5);
+            }
+
+            if (references.i0.CompareTo(references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
+            if (references.i3.CompareTo(references.i4) == comparison)
+            {
+                Swap(ref result.i3, ref result.i4);
+                Swap(ref references.i3, ref references.i4);
+            }
+
+            if (references.i2.CompareTo(references.i5) == comparison)
+            {
+                Swap(ref result.i2, ref result.i5);
+                Swap(ref references.i2, ref references.i5);
+            }
+
+            if (references.i0.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i0, ref result.i3);
+                Swap(ref references.i0, ref references.i3);
+            }
+
+            if (references.i1.CompareTo(references.i4) == comparison)
+            {
+                Swap(ref result.i1, ref result.i4);
+                Swap(ref references.i1, ref references.i4);
+            }
+
+            if (references.i2.CompareTo(references.i4) == comparison)
+            {
+                Swap(ref result.i2, ref result.i4);
+                Swap(ref references.i2, ref references.i4);
+            }
+
+            if (references.i1.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i1, ref result.i3);
+                Swap(ref references.i1, ref references.i3);
+            }
+
+            if (references.i2.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i2, ref result.i3);
+                Swap(ref references.i2, ref references.i3);
+            }
 
             return result;
         }
@@ -713,15 +1417,59 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4) result = tuple;
 
-            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
-            if (comparer.Compare(references.i3, references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
-            if (comparer.Compare(references.i2, references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
-            if (comparer.Compare(references.i2, references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
-            if (comparer.Compare(references.i1, references.i4) == comparison) { Swap(ref result.i1, ref result.i4); Swap(ref references.i1, ref references.i4); }
-            if (comparer.Compare(references.i0, references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
-            if (comparer.Compare(references.i0, references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
-            if (comparer.Compare(references.i1, references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
-            if (comparer.Compare(references.i1, references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+            if (comparer.Compare(references.i0, references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
+            if (comparer.Compare(references.i3, references.i4) == comparison)
+            {
+                Swap(ref result.i3, ref result.i4);
+                Swap(ref references.i3, ref references.i4);
+            }
+
+            if (comparer.Compare(references.i2, references.i4) == comparison)
+            {
+                Swap(ref result.i2, ref result.i4);
+                Swap(ref references.i2, ref references.i4);
+            }
+
+            if (comparer.Compare(references.i2, references.i3) == comparison)
+            {
+                Swap(ref result.i2, ref result.i3);
+                Swap(ref references.i2, ref references.i3);
+            }
+
+            if (comparer.Compare(references.i1, references.i4) == comparison)
+            {
+                Swap(ref result.i1, ref result.i4);
+                Swap(ref references.i1, ref references.i4);
+            }
+
+            if (comparer.Compare(references.i0, references.i3) == comparison)
+            {
+                Swap(ref result.i0, ref result.i3);
+                Swap(ref references.i0, ref references.i3);
+            }
+
+            if (comparer.Compare(references.i0, references.i2) == comparison)
+            {
+                Swap(ref result.i0, ref result.i2);
+                Swap(ref references.i0, ref references.i2);
+            }
+
+            if (comparer.Compare(references.i1, references.i3) == comparison)
+            {
+                Swap(ref result.i1, ref result.i3);
+                Swap(ref references.i1, ref references.i3);
+            }
+
+            if (comparer.Compare(references.i1, references.i2) == comparison)
+            {
+                Swap(ref result.i1, ref result.i2);
+                Swap(ref references.i1, ref references.i2);
+            }
 
             return result;
         }
@@ -730,15 +1478,59 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3, T i4) result = tuple;
 
-            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
-            if (references.i3.CompareTo(references.i4) == comparison) { Swap(ref result.i3, ref result.i4); Swap(ref references.i3, ref references.i4); }
-            if (references.i2.CompareTo(references.i4) == comparison) { Swap(ref result.i2, ref result.i4); Swap(ref references.i2, ref references.i4); }
-            if (references.i2.CompareTo(references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
-            if (references.i1.CompareTo(references.i4) == comparison) { Swap(ref result.i1, ref result.i4); Swap(ref references.i1, ref references.i4); }
-            if (references.i0.CompareTo(references.i3) == comparison) { Swap(ref result.i0, ref result.i3); Swap(ref references.i0, ref references.i3); }
-            if (references.i0.CompareTo(references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
-            if (references.i1.CompareTo(references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
-            if (references.i1.CompareTo(references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+            if (references.i0.CompareTo(references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
+            if (references.i3.CompareTo(references.i4) == comparison)
+            {
+                Swap(ref result.i3, ref result.i4);
+                Swap(ref references.i3, ref references.i4);
+            }
+
+            if (references.i2.CompareTo(references.i4) == comparison)
+            {
+                Swap(ref result.i2, ref result.i4);
+                Swap(ref references.i2, ref references.i4);
+            }
+
+            if (references.i2.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i2, ref result.i3);
+                Swap(ref references.i2, ref references.i3);
+            }
+
+            if (references.i1.CompareTo(references.i4) == comparison)
+            {
+                Swap(ref result.i1, ref result.i4);
+                Swap(ref references.i1, ref references.i4);
+            }
+
+            if (references.i0.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i0, ref result.i3);
+                Swap(ref references.i0, ref references.i3);
+            }
+
+            if (references.i0.CompareTo(references.i2) == comparison)
+            {
+                Swap(ref result.i0, ref result.i2);
+                Swap(ref references.i0, ref references.i2);
+            }
+
+            if (references.i1.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i1, ref result.i3);
+                Swap(ref references.i1, ref references.i3);
+            }
+
+            if (references.i1.CompareTo(references.i2) == comparison)
+            {
+                Swap(ref result.i1, ref result.i2);
+                Swap(ref references.i1, ref references.i2);
+            }
 
             return result;
         }
@@ -747,11 +1539,35 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3) result = tuple;
 
-            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
-            if (comparer.Compare(references.i2, references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
-            if (comparer.Compare(references.i0, references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
-            if (comparer.Compare(references.i1, references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
-            if (comparer.Compare(references.i1, references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+            if (comparer.Compare(references.i0, references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
+            if (comparer.Compare(references.i2, references.i3) == comparison)
+            {
+                Swap(ref result.i2, ref result.i3);
+                Swap(ref references.i2, ref references.i3);
+            }
+
+            if (comparer.Compare(references.i0, references.i2) == comparison)
+            {
+                Swap(ref result.i0, ref result.i2);
+                Swap(ref references.i0, ref references.i2);
+            }
+
+            if (comparer.Compare(references.i1, references.i3) == comparison)
+            {
+                Swap(ref result.i1, ref result.i3);
+                Swap(ref references.i1, ref references.i3);
+            }
+
+            if (comparer.Compare(references.i1, references.i2) == comparison)
+            {
+                Swap(ref result.i1, ref result.i2);
+                Swap(ref references.i1, ref references.i2);
+            }
 
             return result;
         }
@@ -760,43 +1576,108 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         {
             (T i0, T i1, T i2, T i3) result = tuple;
 
-            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
-            if (references.i2.CompareTo(references.i3) == comparison) { Swap(ref result.i2, ref result.i3); Swap(ref references.i2, ref references.i3); }
-            if (references.i0.CompareTo(references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
-            if (references.i1.CompareTo(references.i3) == comparison) { Swap(ref result.i1, ref result.i3); Swap(ref references.i1, ref references.i3); }
-            if (references.i1.CompareTo(references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
+            if (references.i0.CompareTo(references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
+            if (references.i2.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i2, ref result.i3);
+                Swap(ref references.i2, ref references.i3);
+            }
+
+            if (references.i0.CompareTo(references.i2) == comparison)
+            {
+                Swap(ref result.i0, ref result.i2);
+                Swap(ref references.i0, ref references.i2);
+            }
+
+            if (references.i1.CompareTo(references.i3) == comparison)
+            {
+                Swap(ref result.i1, ref result.i3);
+                Swap(ref references.i1, ref references.i3);
+            }
+
+            if (references.i1.CompareTo(references.i2) == comparison)
+            {
+                Swap(ref result.i1, ref result.i2);
+                Swap(ref references.i1, ref references.i2);
+            }
 
             return result;
         }
+
         private static (T, T, T) SortInternal<T, U>(ref (T, T, T) tuple, ref (U i0, U i1, U i2) references, IComparer<U> comparer, int comparison)
         {
             (T i0, T i1, T i2) result = tuple;
-            if (comparer.Compare(references.i1, references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
-            if (comparer.Compare(references.i0, references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
-            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (comparer.Compare(references.i1, references.i2) == comparison)
+            {
+                Swap(ref result.i1, ref result.i2);
+                Swap(ref references.i1, ref references.i2);
+            }
+
+            if (comparer.Compare(references.i0, references.i2) == comparison)
+            {
+                Swap(ref result.i0, ref result.i2);
+                Swap(ref references.i0, ref references.i2);
+            }
+
+            if (comparer.Compare(references.i0, references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
             return result;
         }
 
         private static (T, T, T) SortInternal<T, U>(ref (T, T, T) tuple, ref (U i0, U i1, U i2) references, int comparison) where U : IComparable<U>
         {
             (T i0, T i1, T i2) result = tuple;
-            if (references.i1.CompareTo(references.i2) == comparison) { Swap(ref result.i1, ref result.i2); Swap(ref references.i1, ref references.i2); }
-            if (references.i0.CompareTo(references.i2) == comparison) { Swap(ref result.i0, ref result.i2); Swap(ref references.i0, ref references.i2); }
-            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (references.i1.CompareTo(references.i2) == comparison)
+            {
+                Swap(ref result.i1, ref result.i2);
+                Swap(ref references.i1, ref references.i2);
+            }
+
+            if (references.i0.CompareTo(references.i2) == comparison)
+            {
+                Swap(ref result.i0, ref result.i2);
+                Swap(ref references.i0, ref references.i2);
+            }
+
+            if (references.i0.CompareTo(references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
             return result;
         }
 
         private static (T, T) SortInternal<T, U>(ref (T, T) tuple, ref (U i0, U i1) references, IComparer<U> comparer, int comparison)
         {
             (T i0, T i1) result = tuple;
-            if (comparer.Compare(references.i0, references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (comparer.Compare(references.i0, references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
             return result;
         }
 
         private static (T, T) SortInternal<T, U>(ref (T, T) tuple, ref (U i0, U i1) references, int comparison) where U : IComparable<U>
         {
             (T i0, T i1) result = tuple;
-            if (references.i0.CompareTo(references.i1) == comparison) { Swap(ref result.i0, ref result.i1); Swap(ref references.i0, ref references.i1); }
+            if (references.i0.CompareTo(references.i1) == comparison)
+            {
+                Swap(ref result.i0, ref result.i1);
+                Swap(ref references.i0, ref references.i1);
+            }
+
             return result;
         }
 
@@ -1656,27 +2537,27 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple)
-            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7 };
+            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6, tuple.v7};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple)
-            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6 };
+            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5, tuple.v6};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4, T v5) tuple)
-            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5 };
+            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4, tuple.v5};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3, T v4) tuple)
-            => new T[] { tuple.v1, tuple.v2, tuple.v3, tuple.v4 };
+            => new T[] {tuple.v1, tuple.v2, tuple.v3, tuple.v4};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2, T v3) tuple)
-            => new T[] { tuple.v1, tuple.v2, tuple.v3 };
+            => new T[] {tuple.v1, tuple.v2, tuple.v3};
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] AsArray<T>(this (T v1, T v2) tuple)
-            => new T[] { tuple.v1, tuple.v2 };
+            => new T[] {tuple.v1, tuple.v2};
 
         #endregion
 
@@ -3430,27 +4311,27 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6, TIn v7) tuple) where TIn : class where TOut : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5, (TOut)(object)tuple.v6, (TOut)(object)tuple.v7);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5, (TOut) (object) tuple.v6, (TOut) (object) tuple.v7);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5, TIn v6) tuple) where TIn : class where TOut : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5, (TOut)(object)tuple.v6);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5, (TOut) (object) tuple.v6);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4, TIn v5) tuple) where TIn : class where TOut : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4, (TOut)(object)tuple.v5);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4, (TOut) (object) tuple.v5);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3, TIn v4) tuple) where TIn : class where TOut : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3, (TOut)(object)tuple.v4);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3, (TOut) (object) tuple.v4);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2, TIn v3) tuple) where TIn : class where TOut : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2, (TOut)(object)tuple.v3);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2, (TOut) (object) tuple.v3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (TOut, TOut) Cast<TIn, TOut>(this (TIn v1, TIn v2) tuple) where TIn : class where TOut : class
-            => ((TOut)(object)tuple.v1, (TOut)(object)tuple.v2);
+            => ((TOut) (object) tuple.v1, (TOut) (object) tuple.v2);
 
         #endregion
 

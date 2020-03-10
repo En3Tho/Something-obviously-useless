@@ -8,8 +8,13 @@
     <Title>ExtensionsAndStuff</Title>
     <Authors>En3Tho-</Authors>
     <Description>Stuff you might find not really useful</Description>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <Copyright>Copyright (c) 2020 En3Tho-</Copyright>
+    <PackageProjectUrl>https://github.com/En3Tho/Something-obviously-useless/tree/master/SomethingObviouslyUseless/ExtensionsAndStuff</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/En3Tho/Something-obviously-useless/blob/master/Licence.txt</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/En3Tho/Something-obviously-useless</RepositoryUrl>
+    <PackageVersion>1.0.1</PackageVersion>
   </PropertyGroup>  
 
   <ItemGroup>
