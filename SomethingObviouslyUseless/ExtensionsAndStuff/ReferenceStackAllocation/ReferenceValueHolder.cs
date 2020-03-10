@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !NETSTANDARD2_0
+
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -51,3 +53,5 @@ namespace ExtensionsAndStuff.ReferenceStackAllocation
         public Span<T> AsSpan() => MemoryMarshal.CreateSpan(ref _1._1._1._1._1, 64);
     }
 }
+
+#endif

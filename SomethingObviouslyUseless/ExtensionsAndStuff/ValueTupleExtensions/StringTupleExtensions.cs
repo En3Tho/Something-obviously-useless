@@ -189,6 +189,8 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                    || s.StartsWith(tuple.Item2, comparison);
         }
 
+#if !NETSTANDARD2_0
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool StartsWithAny(this string s, (char, char, char, char, char, char, char) tuple)
         {
@@ -247,6 +249,8 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                    || s.StartsWith(tuple.Item2);
         }
 
+#endif
+        
         #endregion
 
         #region StringEndsWithAny
@@ -307,7 +311,9 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
             return s.EndsWith(tuple.Item1, comparison)
                    || s.EndsWith(tuple.Item2, comparison);
         }
-
+        
+#if !NETSTANDARD2_0
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool EndsWithAny(this string s, (char, char, char, char, char, char, char) tuple)
         {
@@ -366,6 +372,8 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                    || s.EndsWith(tuple.Item2);
         }
         
+#endif
+        
         #endregion
 
         #region ContainedByAny
@@ -373,6 +381,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ContainedByAny(this string s, (string, string, string, string, string, string, string) tuple, StringComparison comparison = StringComparison.Ordinal)
         {
+#if !NETSTANDARD2_0
             return tuple.Item1.Contains(s, comparison)
                    || tuple.Item2.Contains(s, comparison)
                    || tuple.Item3.Contains(s, comparison)
@@ -380,51 +389,96 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
                    || tuple.Item5.Contains(s, comparison)
                    || tuple.Item6.Contains(s, comparison)
                    || tuple.Item7.Contains(s, comparison);
+            #else
+            return tuple.Item1.IndexOf(s, comparison) > -1
+                   || tuple.Item2.IndexOf(s, comparison) > -1
+                   || tuple.Item3.IndexOf(s, comparison) > -1
+                   || tuple.Item4.IndexOf(s, comparison) > -1
+                   || tuple.Item5.IndexOf(s, comparison) > -1
+                   || tuple.Item6.IndexOf(s, comparison) > -1
+                   || tuple.Item7.IndexOf(s, comparison) > -1;
+#endif
+            
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ContainedByAny(this string s, (string, string, string, string, string, string) tuple, StringComparison comparison = StringComparison.Ordinal)
         {
+#if !NETSTANDARD2_0
             return tuple.Item1.Contains(s, comparison)
                    || tuple.Item2.Contains(s, comparison)
                    || tuple.Item3.Contains(s, comparison)
                    || tuple.Item4.Contains(s, comparison)
                    || tuple.Item5.Contains(s, comparison)
                    || tuple.Item6.Contains(s, comparison);
+#else
+            return tuple.Item1.IndexOf(s, comparison) > -1
+                   || tuple.Item2.IndexOf(s, comparison) > -1
+                   || tuple.Item3.IndexOf(s, comparison) > -1
+                   || tuple.Item4.IndexOf(s, comparison) > -1
+                   || tuple.Item5.IndexOf(s, comparison) > -1
+                   || tuple.Item6.IndexOf(s, comparison) > -1;
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ContainedByAny(this string s, (string, string, string, string, string) tuple, StringComparison comparison = StringComparison.Ordinal)
         {
+#if !NETSTANDARD2_0
             return tuple.Item1.Contains(s, comparison)
                    || tuple.Item2.Contains(s, comparison)
                    || tuple.Item3.Contains(s, comparison)
                    || tuple.Item4.Contains(s, comparison)
                    || tuple.Item5.Contains(s, comparison);
+#else
+            return tuple.Item1.IndexOf(s, comparison) > -1
+                   || tuple.Item2.IndexOf(s, comparison) > -1
+                   || tuple.Item3.IndexOf(s, comparison) > -1
+                   || tuple.Item4.IndexOf(s, comparison) > -1
+                   || tuple.Item5.IndexOf(s, comparison) > -1;
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ContainedByAny(this string s, (string, string, string, string) tuple, StringComparison comparison = StringComparison.Ordinal)
         {
+#if !NETSTANDARD2_0
             return tuple.Item1.Contains(s, comparison)
                    || tuple.Item2.Contains(s, comparison)
                    || tuple.Item3.Contains(s, comparison)
                    || tuple.Item4.Contains(s, comparison);
+#else
+            return tuple.Item1.IndexOf(s, comparison) > -1
+                   || tuple.Item2.IndexOf(s, comparison) > -1
+                   || tuple.Item3.IndexOf(s, comparison) > -1
+                   || tuple.Item4.IndexOf(s, comparison) > -1;
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ContainedByAny(this string s, (string, string, string) tuple, StringComparison comparison = StringComparison.Ordinal)
         {
+#if !NETSTANDARD2_0
             return tuple.Item1.Contains(s, comparison)
                    || tuple.Item2.Contains(s, comparison)
                    || tuple.Item3.Contains(s, comparison);
+#else
+            return tuple.Item1.IndexOf(s, comparison) > -1
+                   || tuple.Item2.IndexOf(s, comparison) > -1
+                   || tuple.Item3.IndexOf(s, comparison) > -1;
+#endif
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool ContainedByAny(this string s, (string, string) tuple, StringComparison comparison = StringComparison.Ordinal)
         {
+#if !NETSTANDARD2_0
             return tuple.Item1.Contains(s, comparison)
                    || tuple.Item2.Contains(s, comparison);
+#else
+            return tuple.Item1.IndexOf(s, comparison) > -1
+                   || tuple.Item2.IndexOf(s, comparison) > -1;
+#endif
         }
 
         #endregion

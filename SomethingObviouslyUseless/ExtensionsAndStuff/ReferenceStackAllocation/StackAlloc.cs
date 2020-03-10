@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !NETSTANDARD2_0
+
+using System;
 using System.Runtime.CompilerServices;
 
 namespace ExtensionsAndStuff.ReferenceStackAllocation
@@ -26,3 +28,5 @@ namespace ExtensionsAndStuff.ReferenceStackAllocation
             => new ReferenceValueHolder64<T>();
     }
 }
+
+#endif

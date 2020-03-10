@@ -211,7 +211,7 @@ namespace ExtensionsAndStuff.Linq
         {
             Debug.Assert(other != null);
  
-            foreach (var item in other)
+            foreach (var item in other!)
             {
                 Add(item);
             }
