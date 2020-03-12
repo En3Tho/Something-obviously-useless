@@ -2,7 +2,7 @@
 
 namespace ExtensionsAndStuff.ValueTupleExtensions
 {
-    class ValueTupleValidationException : Exception
+    public class ValueTupleValidationException : Exception
     {
         public static void Throw(string message)
         {

@@ -2,7 +2,7 @@
 
 namespace ExtensionsAndStuff.HelperClasses
 {
-    public static class ThrowHelper
+    internal static class ThrowHelper
     {
         public static void ThrowArgumentNullException(string paramName) => throw new ArgumentNullException(paramName);
  

@@ -2,7 +2,7 @@
 
 namespace ExtensionsAndStuff.HelperClasses
 {
-    public class MiscHelper
+    internal class MiscHelper
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Swap<T>(ref T a, ref T b)
