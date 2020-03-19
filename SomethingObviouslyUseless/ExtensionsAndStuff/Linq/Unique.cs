@@ -7,32 +7,16 @@ namespace ExtensionsAndStuff.Linq
     {
         public static IEnumerable<TSource> Unique<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
         {
-            if (first == null)
-            {
-                ThrowHelper.ThrowArgumentNullException(nameof(first));
-            }
-
-            if (second == null)
-            {
-                ThrowHelper.ThrowArgumentNullException(nameof(second));
-            }
-
-            return UniqueIterator(first!, second!, null);
+            first ??= ThrowHelper.ThrowArgumentNullException(first, nameof(first));
+            second ??= ThrowHelper.ThrowArgumentNullException(second, nameof(second));
+            return UniqueIterator(first, second, EqualityComparer<TSource>.Default);
         }
 
         public static IEnumerable<TSource> Unique<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource>? comparer)
         {
-            if (first == null)
-            {
-                ThrowHelper.ThrowArgumentNullException(nameof(first));
-            }
-
-            if (second == null)
-            {
-                ThrowHelper.ThrowArgumentNullException(nameof(second));
-            }
-
-            return UniqueIterator(first!, second!, comparer);
+            first ??= ThrowHelper.ThrowArgumentNullException(first, nameof(first));
+            second ??= ThrowHelper.ThrowArgumentNullException(second, nameof(second));
+            return UniqueIterator(first, second, comparer);
         }
 
         private static IEnumerable<TSource> UniqueIterator<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource>? comparer)

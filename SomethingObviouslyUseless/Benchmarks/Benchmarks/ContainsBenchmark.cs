@@ -1,9 +1,7 @@
-﻿using System;
-using BenchmarkDotNet.Attributes;
-using Benchmarks.Classes;
+﻿using BenchmarkDotNet.Attributes;
 using ExtensionsAndStuff.ValueTupleExtensions;
 
-namespace Benchmarks
+namespace Benchmarks.Benchmarks
 {
     [MemoryDiagnoser]
     public class ContainsBenchmark

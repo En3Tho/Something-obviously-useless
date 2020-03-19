@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace ExtensionsAndStuff.ValueTupleExtensions
@@ -6,6 +7,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
     public static partial class MiscellaneousExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [return: MaybeNull]
         public static T LastOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v7;
@@ -21,6 +23,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [return: MaybeNull]
         public static T LastOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v6;
@@ -35,6 +38,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [return: MaybeNull]
         public static T LastOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v5;
@@ -48,6 +52,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [return: MaybeNull]
         public static T LastOrDefault<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v4;
@@ -60,6 +65,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [return: MaybeNull]
         public static T LastOrDefault<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v3;
@@ -71,6 +77,7 @@ namespace ExtensionsAndStuff.ValueTupleExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [return: MaybeNull]
         public static T LastOrDefault<T>(this (T v1, T v2) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v2;

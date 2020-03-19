@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/En3Tho/Something-obviously-useless/tree/master/SomethingObviouslyUseless/ExtensionsAndStuff</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/En3Tho/Something-obviously-useless/blob/master/Licence.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/En3Tho/Something-obviously-useless</RepositoryUrl>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
   </PropertyGroup>  
 
   <ItemGroup>

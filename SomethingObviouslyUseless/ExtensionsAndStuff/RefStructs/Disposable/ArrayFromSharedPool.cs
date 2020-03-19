@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace ExtensionsAndStuff.RefStructs
 {
-    public struct ArrayFromSharedPool<T>
+    public readonly struct ArrayFromSharedPool<T>
     {
         private readonly bool m_clearOnReturn;
 
@@ -19,7 +19,7 @@ namespace ExtensionsAndStuff.RefStructs
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Dispose()
         {
-            if (Value != null)
+            if (Value is { })
                 ArrayPool<T>.Shared.Return(Value, m_clearOnReturn);
         }
     }

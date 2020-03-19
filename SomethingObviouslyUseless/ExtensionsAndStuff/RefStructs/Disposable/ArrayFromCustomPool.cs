@@ -16,11 +16,9 @@ namespace ExtensionsAndStuff.RefStructs
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public PooledArrayCustom(ArrayPool<T> pool, int minimumLength, bool clearOnReturn = true)
             {
-                if (pool == null) ThrowHelper.ThrowArgumentNullException(nameof(pool));
-                
-                m_Pool = pool!;
+                m_Pool = pool ?? ThrowHelper.ThrowArgumentNullException(pool, nameof(pool))!;
                 m_ClearOnReturn = clearOnReturn;
-                Value = pool!.Rent(minimumLength);
+                Value = m_Pool!.Rent(minimumLength);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
