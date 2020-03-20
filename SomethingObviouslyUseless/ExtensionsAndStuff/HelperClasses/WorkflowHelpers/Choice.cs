@@ -1,7 +1,11 @@
-﻿namespace ExtensionsAndStuff.HelperClasses
+﻿namespace ExtensionsAndStuff.HelperClasses.WorkflowHelpers
 {
     public abstract class Choice
     {
+        /// <summary>
+        /// Value being held by this Choice object. Note that the type of this value is dictated by generic descendants of this class, for example Choice of T1, T2.
+        /// Proper way of handling this value is via switch statement or switch expression using types provided by descendants.
+        /// </summary>
         public object Value { get; }
 
         protected Choice(object value) => Value = value ?? ThrowHelper.ThrowArgumentNullException(value, nameof(value));
