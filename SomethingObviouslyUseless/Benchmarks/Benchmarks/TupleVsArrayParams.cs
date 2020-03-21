@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using BenchmarkDotNet.Attributes;
 using Benchmarks.Classes;
 using En3Tho.ValueTupleExtensions;
+using En3Tho.ValueTupleExtensions.LinqLikeExtensions;
 using ExtensionsAndStuff.ReferenceStackAllocation;
 using ExtensionsAndStuff.RefStructs.SpanList;
 

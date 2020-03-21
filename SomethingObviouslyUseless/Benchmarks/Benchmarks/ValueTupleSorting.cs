@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BenchmarkDotNet.Attributes;
 using En3Tho.ValueTupleExtensions;
+using En3Tho.ValueTupleExtensions.LinqLikeExtensions;
 
 namespace Benchmarks.Benchmarks
 {

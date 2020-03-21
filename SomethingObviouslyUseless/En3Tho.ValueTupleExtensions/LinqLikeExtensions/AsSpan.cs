@@ -4,7 +4,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace En3Tho.ValueTupleExtensions
+namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 {
     public static partial class MemoryMarshalExtensions
     {

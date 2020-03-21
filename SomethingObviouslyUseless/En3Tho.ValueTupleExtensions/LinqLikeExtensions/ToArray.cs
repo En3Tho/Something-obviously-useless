@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace En3Tho.ValueTupleExtensions
+namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 {
     public static partial class ValueTupleLinqLikeExtensions
     {

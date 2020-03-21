@@ -1,9 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace En3Tho.ValueTupleExtensions
+namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 {
     public static partial class ValueTupleLinqLikeExtensions
-    { 
+    {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Average(this (int v1, int v2, int v3, int v4, int v5, int v6, int v7) tuple)
             => (tuple.v1 + tuple.v2 + tuple.v3 + tuple.v4 + tuple.v5 + tuple.v6 + tuple.v7) / 7;

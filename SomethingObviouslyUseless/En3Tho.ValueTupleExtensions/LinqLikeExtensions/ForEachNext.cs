@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace ExtensionsAndStuff.ValueTupleExtensions
+namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 {
     public static partial class MiscellaneousExtensions
     {

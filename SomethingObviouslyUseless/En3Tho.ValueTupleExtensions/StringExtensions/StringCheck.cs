@@ -1,11 +1,10 @@
-﻿using System;
-using static En3Tho.HelperClasses.ThrowHelper;
+﻿using static En3Tho.HelperClasses.ThrowHelper;
 
-namespace En3Tho.ValueTupleExtensions
+namespace En3Tho.ValueTupleExtensions.StringExtensions
 {
     public static class ValueTupleStringCheckExtensions
     {
-        #region NullOrEmpty
+#region NullOrEmpty
 
         private const string NullOrEmptyMessage = "String is null or empty.";
 
@@ -49,7 +48,8 @@ namespace En3Tho.ValueTupleExtensions
             return tuple;
         }
 
-        public static (string, string, string, string, string, string) NoECheck(this (string str1, string str2, string str3, string str4, string str5, string str6) tuple, string message = NullOrEmptyMessage)
+        public static (string, string, string, string, string, string) NoECheck(this (string str1, string str2, string str3, string str4, string str5, string str6) tuple,
+            string message = NullOrEmptyMessage)
         {
             if (string.IsNullOrEmpty(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
             if (string.IsNullOrEmpty(tuple.str2)) ThrowArgumentException(message, nameof(tuple.str2));
@@ -60,7 +60,8 @@ namespace En3Tho.ValueTupleExtensions
             return tuple;
         }
 
-        public static (string, string, string, string, string, string, string) NoECheck(this (string str1, string str2, string str3, string str4, string str5, string str6, string str7) tuple, string message = NullOrEmptyMessage)
+        public static (string, string, string, string, string, string, string) NoECheck(this (string str1, string str2, string str3, string str4, string str5, string str6, string str7) tuple,
+            string message = NullOrEmptyMessage)
         {
             if (string.IsNullOrEmpty(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
             if (string.IsNullOrEmpty(tuple.str2)) ThrowArgumentException(message, nameof(tuple.str2));
@@ -72,9 +73,9 @@ namespace En3Tho.ValueTupleExtensions
             return tuple;
         }
 
-        #endregion
+#endregion
 
-        #region NullOrWhiteSpace
+#region NullOrWhiteSpace
 
         private const string NullOrEmptyOrWhiteSpaceMessage = "String is null or empty or white space.";
 
@@ -118,7 +119,8 @@ namespace En3Tho.ValueTupleExtensions
             return tuple;
         }
 
-        public static (string, string, string, string, string, string) NoEWSCheck(this (string str1, string str2, string str3, string str4, string str5, string str6) tuple, string message = NullOrEmptyOrWhiteSpaceMessage)
+        public static (string, string, string, string, string, string) NoEWSCheck(this (string str1, string str2, string str3, string str4, string str5, string str6) tuple,
+            string message = NullOrEmptyOrWhiteSpaceMessage)
         {
             if (string.IsNullOrWhiteSpace(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
             if (string.IsNullOrWhiteSpace(tuple.str2)) ThrowArgumentException(message, nameof(tuple.str2));
@@ -129,7 +131,8 @@ namespace En3Tho.ValueTupleExtensions
             return tuple;
         }
 
-        public static (string, string, string, string, string, string, string) NoEWSCheck(this (string str1, string str2, string str3, string str4, string str5, string str6, string str7) tuple, string message = NullOrEmptyOrWhiteSpaceMessage)
+        public static (string, string, string, string, string, string, string) NoEWSCheck(this (string str1, string str2, string str3, string str4, string str5, string str6, string str7) tuple,
+            string message = NullOrEmptyOrWhiteSpaceMessage)
         {
             if (string.IsNullOrWhiteSpace(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
             if (string.IsNullOrWhiteSpace(tuple.str2)) ThrowArgumentException(message, nameof(tuple.str2));
@@ -141,6 +144,6 @@ namespace En3Tho.ValueTupleExtensions
             return tuple;
         }
 
-        #endregion
+#endregion
     }
 }

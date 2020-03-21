@@ -1,5 +1,5 @@
 ﻿using En3Tho.ValueTupleExtensions;
-using ExtensionsAndStuff.ValueTupleExtensions;
+using En3Tho.ValueTupleExtensions.OtherExtensions;
 
 namespace Benchmarks.Classes
 {

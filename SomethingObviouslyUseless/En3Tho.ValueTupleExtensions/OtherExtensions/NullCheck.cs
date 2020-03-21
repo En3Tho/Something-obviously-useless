@@ -1,8 +1,7 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using static En3Tho.HelperClasses.ThrowHelper;
 
-namespace En3Tho.ValueTupleExtensions
+namespace En3Tho.ValueTupleExtensions.OtherExtensions
 {
     public static class ValueTupleNullCheckExtensions
     {

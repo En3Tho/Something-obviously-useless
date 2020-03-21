@@ -1,8 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>Enable</Nullable>
+    <LangVersion>8</LangVersion>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Title>En3Tho.HelperClasses</Title>
+    <Authors>En3Tho-</Authors>
+    <Description>Various helpers for use in local project</Description>
+    <Copyright>Copyright (c) 2020 En3Tho-</Copyright>
+    <PackageProjectUrl>https://github.com/En3Tho/Something-obviously-useless/tree/master/SomethingObviouslyUseless/En3Tho.HelperClasses</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/En3Tho/Something-obviously-useless/blob/master/Licence.txt</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/En3Tho/Something-obviously-useless</RepositoryUrl>
   </PropertyGroup>
 
 </Project>

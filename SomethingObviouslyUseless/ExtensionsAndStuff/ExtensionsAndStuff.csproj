@@ -4,7 +4,6 @@
     <Nullable>enable</Nullable>
     <LangVersion>8</LangVersion>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>ExtensionsAndStuff</Title>
     <Authors>En3Tho-</Authors>
     <Description>Stuff you might find not really useful</Description>

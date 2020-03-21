@@ -8,10 +8,7 @@ namespace En3Tho.HelperClasses.Comparers
     {
         private readonly Func<T, T, int> _compare;
 
-        public FuncComparer(Func<T, T, int> compare)
-        {
-            _compare = compare;
-        }
+        public FuncComparer(Func<T, T, int> compare) => _compare = compare;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int Compare(T x, T y) => _compare(x, y);

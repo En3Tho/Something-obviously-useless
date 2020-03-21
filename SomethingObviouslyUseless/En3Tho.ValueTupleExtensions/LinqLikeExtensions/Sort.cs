@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using static En3Tho.HelperClasses.MiscHelper;
 
-namespace En3Tho.ValueTupleExtensions
+namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 {
     public static partial class ValueTupleLinqLikeExtensions
     {
-        #region SortByValue
+#region SortByValue
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (T, T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T, T) tuple, IComparer<T>? comparer = null)
@@ -98,9 +98,9 @@ namespace En3Tho.ValueTupleExtensions
         public static (T, T) SortByDescending<T>(this (T, T) tuple) where T : IComparable<T>
             => SortInternal(ref tuple, -1);
 
-        #endregion
+#endregion
 
-        #region SortByFunc
+#region SortByFunc
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (T, T, T, T, T, T, T) Sort<T, U>(this (T, T, T, T, T, T, T) tuple, Func<T, U> getter, IComparer<U>? comparer = null)
@@ -270,9 +270,9 @@ namespace En3Tho.ValueTupleExtensions
             return SortInternal(ref tuple, ref unsortedValues, -1);
         }
 
-        #endregion
+#endregion
 
-        #region SortInternalSingleTuple
+#region SortInternalSingleTuple
 
         private static (T, T, T, T, T, T, T) SortInternal<T>(ref (T, T, T, T, T, T, T) tuple, int comparison) where T : IComparable<T>
         {
@@ -454,9 +454,9 @@ namespace En3Tho.ValueTupleExtensions
             return result;
         }
 
-        #endregion
+#endregion
 
-        #region SortInternalDoubleTuple
+#region SortInternalDoubleTuple
 
         private static (T, T, T, T, T, T, T) SortInternal<T, U>(ref (T, T, T, T, T, T, T) values, ref (U i0, U i1, U i2, U i3, U i4, U i5, U i6) references, IComparer<U> comparer, int comparison)
         {
@@ -1090,6 +1090,6 @@ namespace En3Tho.ValueTupleExtensions
             return result;
         }
 
-        #endregion
+#endregion
     }
 }

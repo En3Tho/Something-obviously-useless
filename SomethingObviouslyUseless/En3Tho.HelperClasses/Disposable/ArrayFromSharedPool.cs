@@ -1,4 +1,5 @@
-﻿using System.Buffers;
+﻿#if !NETSTANDARD2_0
+using System.Buffers;
 using System.Runtime.CompilerServices;
 
 namespace En3Tho.HelperClasses.Disposable.RefStructs
@@ -7,7 +8,11 @@ namespace En3Tho.HelperClasses.Disposable.RefStructs
     {
         private readonly bool m_clearOnReturn;
 
-        public readonly T[] Value { [MethodImpl(MethodImplOptions.AggressiveInlining)] get; }
+        public readonly T[] Value
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ArrayFromSharedPool(int minimumLength, bool clearOnReturn = true)
@@ -24,3 +29,5 @@ namespace En3Tho.HelperClasses.Disposable.RefStructs
         }
     }
 }
+
+#endif

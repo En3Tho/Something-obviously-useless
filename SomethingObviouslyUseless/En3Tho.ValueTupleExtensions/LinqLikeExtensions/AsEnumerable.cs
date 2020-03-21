@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace En3Tho.ValueTupleExtensions
+namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 {
     public static partial class ValueTupleLinqLikeExtensions
     {

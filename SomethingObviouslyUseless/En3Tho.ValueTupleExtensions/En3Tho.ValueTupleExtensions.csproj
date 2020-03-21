@@ -1,8 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>Enable</Nullable>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <LangVersion>8</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Title>En3Tho.ValueTupleExtensions</Title>
+    <Description>Various ValueTuple extensions for pattern matching and qol</Description>
+    <Copyright>Copyright (c) 2020 En3Tho-</Copyright>
+    <PackageProjectUrl>https://github.com/En3Tho/Something-obviously-useless/tree/master/SomethingObviouslyUseless/En3Tho.ValueTupleExtensions</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/En3Tho/Something-obviously-useless/blob/master/Licence.txt</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/En3Tho/Something-obviously-useless/tree/master/SomethingObviouslyUseless</RepositoryUrl>
+    <Authors>En3Tho-</Authors>
   </PropertyGroup>
 
   <ItemGroup>
