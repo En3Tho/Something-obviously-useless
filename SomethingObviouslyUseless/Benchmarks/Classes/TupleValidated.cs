@@ -1,4 +1,5 @@
-﻿using ExtensionsAndStuff.ValueTupleExtensions;
+﻿using En3Tho.ValueTupleExtensions;
+using ExtensionsAndStuff.ValueTupleExtensions;
 
 namespace Benchmarks.Classes
 {
@@ -7,8 +8,10 @@ namespace Benchmarks.Classes
         public object A { get; }
         public string B { get; }
         public int[] C { get; }
+        public int? D { get; }
+        public int E { get; }
         
-        public TupleValidated(object a, string b, int[] c)
-            => (A, B, C) = (a, b, c).NullCheck();
+        public TupleValidated(object a, string b, int[] c, int? d, int e)
+            => (A, B, C, D, E) = (a, b, c, d, e).NullCheck();
     }
 }

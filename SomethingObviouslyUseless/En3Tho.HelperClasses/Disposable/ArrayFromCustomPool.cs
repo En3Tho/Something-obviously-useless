@@ -1,8 +1,7 @@
 ﻿using System.Buffers;
 using System.Runtime.CompilerServices;
-using static En3Tho.HelperClasses.ThrowHelper;
 
-namespace ExtensionsAndStuff.RefStructs
+namespace En3Tho.HelperClasses.Disposable.RefStructs
 {
     public struct ArrayFromCustomPool
     {
@@ -16,7 +15,7 @@ namespace ExtensionsAndStuff.RefStructs
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public PooledArrayCustom(ArrayPool<T> pool, int minimumLength, bool clearOnReturn = true)
             {
-                m_Pool = pool ?? ThrowArgumentNullException(pool, nameof(pool))!;
+                m_Pool = pool ?? ThrowHelper.ThrowArgumentNullException(pool, nameof(pool))!;
                 m_ClearOnReturn = clearOnReturn;
                 Value = m_Pool!.Rent(minimumLength);
             }

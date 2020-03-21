@@ -25,9 +25,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeanIntrinsics", "LeanIntri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionsAndStuff", "ExtensionsAndStuff\ExtensionsAndStuff.csproj", "{A792C706-6B49-4C13-9505-887BC7138AC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{905B3684-9994-437F-B115-266ABF97D5D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{905B3684-9994-437F-B115-266ABF97D5D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionsAndStuff.Unsafe", "ExtensionsAndStuff.Unsafe\ExtensionsAndStuff.Unsafe.csproj", "{D8DFDF9D-A346-4E66-BBD0-CE08CD709A71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionsAndStuff.Unsafe", "ExtensionsAndStuff.Unsafe\ExtensionsAndStuff.Unsafe.csproj", "{D8DFDF9D-A346-4E66-BBD0-CE08CD709A71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "En3Tho.ValueTupleExtensions", "En3Tho.ValueTupleExtensions\En3Tho.ValueTupleExtensions.csproj", "{09100D99-16E4-46A9-92AE-8A5024800BFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "En3Tho.HelperClasses", "En3Tho.HelperClasses\En3Tho.HelperClasses.csproj", "{2953F701-7906-4C62-B84F-411A564A4F1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,14 @@ Global
 		{D8DFDF9D-A346-4E66-BBD0-CE08CD709A71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8DFDF9D-A346-4E66-BBD0-CE08CD709A71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8DFDF9D-A346-4E66-BBD0-CE08CD709A71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09100D99-16E4-46A9-92AE-8A5024800BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09100D99-16E4-46A9-92AE-8A5024800BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09100D99-16E4-46A9-92AE-8A5024800BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09100D99-16E4-46A9-92AE-8A5024800BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2953F701-7906-4C62-B84F-411A564A4F1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2953F701-7906-4C62-B84F-411A564A4F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2953F701-7906-4C62-B84F-411A564A4F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2953F701-7906-4C62-B84F-411A564A4F1A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

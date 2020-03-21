@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using ExtensionsAndStuff.RefStructs.SpanList;
-using ExtensionsAndStuff.Unsafe.SpanExtensions;
 using static System.Runtime.CompilerServices.Unsafe;
 
 namespace ExtensionsAndStuff.Unsafe.SpanHeapListExtensions

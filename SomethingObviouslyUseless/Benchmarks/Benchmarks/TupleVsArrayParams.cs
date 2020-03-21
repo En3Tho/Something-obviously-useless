@@ -2,9 +2,9 @@
 using System.Runtime.InteropServices;
 using BenchmarkDotNet.Attributes;
 using Benchmarks.Classes;
+using En3Tho.ValueTupleExtensions;
 using ExtensionsAndStuff.ReferenceStackAllocation;
 using ExtensionsAndStuff.RefStructs.SpanList;
-using ExtensionsAndStuff.ValueTupleExtensions;
 
 namespace Benchmarks.Benchmarks
 {

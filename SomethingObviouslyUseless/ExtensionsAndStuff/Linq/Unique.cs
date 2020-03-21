@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ExtensionsAndStuff.HelperClasses;
+using static En3Tho.HelperClasses.ThrowHelper;
 
 namespace ExtensionsAndStuff.Linq
 {
@@ -7,15 +7,15 @@ namespace ExtensionsAndStuff.Linq
     {
         public static IEnumerable<TSource> Unique<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
         {
-            first ??= ThrowHelper.ThrowArgumentNullException(first, nameof(first));
-            second ??= ThrowHelper.ThrowArgumentNullException(second, nameof(second));
+            first ??= ThrowArgumentNullException(first, nameof(first));
+            second ??= ThrowArgumentNullException(second, nameof(second));
             return UniqueIterator(first, second, EqualityComparer<TSource>.Default);
         }
 
         public static IEnumerable<TSource> Unique<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource>? comparer)
         {
-            first ??= ThrowHelper.ThrowArgumentNullException(first, nameof(first));
-            second ??= ThrowHelper.ThrowArgumentNullException(second, nameof(second));
+            first ??= ThrowArgumentNullException(first, nameof(first));
+            second ??= ThrowArgumentNullException(second, nameof(second));
             return UniqueIterator(first, second, comparer);
         }
 

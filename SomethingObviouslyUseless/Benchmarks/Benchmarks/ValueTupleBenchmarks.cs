@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
-using ExtensionsAndStuff.ValueTupleExtensions;
+using En3Tho.ValueTupleExtensions;
 
 namespace Benchmarks.Benchmarks
 {

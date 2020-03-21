@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\En3Tho.ValueTupleExtensions\En3Tho.ValueTupleExtensions.csproj" />
     <ProjectReference Include="..\ExtensionsAndStuff.Unsafe\ExtensionsAndStuff.Unsafe.csproj" />
     <ProjectReference Include="..\ExtensionsAndStuff\ExtensionsAndStuff.csproj" />
   </ItemGroup>

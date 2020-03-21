@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
  using System.Linq;
  using System.Runtime.CompilerServices;
- using ExtensionsAndStuff.RefStructs.SpanList;
- using ExtensionsAndStuff.Unsafe.SpanExtensions;
- 
- namespace ExtensionsAndStuff.Unsafe.SpanHeapListExtensions
+using ExtensionsAndStuff.RefStructs.SpanList;
+
+namespace ExtensionsAndStuff.Unsafe.SpanHeapListExtensions
  {
      public static class SpanHeapListUnsafeExtensions
      {

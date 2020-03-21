@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using ExtensionsAndStuff.HelperClasses;
+using static En3Tho.HelperClasses.ThrowHelper;
 
 namespace ExtensionsAndStuff.CollectionExtensions
  {
@@ -13,7 +13,7 @@ namespace ExtensionsAndStuff.CollectionExtensions
                  return Array.Empty<T>();
 
              if ((uint)start + (uint)count > (uint)array.Length)
-                 ThrowHelper.ThrowArgumentOutOfRangeException("Start + count > length");
+                 ThrowArgumentOutOfRangeException("Start + count > length");
                  
              var copy = new T[count];
              Array.Copy(array, start, copy, 0, count);

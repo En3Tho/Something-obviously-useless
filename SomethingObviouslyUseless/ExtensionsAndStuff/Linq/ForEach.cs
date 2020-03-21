@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using En3Tho.HelperClasses;
 using static En3Tho.HelperClasses.ThrowHelper;
 
-namespace ExtensionsAndStuff.Linq
+namespace En3Tho.Linq
 {
     public static partial class Enumerable
     {
-        public static IEnumerable<TSource> DoForAll<TSource>(this IEnumerable<TSource> enumerable, Action<TSource> action)
+        public static IEnumerable<TSource> ForEach<TSource>(this IEnumerable<TSource> enumerable, Action<TSource> action)
         {
             enumerable ??= ThrowArgumentNullException(enumerable, nameof(enumerable));
             action ??= ThrowArgumentNullException(action, nameof(action));

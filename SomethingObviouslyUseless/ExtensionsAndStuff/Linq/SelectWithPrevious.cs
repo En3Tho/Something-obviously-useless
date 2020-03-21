@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ExtensionsAndStuff.HelperClasses;
+using static En3Tho.HelperClasses.ThrowHelper;
 
 namespace ExtensionsAndStuff.Linq
 {
@@ -8,8 +8,8 @@ namespace ExtensionsAndStuff.Linq
     {
         public static IEnumerable<(TResult, TResult)> SelectWithPrevious<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            source ??= ThrowHelper.ThrowArgumentNullException(source, nameof(source));
-            selector ??= ThrowHelper.ThrowArgumentNullException(selector, nameof(selector));
+            source ??= ThrowArgumentNullException(source, nameof(source));
+            selector ??= ThrowArgumentNullException(selector, nameof(selector));
             return SelectWithPreviousIterator(source, selector);
         }
 

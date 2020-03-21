@@ -1,4 +1,6 @@
-﻿namespace ExtensionsAndStuff.HelperClasses.WorkflowHelpers
+﻿using static En3Tho.HelperClasses.ThrowHelper;
+
+namespace ExtensionsAndStuff.HelperClasses.WorkflowHelpers
 {
     public abstract class Choice
     {
@@ -8,7 +10,7 @@
         /// </summary>
         public object Value { get; }
 
-        protected Choice(object value) => Value = value ?? ThrowHelper.ThrowArgumentNullException(value, nameof(value));
+        protected Choice(object value) => Value = value ?? ThrowArgumentNullException(value, nameof(value));
     }
 
     public class Choice<T1, T2> : Choice where T1 : notnull where T2 : notnull

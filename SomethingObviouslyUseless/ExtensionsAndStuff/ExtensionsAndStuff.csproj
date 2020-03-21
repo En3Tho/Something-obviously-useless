@@ -15,7 +15,12 @@
     <PackageLicenseUrl>https://github.com/En3Tho/Something-obviously-useless/blob/master/Licence.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/En3Tho/Something-obviously-useless</RepositoryUrl>
     <PackageVersion>1.0.2</PackageVersion>
-  </PropertyGroup>  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\En3Tho.HelperClasses\NullableAttributes.cs" Link="NullableAttributes.cs" />
+    <Compile Include="..\En3Tho.HelperClasses\ThrowHelper.cs" Link="ThrowHelper.cs" />
+  </ItemGroup>  
 
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.3" />
