@@ -32,8 +32,8 @@ namespace SelfAssignmentAnalyzer
             var operation = (ISimpleAssignmentOperation)context.Operation;
 
             if (IsMatch<IParameterReferenceOperation>(operation.Target, operation.Value)
-                || IsMatch<IPropertyReferenceOperation>(operation.Target, operation.Value)
-                || IsMatch<IFieldReferenceOperation>(operation.Target, operation.Value))
+             || IsMatch<IPropertyReferenceOperation>(operation.Target, operation.Value)
+             || IsMatch<IFieldReferenceOperation>(operation.Target, operation.Value))
             {
                 var diagnostic = Diagnostic.Create(SimpleSelfAssignmentRule, operation.Syntax.GetLocation());
                 context.ReportDiagnostic(diagnostic);
@@ -57,7 +57,7 @@ namespace SelfAssignmentAnalyzer
 
             if (context.ContainingSymbol is IMethodSymbol methodSymbol
                 && methodSymbol.AssociatedSymbol is IPropertySymbol property
-                && operation.Property == property)
+                && operation.Property.Equals(property))
             {
                 var diagnostic = Diagnostic.Create(PropertySelfReferenceRule, operation.Syntax.GetLocation());
                 context.ReportDiagnostic(diagnostic);

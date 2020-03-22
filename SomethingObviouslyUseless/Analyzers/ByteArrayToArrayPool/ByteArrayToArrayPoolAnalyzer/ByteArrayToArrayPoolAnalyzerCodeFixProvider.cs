@@ -15,10 +15,10 @@ namespace ByteArrayToArrayPoolAnalyzer
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ByteArrayToArrayPoolAnalyzerCodeFixProvider)), Shared]
     public class ByteArrayToArrayPoolAnalyzerCodeFixProvider : CodeFixProvider
     {
-        private const string title = "Use ArrayPool";
+        private const string Title = "Use ArrayPool";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds
-            => ImmutableArray.Create(ByteArrayToArrayPoolAnalyzerAnalyzer.DiagnosticId);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } =
+            ImmutableArray.Create(ByteArrayToArrayPoolAnalyzerAnalyzer.DiagnosticId);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
@@ -31,9 +31,9 @@ namespace ByteArrayToArrayPoolAnalyzer
 
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    title: title,
+                    title: Title,
                     createChangedDocument: c => UseArrayPool(context.Document, diagnostic, c),
-                    equivalenceKey: title),
+                    equivalenceKey: Title),
                 diagnostic);
         }
 

@@ -12,7 +12,7 @@ module DiagnosticCreator =
 
 module Matcher =
     let isMatch<'a when 'a :> IOperation and 'a : equality>  (target : IOperation) (value : IOperation) =
-        match (target, value) with
+        match target, value with
         | (:? 'a as typedTarget), (:? 'a as typedValue)
             when typedTarget = typedValue -> true
         | _ -> false
@@ -51,13 +51,13 @@ module CompoundAssignmentAnalysis =
         | _ -> ()
 
 [<DiagnosticAnalyzer(LanguageNames.CSharp)>]
-type SelfAssignmentAnalyzerFSharp() as _m =
+type SelfAssignmentAnalyzerFSharp() =
     inherit DiagnosticAnalyzer()
 
-    override _m.SupportedDiagnostics =
+    override this.SupportedDiagnostics =
                ImmutableArray.Create(SimpleAssignmentAnalysis.rule, CompoundAssignmentAnalysis.rule, PropertyReferenceAnalysis.rule)   
 
-    override _m.Initialize (context : AnalysisContext) =
+    override this.Initialize (context : AnalysisContext) =
         context.RegisterOperationAction(SimpleAssignmentAnalysis.analyze, OperationKind.SimpleAssignment)
         context.RegisterOperationAction(CompoundAssignmentAnalysis.analyze, OperationKind.CompoundAssignment)
         context.RegisterOperationAction(PropertyReferenceAnalysis.analyze, OperationKind.PropertyReference)
