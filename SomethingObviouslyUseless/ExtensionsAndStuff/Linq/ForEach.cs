@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using En3Tho.HelperClasses;
 using static En3Tho.HelperClasses.ThrowHelper;
 
-namespace En3Tho.Linq
+namespace ExtensionsAndStuff.Linq
 {
-    public static partial class Enumerable
+    public static partial class EnumerableExtensions
     {
         public static IEnumerable<TSource> ForEach<TSource>(this IEnumerable<TSource> enumerable, Action<TSource> action)
         {

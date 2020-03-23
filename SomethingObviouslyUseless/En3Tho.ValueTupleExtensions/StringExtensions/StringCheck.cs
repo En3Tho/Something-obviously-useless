@@ -1,4 +1,5 @@
-﻿using static En3Tho.HelperClasses.ThrowHelper;
+﻿using System.Runtime.CompilerServices;
+using static En3Tho.HelperClasses.ThrowHelper;
 
 namespace En3Tho.ValueTupleExtensions.StringExtensions
 {
@@ -8,12 +9,14 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
 
         private const string NullOrEmptyMessage = "String is null or empty.";
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string NoECheck(this string str, string message = NullOrEmptyMessage)
         {
             if (string.IsNullOrEmpty(str)) ThrowArgumentException(message, nameof(str));
             return str;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string) NoECheck(this (string str1, string str2) tuple, string message = NullOrEmptyMessage)
         {
             if (string.IsNullOrEmpty(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
@@ -21,6 +24,7 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
             return tuple;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string, string) NoECheck(this (string str1, string str2, string str3) tuple, string message = NullOrEmptyMessage)
         {
             if (string.IsNullOrEmpty(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
@@ -29,6 +33,7 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
             return tuple;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string, string, string) NoECheck(this (string str1, string str2, string str3, string str4) tuple, string message = NullOrEmptyMessage)
         {
             if (string.IsNullOrEmpty(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
@@ -38,6 +43,7 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
             return tuple;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string, string, string, string) NoECheck(this (string str1, string str2, string str3, string str4, string str5) tuple, string message = NullOrEmptyMessage)
         {
             if (string.IsNullOrEmpty(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
@@ -48,6 +54,7 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
             return tuple;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string, string, string, string, string) NoECheck(this (string str1, string str2, string str3, string str4, string str5, string str6) tuple,
             string message = NullOrEmptyMessage)
         {
@@ -60,6 +67,7 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
             return tuple;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string, string, string, string, string, string) NoECheck(this (string str1, string str2, string str3, string str4, string str5, string str6, string str7) tuple,
             string message = NullOrEmptyMessage)
         {
@@ -79,12 +87,14 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
 
         private const string NullOrEmptyOrWhiteSpaceMessage = "String is null or empty or white space.";
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string NoEWSCheck(this string str, string message = NullOrEmptyOrWhiteSpaceMessage)
         {
             if (string.IsNullOrWhiteSpace(str)) ThrowArgumentException(message, nameof(str));
             return str;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string) NoEWSCheck(this (string str1, string str2) tuple, string message = NullOrEmptyOrWhiteSpaceMessage)
         {
             if (string.IsNullOrWhiteSpace(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
@@ -92,6 +102,7 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
             return tuple;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string, string) NoEWSCheck(this (string str1, string str2, string str3) tuple, string message = NullOrEmptyOrWhiteSpaceMessage)
         {
             if (string.IsNullOrWhiteSpace(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
@@ -100,6 +111,7 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
             return tuple;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string, string, string) NoEWSCheck(this (string str1, string str2, string str3, string str4) tuple, string message = NullOrEmptyOrWhiteSpaceMessage)
         {
             if (string.IsNullOrWhiteSpace(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
@@ -109,6 +121,7 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
             return tuple;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string, string, string, string) NoEWSCheck(this (string str1, string str2, string str3, string str4, string str5) tuple, string message = NullOrEmptyOrWhiteSpaceMessage)
         {
             if (string.IsNullOrWhiteSpace(tuple.str1)) ThrowArgumentException(message, nameof(tuple.str1));
@@ -119,6 +132,7 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
             return tuple;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string, string, string, string, string) NoEWSCheck(this (string str1, string str2, string str3, string str4, string str5, string str6) tuple,
             string message = NullOrEmptyOrWhiteSpaceMessage)
         {
@@ -131,6 +145,7 @@ namespace En3Tho.ValueTupleExtensions.StringExtensions
             return tuple;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (string, string, string, string, string, string, string) NoEWSCheck(this (string str1, string str2, string str3, string str4, string str5, string str6, string str7) tuple,
             string message = NullOrEmptyOrWhiteSpaceMessage)
         {

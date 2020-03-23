@@ -3,7 +3,7 @@ using static En3Tho.HelperClasses.ThrowHelper;
 
 namespace ExtensionsAndStuff.Linq
 {
-    public static partial class Enumerable
+    public static partial class EnumerableExtensions
     {
         public static IEnumerable<TSource> Unique<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
         {

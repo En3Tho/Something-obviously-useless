@@ -33,7 +33,6 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         public static (T, T) Sort<T>(this (T, T) tuple, IComparer<T>? comparer = null)
             => SortInternal(ref tuple, comparer ?? Comparer<T>.Default, 1);
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static (T, T, T, T, T, T, T) Sort<T>(this (T, T, T, T, T, T, T) tuple) where T : IComparable<T>
             => SortInternal(ref tuple, 1);
