@@ -300,7 +300,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
         public int ItemsFound;
         private readonly IList<TSource> _list;
         private int _index;
-        private int _count;
+        private readonly int _count;
 
         public FirstOrDefaultListHelper(IList<TSource> list)
         {

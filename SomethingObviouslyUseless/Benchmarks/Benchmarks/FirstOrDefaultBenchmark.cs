@@ -35,12 +35,6 @@ namespace Benchmarks.Benchmarks
         {
             var (_50, _787) = Items.FirstOrDefault(_50_Getter, _787_Getter);
         }
-        
-        [Benchmark]
-        public void FindFirstOrDefault_50_787_Ext2()
-        {
-            var (_50, _787) = Items.FirstOrDefault2(_50_Getter, _787_Getter);
-        }
 
         //[Benchmark]
         public void FindSingleOrDefault_50_787_Linq()
@@ -86,12 +80,6 @@ namespace Benchmarks.Benchmarks
         public void FindFirstOrDefault_6_50_787_Ext()
         {
             var (_6, _50, _787) = Items.FirstOrDefault(_6_Getter, _50_Getter, _787_Getter);
-        }
-
-        [Benchmark]
-        public void FindFirstOrDefault_6_50_787_Ext2()
-        {
-            var (_6, _50, _787) = Items.FirstOrDefault2(_6_Getter, _50_Getter, _787_Getter);
         }
 
         //[Benchmark]
@@ -147,12 +135,6 @@ namespace Benchmarks.Benchmarks
         public void FindFirstOrDefault_6_50_787_999_Ext()
         {
             var (_6, _50, _787, _999) = Items.FirstOrDefault(_6_Getter, _50_Getter, _787_Getter, _999_Getter);
-        }
-        
-        [Benchmark]
-        public void FindFirstOrDefault_6_50_787_999_Ext2()
-        {
-            var (_6, _50, _787, _999) = Items.FirstOrDefault2(_6_Getter, _50_Getter, _787_Getter, _999_Getter);
         }
 
         //[Benchmark]

@@ -11,6 +11,15 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             source ??= ThrowArgumentNullException(source, nameof(source));
             predicate1 ??= ThrowArgumentNullException(predicate1, nameof(predicate1));
             predicate2 ??= ThrowArgumentNullException(predicate2, nameof(predicate2));
+
+            if (source is IList<TSource> list)
+            {
+                var (result1, result2) = (default(TSource), default(TSource));
+                var helper = new LastOrDefaultListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, predicate1, predicate2);
+                return (result1, result2);
+            }
+
             return LastOrDefaultInternal(source, predicate1, predicate2, false);
         }
 
@@ -21,6 +30,15 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate1 ??= ThrowArgumentNullException(predicate1, nameof(predicate1));
             predicate2 ??= ThrowArgumentNullException(predicate2, nameof(predicate2));
             predicate3 ??= ThrowArgumentNullException(predicate3, nameof(predicate3));
+
+            if (source is IList<TSource> list)
+            {
+                var (result1, result2, result3) = (default(TSource), default(TSource), default(TSource));
+                var helper = new LastOrDefaultListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref result3, predicate1, predicate2, predicate3);
+                return (result1, result2, result3);
+            }
+
             return LastOrDefaultInternal(source, predicate1, predicate2, predicate3, false);
         }
 
@@ -32,6 +50,15 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate2 ??= ThrowArgumentNullException(predicate2, nameof(predicate2));
             predicate3 ??= ThrowArgumentNullException(predicate3, nameof(predicate3));
             predicate4 ??= ThrowArgumentNullException(predicate4, nameof(predicate4));
+
+            if (source is IList<TSource> list)
+            {
+                var (result1, result2, result3, result4) = (default(TSource), default(TSource), default(TSource), default(TSource));
+                var helper = new LastOrDefaultListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref result3, ref result4, predicate1, predicate2, predicate3, predicate4);
+                return (result1, result2, result3, result4);
+            }
+
             return LastOrDefaultInternal(source, predicate1, predicate2, predicate3, predicate4, false);
         }
 
@@ -44,6 +71,15 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate3 ??= ThrowArgumentNullException(predicate3, nameof(predicate3));
             predicate4 ??= ThrowArgumentNullException(predicate4, nameof(predicate4));
             predicate5 ??= ThrowArgumentNullException(predicate5, nameof(predicate5));
+
+            if (source is IList<TSource> list)
+            {
+                var (result1, result2, result3, result4, result5) = (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+                var helper = new LastOrDefaultListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref result5, predicate1, predicate2, predicate3, predicate4, predicate5);
+                return (result1, result2, result3, result4, result5);
+            }
+
             return LastOrDefaultInternal(source, predicate1, predicate2, predicate3, predicate4, predicate5, false);
         }
 
@@ -57,6 +93,15 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate4 ??= ThrowArgumentNullException(predicate4, nameof(predicate4));
             predicate5 ??= ThrowArgumentNullException(predicate5, nameof(predicate5));
             predicate6 ??= ThrowArgumentNullException(predicate6, nameof(predicate6));
+
+            if (source is IList<TSource> list)
+            {
+                var (result1, result2, result3, result4, result5, result6) = (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+                var helper = new LastOrDefaultListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref result5, ref result6, predicate1, predicate2, predicate3, predicate4, predicate5, predicate6);
+                return (result1, result2, result3, result4, result5, result6);
+            }
+
             return LastOrDefaultInternal(source, predicate1, predicate2, predicate3, predicate4, predicate5, predicate6, false);
         }
 
@@ -72,6 +117,17 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate5 ??= ThrowArgumentNullException(predicate5, nameof(predicate5));
             predicate6 ??= ThrowArgumentNullException(predicate6, nameof(predicate6));
             predicate7 ??= ThrowArgumentNullException(predicate7, nameof(predicate7));
+
+            if (source is IList<TSource> list)
+            {
+                var (result1, result2, result3, result4, result5, result6, result7) =
+                    (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+                var helper = new LastOrDefaultListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref result5, ref result6, ref result7, predicate1, predicate2, predicate3, predicate4, predicate5, predicate6,
+                    predicate7);
+                return (result1, result2, result3, result4, result5, result6, result7);
+            }
+
             return LastOrDefaultInternal(source, predicate1, predicate2, predicate3, predicate4, predicate5, predicate6, predicate7, false);
         }
 
@@ -568,7 +624,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                         found7 = true;
                         result7 = current;
                     }
-                    
+
                     if (found1 && found2 && found3 && found4 && found5 && found6 && found7)
                         return (result1, result2, result3, result4, result5, result6, result7);
                 }
