@@ -16,11 +16,5 @@ namespace Benchmarks
             BenchmarkRunner.Run<FirstOrDefaultBenchmark>();
             Console.ReadLine();
         }
-
-        static void TryCatch(Action action)
-        {
-            try { action(); }
-            catch (Exception ex) { Console.WriteLine(ex); }
-        }
     }
 }
