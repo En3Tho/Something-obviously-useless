@@ -13,17 +13,7 @@ namespace Benchmarks
     {
         static void Main(string[] args)
         {
-            //BenchmarkRunner.Run<FirstOrDefaultBenchmark>();
-
-            var ints = new[] { 1, 2, 3, 4, 5, 5 };
-         
-            TryCatch(() => ints.First(x => x == 12));
-            TryCatch(() => ints.First(x => x == 5, x => x == 25));
-            TryCatch(() => ints.Last(x => x == 12));
-            TryCatch(() => ints.Last(x => x == 5, x => x == 12));
-            TryCatch(() => ints.Single(x => x == 5));
-            TryCatch(() => ints.Single(x => x == 4, x => x == 5));
-
+            BenchmarkRunner.Run<FirstOrDefaultBenchmark>();
             Console.ReadLine();
         }
 
