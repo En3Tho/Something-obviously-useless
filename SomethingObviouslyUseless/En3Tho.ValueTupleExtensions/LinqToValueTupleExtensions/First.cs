@@ -31,8 +31,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
             }
 
-            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
+            if (!found1) ThrowNoMatchException(nameof(predicate1));
+            if (!found2) ThrowNoMatchException(nameof(predicate2));
 
             return (result1, result2);
         }
@@ -64,9 +64,9 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
             }
 
-            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-            if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
+            if (!found1) ThrowNoMatchException(nameof(predicate1));
+            if (!found2) ThrowNoMatchException(nameof(predicate2));
+            if (!found3) ThrowNoMatchException(nameof(predicate3));
 
             return (result1, result2, result3);
         }
@@ -98,10 +98,10 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
             }
 
-            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-            if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-            if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
+            if (!found1) ThrowNoMatchException(nameof(predicate1));
+            if (!found2) ThrowNoMatchException(nameof(predicate2));
+            if (!found3) ThrowNoMatchException(nameof(predicate3));
+            if (!found4) ThrowNoMatchException(nameof(predicate4));
 
             return (result1, result2, result3, result4);
         }
@@ -136,11 +136,11 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
             }
 
-            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-            if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-            if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
-            if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
+            if (!found1) ThrowNoMatchException(nameof(predicate1));
+            if (!found2) ThrowNoMatchException(nameof(predicate2));
+            if (!found3) ThrowNoMatchException(nameof(predicate3));
+            if (!found4) ThrowNoMatchException(nameof(predicate4));
+            if (!found5) ThrowNoMatchException(nameof(predicate5));
 
             return (result1, result2, result3, result4, result5);
         }
@@ -176,12 +176,12 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
             }
 
-            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-            if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-            if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
-            if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
-            if (!found6) ThrowInvalidOperationException($"Item not found for {nameof(predicate6)}");
+            if (!found1) ThrowNoMatchException(nameof(predicate1));
+            if (!found2) ThrowNoMatchException(nameof(predicate2));
+            if (!found3) ThrowNoMatchException(nameof(predicate3));
+            if (!found4) ThrowNoMatchException(nameof(predicate4));
+            if (!found5) ThrowNoMatchException(nameof(predicate5));
+            if (!found6) ThrowNoMatchException(nameof(predicate6));
 
             return (result1, result2, result3, result4, result5, result6);
         }
@@ -220,13 +220,13 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
             }
 
-            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-            if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-            if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
-            if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
-            if (!found6) ThrowInvalidOperationException($"Item not found for {nameof(predicate6)}");
-            if (!found7) ThrowInvalidOperationException($"Item not found for {nameof(predicate7)}");
+            if (!found1) ThrowNoMatchException(nameof(predicate1));
+            if (!found2) ThrowNoMatchException(nameof(predicate2));
+            if (!found3) ThrowNoMatchException(nameof(predicate3));
+            if (!found4) ThrowNoMatchException(nameof(predicate4));
+            if (!found5) ThrowNoMatchException(nameof(predicate5));
+            if (!found6) ThrowNoMatchException(nameof(predicate6));
+            if (!found7) ThrowNoMatchException(nameof(predicate7));
 
             return (result1, result2, result3, result4, result5, result6, result7);
         }

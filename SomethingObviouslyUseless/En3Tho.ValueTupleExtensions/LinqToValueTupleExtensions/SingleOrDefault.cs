@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using static En3Tho.HelperClasses.ThrowHelper;
 
 namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 {
     public static partial class ValueTupleEnumerableExtensions
     {
+        private const string ThrowNoMatchExceptionFormat = "Sequence contains no matching element ({0})";
+        private const string ThrowMoreThanOneMatchExceptionFormat = "Sequence contains more than one matching element ({0})";
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowNoMatchException(string predicate) => ThrowInvalidOperationException(string.Format(ThrowNoMatchExceptionFormat, predicate));
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowMoreThanOneMatchException(string predicate) => ThrowInvalidOperationException(string.Format(ThrowMoreThanOneMatchExceptionFormat, predicate));
+
         public static (TSource, TSource) SingleOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate1, Func<TSource, bool> predicate2)
         {
             source ??= ThrowArgumentNullException(source, nameof(source));
@@ -88,14 +98,14 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = list[i];
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
@@ -109,14 +119,14 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = e.Current;
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
@@ -125,8 +135,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 
             if (checkValidity)
             {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
+                if (!found1) ThrowNoMatchException(nameof(predicate1));
+                if (!found2) ThrowNoMatchException(nameof(predicate2));
             }
 
             return (result1, result2);
@@ -148,21 +158,21 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = list[i];
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
 
                     if (predicate3(current))
                     {
-                        if (found3) ThrowInvalidOperationException($"More than one match for {nameof(predicate3)}");
+                        if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
                         found3 = true;
                         result3 = current;
                     }
@@ -176,21 +186,21 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = e.Current;
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
 
                     if (predicate3(current))
                     {
-                        if (found3) ThrowInvalidOperationException($"More than one match for {nameof(predicate3)}");
+                        if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
                         found3 = true;
                         result3 = current;
                     }
@@ -199,9 +209,9 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 
             if (checkValidity)
             {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-                if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
+                if (!found1) ThrowNoMatchException(nameof(predicate1));
+                if (!found2) ThrowNoMatchException(nameof(predicate2));
+                if (!found3) ThrowNoMatchException(nameof(predicate3));
             }
 
             return (result1, result2, result3);
@@ -224,28 +234,28 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = list[i];
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
 
                     if (predicate3(current))
                     {
-                        if (found3) ThrowInvalidOperationException($"More than one match for {nameof(predicate3)}");
+                        if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
                         found3 = true;
                         result3 = current;
                     }
 
                     if (predicate4(current))
                     {
-                        if (found4) ThrowInvalidOperationException($"More than one match for {nameof(predicate4)}");
+                        if (found4) ThrowMoreThanOneMatchException(nameof(predicate4));
                         found4 = true;
                         result4 = current;
                     }
@@ -259,40 +269,40 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = e.Current;
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
 
                     if (predicate3(current))
                     {
-                        if (found3) ThrowInvalidOperationException($"More than one match for {nameof(predicate3)}");
+                        if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
                         found3 = true;
                         result3 = current;
                     }
 
                     if (predicate4(current))
                     {
-                        if (found4) ThrowInvalidOperationException($"More than one match for {nameof(predicate4)}");
+                        if (found4) ThrowMoreThanOneMatchException(nameof(predicate4));
                         found4 = true;
                         result4 = current;
                     }
                 }
             }
-          
+
             if (checkValidity)
             {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-                if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-                if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
+                if (!found1) ThrowNoMatchException(nameof(predicate1));
+                if (!found2) ThrowNoMatchException(nameof(predicate2));
+                if (!found3) ThrowNoMatchException(nameof(predicate3));
+                if (!found4) ThrowNoMatchException(nameof(predicate4));
             }
 
             return (result1, result2, result3, result4);
@@ -316,35 +326,35 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = list[i];
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
 
                     if (predicate3(current))
                     {
-                        if (found3) ThrowInvalidOperationException($"More than one match for {nameof(predicate3)}");
+                        if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
                         found3 = true;
                         result3 = current;
                     }
 
                     if (predicate4(current))
                     {
-                        if (found4) ThrowInvalidOperationException($"More than one match for {nameof(predicate4)}");
+                        if (found4) ThrowMoreThanOneMatchException(nameof(predicate4));
                         found4 = true;
                         result4 = current;
                     }
 
                     if (predicate5(current))
                     {
-                        if (found5) ThrowInvalidOperationException($"More than one match for {nameof(predicate5)}");
+                        if (found5) ThrowMoreThanOneMatchException(nameof(predicate5));
                         found5 = true;
                         result5 = current;
                     }
@@ -358,35 +368,35 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = e.Current;
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
 
                     if (predicate3(current))
                     {
-                        if (found3) ThrowInvalidOperationException($"More than one match for {nameof(predicate3)}");
+                        if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
                         found3 = true;
                         result3 = current;
                     }
 
                     if (predicate4(current))
                     {
-                        if (found4) ThrowInvalidOperationException($"More than one match for {nameof(predicate4)}");
+                        if (found4) ThrowMoreThanOneMatchException(nameof(predicate4));
                         found4 = true;
                         result4 = current;
                     }
 
                     if (predicate5(current))
                     {
-                        if (found5) ThrowInvalidOperationException($"More than one match for {nameof(predicate5)}");
+                        if (found5) ThrowMoreThanOneMatchException(nameof(predicate5));
                         found5 = true;
                         result5 = current;
                     }
@@ -395,11 +405,11 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 
             if (checkValidity)
             {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-                if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-                if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
-                if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
+                if (!found1) ThrowNoMatchException(nameof(predicate1));
+                if (!found2) ThrowNoMatchException(nameof(predicate2));
+                if (!found3) ThrowNoMatchException(nameof(predicate3));
+                if (!found4) ThrowNoMatchException(nameof(predicate4));
+                if (!found5) ThrowNoMatchException(nameof(predicate5));
             }
 
             return (result1, result2, result3, result4, result5);
@@ -424,42 +434,42 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = list[i];
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
 
                     if (predicate3(current))
                     {
-                        if (found3) ThrowInvalidOperationException($"More than one match for {nameof(predicate3)}");
+                        if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
                         found3 = true;
                         result3 = current;
                     }
 
                     if (predicate4(current))
                     {
-                        if (found4) ThrowInvalidOperationException($"More than one match for {nameof(predicate4)}");
+                        if (found4) ThrowMoreThanOneMatchException(nameof(predicate4));
                         found4 = true;
                         result4 = current;
                     }
 
                     if (predicate5(current))
                     {
-                        if (found5) ThrowInvalidOperationException($"More than one match for {nameof(predicate5)}");
+                        if (found5) ThrowMoreThanOneMatchException(nameof(predicate5));
                         found5 = true;
                         result5 = current;
                     }
 
                     if (predicate6(current))
                     {
-                        if (found6) ThrowInvalidOperationException($"More than one match for {nameof(predicate6)}");
+                        if (found6) ThrowMoreThanOneMatchException(nameof(predicate6));
                         found6 = true;
                         result6 = current;
                     }
@@ -474,42 +484,42 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                         var current = e.Current;
                         if (predicate1(current))
                         {
-                            if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                            if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                             found1 = true;
                             result1 = current;
                         }
 
                         if (predicate2(current))
                         {
-                            if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                            if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                             found2 = true;
                             result2 = current;
                         }
 
                         if (predicate3(current))
                         {
-                            if (found3) ThrowInvalidOperationException($"More than one match for {nameof(predicate3)}");
+                            if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
                             found3 = true;
                             result3 = current;
                         }
 
                         if (predicate4(current))
                         {
-                            if (found4) ThrowInvalidOperationException($"More than one match for {nameof(predicate4)}");
+                            if (found4) ThrowMoreThanOneMatchException(nameof(predicate4));
                             found4 = true;
                             result4 = current;
                         }
 
                         if (predicate5(current))
                         {
-                            if (found5) ThrowInvalidOperationException($"More than one match for {nameof(predicate5)}");
+                            if (found5) ThrowMoreThanOneMatchException(nameof(predicate5));
                             found5 = true;
                             result5 = current;
                         }
 
                         if (predicate6(current))
                         {
-                            if (found6) ThrowInvalidOperationException($"More than one match for {nameof(predicate6)}");
+                            if (found6) ThrowMoreThanOneMatchException(nameof(predicate6));
                             found6 = true;
                             result6 = current;
                         }
@@ -519,12 +529,12 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 
             if (checkValidity)
             {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-                if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-                if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
-                if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
-                if (!found6) ThrowInvalidOperationException($"Item not found for {nameof(predicate6)}");
+                if (!found1) ThrowNoMatchException(nameof(predicate1));
+                if (!found2) ThrowNoMatchException(nameof(predicate2));
+                if (!found3) ThrowNoMatchException(nameof(predicate3));
+                if (!found4) ThrowNoMatchException(nameof(predicate4));
+                if (!found5) ThrowNoMatchException(nameof(predicate5));
+                if (!found6) ThrowNoMatchException(nameof(predicate6));
             }
 
             return (result1, result2, result3, result4, result5, result6);
@@ -551,49 +561,49 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = list[i];
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
 
                     if (predicate3(current))
                     {
-                        if (found3) ThrowInvalidOperationException($"More than one match for {nameof(predicate3)}");
+                        if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
                         found3 = true;
                         result3 = current;
                     }
 
                     if (predicate4(current))
                     {
-                        if (found4) ThrowInvalidOperationException($"More than one match for {nameof(predicate4)}");
+                        if (found4) ThrowMoreThanOneMatchException(nameof(predicate4));
                         found4 = true;
                         result4 = current;
                     }
 
                     if (predicate5(current))
                     {
-                        if (found5) ThrowInvalidOperationException($"More than one match for {nameof(predicate5)}");
+                        if (found5) ThrowMoreThanOneMatchException(nameof(predicate5));
                         found5 = true;
                         result5 = current;
                     }
 
                     if (predicate6(current))
                     {
-                        if (found6) ThrowInvalidOperationException($"More than one match for {nameof(predicate6)}");
+                        if (found6) ThrowMoreThanOneMatchException(nameof(predicate6));
                         found6 = true;
                         result6 = current;
                     }
 
                     if (predicate7(current))
                     {
-                        if (found7) ThrowInvalidOperationException($"More than one match for {nameof(predicate7)}");
+                        if (found7) ThrowMoreThanOneMatchException(nameof(predicate7));
                         found7 = true;
                         result7 = current;
                     }
@@ -607,49 +617,49 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     var current = e.Current;
                     if (predicate1(current))
                     {
-                        if (found1) ThrowInvalidOperationException($"More than one match for {nameof(predicate1)}");
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
                         found1 = true;
                         result1 = current;
                     }
 
                     if (predicate2(current))
                     {
-                        if (found2) ThrowInvalidOperationException($"More than one match for {nameof(predicate2)}");
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
                         found2 = true;
                         result2 = current;
                     }
 
                     if (predicate3(current))
                     {
-                        if (found3) ThrowInvalidOperationException($"More than one match for {nameof(predicate3)}");
+                        if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
                         found3 = true;
                         result3 = current;
                     }
 
                     if (predicate4(current))
                     {
-                        if (found4) ThrowInvalidOperationException($"More than one match for {nameof(predicate4)}");
+                        if (found4) ThrowMoreThanOneMatchException(nameof(predicate4));
                         found4 = true;
                         result4 = current;
                     }
 
                     if (predicate5(current))
                     {
-                        if (found5) ThrowInvalidOperationException($"More than one match for {nameof(predicate5)}");
+                        if (found5) ThrowMoreThanOneMatchException(nameof(predicate5));
                         found5 = true;
                         result5 = current;
                     }
 
                     if (predicate6(current))
                     {
-                        if (found6) ThrowInvalidOperationException($"More than one match for {nameof(predicate6)}");
+                        if (found6) ThrowMoreThanOneMatchException(nameof(predicate6));
                         found6 = true;
                         result6 = current;
                     }
 
                     if (predicate7(current))
                     {
-                        if (found7) ThrowInvalidOperationException($"More than one match for {nameof(predicate7)}");
+                        if (found7) ThrowMoreThanOneMatchException(nameof(predicate7));
                         found7 = true;
                         result7 = current;
                     }
@@ -658,13 +668,13 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 
             if (checkValidity)
             {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-                if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-                if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
-                if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
-                if (!found6) ThrowInvalidOperationException($"Item not found for {nameof(predicate6)}");
-                if (!found7) ThrowInvalidOperationException($"Item not found for {nameof(predicate7)}");
+                if (!found1) ThrowNoMatchException(nameof(predicate1));
+                if (!found2) ThrowNoMatchException(nameof(predicate2));
+                if (!found3) ThrowNoMatchException(nameof(predicate3));
+                if (!found4) ThrowNoMatchException(nameof(predicate4));
+                if (!found5) ThrowNoMatchException(nameof(predicate5));
+                if (!found6) ThrowNoMatchException(nameof(predicate6));
+                if (!found7) ThrowNoMatchException(nameof(predicate7));
             }
 
             return (result1, result2, result3, result4, result5, result6, result7);
