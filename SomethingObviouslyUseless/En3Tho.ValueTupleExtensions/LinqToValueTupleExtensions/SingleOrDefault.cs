@@ -113,7 +113,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             }
             else
             {
-                using IEnumerator<TSource> e = source.GetEnumerator();
+                using var e = source.GetEnumerator();
                 while (e.MoveNext())
                 {
                     var current = e.Current;
@@ -180,7 +180,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             }
             else
             {
-                using IEnumerator<TSource> e = source.GetEnumerator();
+                using var e = source.GetEnumerator();
                 while (e.MoveNext())
                 {
                     var current = e.Current;
@@ -263,7 +263,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             }
             else
             {
-                using IEnumerator<TSource> e = source.GetEnumerator();
+                using var e = source.GetEnumerator();
                 while (e.MoveNext())
                 {
                     var current = e.Current;
@@ -362,7 +362,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             }
             else
             {
-                using IEnumerator<TSource> e = source.GetEnumerator();
+                using var e = source.GetEnumerator();
                 while (e.MoveNext())
                 {
                     var current = e.Current;
@@ -477,52 +477,50 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             }
             else
             {
-                using (IEnumerator<TSource> e = source.GetEnumerator())
+                using var e = source.GetEnumerator();
+                while (e.MoveNext())
                 {
-                    while (e.MoveNext())
+                    var current = e.Current;
+                    if (predicate1(current))
                     {
-                        var current = e.Current;
-                        if (predicate1(current))
-                        {
-                            if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
-                            found1 = true;
-                            result1 = current;
-                        }
+                        if (found1) ThrowMoreThanOneMatchException(nameof(predicate1));
+                        found1 = true;
+                        result1 = current;
+                    }
 
-                        if (predicate2(current))
-                        {
-                            if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
-                            found2 = true;
-                            result2 = current;
-                        }
+                    if (predicate2(current))
+                    {
+                        if (found2) ThrowMoreThanOneMatchException(nameof(predicate2));
+                        found2 = true;
+                        result2 = current;
+                    }
 
-                        if (predicate3(current))
-                        {
-                            if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
-                            found3 = true;
-                            result3 = current;
-                        }
+                    if (predicate3(current))
+                    {
+                        if (found3) ThrowMoreThanOneMatchException(nameof(predicate3));
+                        found3 = true;
+                        result3 = current;
+                    }
 
-                        if (predicate4(current))
-                        {
-                            if (found4) ThrowMoreThanOneMatchException(nameof(predicate4));
-                            found4 = true;
-                            result4 = current;
-                        }
+                    if (predicate4(current))
+                    {
+                        if (found4) ThrowMoreThanOneMatchException(nameof(predicate4));
+                        found4 = true;
+                        result4 = current;
+                    }
 
-                        if (predicate5(current))
-                        {
-                            if (found5) ThrowMoreThanOneMatchException(nameof(predicate5));
-                            found5 = true;
-                            result5 = current;
-                        }
+                    if (predicate5(current))
+                    {
+                        if (found5) ThrowMoreThanOneMatchException(nameof(predicate5));
+                        found5 = true;
+                        result5 = current;
+                    }
 
-                        if (predicate6(current))
-                        {
-                            if (found6) ThrowMoreThanOneMatchException(nameof(predicate6));
-                            found6 = true;
-                            result6 = current;
-                        }
+                    if (predicate6(current))
+                    {
+                        if (found6) ThrowMoreThanOneMatchException(nameof(predicate6));
+                        found6 = true;
+                        result6 = current;
                     }
                 }
             }
@@ -611,7 +609,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             }
             else
             {
-                using IEnumerator<TSource> e = source.GetEnumerator();
+                using var e = source.GetEnumerator();
                 while (e.MoveNext())
                 {
                     var current = e.Current;

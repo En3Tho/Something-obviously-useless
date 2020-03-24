@@ -8,10 +8,10 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
         public static IEnumerable<(TSource, TSource)> WithPrevious<TSource>(this IEnumerable<TSource> source)
         {
             source ??= ThrowArgumentNullException(source, nameof(source));
-            return SelectWithPreviousIterator(source);
+            return WithPreviousIterator(source);
         }
 
-        private static IEnumerable<(TSource, TSource)> SelectWithPreviousIterator<TSource>(IEnumerable<TSource> source)
+        private static IEnumerable<(TSource, TSource)> WithPreviousIterator<TSource>(IEnumerable<TSource> source)
         {
             #pragma warning disable CS8653
             TSource prev = default;
