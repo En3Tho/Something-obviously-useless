@@ -11,7 +11,30 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             source ??= ThrowArgumentNullException(source, nameof(source));
             predicate1 ??= ThrowArgumentNullException(predicate1, nameof(predicate1));
             predicate2 ??= ThrowArgumentNullException(predicate2, nameof(predicate2));
-            return FirstOrDefaultInternal(source, predicate1, predicate2, true);
+
+            var (result1, result2) = (default(TSource), default(TSource));
+            var (found1, found2) = (false, false);
+
+            if (source is IList<TSource> list)
+            {
+                var helper = new FirstListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref found1, ref found2, predicate1, predicate2);
+            }
+            else
+            {
+                using var enumerator = source.GetEnumerator();
+                if (enumerator.MoveNext())
+                {
+                    var helper = new FirstEnumerableHelper<TSource>(enumerator);
+                    helper.SetValues(ref result1, ref result2,
+                        ref found1, ref found2, predicate1, predicate2);
+                }
+            }
+
+            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
+            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
+
+            return (result1, result2);
         }
 
         public static (TSource, TSource, TSource) First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate1,
@@ -21,7 +44,31 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate1 ??= ThrowArgumentNullException(predicate1, nameof(predicate1));
             predicate2 ??= ThrowArgumentNullException(predicate2, nameof(predicate2));
             predicate3 ??= ThrowArgumentNullException(predicate3, nameof(predicate3));
-            return FirstOrDefaultInternal(source, predicate1, predicate2, predicate3, true);
+
+            var (result1, result2, result3) = (default(TSource), default(TSource), default(TSource));
+            var (found1, found2, found3) = (false, false, false);
+
+            if (source is IList<TSource> list)
+            {
+                var helper = new FirstListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref result3, ref found1, ref found2, ref found3, predicate1, predicate2, predicate3);
+            }
+            else
+            {
+                using var enumerator = source.GetEnumerator();
+                if (enumerator.MoveNext())
+                {
+                    var helper = new FirstEnumerableHelper<TSource>(enumerator);
+                    helper.SetValues(ref result1, ref result2, ref result3,
+                        ref found1, ref found2, ref found3, predicate1, predicate2, predicate3);
+                }
+            }
+
+            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
+            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
+            if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
+
+            return (result1, result2, result3);
         }
 
         public static (TSource, TSource, TSource, TSource) First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate1,
@@ -32,7 +79,31 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate2 ??= ThrowArgumentNullException(predicate2, nameof(predicate2));
             predicate3 ??= ThrowArgumentNullException(predicate3, nameof(predicate3));
             predicate4 ??= ThrowArgumentNullException(predicate4, nameof(predicate4));
-            return FirstOrDefaultInternal(source, predicate1, predicate2, predicate3, predicate4, true);
+
+            var (result1, result2, result3, result4) = (default(TSource), default(TSource), default(TSource), default(TSource));
+            var (found1, found2, found3, found4) = (false, false, false, false);
+
+            if (source is IList<TSource> list)
+            {
+                var helper = new FirstListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref found1, ref found2, ref found3, ref found4, predicate1, predicate2, predicate3, predicate4);
+            }
+            else
+            {
+                using var enumerator = source.GetEnumerator();
+                if (enumerator.MoveNext())
+                {
+                    var helper = new FirstEnumerableHelper<TSource>(enumerator);
+                    helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref found1, ref found2, ref found3, ref found4, predicate1, predicate2, predicate3, predicate4);
+                }
+            }
+
+            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
+            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
+            if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
+            if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
+
+            return (result1, result2, result3, result4);
         }
 
         public static (TSource, TSource, TSource, TSource, TSource) First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate1,
@@ -44,7 +115,34 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate3 ??= ThrowArgumentNullException(predicate3, nameof(predicate3));
             predicate4 ??= ThrowArgumentNullException(predicate4, nameof(predicate4));
             predicate5 ??= ThrowArgumentNullException(predicate5, nameof(predicate5));
-            return FirstOrDefaultInternal(source, predicate1, predicate2, predicate3, predicate4, predicate5, true);
+
+            var (result1, result2, result3, result4, result5) = (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+            var (found1, found2, found3, found4, found5) = (false, false, false, false, false);
+
+            if (source is IList<TSource> list)
+            {
+                var helper = new FirstListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref result5, ref found1, ref found2, ref found3, ref found4, ref found5, predicate1, predicate2, predicate3,
+                    predicate4, predicate5);
+            }
+            else
+            {
+                using var enumerator = source.GetEnumerator();
+                if (enumerator.MoveNext())
+                {
+                    var helper = new FirstEnumerableHelper<TSource>(enumerator);
+                    helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref result5, ref found1, ref found2, ref found3, ref found4, ref found5, predicate1, predicate2, predicate3,
+                        predicate4, predicate5);
+                }
+            }
+
+            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
+            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
+            if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
+            if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
+            if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
+
+            return (result1, result2, result3, result4, result5);
         }
 
         public static (TSource, TSource, TSource, TSource, TSource, TSource) First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate1,
@@ -57,7 +155,35 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate4 ??= ThrowArgumentNullException(predicate4, nameof(predicate4));
             predicate5 ??= ThrowArgumentNullException(predicate5, nameof(predicate5));
             predicate6 ??= ThrowArgumentNullException(predicate6, nameof(predicate6));
-            return FirstOrDefaultInternal(source, predicate1, predicate2, predicate3, predicate4, predicate5, predicate6, true);
+
+            var (result1, result2, result3, result4, result5, result6) = (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+            var (found1, found2, found3, found4, found5, found6) = (false, false, false, false, false, false);
+
+            if (source is IList<TSource> list)
+            {
+                var helper = new FirstListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref result5, ref result6, ref found1, ref found2, ref found3, ref found4, ref found5, ref found6, predicate1,
+                    predicate2, predicate3, predicate4, predicate5, predicate6);
+            }
+            else
+            {
+                using var enumerator = source.GetEnumerator();
+                if (enumerator.MoveNext())
+                {
+                    var helper = new FirstEnumerableHelper<TSource>(enumerator);
+                    helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref result5, ref result6,
+                        ref found1, ref found2, ref found3, ref found4, ref found5, ref found6, predicate1, predicate2, predicate3, predicate4, predicate5, predicate6);
+                }
+            }
+
+            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
+            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
+            if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
+            if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
+            if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
+            if (!found6) ThrowInvalidOperationException($"Item not found for {nameof(predicate6)}");
+
+            return (result1, result2, result3, result4, result5, result6);
         }
 
         public static (TSource, TSource, TSource, TSource, TSource, TSource, TSource) First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate1,
@@ -72,579 +198,35 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate5 ??= ThrowArgumentNullException(predicate5, nameof(predicate5));
             predicate6 ??= ThrowArgumentNullException(predicate6, nameof(predicate6));
             predicate7 ??= ThrowArgumentNullException(predicate7, nameof(predicate7));
-            return SingleOrDefaultInternal(source, predicate1, predicate2, predicate3, predicate4, predicate5, predicate6, predicate7, true);
-        }
-        
-        private static (TSource, TSource) FirstOrDefaultInternal<TSource>(IEnumerable<TSource> source, Func<TSource, bool> predicate1, Func<TSource, bool> predicate2, bool checkValidity)
-        {
-            bool found1 = false;
-            bool found2 = false;
-            var (result1, result2) = (default(TSource), default(TSource));
 
-            if (source is IList<TSource> list)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var current = list[i];
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-                    
-                    if (found1 && found2)
-                        return (result1, result2);
-                }
-            }
-            else
-            {
-                using IEnumerator<TSource> e = source.GetEnumerator();
-                while (e.MoveNext())
-                {
-                    var current = e.Current;
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-                    
-                    if (found1 && found2)
-                        return (result1, result2);
-                }
-            }
-
-            if (checkValidity)
-            {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-            }
-
-            return (result1, result2);
-        }
-
-        private static (TSource, TSource, TSource) FirstOrDefaultInternal<TSource>(IEnumerable<TSource> source, Func<TSource, bool> predicate1,
-            Func<TSource, bool> predicate2, Func<TSource, bool> predicate3, bool checkValidity)
-        {
-            bool found1 = false;
-            bool found2 = false;
-            bool found3 = false;
-            var (result1, result2, result3) =
-                (default(TSource), default(TSource), default(TSource));
-
-            if (source is IList<TSource> list)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var current = list[i];
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-
-                    if (!found3 && predicate3(current))
-                    {
-                        found3 = true;
-                        result3 = current;
-                    }
-                    
-                    if (found1 && found2 && found3)
-                        return (result1, result2, result3);
-                }
-            }
-            else
-            {
-                using IEnumerator<TSource> e = source.GetEnumerator();
-                while (e.MoveNext())
-                {
-                    var current = e.Current;
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-
-                    if (!found3 && predicate3(current))
-                    {
-                        found3 = true;
-                        result3 = current;
-                    }
-                    
-                    if (found1 && found2 && found3)
-                        return (result1, result2, result3);
-                }
-            }
-
-            if (checkValidity)
-            {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-                if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-            }
-
-            return (result1, result2, result3);
-        }
-
-        private static (TSource, TSource, TSource, TSource) FirstOrDefaultInternal<TSource>(IEnumerable<TSource> source, Func<TSource, bool> predicate1,
-            Func<TSource, bool> predicate2, Func<TSource, bool> predicate3, Func<TSource, bool> predicate4, bool checkValidity)
-        {
-            bool found1 = false;
-            bool found2 = false;
-            bool found3 = false;
-            bool found4 = false;
-            var (result1, result2, result3, result4) =
-                (default(TSource), default(TSource), default(TSource), default(TSource));
-
-            if (source is IList<TSource> list)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var current = list[i];
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-
-                    if (!found3 && predicate3(current))
-                    {
-                        found3 = true;
-                        result3 = current;
-                    }
-
-                    if (!found4 && predicate4(current))
-                    {
-                        found4 = true;
-                        result4 = current;
-                    }
-                    
-                    if (found1 && found2 && found3 && found4)
-                        return (result1, result2, result3, result4);
-                }
-            }
-            else
-            {
-                using IEnumerator<TSource> e = source.GetEnumerator();
-                while (e.MoveNext())
-                {
-                    var current = e.Current;
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-
-                    if (!found3 && predicate3(current))
-                    {
-                        found3 = true;
-                        result3 = current;
-                    }
-
-                    if (!found4 && predicate4(current))
-                    {
-                        found4 = true;
-                        result4 = current;
-                    }
-                    
-                    if (found1 && found2 && found3 && found4)
-                        return (result1, result2, result3, result4);
-                }
-            }
-
-            if (checkValidity)
-            {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-                if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-                if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
-            }
-            
-            return (result1, result2, result3, result4);
-        }
-
-        private static (TSource, TSource, TSource, TSource, TSource) FirstOrDefaultInternal<TSource>(IEnumerable<TSource> source, Func<TSource, bool> predicate1,
-            Func<TSource, bool> predicate2, Func<TSource, bool> predicate3, Func<TSource, bool> predicate4, Func<TSource, bool> predicate5, bool checkValidity)
-        {
-            bool found1 = false;
-            bool found2 = false;
-            bool found3 = false;
-            bool found4 = false;
-            bool found5 = false;
-            var (result1, result2, result3, result4, result5) =
-                (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
-            
-            if (source is IList<TSource> list)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var current = list[i];
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-
-                    if (!found3 && predicate3(current))
-                    {
-                        found3 = true;
-                        result3 = current;
-                    }
-
-                    if (!found4 && predicate4(current))
-                    {
-                        found4 = true;
-                        result4 = current;
-                    }
-
-                    if (!found5 && predicate5(current))
-                    {
-                        found5 = true;
-                        result5 = current;
-                    }
-
-                    if (found1 && found2 && found3 && found4 && found5)
-                        return (result1, result2, result3, result4, result5);
-                }
-            }
-            else
-            {
-                using IEnumerator<TSource> e = source.GetEnumerator();
-                while (e.MoveNext())
-                {
-                    var current = e.Current;
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-
-                    if (!found3 && predicate3(current))
-                    {
-                        found3 = true;
-                        result3 = current;
-                    }
-
-                    if (!found4 && predicate4(current))
-                    {
-                        found4 = true;
-                        result4 = current;
-                    }
-
-                    if (!found5 && predicate5(current))
-                    {
-                        found5 = true;
-                        result5 = current;
-                    }
-                    
-                    if (found1 && found2 && found3 && found4 && found5)
-                        return (result1, result2, result3, result4, result5);
-                }
-            }
-
-            if (checkValidity)
-            {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-                if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-                if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
-                if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
-            }
-
-            return (result1, result2, result3, result4, result5);
-        }
-
-        private static (TSource, TSource, TSource, TSource, TSource, TSource) FirstOrDefaultInternal<TSource>(IEnumerable<TSource> source, Func<TSource, bool> predicate1,
-            Func<TSource, bool> predicate2, Func<TSource, bool> predicate3, Func<TSource, bool> predicate4, Func<TSource, bool> predicate5, Func<TSource, bool> predicate6, bool checkValidity)
-        {
-            bool found1 = false;
-            bool found2 = false;
-            bool found3 = false;
-            bool found4 = false;
-            bool found5 = false;
-            bool found6 = false;
-            var (result1, result2, result3, result4, result5, result6) =
-                (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
-
-            if (source is IList<TSource> list)
-            {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var current = list[i];
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-
-                    if (!found3 && predicate3(current))
-                    {
-                        found3 = true;
-                        result3 = current;
-                    }
-
-                    if (!found4 && predicate4(current))
-                    {
-                        found4 = true;
-                        result4 = current;
-                    }
-
-                    if (!found5 && predicate5(current))
-                    {
-                        found5 = true;
-                        result5 = current;
-                    }
-
-                    if (!found6 && predicate6(current))
-                    {
-                        found6 = true;
-                        result6 = current;
-                    }
-                    if (found1 && found2 && found3 && found4 && found5 && found6)
-                        return (result1, result2, result3, result4, result5, result6);
-                }
-            }
-            else
-            {
-                using IEnumerator<TSource> e = source.GetEnumerator();
-                while (e.MoveNext())
-                {
-                    var current = e.Current;
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-
-                    if (!found3 && predicate3(current))
-                    {
-                        found3 = true;
-                        result3 = current;
-                    }
-
-                    if (!found4 && predicate4(current))
-                    {
-                        found4 = true;
-                        result4 = current;
-                    }
-
-                    if (!found5 && predicate5(current))
-                    {
-                        found5 = true;
-                        result5 = current;
-                    }
-
-                    if (!found6 && predicate6(current))
-                    {
-                        found6 = true;
-                        result6 = current;
-                    }
-                    
-                    if (found1 && found2 && found3 && found4 && found5 && found6)
-                        return (result1, result2, result3, result4, result5, result6);
-                }
-            }
-
-            if (checkValidity)
-            {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-                if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-                if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
-                if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
-                if (!found6) ThrowInvalidOperationException($"Item not found for {nameof(predicate6)}");
-            }
-
-            return (result1, result2, result3, result4, result5, result6);
-        }
-
-        private static (TSource, TSource, TSource, TSource, TSource, TSource, TSource) FirstOrDefaultInternal<TSource>(IEnumerable<TSource> source, Func<TSource, bool> predicate1,
-            Func<TSource, bool> predicate2, Func<TSource, bool> predicate3, Func<TSource, bool> predicate4, Func<TSource, bool> predicate5, Func<TSource, bool> predicate6,
-            Func<TSource, bool> predicate7, bool checkValidity)
-        {
-            bool found1 = false;
-            bool found2 = false;
-            bool found3 = false;
-            bool found4 = false;
-            bool found5 = false;
-            bool found6 = false;
-            bool found7 = false;
             var (result1, result2, result3, result4, result5, result6, result7) =
                 (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+            var (found1, found2, found3, found4, found5, found6, found7) = (false, false, false, false, false, false, false);
 
             if (source is IList<TSource> list)
             {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    var current = list[i];
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-
-                    if (!found3 && predicate3(current))
-                    {
-                        found3 = true;
-                        result3 = current;
-                    }
-
-                    if (!found4 && predicate4(current))
-                    {
-                        found4 = true;
-                        result4 = current;
-                    }
-
-                    if (!found5 && predicate5(current))
-                    {
-                        found5 = true;
-                        result5 = current;
-                    }
-
-                    if (!found6 && predicate6(current))
-                    {
-                        found6 = true;
-                        result6 = current;
-                    }
-
-                    if (!found7 && predicate7(current))
-                    {
-                        found7 = true;
-                        result7 = current;
-                    }
-                    
-                    if (found1 && found2 && found3 && found4 && found5 && found6 && found7)
-                        return (result1, result2, result3, result4, result5, result6, result7);
-                }
+                var helper = new FirstListHelper<TSource>(list);
+                helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref result5, ref result6, ref result7, ref found1, ref found2, ref found3, ref found4, ref found5, ref found6,
+                    ref found7, predicate1, predicate2, predicate3, predicate4, predicate5, predicate6, predicate7);
             }
             else
             {
-                using IEnumerator<TSource> e = source.GetEnumerator();
-                while (e.MoveNext())
+                using var enumerator = source.GetEnumerator();
+                if (enumerator.MoveNext())
                 {
-                    var current = e.Current;
-                    if (!found1 && predicate1(current))
-                    {
-                        found1 = true;
-                        result1 = current;
-                    }
-
-                    if (!found2 && predicate2(current))
-                    {
-                        found2 = true;
-                        result2 = current;
-                    }
-
-                    if (!found3 && predicate3(current))
-                    {
-                        found3 = true;
-                        result3 = current;
-                    }
-
-                    if (!found4 && predicate4(current))
-                    {
-                        found4 = true;
-                        result4 = current;
-                    }
-
-                    if (!found5 && predicate5(current))
-                    {
-                        found5 = true;
-                        result5 = current;
-                    }
-
-                    if (!found6 && predicate6(current))
-                    {
-                        found6 = true;
-                        result6 = current;
-                    }
-
-                    if (!found7 && predicate7(current))
-                    {
-                        found7 = true;
-                        result7 = current;
-                    }
-                    
-                    if (found1 && found2 && found3 && found4 && found5 && found6 && found7)
-                        return (result1, result2, result3, result4, result5, result6, result7);
+                    var helper = new FirstEnumerableHelper<TSource>(enumerator);
+                    helper.SetValues(ref result1, ref result2, ref result3, ref result4, ref result5, ref result6, ref result7, ref found1, ref found2, ref found3, ref found4, ref found5, ref found6,
+                        ref found7, predicate1, predicate2, predicate3, predicate4, predicate5, predicate6, predicate7);
                 }
             }
-            
-            if (checkValidity)
-            {
-                if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
-                if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
-                if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
-                if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
-                if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
-                if (!found6) ThrowInvalidOperationException($"Item not found for {nameof(predicate6)}");
-                if (!found7) ThrowInvalidOperationException($"Item not found for {nameof(predicate7)}");
-            }
+
+            if (!found1) ThrowInvalidOperationException($"Item not found for {nameof(predicate1)}");
+            if (!found2) ThrowInvalidOperationException($"Item not found for {nameof(predicate2)}");
+            if (!found3) ThrowInvalidOperationException($"Item not found for {nameof(predicate3)}");
+            if (!found4) ThrowInvalidOperationException($"Item not found for {nameof(predicate4)}");
+            if (!found5) ThrowInvalidOperationException($"Item not found for {nameof(predicate5)}");
+            if (!found6) ThrowInvalidOperationException($"Item not found for {nameof(predicate6)}");
+            if (!found7) ThrowInvalidOperationException($"Item not found for {nameof(predicate7)}");
 
             return (result1, result2, result3, result4, result5, result6, result7);
         }

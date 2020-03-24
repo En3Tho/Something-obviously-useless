@@ -15,15 +15,15 @@ namespace Benchmarks.Benchmarks
         private static readonly Func<int, bool> _999_Getter = x => x == 999;
         
         [Params(10, 100, 1000)] public int Count { get; set; }
-        public List<int> Items { get; set; }
+        public IEnumerable<int> Items { get; set; }
 
         [GlobalSetup]
         public void GlobalSetup()
         {
-            Items = Enumerable.Range(1, Count).ToList();
+            Items = Enumerable.Range(1, Count);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindFirstOrDefault_50_787_Linq()
         {
             var _50 = Items.FirstOrDefault(_50_Getter);
@@ -36,39 +36,33 @@ namespace Benchmarks.Benchmarks
             var (_50, _787) = Items.FirstOrDefault(_50_Getter, _787_Getter);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindSingleOrDefault_50_787_Linq()
         {
             var _50 = Items.SingleOrDefault(_50_Getter);
             var _787 = Items.SingleOrDefault(_787_Getter);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindSingleOrDefault_50_787_Ext()
         {
             var (_50, _787) = Items.SingleOrDefault(_50_Getter, _787_Getter);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindLastOrDefault_50_787_Linq()
         {
             var _50 = Items.LastOrDefault(_50_Getter);
             var _787 = Items.LastOrDefault(_787_Getter);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindLastOrDefault_50_787_Ext()
         {
             var (_50, _787) = Items.LastOrDefault(_50_Getter, _787_Getter);
         }
-        
-        //[Benchmark]
-        public void FindLastOrDefault_50_787_Ext2()
-        {
-            var (_50, _787) = Items.LastOrDefault(_50_Getter, _787_Getter);
-        }
-        
-        //[Benchmark]
+
+        [Benchmark]
         public void FindFirstOrDefault_6_50_787_Linq()
         {
             var _6 = Items.FirstOrDefault(_6_Getter);
@@ -82,7 +76,7 @@ namespace Benchmarks.Benchmarks
             var (_6, _50, _787) = Items.FirstOrDefault(_6_Getter, _50_Getter, _787_Getter);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindSingleOrDefault_6_50_787_Linq()
         {
             var _6 = Items.SingleOrDefault(_6_Getter);
@@ -90,19 +84,13 @@ namespace Benchmarks.Benchmarks
             var _787 = Items.SingleOrDefault(_787_Getter);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindSingleOrDefault_6_50_787_Ext()
         {
             var (_6, _50, _787) = Items.SingleOrDefault(_6_Getter, _50_Getter, _787_Getter);
         }
-        
-        //[Benchmark]
-        public void FindSingleOrDefault_6_50_787_Ext2()
-        {
-            var (_6, _50, _787) = Items.SingleOrDefault(_6_Getter, _50_Getter, _787_Getter);
-        }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindLastOrDefault_6_50_787_Linq()
         {
             var _6 = Items.LastOrDefault(_6_Getter);
@@ -110,19 +98,13 @@ namespace Benchmarks.Benchmarks
             var _787 = Items.LastOrDefault(_787_Getter);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindLastOrDefault_6_50_787_Ext()
         {
             var (_6, _50, _787) = Items.LastOrDefault(_6_Getter, _50_Getter, _787_Getter);
         }
-        
-        //[Benchmark]
-        public void FindLastOrDefault_6_50_787_Ext2()
-        {
-            var (_6, _50, _787) = Items.LastOrDefault(_6_Getter, _50_Getter, _787_Getter);
-        }
-        
-        //[Benchmark]
+
+        [Benchmark]
         public void FindFirstOrDefault_6_50_787_999_Linq()
         {
             var _6 = Items.FirstOrDefault(_6_Getter);
@@ -137,7 +119,7 @@ namespace Benchmarks.Benchmarks
             var (_6, _50, _787, _999) = Items.FirstOrDefault(_6_Getter, _50_Getter, _787_Getter, _999_Getter);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindSingleOrDefault_6_50_787_999_Linq()
         {
             var _6 = Items.SingleOrDefault(_6_Getter);
@@ -146,19 +128,13 @@ namespace Benchmarks.Benchmarks
             var _999 = Items.SingleOrDefault(_999_Getter);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindSingleOrDefault_6_50_787_999_Ext()
         {
             var (_6, _50, _787, _999) = Items.SingleOrDefault(_6_Getter, _50_Getter, _787_Getter,_999_Getter);
         }
-        
-        //[Benchmark]
-        public void FindSingleOrDefault_6_50_787_999_Ext2()
-        {
-            var (_6, _50, _787, _999) = Items.SingleOrDefault(_6_Getter, _50_Getter, _787_Getter,_999_Getter);
-        }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindLastOrDefault_6_50_787_999_Linq()
         {
             var _6 = Items.LastOrDefault(_6_Getter);
@@ -167,14 +143,8 @@ namespace Benchmarks.Benchmarks
             var _999 = Items.LastOrDefault(_999_Getter);
         }
 
-        //[Benchmark]
+        [Benchmark]
         public void FindLastOrDefault_6_50_787_999_Ext()
-        {
-            var (_6, _50, _787, _999) = Items.LastOrDefault(_6_Getter, _50_Getter, _787_Getter, _999_Getter);
-        }
-        
-        //[Benchmark]
-        public void FindLastOrDefault_6_50_787_999_Ext2()
         {
             var (_6, _50, _787, _999) = Items.LastOrDefault(_6_Getter, _50_Getter, _787_Getter, _999_Getter);
         }
