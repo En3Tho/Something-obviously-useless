@@ -4,7 +4,7 @@ using static En3Tho.HelperClasses.ThrowHelper;
 
 namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 {
-    public static partial class ValueTupleEnumerableExtensions
+    public static partial class IEnumerableToValueTupleExtensions
     {
         public static (TSource, TSource) First<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate1, Func<TSource, bool> predicate2)
         {

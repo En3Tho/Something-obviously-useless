@@ -5,7 +5,7 @@ using static En3Tho.HelperClasses.ThrowHelper;
 
 namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 {
-    public static partial class ValueTupleEnumerableExtensions
+    public static partial class IEnumerableToValueTupleExtensions
     {
         private const string ThrowNoMatchExceptionFormat = "Sequence contains no matching element ({0})";
         private const string ThrowMoreThanOneMatchExceptionFormat = "Sequence contains more than one matching element ({0})";

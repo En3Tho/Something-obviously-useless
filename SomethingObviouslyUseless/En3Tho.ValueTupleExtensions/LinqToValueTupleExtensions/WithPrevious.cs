@@ -3,7 +3,7 @@ using static En3Tho.HelperClasses.ThrowHelper;
 
 namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 {
-    public static partial class ValueTupleEnumerableExtensions
+    public static partial class IEnumerableToValueTupleExtensions
     {
         public static IEnumerable<(TSource, TSource)> WithPrevious<TSource>(this IEnumerable<TSource> source)
         {
