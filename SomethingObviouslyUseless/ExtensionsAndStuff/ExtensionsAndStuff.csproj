@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Compile Include="..\En3Tho.HelperClasses\NullableAttributes.cs" Link="NullableAttributes.cs" />
-    <Compile Include="..\En3Tho.HelperClasses\ThrowHelper.cs" Link="ThrowHelper.cs" />
   </ItemGroup>  
 
   <ItemGroup>

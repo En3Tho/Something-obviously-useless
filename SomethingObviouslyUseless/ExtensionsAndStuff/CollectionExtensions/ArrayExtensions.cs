@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using static En3Tho.HelperClasses.ThrowHelper;
+using static ExtensionsAndStuff.ThrowHelper;
 
 namespace ExtensionsAndStuff.CollectionExtensions
 {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using static En3Tho.HelperClasses.ThrowHelper;
+using static ExtensionsAndStuff.ThrowHelper;
 
 namespace ExtensionsAndStuff.Linq
 {

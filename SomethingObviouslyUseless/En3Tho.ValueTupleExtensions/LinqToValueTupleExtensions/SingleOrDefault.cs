@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using static En3Tho.HelperClasses.ThrowHelper;
+using static En3Tho.ValueTupleExtensions.ThrowHelper;
 
 namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 {
@@ -89,7 +89,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
         {
             bool found1 = false;
             bool found2 = false;
-            var (result1, result2) = (default(TSource), default(TSource));
+            var (result1, result2) = (default(TSource)!, default(TSource)!);
 
             if (source is IList<TSource> list)
             {
@@ -149,7 +149,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             bool found2 = false;
             bool found3 = false;
             var (result1, result2, result3) =
-                (default(TSource), default(TSource), default(TSource));
+                (default(TSource)!, default(TSource)!, default(TSource)!);
 
             if (source is IList<TSource> list)
             {
@@ -225,7 +225,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             bool found3 = false;
             bool found4 = false;
             var (result1, result2, result3, result4) =
-                (default(TSource), default(TSource), default(TSource), default(TSource));
+                (default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!);
 
             if (source is IList<TSource> list)
             {
@@ -317,7 +317,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             bool found4 = false;
             bool found5 = false;
             var (result1, result2, result3, result4, result5) =
-                (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+                (default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!);
 
             if (source is IList<TSource> list)
             {
@@ -425,7 +425,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             bool found5 = false;
             bool found6 = false;
             var (result1, result2, result3, result4, result5, result6) =
-                (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+                (default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!);
 
             if (source is IList<TSource> list)
             {
@@ -550,7 +550,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             bool found6 = false;
             bool found7 = false;
             var (result1, result2, result3, result4, result5, result6, result7) =
-                (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+                (default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!);
 
             if (source is IList<TSource> list)
             {

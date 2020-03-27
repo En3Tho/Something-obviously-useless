@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace En3Tho.ValueTupleExtensions.CollectionsToValueTupleExtensions
 {
-    public static class ICollectionToValueTupleExtensions
+    public static partial class ICollectionToValueTupleExtensions
     {
         public static TResult[] Map<TSource, TResult>(this ICollection<TSource> source, Func<TSource, TResult> mapper)
         {

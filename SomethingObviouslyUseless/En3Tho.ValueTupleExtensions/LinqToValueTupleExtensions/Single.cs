@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using static En3Tho.HelperClasses.ThrowHelper;
+using static En3Tho.ValueTupleExtensions.ThrowHelper;
 
 namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 {

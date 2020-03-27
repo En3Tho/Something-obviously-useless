@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace En3Tho.ValueTupleExtensions.CollectionsToValueTupleExtensions
 {
-    public static class IListToValueTupleExtensions
+    public static partial class IListToValueTupleExtensions
     {
         public static TResult[] Map<TSource, TResult>(this IList<TSource> source, Func<TSource, TResult> mapper)
         {

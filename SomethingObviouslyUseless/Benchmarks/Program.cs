@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using BenchmarkDotNet.Running;
 using Benchmarks.Benchmarks;
 using En3Tho.ValueTupleExtensions.CollectionsToValueTupleExtensions;
@@ -14,7 +15,7 @@ namespace Benchmarks
     {
         static void Main(string[] args)
         {
-            //BenchmarkRunner.Run<FirstOrDefaultBenchmark>();
+            BenchmarkRunner.Run<GenericTestsBenchmark>();
             Console.ReadLine();
         }
     }

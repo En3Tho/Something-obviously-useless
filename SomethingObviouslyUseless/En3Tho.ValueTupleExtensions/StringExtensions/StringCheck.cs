@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using static En3Tho.HelperClasses.ThrowHelper;
+using static En3Tho.ValueTupleExtensions.ThrowHelper;
 
 namespace En3Tho.ValueTupleExtensions.StringExtensions
 {

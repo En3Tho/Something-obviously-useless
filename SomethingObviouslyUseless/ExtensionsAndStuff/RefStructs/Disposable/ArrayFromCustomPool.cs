@@ -1,6 +1,6 @@
 ﻿using System.Buffers;
 using System.Runtime.CompilerServices;
-using static En3Tho.HelperClasses.ThrowHelper;
+using static ExtensionsAndStuff.ThrowHelper;
 
 namespace ExtensionsAndStuff.RefStructs
 {

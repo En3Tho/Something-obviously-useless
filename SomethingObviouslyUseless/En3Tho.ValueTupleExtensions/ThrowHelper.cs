@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace En3Tho.HelperClasses
+namespace En3Tho.ValueTupleExtensions
 {
     internal static class ThrowHelper
     {

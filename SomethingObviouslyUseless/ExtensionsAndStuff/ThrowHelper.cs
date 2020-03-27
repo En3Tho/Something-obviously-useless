@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace En3Tho.HelperClasses
+namespace ExtensionsAndStuff
 {
     internal static class ThrowHelper
     {

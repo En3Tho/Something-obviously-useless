@@ -1,4 +1,4 @@
-﻿using static En3Tho.HelperClasses.ThrowHelper;
+﻿using static ExtensionsAndStuff.ThrowHelper;
 
 namespace ExtensionsAndStuff.HelperClasses.WorkflowHelpers
 {

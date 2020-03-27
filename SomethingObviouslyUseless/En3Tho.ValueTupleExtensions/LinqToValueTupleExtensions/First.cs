@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using static En3Tho.HelperClasses.ThrowHelper;
+using static En3Tho.ValueTupleExtensions.ThrowHelper;
 
 namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 {
@@ -12,7 +12,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate1 ??= ThrowArgumentNullException(predicate1, nameof(predicate1));
             predicate2 ??= ThrowArgumentNullException(predicate2, nameof(predicate2));
 
-            var (result1, result2) = (default(TSource), default(TSource));
+            var (result1, result2) = (default(TSource)!, default(TSource)!);
             var (found1, found2) = (false, false);
 
             if (source is IList<TSource> list)
@@ -45,7 +45,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate2 ??= ThrowArgumentNullException(predicate2, nameof(predicate2));
             predicate3 ??= ThrowArgumentNullException(predicate3, nameof(predicate3));
 
-            var (result1, result2, result3) = (default(TSource), default(TSource), default(TSource));
+            var (result1, result2, result3) = (default(TSource)!, default(TSource)!, default(TSource)!);
             var (found1, found2, found3) = (false, false, false);
 
             if (source is IList<TSource> list)
@@ -80,7 +80,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate3 ??= ThrowArgumentNullException(predicate3, nameof(predicate3));
             predicate4 ??= ThrowArgumentNullException(predicate4, nameof(predicate4));
 
-            var (result1, result2, result3, result4) = (default(TSource), default(TSource), default(TSource), default(TSource));
+            var (result1, result2, result3, result4) = (default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!);
             var (found1, found2, found3, found4) = (false, false, false, false);
 
             if (source is IList<TSource> list)
@@ -116,7 +116,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate4 ??= ThrowArgumentNullException(predicate4, nameof(predicate4));
             predicate5 ??= ThrowArgumentNullException(predicate5, nameof(predicate5));
 
-            var (result1, result2, result3, result4, result5) = (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+            var (result1, result2, result3, result4, result5) = (default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!);
             var (found1, found2, found3, found4, found5) = (false, false, false, false, false);
 
             if (source is IList<TSource> list)
@@ -156,7 +156,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate5 ??= ThrowArgumentNullException(predicate5, nameof(predicate5));
             predicate6 ??= ThrowArgumentNullException(predicate6, nameof(predicate6));
 
-            var (result1, result2, result3, result4, result5, result6) = (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+            var (result1, result2, result3, result4, result5, result6) = (default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!);
             var (found1, found2, found3, found4, found5, found6) = (false, false, false, false, false, false);
 
             if (source is IList<TSource> list)
@@ -200,7 +200,7 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             predicate7 ??= ThrowArgumentNullException(predicate7, nameof(predicate7));
 
             var (result1, result2, result3, result4, result5, result6, result7) =
-                (default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource), default(TSource));
+                (default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!, default(TSource)!);
             var (found1, found2, found3, found4, found5, found6, found7) = (false, false, false, false, false, false, false);
 
             if (source is IList<TSource> list)
