@@ -5,6 +5,14 @@ namespace En3Tho.ValueTupleExtensions.CollectionsToValueTupleExtensions
 {
     public static class IListToValueTupleExtensions
     {
+        public static TResult[] Map<TSource, TResult>(this IList<TSource> source, Func<TSource, TResult> mapper)
+        {
+            var count = source.Count;
+            var result = new TResult[count];
+            for (int i = 0; i < count; i++) { result[i] = mapper(source[i]); }
+            return result;
+        }
+        
         public static (TResult1[], TResult2[]) Map<TSource, TResult1, TResult2>(this IList<TSource> source, Func<TSource, TResult1> mapper1, Func<TSource, TResult2> mapper2)
         {
             var mapper = new ArrayMapper<TSource, TResult1, TResult2>(source.Count, mapper1, mapper2);

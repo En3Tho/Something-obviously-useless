@@ -12,6 +12,6 @@ namespace Benchmarks.Classes
         public int E { get; }
         
         public TupleValidated(object a, string b, int[] c, int? d, int e)
-            => (A, B, C, D, E) = (a, b, c, d, e).NullCheck();
+            => (A, B, C, D, E) = (a, b, c, d, e).NullCheck(nameof(a), nameof(b), nameof(c), nameof(d), nameof(e));
     }
 }
