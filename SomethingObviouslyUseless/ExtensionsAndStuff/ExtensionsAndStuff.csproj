@@ -18,10 +18,15 @@
 
   <ItemGroup>
     <Compile Include="..\En3Tho.HelperClasses\NullableAttributes.cs" Link="NullableAttributes.cs" />
+    <Compile Remove="FastSorters\FastIListSorter.cs" />
   </ItemGroup>  
 
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.3" />
+  </ItemGroup>  
+
+  <ItemGroup>
+    <Folder Include="FastSorters" />
   </ItemGroup>
 
 </Project>
