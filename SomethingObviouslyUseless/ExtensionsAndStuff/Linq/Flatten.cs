@@ -14,7 +14,7 @@ namespace ExtensionsAndStuff.Linq
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="R"></typeparam>
-        private class FlattenEnumerator<T, R> : IEnumerator<T>, IEnumerable<T> where R : IEnumerable<T>
+        private sealed class FlattenEnumerator<T, R> : IEnumerator<T>, IEnumerable<T> where R : IEnumerable<T>
         {
             private readonly Func<T, R> _childCollectionGetter;
             private readonly LinkedList<IEnumerator<T>> _linkedList;
@@ -52,7 +52,7 @@ namespace ExtensionsAndStuff.Linq
                 var prevNode = _listNode.Previous;
                 if (prevNode is null) // we're at head node
                 {
-                    Current = default;
+                    Current = default!;
                     return false;
                 }
 
@@ -65,15 +65,15 @@ namespace ExtensionsAndStuff.Linq
             private void ClearNode(LinkedListNode<IEnumerator<T>> node)
             {
                 node.Value.Dispose();
-                node.Value = null; // cleared to somewhat reduce gc pressure in case of deep nesting because we reuse nodes but don't reuse enumerators
+                node.Value = null!; // cleared to somewhat reduce gc pressure in case of deep nesting because we reuse nodes but don't reuse enumerators
             }
 
             public void Reset()
             {
-                _listNode = _linkedList.First;
+                _listNode = _linkedList.First!;
                 _listNode.Value.Reset();
-                Dispose(_listNode.Next);
-                Current = default;
+                Dispose(_listNode.Next!);
+                Current = default!;
             }
             
             private IEnumerator<T> Enumerator
@@ -85,7 +85,7 @@ namespace ExtensionsAndStuff.Linq
 
             object? IEnumerator.Current => Current;
 
-            public void Dispose() => Dispose(_linkedList.First);
+            public void Dispose() => Dispose(_linkedList.First!);
 
             private void Dispose(LinkedListNode<IEnumerator<T>> start)
             {

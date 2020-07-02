@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace ExtensionsAndStuff.Linq
 {
     /// <summary>
-    /// A lightweight hash set.
+    /// A lightweight hash set with value tracking. 
     /// </summary>
     /// <typeparam name="TElement">The type of the set's items.</typeparam>
     internal sealed class ValueTrackingSet<TElement>
@@ -150,43 +150,6 @@ namespace ExtensionsAndStuff.Linq
  
             _buckets = newBuckets;
             _slots = newSlots;
-        }
- 
-        /// <summary>
-        /// Creates an array from the items in this set.
-        /// </summary>
-        /// <returns>An array of the items in this set.</returns>
-        public TElement[] ToArray()
-        {
-#if DEBUG
-            Debug.Assert(!_haveRemoved, "Optimised ToArray cannot be called if Remove has been called.");
-#endif
-            var array = new TElement[_count];
-            for (int i = 0; i != array.Length; ++i)
-            {
-                array[i] = _slots[i]._value;
-            }
- 
-            return array;
-        }
- 
-        /// <summary>
-        /// Creates a list from the items in this set.
-        /// </summary>
-        /// <returns>A list of the items in this set.</returns>
-        public List<TElement> ToList()
-        {
-#if DEBUG
-            Debug.Assert(!_haveRemoved, "Optimised ToList cannot be called if Remove has been called.");
-#endif
-            int count = _count;
-            var list = new List<TElement>(count);
-            for (int i = 0; i != count; ++i)
-            {
-                list.Add(_slots[i]._value);
-            }
- 
-            return list;
         }
 
         public IEnumerable<TElement> ToEnumerable()
