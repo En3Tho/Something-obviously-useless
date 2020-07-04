@@ -8,28 +8,30 @@ namespace ExtensionsAndStuff.Linq
     /// A lightweight hash set.
     /// </summary>
     /// <typeparam name="TElement">The type of the set's items.</typeparam>
-    internal sealed class ValueTrackingSet<TElement>
+    internal struct ValueTrackingSet<TElement>
     {
         /// <summary>
         /// The comparer used to hash and compare items in the set.
         /// </summary>
         private readonly IEqualityComparer<TElement> _comparer;
- 
+
         /// <summary>
         /// The hash buckets, which are used to index into the slots.
         /// </summary>
         private int[] _buckets;
- 
+
         /// <summary>
         /// The slots, each of which store an item and its hash code.
         /// </summary>
         private Slot[] _slots;
- 
+
         /// <summary>
         /// The number of items in this set.
         /// </summary>
         private int _count;
- 
+
+        public ReadOnlySpan<Slot> Slots => _slots; 
+
 #if DEBUG
         /// <summary>
         /// Whether <see cref="Remove"/> has been called on this set.
@@ -42,7 +44,7 @@ namespace ExtensionsAndStuff.Linq
         /// </remarks>
         private bool _haveRemoved;
 #endif
- 
+
         /// <summary>
         /// Constructs a set that compares items with the specified comparer.
         /// </summary>
@@ -54,8 +56,12 @@ namespace ExtensionsAndStuff.Linq
             _comparer = comparer ?? EqualityComparer<TElement>.Default;
             _buckets = new int[7];
             _slots = new Slot[7];
+            _count = 0;
+#if DEBUG
+            _haveRemoved = false;
+#endif
         }
- 
+
         /// <summary>
         /// Attempts to add an item to this set.
         /// </summary>
@@ -71,17 +77,11 @@ namespace ExtensionsAndStuff.Linq
             int hashCode = InternalGetHashCode(value);
             for (int i = _buckets[hashCode % _buckets.Length] - 1; i >= 0; i = _slots[i]._next)
             {
-                if (_slots[i]._hashCode == hashCode && _comparer.Equals(_slots[i]._value, value))
-                {
-                    return false;
-                }
+                if (_slots[i]._hashCode == hashCode && _comparer.Equals(_slots[i]._value, value)) { return false; }
             }
- 
-            if (_count == _slots.Length)
-            {
-                Resize();
-            }
- 
+
+            if (_count == _slots.Length) { Resize(); }
+
             int index = _count;
             _count++;
             int bucket = hashCode % _buckets.Length;
@@ -92,7 +92,7 @@ namespace ExtensionsAndStuff.Linq
             _buckets[bucket] = index + 1;
             return true;
         }
- 
+
         /// <summary>
         /// Attempts to remove an item from this set.
         /// </summary>
@@ -112,15 +112,9 @@ namespace ExtensionsAndStuff.Linq
             {
                 if (_slots[i]._hashCode == hashCode && _comparer.Equals(_slots[i]._value, value))
                 {
-                    if (last < 0)
-                    {
-                        _buckets[bucket] = _slots[i]._next + 1;
-                    }
-                    else
-                    {
-                        _slots[last]._next = _slots[i]._next;
-                    }
- 
+                    if (last < 0) { _buckets[bucket] = _slots[i]._next + 1; }
+                    else { _slots[last]._next = _slots[i]._next; }
+
                     _slots[i]._hashCode = -1;
                     _slots[i]._value = default!;
                     _slots[i]._next = -1;
@@ -128,10 +122,10 @@ namespace ExtensionsAndStuff.Linq
                     return true;
                 }
             }
- 
+
             return false;
         }
- 
+
         /// <summary>
         /// Expands the capacity of this set to double the current capacity, plus one.
         /// </summary>
@@ -147,11 +141,11 @@ namespace ExtensionsAndStuff.Linq
                 newSlots[i]._next = newBuckets[bucket] - 1;
                 newBuckets[bucket] = i + 1;
             }
- 
+
             _buckets = newBuckets;
             _slots = newSlots;
         }
- 
+
         /// <summary>
         /// Creates an array from the items in this set.
         /// </summary>
@@ -162,14 +156,11 @@ namespace ExtensionsAndStuff.Linq
             Debug.Assert(!_haveRemoved, "Optimised ToArray cannot be called if Remove has been called.");
 #endif
             var array = new TElement[_count];
-            for (int i = 0; i != array.Length; ++i)
-            {
-                array[i] = _slots[i]._value;
-            }
- 
+            for (int i = 0; i != array.Length; ++i) { array[i] = _slots[i]._value; }
+
             return array;
         }
- 
+
         /// <summary>
         /// Creates a list from the items in this set.
         /// </summary>
@@ -181,11 +172,8 @@ namespace ExtensionsAndStuff.Linq
 #endif
             int count = _count;
             var list = new List<TElement>(count);
-            for (int i = 0; i != count; ++i)
-            {
-                list.Add(_slots[i]._value);
-            }
- 
+            for (int i = 0; i != count; ++i) { list.Add(_slots[i]._value); }
+
             return list;
         }
 
@@ -197,12 +185,12 @@ namespace ExtensionsAndStuff.Linq
                     yield return _slots[i]._value;
             }
         }
-        
+
         /// <summary>
         /// The number of items in this set.
         /// </summary>
         public int Count => _count;
- 
+
         /// <summary>
         /// Unions this set with an enumerable.
         /// </summary>
@@ -210,30 +198,27 @@ namespace ExtensionsAndStuff.Linq
         public void UnionWith(IEnumerable<TElement> other)
         {
             Debug.Assert(other != null);
- 
-            foreach (var item in other!)
-            {
-                Add(item);
-            }
+
+            foreach (var item in other!) { Add(item); }
         }
- 
+
         /// <summary>
         /// Gets the hash code of the provided value with its sign bit zeroed out, so that modulo has a positive result.
         /// </summary>
         /// <param name="value">The value to hash.</param>
         /// <returns>The lower 31 bits of the value's hash code.</returns>
         private int InternalGetHashCode(TElement value) => value == null ? 0 : _comparer.GetHashCode(value) & 0x7FFFFFFF;
- 
+
         /// <summary>
         /// An entry in the hash set.
         /// </summary>
-        private struct Slot
+        internal struct Slot
         {
             /// <summary>
             /// The hash code of the item.
             /// </summary>
             internal int _hashCode;
- 
+
             /// <summary>
             /// In the case of a hash collision, the index of the next slot to probe.
             /// </summary>

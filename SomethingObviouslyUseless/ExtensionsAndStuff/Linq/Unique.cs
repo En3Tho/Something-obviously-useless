@@ -32,9 +32,11 @@ namespace ExtensionsAndStuff.Linq
                 }
             }
 
-            foreach (var element in set.ToEnumerable())
+            var slots = set.Slots;
+            for (int i = 0; i < slots.Length; i++)
             {
-                yield return element;
+                if (slots[i]._hasValue)
+                    yield return slots[i]._value;
             }
         }
     }
