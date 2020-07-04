@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Compile Include="..\En3Tho.HelperClasses\NullableAttributes.cs" Link="NullableAttributes.cs" />
+    <Compile Remove="FastSorters\FastIListSorter.cs" />
   </ItemGroup>  
 
   <ItemGroup>

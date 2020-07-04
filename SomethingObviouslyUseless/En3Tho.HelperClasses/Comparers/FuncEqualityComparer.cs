@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace En3Tho.HelperClasses.Comparers
 {
-    public class FuncEqualityComparer<T> : IEqualityComparer<T>
+    public sealed class FuncEqualityComparer<T> : IEqualityComparer<T>
     {
         private readonly Func<T, T, bool> _equals;
         private readonly Func<T, int> _getHashCode;

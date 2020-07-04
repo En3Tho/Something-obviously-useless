@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Object.fs" />
+        <Compile Include="Byref.fs" />
+        <Compile Include="Seq.fs" />
+        <Compile Include="Span.fs" />
+    </ItemGroup>
+
+</Project>

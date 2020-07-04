@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace En3Tho.HelperClasses.Disposable.RefStructs
 {
-    public readonly struct ArrayFromSharedPool<T>
+    public readonly ref struct ArrayFromSharedPool<T>
     {
         private readonly bool m_clearOnReturn;
 
@@ -24,7 +24,7 @@ namespace En3Tho.HelperClasses.Disposable.RefStructs
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Dispose()
         {
-            if (Value is { })
+            if (Value is {})
                 ArrayPool<T>.Shared.Return(Value, m_clearOnReturn);
         }
     }

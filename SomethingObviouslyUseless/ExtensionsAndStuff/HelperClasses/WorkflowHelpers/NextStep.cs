@@ -1,6 +1,6 @@
 ﻿namespace ExtensionsAndStuff.HelperClasses.WorkflowHelpers
 {
-    public class NextStep
+    public sealed class NextStep
     {
         private NextStep() {}
         

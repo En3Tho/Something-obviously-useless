@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace En3Tho.HelperClasses.Comparers
 {
-    public class FuncComparer<T> : IComparer<T>
+    public sealed class FuncComparer<T> : IComparer<T>
     {
         private readonly Func<T, T, int> _compare;
 
