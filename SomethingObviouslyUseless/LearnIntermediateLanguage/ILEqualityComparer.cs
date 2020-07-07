@@ -17,7 +17,7 @@ namespace LearnIntermediateLanguage
 
         private ILEqualityComparer(bool includePrivateMembers) :
             this(ILEqualityComparerGenerator.GenerateEquals<T>(includePrivateMembers), ILEqualityComparerGenerator.GenerateGetHashCode<T>(includePrivateMembers)) { }
-        
+
         private ILEqualityComparer(Func<T, T, bool> equals, Func<T, int> ghc)
         {
             _equals = equals;
@@ -40,7 +40,7 @@ namespace LearnIntermediateLanguage
             return new ILEqualityComparer<T>(equals, ghc);
         }
 
-        public bool Equals(T x, T y) => x is {} && y is {} && _equals(x, y);
+        public bool Equals(T x, T y) => x is {} && y is {} && (ReferenceEquals(x, y) || _equals(x, y));
 
         public int GetHashCode(T obj) => obj is {} ? _ghc(obj) : 0;
     }
@@ -48,11 +48,13 @@ namespace LearnIntermediateLanguage
     internal static class ILEqualityComparerGenerator
     {
         private static readonly MethodInfo _ObjEquals;
+        private static readonly MethodInfo _ObjRefEquals;
         private static readonly MethodInfo _IntHashCodeCombine2;
 
         static ILEqualityComparerGenerator()
         {
             _ObjEquals = typeof(object).GetMethod(nameof(object.Equals), BindingFlags.Public | BindingFlags.Static)!;
+            _ObjRefEquals = typeof(object).GetMethod(nameof(object.ReferenceEquals), BindingFlags.Public | BindingFlags.Static)!;
             _IntHashCodeCombine2 = typeof(HashCode).GetGenericMethod(nameof(HashCode.Combine), 2).MakeGenericMethod(typeof(int), typeof(int));
         }
 
@@ -75,28 +77,24 @@ namespace LearnIntermediateLanguage
                 return il.CompareEqual();
 
             // TODO: check for Explicit IEquatableInterface?
-            var equals = t.GetMethod(nameof(object.Equals), new[] { t });
-            if (!t.IsClass)
-                return equals is {} ? il.Call(equals) : il.Call(_ObjEquals);
+            var equals = t.GetMethod(nameof(object.Equals), new[] { t }) ?? _ObjEquals;
+            if (!t.IsClass && !t.IsInterface)
+                return il.Call(equals);
 
-            var local1 = il.DeclareLocal(t);
-            var local2 = il.DeclareLocal(t);
+            var left = il.DeclareLocal(t);
+            var right = il.DeclareLocal(t);
 
-            il.StoreLocal(local1.LocalIndex)
-              .StoreLocal(local2.LocalIndex);
+            il.StoreLocal(right.LocalIndex)
+              .StoreLocal(left.LocalIndex);
 
             var ifNull = il.DefineLabel();
             var next = il.DefineLabel();
-            il.LoadLocal(local1.LocalIndex)
-              .LoadLocal(local2.LocalIndex)
-              .BranchFalse_S(ifNull, il.LoadLocal(local1.LocalIndex));
-
-            return (equals is {}
-                       ? il.Call(equals)
-                       : il.Call(_ObjEquals))
-                  .Branch(next)
-                  .Call(_ObjEquals, il.MarkLabel2(ifNull))
-                  .MarkLabel2(next);
+            return il.LoadLocal(left.LocalIndex)
+                     .LoadLocal(right.LocalIndex)
+                     .BranchFalse_S(ifNull, il.LoadLocal(left.LocalIndex))
+                     .Branch(next, il.Call(equals))
+                     .Call(_ObjRefEquals, il.MarkLabel2(ifNull))
+                     .MarkLabel2(next);
         }
 
         private static Func<T, T, bool> GenerateEqualsFunc<T>(PropertyInfo[] properties, FieldInfo[] fields)
@@ -112,7 +110,7 @@ namespace LearnIntermediateLanguage
                                var localType = prop.PropertyType;
 
                                il.CallVirtual(getMethod, il.LoadArgument(0))
-                                 .CallVirtual(getMethod, il.LoadArgument(0))
+                                 .CallVirtual(getMethod, il.LoadArgument(1))
                                  .StoreLocal(0, CallEquals(il, localType))
                                  .BranchFalse(end, il.LoadLocal(0));
                            }

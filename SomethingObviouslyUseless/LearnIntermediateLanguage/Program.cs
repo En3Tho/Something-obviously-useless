@@ -47,9 +47,7 @@ namespace LearnIntermediateLanguage
     {
         static void Main(string[] args)
         {
-            DynamicMethods.TestDuplicate();
-            
-            A a = new A(10, 15, null, new C());
+            A a = new A(10, 15, "15", new C());
             A a2 = new A(10, 15, null, new C());
             A a3 = new A(10, 15, "35", new C());
             var equalsA = ILEqualityComparer<A>.Default;
