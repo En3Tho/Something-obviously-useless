@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -40,9 +40,9 @@ namespace LearnIntermediateLanguage
             return new ILEqualityComparer<T>(equals, ghc);
         }
 
-        public bool Equals(T x, T y) => x is {} && y is {} && (ReferenceEquals(x, y) || _equals(x, y));
+        public bool Equals([AllowNull] T x, [AllowNull] T y) => x is {} && y is {} && (ReferenceEquals(x, y) || _equals(x, y));
 
-        public int GetHashCode(T obj) => obj is {} ? _ghc(obj) : 0;
+        public int GetHashCode([DisallowNull] T obj) => obj is {} ? _ghc(obj) : 0;
     }
 
     internal static class ILEqualityComparerGenerator
@@ -51,10 +51,12 @@ namespace LearnIntermediateLanguage
         private static readonly MethodInfo _ObjRefEquals;
         private static readonly MethodInfo _IntHashCodeCombine2;
 
+        private const int HashCodeCombineGenericArgumentsLength = 7;
+
         static ILEqualityComparerGenerator()
         {
             _ObjEquals = typeof(object).GetMethod(nameof(object.Equals), BindingFlags.Public | BindingFlags.Static)!;
-            _ObjRefEquals = typeof(object).GetMethod(nameof(object.ReferenceEquals), BindingFlags.Public | BindingFlags.Static)!;
+            _ObjRefEquals = typeof(object).GetMethod(nameof(ReferenceEquals), BindingFlags.Public | BindingFlags.Static)!;
             _IntHashCodeCombine2 = typeof(HashCode).GetGenericMethod(nameof(HashCode.Combine), 2).MakeGenericMethod(typeof(int), typeof(int));
         }
 
@@ -182,13 +184,14 @@ namespace LearnIntermediateLanguage
                                  .StoreLocal(0);
                            }
 
-                           for (int i = 0; i + 7 < properties.Length / 7; i += 7)
-                               generatePropertyHashCodeCombine(properties.Skip(i).Take(i).ToArray());
-                           generatePropertyHashCodeCombine(properties.TakeLast(properties.Length % 7).ToArray());
+                           const int argsl = HashCodeCombineGenericArgumentsLength;
+                           for (int i = 0; i + argsl < properties.Length / argsl; i += argsl)
+                               generatePropertyHashCodeCombine(properties.Skip(i).Take(argsl).ToArray());
+                           generatePropertyHashCodeCombine(properties.TakeLast(properties.Length % argsl).ToArray());
 
-                           for (int i = 0; i + 7 < fields.Length / 7; i += 7)
-                               generateFieldHashCodeCombine(fields.Skip(i).Take(i).ToArray());
-                           generateFieldHashCodeCombine(fields.TakeLast(fields.Length % 7).ToArray());
+                           for (int i = 0; i + argsl < fields.Length / argsl; i += argsl)
+                               generateFieldHashCodeCombine(fields.Skip(i).Take(argsl).ToArray());
+                           generateFieldHashCodeCombine(fields.TakeLast(fields.Length % argsl).ToArray());
 
                            il.LoadLocal(0)
                              .Return();
