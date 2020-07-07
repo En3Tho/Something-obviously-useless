@@ -14,7 +14,7 @@ namespace LearnIntermediateLanguage
 
         public DynamicMethodBuilder(string methodName)
         {
-            _dynamicMethod = GetMethod(methodName, GetArguments());
+            _dynamicMethod = GetMethod(methodName, GetTypes());
         }
 
         public DynamicMethodBuilder<T> IL(Action<ILGenerator> action)
@@ -38,7 +38,7 @@ namespace LearnIntermediateLanguage
         private static DynamicMethod GetMethod(string methodName, (Type returnType, Type[] parameterTypes) types)
             => new DynamicMethod(methodName, types.returnType, types.parameterTypes);
        
-        private static (Type returnType, Type[] parameterTypes) GetArguments()
+        private static (Type returnType, Type[] parameterTypes) GetTypes()
         {
             var invoke = typeof(T).GetMethod("Invoke");
             return (invoke.ReturnType, invoke.GetParameters().Select(x => x.ParameterType).ToArray());

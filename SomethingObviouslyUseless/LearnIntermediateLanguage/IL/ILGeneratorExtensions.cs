@@ -481,6 +481,12 @@ namespace LearnIntermediateLanguage.IL
 
         // obj reference, method arguments arg1 -> argN
 
+        public static ILGenerator CallVirtual(this ILGenerator generator, MethodInfo methodInfo, params ILGenerator[] _)
+        {
+            generator.Emit(OpCodes.Callvirt, methodInfo);
+            return generator;
+        }
+
         public static ILGenerator CallVirtual<T>(this ILGenerator generator, string methodName, params ILGenerator[] _)
         {
             generator.Emit(OpCodes.Callvirt, typeof(T).GetMethod(methodName)!);
@@ -497,11 +503,17 @@ namespace LearnIntermediateLanguage.IL
 
 #region CastClass +
 
-        public static ILGenerator CastClass(this ILGenerator generator, ILGenerator objectReference)
-            => generator.EmitOpCodes(OpCodes.Castclass);
+        public static ILGenerator CastClass(this ILGenerator generator, Type type, ILGenerator objectReference)
+            => generator.EmitOpCodes(OpCodes.Castclass, type);
 
-        public static ILGenerator CastClass(this ILGenerator generator, params ILGenerator[] _)
-            => generator.EmitOpCodes(OpCodes.Castclass);
+        public static ILGenerator CastClass(this ILGenerator generator, Type type, params ILGenerator[] _)
+            => generator.EmitOpCodes(OpCodes.Castclass, type);
+        
+        public static ILGenerator CastClass<T>(this ILGenerator generator, ILGenerator objectReference)
+            => generator.EmitOpCodes(OpCodes.Castclass, typeof(T));
+
+        public static ILGenerator CastClass<T>(this ILGenerator generator, params ILGenerator[] _)
+            => generator.EmitOpCodes(OpCodes.Castclass, typeof(T));
 
 #endregion
 
@@ -931,7 +943,7 @@ namespace LearnIntermediateLanguage.IL
 
 #region LoadArgument +
 
-        public static ILGenerator LoadArgument(this ILGenerator generator, short index)
+        public static ILGenerator LoadArgument(this ILGenerator generator, int index)
         {
             switch (index)
             {
@@ -948,14 +960,14 @@ namespace LearnIntermediateLanguage.IL
                     generator.Emit(OpCodes.Ldarg_3);
                     break;
                 default:
-                    generator.Emit(OpCodes.Ldarg, index);
+                    generator.Emit(OpCodes.Ldarg, (short)index);
                     break;
             }
 
             return generator;
         }
 
-        public static ILGenerator LoadArgument(this ILGenerator generator, params short[] index)
+        public static ILGenerator LoadArgument(this ILGenerator generator, params int[] index)
         {
             foreach (var i in index)
                 generator.LoadArgument(i);
@@ -963,7 +975,7 @@ namespace LearnIntermediateLanguage.IL
             return generator;
         }
 
-        public static ILGenerator LoadArgument(this ILGenerator generator, byte index)
+        public static ILGenerator LoadArgument_S(this ILGenerator generator, int index)
         {
             switch (index)
             {
@@ -980,14 +992,14 @@ namespace LearnIntermediateLanguage.IL
                     generator.Emit(OpCodes.Ldarg_3);
                     break;
                 default:
-                    generator.Emit(OpCodes.Ldarg_S, index);
+                    generator.Emit(OpCodes.Ldarg_S, (byte)index);
                     break;
             }
 
             return generator;
         }
 
-        public static ILGenerator LoadArgument(this ILGenerator generator, params byte[] index)
+        public static ILGenerator LoadArgument_S(this ILGenerator generator, params int[] index)
         {
             foreach (var i in index)
                 generator.LoadArgument(i);
@@ -999,7 +1011,7 @@ namespace LearnIntermediateLanguage.IL
 
 #region LoadArgumentAdress +
 
-        public static ILGenerator LoadArgumentAdress(this ILGenerator generator, short index)
+        public static ILGenerator LoadArgumentAdress(this ILGenerator generator, int index)
         {
             generator.Emit(OpCodes.Ldarga, index);
             return generator;
@@ -1317,7 +1329,7 @@ namespace LearnIntermediateLanguage.IL
             generator.Emit(OpCodes.Ldfld, field!);
             return generator;
         }
-        
+
         public static ILGenerator LoadField(this ILGenerator generator, Type type, string name, ILGenerator objectReference)
         {
             var field = type.GetField(name);
@@ -1337,7 +1349,7 @@ namespace LearnIntermediateLanguage.IL
             generator.Emit(OpCodes.Ldfld, field!);
             return generator;
         }
-        
+
         public static ILGenerator LoadField(this ILGenerator generator, Type type, string name, params ILGenerator[] _)
         {
             var field = type.GetField(name);
@@ -1481,7 +1493,7 @@ namespace LearnIntermediateLanguage.IL
 
 #region LoadLocal +
 
-        public static ILGenerator LoadLocal(this ILGenerator generator, short index)
+        public static ILGenerator LoadLocal(this ILGenerator generator, int index, params ILGenerator[] _)
         {
             switch (index)
             {
@@ -1498,14 +1510,14 @@ namespace LearnIntermediateLanguage.IL
                     generator.Emit(OpCodes.Ldloc_3);
                     break;
                 default:
-                    generator.Emit(OpCodes.Ldloc, index);
+                    generator.Emit(OpCodes.Ldloc, (short)index);
                     break;
             }
 
             return generator;
         }
 
-        public static ILGenerator LoadLocal(this ILGenerator generator, params short[] index)
+        public static ILGenerator LoadLocal(this ILGenerator generator, params int[] index)
         {
             foreach (var i in index)
                 generator.LoadLocal(i);
@@ -1513,7 +1525,7 @@ namespace LearnIntermediateLanguage.IL
             return generator;
         }
 
-        public static ILGenerator LoadLocal(this ILGenerator generator, byte index)
+        public static ILGenerator LoadLocal_S(this ILGenerator generator, int index, params ILGenerator[] _)
         {
             switch (index)
             {
@@ -1530,14 +1542,14 @@ namespace LearnIntermediateLanguage.IL
                     generator.Emit(OpCodes.Ldloc_3);
                     break;
                 default:
-                    generator.Emit(OpCodes.Ldloc, index);
+                    generator.Emit(OpCodes.Ldloc_S, (byte)index);
                     break;
             }
 
             return generator;
         }
 
-        public static ILGenerator LoadLocal(this ILGenerator generator, params byte[] index)
+        public static ILGenerator LoadLocal_S(this ILGenerator generator, params int[] index)
         {
             foreach (var i in index)
                 generator.LoadLocal(i);
@@ -1549,15 +1561,15 @@ namespace LearnIntermediateLanguage.IL
 
 #region LoadLocalAdress +
 
-        public static ILGenerator LoadLocalAdress(this ILGenerator generator, short index)
+        public static ILGenerator LoadLocalAddress(this ILGenerator generator, int index)
         {
-            generator.Emit(OpCodes.Ldloca, index);
+            generator.Emit(OpCodes.Ldloca, (short)index);
             return generator;
         }
 
-        public static ILGenerator LoadLocalAdress(this ILGenerator generator, byte index)
+        public static ILGenerator LoadLocalAddress_S(this ILGenerator generator, int index)
         {
-            generator.Emit(OpCodes.Ldloca_S, index);
+            generator.Emit(OpCodes.Ldloca_S, (byte)index);
             return generator;
         }
 
@@ -1736,13 +1748,13 @@ namespace LearnIntermediateLanguage.IL
 
         public static ILGenerator NewObject<T>(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Newobj, typeof(T));
-        
+
         public static ILGenerator NewObject(this ILGenerator generator, Type type, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Newobj, type);
 
         public static ILGenerator NewObject<T, U>(this ILGenerator generator, params ILGenerator[] _) where U : ITypesMarker
             => generator.EmitOpCodes(OpCodes.Newobj, typeof(T).GetConstructor(typeof(U).GenericTypeArguments)!);
-        
+
         public static ILGenerator NewObject(this ILGenerator generator, ConstructorInfo constructorInfo, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Newobj, constructorInfo);
 
@@ -1764,7 +1776,7 @@ namespace LearnIntermediateLanguage.IL
             => generator.EmitOpCodes(OpCodes.Not);
 
 #endregion
-        
+
 #region Or +
 
         public static ILGenerator Or(this ILGenerator generator, ILGenerator value1, ILGenerator value2)
@@ -1786,30 +1798,30 @@ namespace LearnIntermediateLanguage.IL
 
         public static ILGenerator Prefix1(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Prefix1);
-        
+
         public static ILGenerator Prefix2(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Prefix2);
-        
+
         public static ILGenerator Prefix3(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Prefix3);
-        
+
         public static ILGenerator Prefix4(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Prefix4);
-        
+
         public static ILGenerator Prefix5(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Prefix5);
-        
+
         public static ILGenerator Prefix6(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Prefix6);
-        
+
         public static ILGenerator Prefix7(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Prefix7);
-        
+
         public static ILGenerator PrefixRef(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Prefixref);
-        
-#endregion  
-        
+
+#endregion
+
 #region Readonly +
 
         public static ILGenerator Readonly(this ILGenerator generator, params ILGenerator[] _)
@@ -1821,7 +1833,7 @@ namespace LearnIntermediateLanguage.IL
 
         public static ILGenerator ReferenceTypeToken(this ILGenerator generator, ILGenerator typedReference)
             => generator.EmitOpCodes(OpCodes.Refanytype);
-        
+
         public static ILGenerator ReferenceTypeToken(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Refanytype);
 
@@ -1831,18 +1843,18 @@ namespace LearnIntermediateLanguage.IL
 
         public static ILGenerator ReferenceValueAdress<T>(this ILGenerator generator, ILGenerator typedReference)
             => generator.EmitOpCodes(OpCodes.Refanyval, typeof(T));
-        
+
         public static ILGenerator ReferenceValueAdress<T>(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Refanyval, typeof(T));
-        
+
         public static ILGenerator ReferenceValueAdress(this ILGenerator generator, Type type, ILGenerator typedReference)
             => generator.EmitOpCodes(OpCodes.Refanyval, type);
-        
+
         public static ILGenerator ReferenceValueAdress(this ILGenerator generator, Type type, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Refanyval, type);
 
 #endregion
-        
+
 #region Remainder +
 
         public static ILGenerator Remainder(this ILGenerator generator, ILGenerator value1, ILGenerator value2)
@@ -1881,8 +1893,8 @@ namespace LearnIntermediateLanguage.IL
         public static ILGenerator Rethrow(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Rethrow);
 
-#endregion  
-        
+#endregion
+
 #region ShiftLeft +
 
         public static ILGenerator ShiftLeft(this ILGenerator generator, ILGenerator value, ILGenerator shiftCount)
@@ -1891,8 +1903,8 @@ namespace LearnIntermediateLanguage.IL
         public static ILGenerator ShiftLeft(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Shl);
 
-#endregion 
-        
+#endregion
+
 #region ShiftRight +
 
         public static ILGenerator ShiftRight(this ILGenerator generator, ILGenerator value, ILGenerator shiftCount)
@@ -1901,8 +1913,8 @@ namespace LearnIntermediateLanguage.IL
         public static ILGenerator ShiftRight(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Shr);
 
-#endregion    
-        
+#endregion
+
 #region ShiftRightUnsigned +
 
         public static ILGenerator ShiftRightUnsigned(this ILGenerator generator, ILGenerator value, ILGenerator shiftCount)
@@ -1911,19 +1923,19 @@ namespace LearnIntermediateLanguage.IL
         public static ILGenerator ShiftRightUnsigned(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Shr_Un);
 
-#endregion       
-        
+#endregion
+
 #region SizeOf +
 
         public static ILGenerator SizeOf<T>(this ILGenerator generator)
             => generator.EmitOpCodes(OpCodes.Sizeof, typeof(T));
-        
+
         public static ILGenerator SizeOf<T>(this ILGenerator generator, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Sizeof, typeof(T));
-        
+
         public static ILGenerator SizeOf(this ILGenerator generator, Type type)
             => generator.EmitOpCodes(OpCodes.Sizeof, type);
-        
+
         public static ILGenerator SizeOf(this ILGenerator generator, Type type, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Sizeof, type);
 
@@ -1931,50 +1943,39 @@ namespace LearnIntermediateLanguage.IL
 
 #region StoreArgument +
 
-        public static ILGenerator StoreArgument(this ILGenerator generator, short index, params ILGenerator[] _)
+        public static ILGenerator StoreArgument(this ILGenerator generator, int index, params ILGenerator[] _)
         {
-            generator.Emit(OpCodes.Starg, index);
+            generator.Emit(OpCodes.Starg, (short)index);
 
             return generator;
         }
 
-        public static ILGenerator StoreArgument_S(this ILGenerator generator, byte index, params ILGenerator[] _)
+        public static ILGenerator StoreArgument_S(this ILGenerator generator, int index, params ILGenerator[] _)
         {
-            generator.Emit(OpCodes.Starg_S, index);
+            generator.Emit(OpCodes.Starg_S, (byte)index);
 
             return generator;
         }
 
-        public static ILGenerator StoreArgument(this ILGenerator generator, short index, ILGenerator value)
+        public static ILGenerator StoreArgument(this ILGenerator generator, int index, ILGenerator value)
         {
-            generator.Emit(OpCodes.Starg, index);
+            generator.Emit(OpCodes.Starg, (short)index);
             return generator;
         }
 
-        public static ILGenerator StoreArgument_S(this ILGenerator generator, byte index, ILGenerator value)
+        public static ILGenerator StoreArgument_S(this ILGenerator generator, int index, ILGenerator value)
         {
-            generator.Emit(OpCodes.Starg_S, index);
+            generator.Emit(OpCodes.Starg_S, (byte)index);
 
             return generator;
         }
 
 #endregion
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
 
 #region StoreLocal
 
-        public static ILGenerator StoreLocal(this ILGenerator generator, short index, params ILGenerator[] _)
+        public static ILGenerator StoreLocal(this ILGenerator generator, int index, params ILGenerator[] _)
         {
             switch (index)
             {
@@ -1998,7 +1999,7 @@ namespace LearnIntermediateLanguage.IL
             return generator;
         }
 
-        public static ILGenerator StoreLocal(this ILGenerator generator, short index, ILGenerator value)
+        public static ILGenerator StoreLocal(this ILGenerator generator, int index, ILGenerator value)
         {
             switch (index)
             {
@@ -2022,7 +2023,7 @@ namespace LearnIntermediateLanguage.IL
             return generator;
         }
 
-        public static ILGenerator StoreLocal(this ILGenerator generator, byte index, params ILGenerator[] _)
+        public static ILGenerator StoreLocal_S(this ILGenerator generator, int index, params ILGenerator[] _)
         {
             switch (index)
             {
@@ -2046,7 +2047,7 @@ namespace LearnIntermediateLanguage.IL
             return generator;
         }
 
-        public static ILGenerator StoreLocal(this ILGenerator generator, byte index, ILGenerator value)
+        public static ILGenerator StoreLocal_S(this ILGenerator generator, int index, ILGenerator value)
         {
             switch (index)
             {
@@ -2073,7 +2074,6 @@ namespace LearnIntermediateLanguage.IL
 #endregion +
 
 
-
 #region Emit
 
         private static ILGenerator EmitOpCodes(this ILGenerator generator, OpCode opcode)
@@ -2081,16 +2081,26 @@ namespace LearnIntermediateLanguage.IL
             generator.Emit(opcode);
             return generator;
         }
-        
+
         private static ILGenerator EmitOpCodes(this ILGenerator generator, OpCode opcode, Type type)
         {
             generator.Emit(opcode, type);
             return generator;
         }
-        
+
         private static ILGenerator EmitOpCodes(this ILGenerator generator, OpCode opcode, ConstructorInfo ctorInfo)
         {
             generator.Emit(opcode, ctorInfo);
+            return generator;
+        }
+
+#endregion
+
+#region MarkLabel
+
+        public static ILGenerator MarkLabel2(this ILGenerator generator, Label label)
+        {
+            generator.MarkLabel(label);
             return generator;
         }
 
