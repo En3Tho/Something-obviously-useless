@@ -431,29 +431,23 @@ namespace LearnIntermediateLanguage.IL
 
         // args arg1 - argN ? overloads or just params?
 
-        public static ILGenerator Call(this ILGenerator generator, MethodInfo methodInfo, params ILGenerator[] _)
-        {
-            generator.Emit(OpCodes.Call, methodInfo);
-            return generator;
-        }
+        public static ILGenerator Call(this ILGenerator generator, MethodInfo methodInfo, params ILGenerator[] _) => generator.EmitOpCodes(OpCodes.Call, methodInfo);
+        public static ILGenerator Call(this ILGenerator generator, MethodInfo methodInfo, ILGenerator arg) => generator.EmitOpCodes(OpCodes.Call, methodInfo);
 
-        public static ILGenerator Call<T>(this ILGenerator generator, string methodName, params ILGenerator[] _)
-        {
-            generator.Emit(OpCodes.Call, typeof(T).GetMethod(methodName)!);
-            return generator;
-        }
+        public static ILGenerator Call<T>(this ILGenerator generator, string methodName, params ILGenerator[] _) => generator.EmitOpCodes(OpCodes.Call, typeof(T).GetMethod(methodName)!);
+        public static ILGenerator Call<T>(this ILGenerator generator, string methodName, ILGenerator arg) => generator.EmitOpCodes(OpCodes.Call, typeof(T).GetMethod(methodName)!);
 
         public static ILGenerator Call<T, U>(this ILGenerator generator, string methodName, params ILGenerator[] _) where U : struct, ITypesMarker
-        {
-            generator.Emit(OpCodes.Call, typeof(T).GetMethod(methodName, typeof(U).GenericTypeArguments)!);
-            return generator;
-        }
+            => generator.EmitOpCodes(OpCodes.Call, typeof(T).GetMethod(methodName, typeof(U).GenericTypeArguments)!);
+        
+        public static ILGenerator Call<T, U>(this ILGenerator generator, string methodName, ILGenerator arg) where U : struct, ITypesMarker
+            => generator.EmitOpCodes(OpCodes.Call, typeof(T).GetMethod(methodName, typeof(U).GenericTypeArguments)!);
 
         public static ILGenerator CallCtor<T, U>(this ILGenerator generator, params ILGenerator[] _) where U : struct, ITypesMarker
-        {
-            generator.Emit(OpCodes.Call, typeof(T).GetConstructor(typeof(U).GenericTypeArguments)!);
-            return generator;
-        }
+            => generator.EmitOpCodes(OpCodes.Call, typeof(T).GetConstructor(typeof(U).GenericTypeArguments)!);
+        
+        public static ILGenerator CallCtor<T, U>(this ILGenerator generator, ILGenerator method) where U : struct, ITypesMarker
+            => generator.EmitOpCodes(OpCodes.Call, typeof(T).GetConstructor(typeof(U).GenericTypeArguments)!);
 
 #endregion
 
@@ -468,7 +462,21 @@ namespace LearnIntermediateLanguage.IL
             return generator;
         }
 
+        public static ILGenerator CallIndirectManaged<T, U>(this ILGenerator generator, ILGenerator method, CallingConventions callingConventions = CallingConventions.Standard)
+            where U : struct, ITypesMarker
+        {
+            generator.EmitCalli(OpCodes.Calli, callingConventions, typeof(T), typeof(U).GenericTypeArguments, Array.Empty<Type>());
+            return generator;
+        }
+
         public static ILGenerator CallIndirectUnmanaged<T, U>(this ILGenerator generator, CallingConvention callingConvention = CallingConvention.StdCall, params ILGenerator[] _)
+            where U : struct, ITypesMarker
+        {
+            generator.EmitCalli(OpCodes.Call, callingConvention, typeof(T), typeof(U).GenericTypeArguments);
+            return generator;
+        }
+
+        public static ILGenerator CallIndirectUnmanaged<T, U>(this ILGenerator generator, ILGenerator method, CallingConvention callingConvention = CallingConvention.StdCall)
             where U : struct, ITypesMarker
         {
             generator.EmitCalli(OpCodes.Call, callingConvention, typeof(T), typeof(U).GenericTypeArguments);
@@ -477,11 +485,17 @@ namespace LearnIntermediateLanguage.IL
 
 #endregion
 
-#region CallVirtual ?
+#region CallVirtual ?--
 
         // obj reference, method arguments arg1 -> argN
 
         public static ILGenerator CallVirtual(this ILGenerator generator, MethodInfo methodInfo, params ILGenerator[] _)
+        {
+            generator.Emit(OpCodes.Callvirt, methodInfo);
+            return generator;
+        }
+
+        public static ILGenerator CallVirtual(this ILGenerator generator, MethodInfo methodInfo, ILGenerator method)
         {
             generator.Emit(OpCodes.Callvirt, methodInfo);
             return generator;
@@ -493,9 +507,21 @@ namespace LearnIntermediateLanguage.IL
             return generator;
         }
 
-        public static ILGenerator CallVirtual<T, U>(this ILGenerator generator, string methodName, params ILGenerator[] _) where U : struct, ITypesMarker
+        public static ILGenerator CallVirtual<T>(this ILGenerator generator, string methodName, ILGenerator method)
         {
-            generator.Emit(OpCodes.Callvirt, typeof(T).GetMethod(methodName, typeof(U).GenericTypeArguments)!);
+            generator.Emit(OpCodes.Callvirt, typeof(T).GetMethod(methodName)!);
+            return generator;
+        }
+
+        public static ILGenerator CallVirtualGeneric<T, U>(this ILGenerator generator, string methodName, params ILGenerator[] _) where U : struct, ITypesMarker
+        {
+            generator.Emit(OpCodes.Callvirt, typeof(T).GetMethod(methodName, typeof(U).GenericTypeArguments)!); // TODO: Fix generic method search
+            return generator;
+        }
+
+        public static ILGenerator CallVirtualGeneric<T, U>(this ILGenerator generator, string methodName, ILGenerator method) where U : struct, ITypesMarker
+        {
+            generator.Emit(OpCodes.Callvirt, typeof(T).GetMethod(methodName, typeof(U).GenericTypeArguments)!); // TODO: Fix generic method search
             return generator;
         }
 
@@ -508,7 +534,7 @@ namespace LearnIntermediateLanguage.IL
 
         public static ILGenerator CastClass(this ILGenerator generator, Type type, params ILGenerator[] _)
             => generator.EmitOpCodes(OpCodes.Castclass, type);
-        
+
         public static ILGenerator CastClass<T>(this ILGenerator generator, ILGenerator objectReference)
             => generator.EmitOpCodes(OpCodes.Castclass, typeof(T));
 
@@ -2073,24 +2099,35 @@ namespace LearnIntermediateLanguage.IL
 
 #endregion +
 
+#region TailCall +
+
+        public static ILGenerator TailCall(this ILGenerator generator) => generator.EmitOpCodes(OpCodes.Tailcall);
+
+#endregion
 
 #region Emit
 
-        private static ILGenerator EmitOpCodes(this ILGenerator generator, OpCode opcode)
+        private static ILGenerator EmitOpCodes(this ILGenerator generator, OpCode opCode)
         {
-            generator.Emit(opcode);
+            generator.Emit(opCode);
             return generator;
         }
 
-        private static ILGenerator EmitOpCodes(this ILGenerator generator, OpCode opcode, Type type)
+        private static ILGenerator EmitOpCodes(this ILGenerator generator, OpCode opCode, Type type)
         {
-            generator.Emit(opcode, type);
+            generator.Emit(opCode, type);
             return generator;
         }
 
-        private static ILGenerator EmitOpCodes(this ILGenerator generator, OpCode opcode, ConstructorInfo ctorInfo)
+        private static ILGenerator EmitOpCodes(this ILGenerator generator, OpCode opCode, ConstructorInfo ctorInfo)
         {
-            generator.Emit(opcode, ctorInfo);
+            generator.Emit(opCode, ctorInfo);
+            return generator;
+        }
+
+        private static ILGenerator EmitOpCodes(this ILGenerator generator, OpCode opCode, MethodInfo methodInfo)
+        {
+            generator.Emit(opCode, methodInfo);
             return generator;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -9,6 +10,22 @@ namespace LearnIntermediateLanguage
 {
     public static class DynamicMethods
     {
+        public static object GetIlComparer()
+        {
+            var t = typeof(object);
+            var compGen = typeof(ILEqualityComparer<>).MakeGenericType(t);
+            var def = compGen.GetProperty("Default")!.GetMethod!;
+            var eq = compGen.GetMethod(nameof(Equals), new[] { t, t })!;
+            
+            var func = new DynamicMethodBuilder<Func<object>>("GetDiv")
+                      .IL(il => il
+                               .Call(def).CastClass(typeof(object)).Return())
+                      .Build();
+
+            var a = func();
+            return a;
+        }
+        
         public static void GetDiv()
         {
             var func = new DynamicMethodBuilder<Func<int, int, int>>("GetDiv")

@@ -30,7 +30,7 @@ namespace ExtensionsAndStuff.Linq
         /// </summary>
         private int _count;
 
-        public ReadOnlySpan<Slot> Slots => _slots; 
+        public Slot[] Slots => _slots; 
 
 #if DEBUG
         /// <summary>

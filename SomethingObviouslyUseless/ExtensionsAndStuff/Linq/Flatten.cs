@@ -25,6 +25,7 @@ namespace ExtensionsAndStuff.Linq
                 _childCollectionGetter = childCollectionGetter;
                 _linkedList = new LinkedList<IEnumerator<T>>();
                 _listNode = _linkedList.AddFirst(source.GetEnumerator());
+                Current = default!;
             }
 
             public bool MoveNext()
