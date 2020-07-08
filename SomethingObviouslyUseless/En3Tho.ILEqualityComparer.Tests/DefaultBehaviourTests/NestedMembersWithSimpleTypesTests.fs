@@ -3,6 +3,7 @@
 open En3Tho.ILEqualityComparer
 open Xunit
 
+[<AllowNullLiteral>]
 type SimpleTypesClass =
     val IntField : int
     val CharField : char
@@ -89,6 +90,39 @@ let ``Different Nested2MembersSimpleTypesClass objects should not produce same h
     let comparer = ILEqualityComparer<Nested2MembersSimpleTypesClass>.Default
     let obj1 = Nested2MembersSimpleTypesClass1()
     let obj2 = Nested2MembersSimpleTypesClass2()
+    comparer.GetHashCode obj1 = comparer.GetHashCode obj2 |> Assert.False
+    
+// -- null -- //
+
+let NestedMembersSimpleTypesClass3() = NestedMembersSimpleTypesClass(10, '0', false, 10L, null)
+let Nested2MembersSimpleTypesClass3() = Nested2MembersSimpleTypesClass(10, '0', false, 10L, NestedMembersSimpleTypesClass3())
+    
+[<Fact>]
+let ``Similar Nested2MembersSimpleTypesClass objects with nulls should be structurally equal``() =
+    let comparer = ILEqualityComparer<Nested2MembersSimpleTypesClass>.Default
+    let obj1 = Nested2MembersSimpleTypesClass3()
+    let obj2 = Nested2MembersSimpleTypesClass3()
+    comparer.Equals(obj1, obj2) |> Assert.True
+
+[<Fact>]
+let ``Similar Nested2MembersSimpleTypesClass objects with nulls should produce same hashcode``() =
+    let comparer = ILEqualityComparer<Nested2MembersSimpleTypesClass>.Default
+    let obj1 = Nested2MembersSimpleTypesClass3()
+    let obj2 = Nested2MembersSimpleTypesClass3()
+    comparer.GetHashCode obj1 = comparer.GetHashCode obj2 |> Assert.True
+    
+[<Fact>]
+let ``Different Nested2MembersSimpleTypesClass objects with nulls should not be structurally equal``() =
+    let comparer = ILEqualityComparer<Nested2MembersSimpleTypesClass>.Default
+    let obj1 = Nested2MembersSimpleTypesClass1()
+    let obj2 = Nested2MembersSimpleTypesClass3()
+    comparer.Equals(obj1, obj2) |> Assert.False
+
+[<Fact>]
+let ``Different Nested2MembersSimpleTypesClass objects with nulls should not produce same hashcode``() =
+    let comparer = ILEqualityComparer<Nested2MembersSimpleTypesClass>.Default
+    let obj1 = Nested2MembersSimpleTypesClass2()
+    let obj2 = Nested2MembersSimpleTypesClass3()
     comparer.GetHashCode obj1 = comparer.GetHashCode obj2 |> Assert.False
     
 [<Struct>]

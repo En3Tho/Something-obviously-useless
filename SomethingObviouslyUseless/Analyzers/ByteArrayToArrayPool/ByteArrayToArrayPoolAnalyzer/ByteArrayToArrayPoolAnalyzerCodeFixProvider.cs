@@ -25,7 +25,7 @@ namespace ByteArrayToArrayPoolAnalyzer
             return WellKnownFixAllProviders.BatchFixer;
         }
 
-        public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
+        public sealed override Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var diagnostic = context.Diagnostics.First();
 
@@ -35,6 +35,8 @@ namespace ByteArrayToArrayPoolAnalyzer
                     createChangedDocument: c => UseArrayPool(context.Document, diagnostic, c),
                     equivalenceKey: Title),
                 diagnostic);
+
+            return Task.CompletedTask;
         }
 
         private async Task<Document> UseArrayPool(Document document, Diagnostic diagnostic, CancellationToken cancellationToken)

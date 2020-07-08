@@ -49,17 +49,19 @@ namespace En3Tho.ILEqualityComparer
             private static int ArrayIEquatableGetHashCode<T>(T[] array) where T : IEquatable<T> => 0;
         }
 
-        private static readonly MethodInfo _ObjEquals;
-        private static readonly MethodInfo _ObjRefEquals;
-        private static readonly MethodInfo _IntHashCodeCombine2;
+        private static readonly MethodInfo ObjEquals;
+        private static readonly MethodInfo ObjRefEquals;
+        private static readonly MethodInfo IntHashCodeCombine2;
+        private static readonly Type[] UnsupportedTypes;
 
         private const int HashCodeCombineGenericArgumentsLength = 7;
 
         static ILEqualityComparerGenerator()
         {
-            _ObjEquals = typeof(object).GetMethod(nameof(object.Equals), BindingFlags.Public | BindingFlags.Static)!;
-            _ObjRefEquals = typeof(object).GetMethod(nameof(ReferenceEquals), BindingFlags.Public | BindingFlags.Static)!;
-            _IntHashCodeCombine2 = typeof(HashCode).GetAndMakeGenericMethod(nameof(HashCode.Combine), typeof(int), typeof(int));
+            ObjEquals = typeof(object).GetMethod(nameof(object.Equals), BindingFlags.Public | BindingFlags.Static)!;
+            ObjRefEquals = typeof(object).GetMethod(nameof(ReferenceEquals), BindingFlags.Public | BindingFlags.Static)!;
+            IntHashCodeCombine2 = typeof(HashCode).GetAndMakeGenericMethod(nameof(HashCode.Combine), typeof(int), typeof(int));
+            UnsupportedTypes = new[] { typeof(object), typeof(string), typeof(Guid), typeof(decimal) };
         }
 
         /// <summary>
@@ -69,9 +71,7 @@ namespace En3Tho.ILEqualityComparer
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsSupportedType(Type type)
-            => type != typeof(string)
-            && type != typeof(object)
-            && type != typeof(Guid)
+            => !UnsupportedTypes.Contains(type)
             && !type.IsArray
             && !type.IsBasicType();
 
@@ -93,7 +93,7 @@ namespace En3Tho.ILEqualityComparer
                     ? typeof(Helpers).GetAndMakeGenericMethod(nameof(Helpers.IEquatableEquals), 2, t)
                     : t.GetMethod(nameof(Equals), new[] { t })
                    ?? t.GetMethod(nameof(Equals), new[] { t, t })
-                   ?? _ObjEquals;
+                   ?? ObjEquals;
 
             if (t.IsValueType)
                 return il.Call(equals);
@@ -110,7 +110,7 @@ namespace En3Tho.ILEqualityComparer
                      .LoadLocal(right.LocalIndex)
                      .BranchFalse_S(ifNull, il.LoadLocal(left.LocalIndex))
                      .Branch_S(next, equals.IsVirtual ? il.CallVirtual(equals) : il.Call(equals))
-                     .Call(_ObjRefEquals, il.MarkLabel2(ifNull))
+                     .Call(ObjRefEquals, il.MarkLabel2(ifNull))
                      .MarkLabel2(next);
         }
 
@@ -157,15 +157,13 @@ namespace En3Tho.ILEqualityComparer
 
         private static Func<T, T, bool> GenerateEqualsHelper<T>(PropertyInfo[] properties, FieldInfo[] fields)
         {
-            var eq = CanGenerateNoMemberFunc(properties, fields)
-                ? typeof(T).IsIEquatable()
-                    ? typeof(Helpers).GetAndMakeGenericMethod(nameof(Helpers.IEquatableEquals), typeof(T))
-                    : typeof(Helpers).GetAndMakeGenericMethod(nameof(Helpers.NoMembersEquals), typeof(T))
-                : typeof(T).IsIEquatable()
-                    ? typeof(Helpers).GetAndMakeGenericMethod(nameof(Helpers.IEquatableEquals), typeof(T))
-                    : typeof(Helpers).GetAndMakeGenericMethod(nameof(Helpers.ObjectEquals), typeof(T));
+            var (eq, name) = typeof(T).IsIEquatable()
+                ? (typeof(Helpers).GetAndMakeGenericMethod(nameof(Helpers.IEquatableEquals), typeof(T)), nameof(Helpers.IEquatableEquals))
+                : CanGenerateNoMemberFunc(properties, fields)
+                    ? (typeof(Helpers).GetAndMakeGenericMethod(nameof(Helpers.NoMembersEquals), typeof(T)), nameof(Helpers.NoMembersEquals))
+                    : (typeof(Helpers).GetAndMakeGenericMethod(nameof(Helpers.ObjectEquals), typeof(T)), nameof(Helpers.ObjectEquals));
 
-            var func = new DynamicMethodBuilder<Func<T, T, bool>>($"{nameof(ILEqualityComparer<T>)}<{typeof(T).Name}>.EqualsBasic")
+            var func = new DynamicMethodBuilder<Func<T, T, bool>>($"{nameof(ILEqualityComparer<T>)}<{typeof(T).Name}>.{name}{eq.GetHashCode()}")
                       .IL(il => il.Call(eq, il.LoadArgument(0, 1)).Return())
                       .Build();
             return func;
@@ -232,12 +230,11 @@ namespace En3Tho.ILEqualityComparer
 
                                foreach (var property in propertyInfos)
                                {
-                                   var t = property.PropertyType;
                                    il.Call(property.GetMethod!, il.LoadArgument(0));
-                                   CallNestedGetHashCode(il, t);
+                                   CallNestedGetHashCode(il, property.PropertyType);
                                }
 
-                               il.Call(_IntHashCodeCombine2, il.Call(ghc).LoadLocal(0))
+                               il.Call(IntHashCodeCombine2, il.Call(ghc).LoadLocal(0))
                                  .StoreLocal(0);
                            }
 
@@ -250,12 +247,11 @@ namespace En3Tho.ILEqualityComparer
                                var ghc = typeof(HashCode).GetAndMakeGenericMethod(nameof(HashCode.Combine), types);
                                foreach (var field in fieldInfos)
                                {
-                                   var t = field.FieldType;
                                    il.LoadField(field, il.LoadArgument(0));
-                                   CallNestedGetHashCode(il, t);
+                                   CallNestedGetHashCode(il, field.FieldType);
                                }
 
-                               il.Call(_IntHashCodeCombine2, il.Call(ghc).LoadLocal(0))
+                               il.Call(IntHashCodeCombine2, il.Call(ghc).LoadLocal(0))
                                  .StoreLocal(0);
                            }
 
