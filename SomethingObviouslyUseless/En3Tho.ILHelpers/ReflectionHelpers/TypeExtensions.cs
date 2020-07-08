@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace LearnIntermediateLanguage.ReflectionHelpers
+namespace En3Tho.ILHelpers.ReflectionHelpers
 {
     public static class TypeExtensions
     {

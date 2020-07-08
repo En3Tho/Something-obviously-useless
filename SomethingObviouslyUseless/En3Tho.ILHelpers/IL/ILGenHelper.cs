@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection.Emit;
-using System.Text;
 
-namespace LearnIntermediateLanguage.IL
+namespace En3Tho.ILHelpers.IL
 {
     public class ILGenHelper
     {

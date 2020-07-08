@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading;
 
-namespace LearnIntermediateLanguage
+namespace En3Tho.ILHelpers
 {
-    public static class DynamicClass
+    internal static class DynamicClass // TODO: work on it?
     {
         public static void GetClassWithIntInt()
         {

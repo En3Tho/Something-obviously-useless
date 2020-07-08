@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 
-namespace LearnIntermediateLanguage.IL
+namespace En3Tho.ILHelpers.IL
 {
     // TODO : add ILGeneratorExtensionsReferenceMethods (param count / names / descr)
     // TODO : add SignatureMethods with 1/2/3 parameters of IlGen + names

@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\En3Tho.ILEqualityComparer\En3Tho.ILEqualityComparer.csproj" />
+    <ProjectReference Include="..\En3Tho.ILHelpers\En3Tho.ILHelpers.csproj" />
+  </ItemGroup>
+
 </Project>

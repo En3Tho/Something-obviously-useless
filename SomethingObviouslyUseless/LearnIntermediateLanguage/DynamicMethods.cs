@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
-using LearnIntermediateLanguage.IL;
-using LearnIntermediateLanguage.ReflectionHelpers;
+using En3Tho.ILEqualityComparer;
+using En3Tho.ILHelpers;
+using En3Tho.ILHelpers.DynamicMethodBuilder;
+using En3Tho.ILHelpers.IL;
 
 namespace LearnIntermediateLanguage
 {

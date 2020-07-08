@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection.Emit;
 
-namespace LearnIntermediateLanguage
+namespace En3Tho.ILHelpers.DynamicMethodBuilder
 {
     public static class DynamicMethodExtensions
     {
