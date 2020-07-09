@@ -18,7 +18,7 @@ namespace InliningAnalyzer
         private const string Title = ""; // TODO: add
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(InliningAnalyzerAnalyzer.DiagnosticId);
 
-        public override async Task RegisterCodeFixesAsync(CodeFixContext context)
+        public override Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var diagnostic = context.Diagnostics.First();
 
@@ -28,6 +28,8 @@ namespace InliningAnalyzer
                     createChangedDocument: c => InlineMethod(context.Document, diagnostic, c),
                     equivalenceKey: Title),
                 diagnostic);
+            
+            return Task.CompletedTask;
         }
 
         private static async Task<Document> InlineMethod(Document document, Diagnostic diagnostic, CancellationToken cancellationToken)

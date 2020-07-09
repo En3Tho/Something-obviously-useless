@@ -11,7 +11,7 @@ namespace En3Tho.ILEqualityComparer
     /// Auto-Generated IL Comparer. Works as EqualityComparer.Default for simple types. Uses HashCode.Combine as HashCodeFunction.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ILEqualityComparer<T> : IEqualityComparer<T>
+    public sealed class ILEqualityComparer<T> : IEqualityComparer<T>
     {
         private readonly Func<T, T, bool> _equals;
         private readonly Func<T, int> _ghc;
@@ -29,82 +29,46 @@ namespace En3Tho.ILEqualityComparer
         }
 
         /// <summary>
-        /// Returns a comparer using all public properties and fields
+        /// Full structural equality comparer for all public properties and fields
         /// </summary>
         public static ILEqualityComparer<T> Default { get; } = new ILEqualityComparer<T>(false);
 
         /// <summary>
-        /// Returns a comparer using only provided members
+        /// Returns a custom comparer with specified options
         /// </summary>
-        /// <param name="expressions"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public static ILEqualityComparer<T> FromMemberExpressions(params Expression<Func<T, object>>[] expressions)
+        /// <exception cref="NotSupportedException"></exception>
+        public static ILEqualityComparer<T> Create(ILEqualityComparerOptions<T> options) // move all logic to generator
         {
-            if (expressions.Length < 1)
-                throw new ArgumentException(nameof(expressions));
+            PropertyInfo[] properties;
+            FieldInfo[] fields;
 
-            var memberExpressions = expressions.Select(e => e.Body).Cast<UnaryExpression>().Select(ue => ue.Operand).Cast<MemberExpression>().Distinct().ToArray();
+            var memberExpressions = options.MemberExpressions;
+            if (options.EqualityGenerationPreference == EqualityGenerationPreference.IgnoreMemberExpressions)
+            {
+                properties = typeof(T).GetProperties();
+                fields = typeof(T).GetFields();
+                if (memberExpressions.Length != 0)
+                {
+                    properties = properties.Except(memberExpressions.Select(me => me.Member).OfType<PropertyInfo>()).ToArray();
+                    fields = fields.Except(memberExpressions.Select(me => me.Member).OfType<FieldInfo>()).ToArray();
+                }
+            }
+            else
+            {
+                properties = memberExpressions.Select(e => e.Member).OfType<PropertyInfo>().ToArray();
+                fields = memberExpressions.Select(e => e.Member).OfType<FieldInfo>().ToArray();
+            }
 
-            var properties = memberExpressions.Select(e => e.Member).OfType<PropertyInfo>().ToArray();
-            var fields = memberExpressions.Select(e => e.Member).OfType<FieldInfo>().ToArray();
-
-            return new ILEqualityComparer<T>(properties, fields);
-        }
-
-        // TODO: FromSpecifiedEqualityExpression ?
-
-        /// <summary>
-        /// Returns a comparer using all public properties and fields and ignoring provided members
-        /// </summary>
-        /// <param name="expressions"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public static ILEqualityComparer<T> FromIgnoreMemberExpressions(params Expression<Func<T, object>>[] expressions)
-        {
-            if (expressions.Length < 1)
-                throw new ArgumentException(nameof(expressions));
-
-            const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public;
-
-            var memberExpressions = expressions.Select(e => e.Body).Cast<UnaryExpression>().Select(ue => ue.Operand).Cast<MemberExpression>().ToArray();
-            var properties = typeof(T).GetProperties(flags).Except(memberExpressions.Select(me => me.Member).OfType<PropertyInfo>()).ToArray();
-            var fields = typeof(T).GetFields(flags).Except(memberExpressions.Select(me => me.Member).OfType<FieldInfo>()).ToArray();
-
-            return new ILEqualityComparer<T>(properties, fields);
-        }
-
-        /// <summary>
-        /// Returns a comparer using all public and private properties and fields
-        /// </summary>
-        /// <returns></returns>
-        public static ILEqualityComparer<T> WithPrivateMembers() => new ILEqualityComparer<T>(true);
-
-        /// <summary>
-        /// Returns a comparer using all public (and private) properties
-        /// </summary>
-        /// <param name="includePrivateMembers"></param>
-        /// <returns></returns>
-        public static ILEqualityComparer<T> WithPropertiesOnly(bool includePrivateMembers = false)
-        {
-            var flags = BindingFlags.Public | BindingFlags.Instance | (includePrivateMembers ? BindingFlags.NonPublic : default);
-            return new ILEqualityComparer<T>(typeof(T).GetProperties(flags), Array.Empty<FieldInfo>());
-        }
-
-        /// <summary>
-        /// Returns a comparer using all public (and private) fields
-        /// </summary>
-        /// <param name="includePrivateMembers"></param>
-        /// <returns></returns>
-        public static ILEqualityComparer<T> WithFieldsOnly(bool includePrivateMembers = false)
-        {
-            var flags = BindingFlags.Public | BindingFlags.Instance | (includePrivateMembers ? BindingFlags.NonPublic : default);
-            return new ILEqualityComparer<T>(Array.Empty<PropertyInfo>(), typeof(T).GetFields(flags));
+            var eq = ILEqualityComparerGenerator.GenerateEqualsFunc<T>(properties, fields);
+            var ghc = ILEqualityComparerGenerator.GenerateGetHashCodeFunc<T>(properties, fields);
+            return new ILEqualityComparer<T>(eq, ghc);
         }
 
         public bool Equals([AllowNull] T x, [AllowNull] T y) => ReferenceEquals(x, y)
                                                              || x is {} && y is {} && _equals(x, y);
 
-        public int GetHashCode([DisallowNull] T obj) => obj is {} ? _ghc(obj) : 0;
+        public int GetHashCode(T obj) => obj is {} ? _ghc(obj) : 0;
     }
 }

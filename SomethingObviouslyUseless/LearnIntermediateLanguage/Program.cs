@@ -100,12 +100,12 @@ namespace LearnIntermediateLanguage
             var b2 = new B(Guid.Empty, 15, null, new[] { new C() });
             var b3 = new B(Guid.Empty, 15, "35", new[] { new C() });
             var equalsB = ILEqualityComparer<B>.Default;
+
+            var ileqmembersA = ILEqualityComparer<A>.Create(ILEqualityComparerOptions<A>.FromMemberExpressions(x => x.Int2, x => x.Guid));
+            var ileqmembersB = ILEqualityComparer<B>.Create(ILEqualityComparerOptions<B>.FromMemberExpressions(x => x.Int2, x => x.Int));
             
-            var ileqmembersA = ILEqualityComparer<A>.FromMemberExpressions(x => x.Int2, x => x.Guid);
-            var ileqmembersB = ILEqualityComparer<B>.FromMemberExpressions(x => x.Int2, x => x.Int);
-            
-            var ileqignmembersA = ILEqualityComparer<A>.FromIgnoreMemberExpressions(x => x.Int2, x => x.Guid);
-            var ileqignmembersB = ILEqualityComparer<B>.FromIgnoreMemberExpressions(x => x.Int2, x => x.Int);
+            var ileqignmembersA = ILEqualityComparer<A>.Create(ILEqualityComparerOptions<A>.IgnoreMemberExpressions(x => x.Int2, x => x.Guid));
+            var ileqignmembersB = ILEqualityComparer<B>.Create(ILEqualityComparerOptions<B>.IgnoreMemberExpressions(x => x.Int2, x => x.Int));
             
             Console.WriteLine($"A1 equals A2: {equalsA.Equals(a, a2)}");
             Console.WriteLine($"C1 equals C2: {equalsC.Equals(c, c2)}");
