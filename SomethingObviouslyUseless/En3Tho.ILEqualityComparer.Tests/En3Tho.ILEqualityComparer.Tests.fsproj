@@ -8,12 +8,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="DefaultBehaviourTests\SimpleTypesTests.fs" />
-        <Compile Include="DefaultBehaviourTests\StringsAndGuidsTests.fs" />
-        <Compile Include="DefaultBehaviourTests\NestedMembersWithSimpleTypesTests.fs" />
-        <Compile Include="DefaultBehaviourTests\MultiMembersTests.fs" />
+        <Compile Include="Assets\TestObjects.fs" />
+        <Compile Include="DefaultBehaviourTests\SimpleTypesClassTests.fs" />
+        <Compile Include="DefaultBehaviourTests\SimpleTypesStructTests.fs" />
+        <Compile Include="DefaultBehaviourTests\StringsAndGuidsClassTests.fs" />
+        <Compile Include="DefaultBehaviourTests\StringsAndGuidsStructTests.fs" />
+        <Compile Include="DefaultBehaviourTests\NestedMembersWithSimpleTypesClassTests.fs" />
+        <Compile Include="DefaultBehaviourTests\NestedMembersWithSimpleTypesStructTests.fs" />
+        <Compile Include="DefaultBehaviourTests\MultiMembersClassTests.fs" />
+        <Compile Include="DefaultBehaviourTests\MultiMembersStructTests.fs" />
         <Compile Include="DefaultBehaviourTests\ArrayMembersTests.fs" />
-        <Compile Include="DefaultBehaviourTests\NullableMembersTests.fs" />
+        <Compile Include="DefaultBehaviourTests\NullableMembersTests.fs" />        
         <Compile Include="Program.fs" />
     </ItemGroup>
 
