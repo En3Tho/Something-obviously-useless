@@ -52,7 +52,7 @@ namespace En3Tho.ILEqualityComparer
             {
                 if (ReferenceEquals(left, right)) return true;
                 if (left is null || right is null) return false;
-                return left.Length != right.Length;
+                return left.Length == right.Length;
             }
 
             // TODO: ArrayHelpers
@@ -67,7 +67,7 @@ namespace En3Tho.ILEqualityComparer
 
             private static int ArrayObjectGetHashCode<T>(T[] array)
             {
-                if (array?.Length < 1) return 0;
+                if ((array?.Length ?? 0) == 0) return 0;
                 int hashCode = 0;
                 for (int i = 0; i + 8 < array!.Length; i += 8)
                     hashCode = HashCode.Combine(array[i], array[i + 1], array[i + 2], array[i + 3], array[i + 4], array[i + 5], array[i + 6], array[i + 7]);
@@ -128,7 +128,7 @@ namespace En3Tho.ILEqualityComparer
 
             private static int ArrayILComparerGetHashCode<T>(T[] array)
             {
-                if (array?.Length < 1) return 0;
+                if ((array?.Length ?? 0) == 0) return 0;
                 ILEqualityComparer<T> comp = ILEqualityComparer<T>.Default;
                 int hashCode = 0;
                 for (int i = 0; i + 8 < array!.Length; i += 8)
@@ -186,7 +186,7 @@ namespace En3Tho.ILEqualityComparer
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool IsSupportedType(Type type)
             => !UnsupportedTypes.Contains(type)
-            && !type.IsArray
+            && !type.IsArray // TODO: implement Array / ICollection / IEnumerable comparison
             && !type.IsBasicType();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -210,20 +210,21 @@ namespace En3Tho.ILEqualityComparer
                    ?? ObjEquals;
 
             if (t.IsValueType)
-                return il.Call(equals);
+                return equals.Call(il);
 
             var left = il.DeclareLocal(t);
             var right = il.DeclareLocal(t);
 
-            il.StoreLocal(right.LocalIndex)
-              .StoreLocal(left.LocalIndex);
+            il.StoreLocal(right);
+            il.StoreLocal(left);
 
             var ifNull = il.DefineLabel();
             var next = il.DefineLabel();
-            return il.LoadLocal(left.LocalIndex)
-                     .LoadLocal(right.LocalIndex)
-                     .BranchFalse_S(ifNull, il.LoadLocal(left.LocalIndex))
-                     .Branch_S(next, equals.IsVirtual ? il.CallVirtual(equals) : il.Call(equals))
+
+            return il.LoadLocal(left)
+                     .LoadLocal(right)
+                     .BranchFalse_S(ifNull, il.LoadLocal(left))
+                     .Branch_S(next, equals.Call(il))
                      .Call(ObjRefEquals, il.MarkLabel2(ifNull))
                      .MarkLabel2(next);
         }
@@ -237,28 +238,21 @@ namespace En3Tho.ILEqualityComparer
                            var end = il.DefineLabel();
                            foreach (var prop in properties)
                            {
-                               var getMethod = prop.GetMethod!;
-
-                               if (getMethod.IsVirtual)
-                                   il.CallVirtual(getMethod, il.LoadArgument(0))
-                                     .CallVirtual(getMethod, il.LoadArgument(1));
-                               else
-                                   il.Call(getMethod, il.LoadArgument(0))
-                                     .Call(getMethod, il.LoadArgument(1));
-
-                               il.StoreLocal(0, CallEquals(il, prop.PropertyType))
-                                 .BranchFalse_S(end, il.LoadLocal(0));
+                               prop.Get(il.LoadArgument(0));
+                               prop.Get(il.LoadArgument(1))
+                                   .StoreLocal(0, CallEquals(il, prop.PropertyType))
+                                   .BranchFalse_S(end, il.LoadLocal(0));
                            }
 
                            foreach (var field in fields)
                            {
                                var fieldName = field.Name;
-                               if (fieldName.EndsWith("k__BackingField")) continue;
+                               if (fieldName.EndsWith("k__BackingField")) continue; // property backing field
 
-                               il.LoadField(field, il.LoadArgument(0))
-                                 .LoadField(field, il.LoadArgument(1))
-                                 .StoreLocal(0, CallEquals(il, field.FieldType))
-                                 .BranchFalse_S(end, il.LoadLocal(0));
+                               field.Load(il.LoadArgument(0));
+                               field.Load(il.LoadArgument(1))
+                                    .StoreLocal(0, CallEquals(il, field.FieldType))
+                                    .BranchFalse_S(end, il.LoadLocal(0));
                            }
 
                            il.StoreLocal(0, il.LoadInteger(1))

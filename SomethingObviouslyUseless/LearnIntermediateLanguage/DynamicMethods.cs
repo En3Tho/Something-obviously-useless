@@ -4,6 +4,7 @@ using En3Tho.ILEqualityComparer;
 using En3Tho.ILHelpers;
 using En3Tho.ILHelpers.DynamicMethodBuilder;
 using En3Tho.ILHelpers.IL;
+using En3Tho.ILHelpers.ReflectionHelpers;
 
 namespace LearnIntermediateLanguage
 {
@@ -75,7 +76,7 @@ namespace LearnIntermediateLanguage
         public static void CallCtor()
         {
             var func = new DynamicMethodBuilder<Func<int, int, (int, int)>>("GetDivRemTuple")
-                      .Locals<Types<(int, int)>>()
+                      .Locals<Types<(int, int)>>("x", "y")
                       .IL(il => il
                                .Divide(il.LoadArgument(0), il.LoadArgument(1))
                                .Remainder(il.LoadArgument(0), il.LoadArgument(1))

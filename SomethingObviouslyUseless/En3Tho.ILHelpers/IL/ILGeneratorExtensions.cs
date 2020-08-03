@@ -1519,6 +1519,8 @@ namespace En3Tho.ILHelpers.IL
 
 #region LoadLocal +
 
+        public static ILGenerator LoadLocal(this ILGenerator generator, LocalBuilder builder) => generator.LoadLocal(builder.LocalIndex);
+        
         public static ILGenerator LoadLocal(this ILGenerator generator, int index, params ILGenerator[] _)
         {
             switch (index)
@@ -2001,6 +2003,11 @@ namespace En3Tho.ILHelpers.IL
 
 #region StoreLocal
 
+        public static ILGenerator StoreLocal(this ILGenerator generator, LocalBuilder builder, ILGenerator value) => generator.StoreLocal(builder.LocalIndex, value);
+        public static ILGenerator StoreLocal_S(this ILGenerator generator, LocalBuilder builder, ILGenerator value) => generator.StoreLocal_S(builder.LocalIndex, value);
+        public static ILGenerator StoreLocal(this ILGenerator generator, LocalBuilder builder, params ILGenerator[] values) => generator.StoreLocal(builder.LocalIndex, values);
+        public static ILGenerator StoreLocal_S(this ILGenerator generator, LocalBuilder builder, params ILGenerator[] values) => generator.StoreLocal_S(builder.LocalIndex, values);
+        
         public static ILGenerator StoreLocal(this ILGenerator generator, int index, params ILGenerator[] _)
         {
             switch (index)
@@ -2042,7 +2049,7 @@ namespace En3Tho.ILHelpers.IL
                     generator.Emit(OpCodes.Stloc_3);
                     break;
                 default:
-                    generator.Emit(OpCodes.Stloc, index);
+                    generator.Emit(OpCodes.Stloc, (short)index);
                     break;
             }
 
@@ -2066,7 +2073,7 @@ namespace En3Tho.ILHelpers.IL
                     generator.Emit(OpCodes.Stloc_3);
                     break;
                 default:
-                    generator.Emit(OpCodes.Stloc_S, index);
+                    generator.Emit(OpCodes.Stloc_S, (byte)index);
                     break;
             }
 
@@ -2090,7 +2097,7 @@ namespace En3Tho.ILHelpers.IL
                     generator.Emit(OpCodes.Stloc_3);
                     break;
                 default:
-                    generator.Emit(OpCodes.Stloc_S, index);
+                    generator.Emit(OpCodes.Stloc_S, (byte)index);
                     break;
             }
 

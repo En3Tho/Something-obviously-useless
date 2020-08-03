@@ -9,6 +9,7 @@
         <Compile Include="Byref.fs" />
         <Compile Include="Seq.fs" />
         <Compile Include="Span.fs" />
+        <Compile Include="Functions.fs" />
     </ItemGroup>
 
 </Project>

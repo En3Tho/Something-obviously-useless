@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Nullable>Enable</Nullable>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <LangVersion>8</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>En3Tho.ValueTupleExtensions</Title>
