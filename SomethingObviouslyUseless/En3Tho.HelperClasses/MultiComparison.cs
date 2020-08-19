@@ -15,8 +15,8 @@ namespace En3Tho.HelperClasses
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() => HashCode.Combine(Value, Result);
         #else
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] // TODO: HashCode class to .NetStandard 2.0
-        public override int GetHashCode() => Value.GetHashCode() ^ (Result ? 1 : 0);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)] // TODO: HashCode class to .NetStandard 2.0 ?
+        public override int GetHashCode() => Value.GetHashCode() << (Result ? 1 : 0) | (Result ? 1 : 0);
 #endif
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(object? obj) => obj switch

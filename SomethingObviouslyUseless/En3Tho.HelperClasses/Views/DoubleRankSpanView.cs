@@ -4,14 +4,14 @@ using System.Runtime.CompilerServices;
 
 namespace En3Tho.HelperClasses.Views
 {
-    public readonly ref struct DoubleRankArrayView<T>
+    public readonly ref struct DoubleRankSpanView<T>
     {
-        public readonly T[] Values;
+        public readonly Span<T> Values;
         public readonly int Width;
         public readonly int Height;
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public DoubleRankArrayView(T[] values, int width)
+        public DoubleRankSpanView(T[] values, int width)
         {
             Values = values;
             Width = width;
@@ -19,10 +19,8 @@ namespace En3Tho.HelperClasses.Views
             Debug.Assert(values.Length == Height * Width);
         }
 
-#if !NETSTANDARD2_0
-        public Span<T> GetRow(int row) => new Span<T>(Values, row * Width, Width); 
-#endif
-
+        public Span<T> GetRow(int row) => Values.Slice(row * Width, Height);
+        
         public ref T this[int row, int column]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

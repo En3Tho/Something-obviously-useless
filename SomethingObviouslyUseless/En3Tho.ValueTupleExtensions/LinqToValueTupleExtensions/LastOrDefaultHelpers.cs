@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 {
-    internal struct LastOrDefaultEnumerableHelper<TSource>
+    internal readonly struct LastOrDefaultEnumerableHelper<TSource>
     {
         private readonly IEnumerator<TSource> _enumerator;
 
@@ -34,7 +34,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 if (predicate6(value)) { value6 = value; }
 
                 if (predicate7(value)) { value7 = value; }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, ref TSource value5, ref TSource value6, Func<TSource, bool> predicate1,
@@ -54,7 +55,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 if (predicate5(value)) { value5 = value; }
 
                 if (predicate6(value)) { value6 = value; }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, ref TSource value5, Func<TSource, bool> predicate1,
@@ -72,7 +74,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 if (predicate4(value)) { value4 = value; }
 
                 if (predicate5(value)) { value5 = value; }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, Func<TSource, bool> predicate1,
@@ -88,7 +91,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 if (predicate3(value)) { value3 = value; }
 
                 if (predicate4(value)) { value4 = value; }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, Func<TSource, bool> predicate1,
@@ -102,7 +106,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 if (predicate2(value)) { value2 = value; }
 
                 if (predicate3(value)) { value3 = value; }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, Func<TSource, bool> predicate1,
@@ -114,7 +119,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 if (predicate1(value)) { value1 = value; }
 
                 if (predicate2(value)) { value2 = value; }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, Func<TSource, bool> predicate1)
@@ -123,7 +129,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
             {
                 var value = _enumerator.Current;
                 if (predicate1(value)) { value1 = value; }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
     }
 
@@ -196,7 +203,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, ref TSource value5, ref TSource value6, Func<TSource, bool> predicate1,
@@ -248,7 +256,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, ref TSource value5, Func<TSource, bool> predicate1,
@@ -293,7 +302,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, Func<TSource, bool> predicate1,
@@ -331,7 +341,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, Func<TSource, bool> predicate1,
@@ -362,7 +373,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, Func<TSource, bool> predicate1,
@@ -386,7 +398,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, Func<TSource, bool> predicate1)
@@ -401,7 +414,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
     }
 
@@ -464,7 +478,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     value7 = value;
                     found7 = true;
                 }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, ref TSource value5, ref TSource value6, ref bool found1, ref bool found2, ref bool found3,
@@ -509,7 +524,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     value6 = value;
                     found6 = true;
                 }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, ref TSource value5, ref bool found1, ref bool found2, ref bool found3, ref bool found4,
@@ -548,7 +564,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     value5 = value;
                     found5 = true;
                 }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, ref bool found1, ref bool found2, ref bool found3, ref bool found4,
@@ -581,7 +598,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     value4 = value;
                     found4 = true;
                 }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref bool found1, ref bool found2, ref bool found3, Func<TSource, bool> predicate1,
@@ -607,7 +625,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     value3 = value;
                     found3 = true;
                 }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref bool found1, ref bool found2, Func<TSource, bool> predicate1,
@@ -627,7 +646,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     value2 = value;
                     found2 = true;
                 }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
 
         public void SetValues(ref TSource value1, ref bool found1, Func<TSource, bool> predicate1)
@@ -640,7 +660,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                     value1 = value;
                     found1 = true;
                 }
-            } while (_enumerator.MoveNext());
+            }
+            while (_enumerator.MoveNext());
         }
     }
 
@@ -728,7 +749,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, ref TSource value5, ref TSource value6, ref bool found1, ref bool found2, ref bool found3,
@@ -793,7 +815,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, ref TSource value5, ref bool found1, ref bool found2, ref bool found3, ref bool found4,
@@ -844,7 +867,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref TSource value4, ref bool found1, ref bool found2, ref bool found3, ref bool found4,
@@ -887,7 +911,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref TSource value3, ref bool found1, ref bool found2, ref bool found3, Func<TSource, bool> predicate1,
@@ -921,7 +946,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref TSource value2, ref bool found1, ref bool found2, Func<TSource, bool> predicate1,
@@ -947,7 +973,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
 
         public void SetValues(ref TSource value1, ref bool found1, Func<TSource, bool> predicate1)
@@ -963,7 +990,8 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
                 }
 
                 _index--;
-            } while (_index >= 0);
+            }
+            while (_index >= 0);
         }
     }
 }

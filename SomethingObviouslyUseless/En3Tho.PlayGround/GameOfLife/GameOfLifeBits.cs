@@ -227,7 +227,7 @@ namespace En3Tho.PlayGround.GameOfLife
         private static byte* GetLookupTable() // Todo: settings?
         {
             var lookup = new byte[2 << 17]; // 2^18
-            for (uint i = 0; i < lookup.Length; i++)
+            for (uint lookupIndex = 0; lookupIndex < lookup.Length; lookupIndex++)
             {
                 // convert from 0  1  2  3  4  5  to 0  1  2  3  4  5  and then process by 0  1  2  squares shifting 4 times
                 //              6  7  8  9  10 11    10 11 12 13 14 15                     10 11 12
@@ -236,9 +236,9 @@ namespace En3Tho.PlayGround.GameOfLife
                 const uint FirstRow = 0x3F;       // [0011][1111]
                 const uint SecondRow = 0xFC0;     // [1111][1100][0000]
                 const uint ThirdRow = 0x3F000;    // [0011][1111][0000][0000][0000]
-                uint value = i & FirstRow         // 0 -> 0
-                           | (i & SecondRow) << 4 // 6 -> 10
-                           | (i & ThirdRow) << 8; // 12 -> 20
+                uint value = lookupIndex & FirstRow         // 0 -> 0
+                           | (lookupIndex & SecondRow) << 4 // 6 -> 10
+                           | (lookupIndex & ThirdRow) << 8; // 12 -> 20
 
                 // then generate 6x3 lookup table
                 // 0  1  2  3  4  5 
@@ -247,17 +247,17 @@ namespace En3Tho.PlayGround.GameOfLife
                 // single lookup returns middle bits (11 12 13 14) as 0 1 2 3 
 
                 const uint Square3x3 = 0x701407; // [0111][0000][0001][0100][0000][0111] - every bit except 11
-                const uint MiddleBit = 0x800;    // [1000][0000][0000] - bit 11
+                const int MiddleBitIndex = 11;    // [1000][0000][0000] - bit 11
 
-                uint result = 0;
-                for (int k = 0; k < 4; k++)
+                uint lookupValue = 0;
+                for (int bitShift = 0; bitShift < 4; bitShift++) // 4 bits in a nibble
                 {
-                    var middleBit = value >> (11 + k) & 1;
-                    var square = value & Square3x3 << k;
-                    result |= MarkAlive(middleBit, (uint)BitOperations.PopCount(square)) << k;
+                    var middleBit = value >> (MiddleBitIndex + bitShift) & 1;
+                    var square = Square3x3 << bitShift & value;
+                    lookupValue |= MarkAlive(middleBit, (uint)BitOperations.PopCount(square)) << bitShift;
                 }
 
-                lookup[i] = (byte)result;
+                lookup[lookupIndex] = (byte)lookupValue;
             }
 
             return (byte*)GCHandle.Alloc(lookup, GCHandleType.Pinned).AddrOfPinnedObject();
