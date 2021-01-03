@@ -1,15 +1,18 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using BenchmarkDotNet.Attributes;
 using En3Tho.ValueTupleExtensions;
 using En3Tho.ValueTupleExtensions.LinqLikeExtensions;
 
-namespace Benchmarks.Benchmarks
+namespace Benchmarks.BenchmarkDotNet
 {
     [MemoryDiagnoser]
     public class ContainsBenchmark
     {
         public enum S
         {
-            A,B,C
+            A, B, C, D, E, F, G, H
         }
         
         [Params(12)]
@@ -22,9 +25,15 @@ namespace Benchmarks.Benchmarks
         }
         
         [Benchmark]
-        public void ContainsEnum()
+        public void ContainsEnum2()
         {
             (S.A, S.B).Contains(S.C);
+        }
+        
+        [Benchmark]
+        public void ContainsEnum7()
+        {
+            (S.A, S.B, S.C, S.D, S.E, S.F, S.G).Contains(S.H);
         }
         
         [Benchmark]

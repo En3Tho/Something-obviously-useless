@@ -4,7 +4,7 @@ using System.Linq;
 using BenchmarkDotNet.Attributes;
 using En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions;
 
-namespace Benchmarks.Benchmarks
+namespace Benchmarks.BenchmarkDotNet
 {
     [MemoryDiagnoser]
     public class FirstOrDefaultBenchmark

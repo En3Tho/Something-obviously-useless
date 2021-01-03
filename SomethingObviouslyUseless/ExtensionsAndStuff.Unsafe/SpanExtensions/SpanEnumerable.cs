@@ -6,7 +6,7 @@ using static System.Runtime.CompilerServices.Unsafe;
 
 namespace ExtensionsAndStuff.Unsafe.SpanExtensions
 {
-    public unsafe struct SpanEnumerable<T> : IEnumerable<T>
+    public readonly unsafe struct SpanEnumerable<T> : IEnumerable<T>
     {
         private readonly void* _sourceRef;
         private readonly int _sourceLength;
@@ -26,8 +26,8 @@ namespace ExtensionsAndStuff.Unsafe.SpanExtensions
         {
             return GetEnumerator();
         }
-        
-        public struct Enumerator : IEnumerator<T>
+
+        private struct Enumerator : IEnumerator<T>
         {
             private readonly SpanEnumerable<T> _wrapper;
             private int _index;

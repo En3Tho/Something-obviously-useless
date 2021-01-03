@@ -5,7 +5,7 @@ using BenchmarkDotNet.Attributes;
 using En3Tho.ValueTupleExtensions;
 using En3Tho.ValueTupleExtensions.LinqLikeExtensions;
 
-namespace Benchmarks.Benchmarks
+namespace Benchmarks.BenchmarkDotNet
 {
     [MemoryDiagnoser]
     public class ValueTupleSorting

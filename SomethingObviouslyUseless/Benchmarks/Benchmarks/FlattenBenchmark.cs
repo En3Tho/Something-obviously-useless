@@ -6,7 +6,7 @@ using System.Linq;
 using BenchmarkDotNet.Attributes;
 using ExtensionsAndStuff.Linq;
 
-namespace Benchmarks.Benchmarks
+namespace Benchmarks.BenchmarkDotNet
 {
     [MemoryDiagnoser]
     public class FlattenBenchmark
@@ -61,7 +61,7 @@ namespace Benchmarks.Benchmarks
 
         public class NestedCollection : IEnumerable<NestedCollection>
         {
-            public List<NestedCollection> Children { get; } = new List<NestedCollection>();
+            public List<NestedCollection> Children { get; } = new();
 
             public IEnumerator<NestedCollection> GetEnumerator()
             {

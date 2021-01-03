@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -16,6 +18,9 @@ namespace En3Tho.HelperClasses.Views
             Values = values;
             Width = width;
             Height = values.Length / width;
+            
+            if (values is { Length: 25, Count: 15, SyncRoot: List<int> x} && x is { Count: 25, Capacity: 40} ) Console.WriteLine("Lol C# 8");
+            
             Debug.Assert(values.Count == Height * Width);
         }
 

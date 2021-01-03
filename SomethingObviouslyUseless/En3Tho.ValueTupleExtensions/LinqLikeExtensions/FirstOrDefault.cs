@@ -8,7 +8,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: MaybeNull]
-        public static T FirstOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
+        public static T FirstOrDefault<T>(in this (T v1, T v2, T v3, T v4, T v5, T v6, T v7) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v1;
             if (func(tuple.v2)) return tuple.v2;
@@ -24,7 +24,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: MaybeNull]
-        public static T FirstOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
+        public static T FirstOrDefault<T>(in this (T v1, T v2, T v3, T v4, T v5, T v6) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v1;
             if (func(tuple.v2)) return tuple.v2;
@@ -39,7 +39,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: MaybeNull]
-        public static T FirstOrDefault<T>(this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
+        public static T FirstOrDefault<T>(in this (T v1, T v2, T v3, T v4, T v5) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v1;
             if (func(tuple.v2)) return tuple.v2;
@@ -53,7 +53,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: MaybeNull]
-        public static T FirstOrDefault<T>(this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
+        public static T FirstOrDefault<T>(in this (T v1, T v2, T v3, T v4) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v1;
             if (func(tuple.v2)) return tuple.v2;
@@ -66,7 +66,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: MaybeNull]
-        public static T FirstOrDefault<T>(this (T v1, T v2, T v3) tuple, Func<T, bool> func)
+        public static T FirstOrDefault<T>(in this (T v1, T v2, T v3) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v1;
             if (func(tuple.v2)) return tuple.v2;
@@ -78,7 +78,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: MaybeNull]
-        public static T FirstOrDefault<T>(this (T v1, T v2) tuple, Func<T, bool> func)
+        public static T FirstOrDefault<T>(in this (T v1, T v2) tuple, Func<T, bool> func)
         {
             if (func(tuple.v1)) return tuple.v1;
             if (func(tuple.v2)) return tuple.v2;

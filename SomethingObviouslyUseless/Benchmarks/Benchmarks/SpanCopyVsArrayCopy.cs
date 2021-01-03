@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using BenchmarkDotNet.Attributes;
 
-namespace Benchmarks.Benchmarks
+namespace Benchmarks.BenchmarkDotNet
 {
     [MemoryDiagnoser]
     public class SpanCopyVsArrayCopy

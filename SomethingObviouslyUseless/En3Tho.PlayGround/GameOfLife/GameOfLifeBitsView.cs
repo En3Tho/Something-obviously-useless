@@ -21,8 +21,8 @@ namespace En3Tho.PlayGround.GameOfLife
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private (int byteIndex, int bitIndex) ComputeIndices(int index)
         {
-            var byteIndex = index >> 3;
-            return (_iStart + byteIndex + byteIndex / _iWidth * 2, index % 8);
+            var byteIndex = Math.DivRem(index, 8, out var remainder);
+            return (_iStart + byteIndex + byteIndex / _iWidth * 2, remainder);
         }
 
         public int this[int index]

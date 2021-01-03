@@ -6,9 +6,9 @@ namespace En3Tho.HelperClasses.Disposable.RefStructs
 {
     public readonly ref struct ArrayFromSharedPool<T>
     {
-        private readonly bool m_clearOnReturn;
+        private readonly bool _clearOnReturn;
 
-        public readonly T[] Value
+        public T[]? Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get;
@@ -18,14 +18,14 @@ namespace En3Tho.HelperClasses.Disposable.RefStructs
         public ArrayFromSharedPool(int minimumLength, bool clearOnReturn = true)
         {
             Value = ArrayPool<T>.Shared.Rent(minimumLength);
-            m_clearOnReturn = clearOnReturn;
+            _clearOnReturn = clearOnReturn;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Dispose()
         {
             if (Value is {})
-                ArrayPool<T>.Shared.Return(Value, m_clearOnReturn);
+                ArrayPool<T>.Shared.Return(Value, _clearOnReturn);
         }
     }
 }

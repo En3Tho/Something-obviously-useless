@@ -12,6 +12,7 @@ using En3Tho.ILHelpers.ReflectionHelpers;
 namespace En3Tho.ILEqualityComparer
 {
     // TODO: ToBuilder(Options)
+    // TODO: Copy Equality Logic From C# 9 Records Feature, enable such logic for any class/struct basically
     internal static class ILEqualityComparerGenerator
     {
         /// <summary>
@@ -187,7 +188,7 @@ namespace En3Tho.ILEqualityComparer
         private static bool IsSupportedType(Type type)
             => !UnsupportedTypes.Contains(type)
             && !type.IsArray // TODO: implement Array / ICollection / IEnumerable comparison
-            && !type.IsBasicType();
+            && !type.IsPrimitive;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool CanGenerateNoMemberFunc(PropertyInfo[] properties, FieldInfo[] fields)
@@ -196,14 +197,14 @@ namespace En3Tho.ILEqualityComparer
         // This method always assumes we already have 2 variables on stack
         private static ILGenerator CallEquals(ILGenerator il, Type t)
         {
-            if (t.IsBasicType())
+            if (t.IsPrimitive)
                 return il.CompareEqual();
 
             // ToOptions
             // This is default option : prefer full member equality then IEquatable then Equals
             var equals = IsSupportedType(t)
                 ? Helpers.GenerateILEqualityComparerEquals(t)
-                : t.IsIEquatable()
+                : t.IsIEquatableOfSelf()
                     ? Helpers.GenerateIEquatableEquals(t)
                     : t.GetMethod(nameof(Equals), new[] { t })
                    ?? t.GetMethod(nameof(Equals), new[] { t, t })
@@ -247,7 +248,7 @@ namespace En3Tho.ILEqualityComparer
                            foreach (var field in fields)
                            {
                                var fieldName = field.Name;
-                               if (fieldName.EndsWith("k__BackingField")) continue; // property backing field
+                               if (fieldName.EndsWith("k__BackingField")) continue; // auto-property backing field
 
                                field.Load(il.LoadArgument(0));
                                field.Load(il.LoadArgument(1))
@@ -266,7 +267,7 @@ namespace En3Tho.ILEqualityComparer
         private static Func<T, T, bool> GenerateEqualsHelper<T>(PropertyInfo[] properties, FieldInfo[] fields)
         {
             var t = typeof(T);
-            var (eq, name) = t.IsIEquatable()
+            var (eq, name) = t.IsIEquatableOfSelf()
                 ? (Helpers.GenerateIEquatableEquals(t), nameof(Helpers.GenerateIEquatableEquals))
                 : CanGenerateNoMemberFunc(properties, fields)
                     ? (Helpers.GenerateNoMembersEquals(t), nameof(Helpers.GenerateNoMembersEquals))
@@ -296,7 +297,7 @@ namespace En3Tho.ILEqualityComparer
         private static Func<T, int> GenerateGetHashCodeFuncWithHelpers<T>(PropertyInfo[] properties, FieldInfo[] fields)
         {
             var t = typeof(T);
-            var ghc = t.IsIEquatable()
+            var ghc = t.IsIEquatableOfSelf()
                 ? Helpers.GenerateIEquatableGetHashCode(t)
                 : CanGenerateNoMemberFunc(properties, fields)
                     ? Helpers.GenerateNoMembersGetHashCode(t)
@@ -313,7 +314,7 @@ namespace En3Tho.ILEqualityComparer
             // TODO: to options
             var ghc = IsSupportedType(t)
                 ? Helpers.GenerateOILEqualityComparerGetHashCode(t)
-                : t.IsIEquatable()
+                : t.IsIEquatableOfSelf()
                     ? Helpers.GenerateIEquatableGetHashCode(t)
                     : Helpers.GenerateObjectGetHashCode(t);
             return il.Call(ghc);
@@ -327,7 +328,7 @@ namespace En3Tho.ILEqualityComparer
                        {
                            static MethodInfo generateGetHashCode(IEnumerable<Type> types) =>
                                typeof(HashCode).GetAndMakeGenericMethod(nameof(HashCode.Combine),
-                                   types.Select(t => !IsSupportedType(t) && !t.IsIEquatable() ? t : typeof(int)).ToArray())!;
+                                   types.Select(t => !IsSupportedType(t) && !t.IsIEquatableOfSelf() ? t : typeof(int)).ToArray())!;
 
                            void generatePropertyHashCodeCombine(PropertyInfo[] propertyInfos)
                            {

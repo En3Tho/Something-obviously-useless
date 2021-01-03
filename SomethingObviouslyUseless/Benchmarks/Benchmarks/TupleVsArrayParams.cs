@@ -2,28 +2,21 @@
 using System.Runtime.InteropServices;
 using BenchmarkDotNet.Attributes;
 using Benchmarks.Classes;
-using En3Tho.ValueTupleExtensions;
 using En3Tho.ValueTupleExtensions.LinqLikeExtensions;
 using ExtensionsAndStuff.ReferenceStackAllocation;
 using ExtensionsAndStuff.RefStructs.SpanList;
 
-namespace Benchmarks.Benchmarks
+namespace Benchmarks.BenchmarkDotNet
 {
     [MemoryDiagnoser]
     public class TupleVsArrayParams
     {
-        public ParamsHolder Holder { get; } = new ParamsHolder();
+        public ParamsHolder Holder { get; } = new();
 
         [Benchmark]
         public void CallParamsClass()
         {
             Holder.ParamsClass(new object(), new object(), new object(), new object(), new object(), new object(), new object());
-        }
-
-        [Benchmark]
-        public void CallParamsTuple()
-        {
-            Holder.ParamsTuple((new object(), new object(), new object(), new object(), new object(), new object(), new object()).AsSpan());
         }
 
         [Benchmark]
@@ -36,7 +29,7 @@ namespace Benchmarks.Benchmarks
         [Benchmark]
         public void CallParamsSpanList()
         {
-            var list = new SpanList<object>(StackAlloc.Alloc64<object>().AsSpan());
+            var list = new SpanList<object>(ReferenceStackAlloc.Alloc64<object>().AsSpan());
             list.Add(new object());
             list.Add(new object());
             list.Add(new object());

@@ -13,14 +13,20 @@ namespace En3Tho.ValueTupleExtensions.LinqToValueTupleExtensions
 
         private static IEnumerable<(TSource, TSource)> WithPreviousIterator<TSource>(IEnumerable<TSource> source)
         {
-            #pragma warning disable CS8653
-            TSource prev = default;
-            #pragma warning restore CS8653
-            foreach (var value in source)
+            // TODO nullable generics?
+#pragma warning disable CS8653, CS8619
+            using var enumerator = source.GetEnumerator();
+            if (enumerator.MoveNext())
             {
-                yield return (prev, value);
-                prev = value;
+                var prev = enumerator.Current;
+                while (enumerator.MoveNext())
+                {
+                    var current = enumerator.Current;
+                    yield return (prev, current);
+                    prev = current;
+                }
             }
+#pragma warning restore CS8653
         }
     }
 }

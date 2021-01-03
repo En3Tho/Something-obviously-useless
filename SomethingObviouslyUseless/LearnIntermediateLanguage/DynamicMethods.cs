@@ -35,7 +35,7 @@ namespace LearnIntermediateLanguage
                       .Build();
         }
 
-        public static void TestDuplicate()
+        public static bool TestDuplicate()
         {
             var func = new DynamicMethodBuilder<Func<string, bool>>("GetDiv")
                       .IL(il =>
@@ -50,7 +50,7 @@ namespace LearnIntermediateLanguage
                       .Build();
 
             var result = func("lol");
-            int i = 10;
+            return result;
         }
         
         public static void GetRem()

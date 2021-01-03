@@ -7,6 +7,7 @@ namespace En3Tho.ILHelpers.IL
 {
     // TODO : add ILGeneratorExtensionsReferenceMethods (param count / names / descr)
     // TODO : add SignatureMethods with 1/2/3 parameters of IlGen + names
+    // TODO : add FSharpModule
     public static class ILGeneratorExtensions
     {
 #region Add +
@@ -2145,6 +2146,25 @@ namespace En3Tho.ILHelpers.IL
         public static ILGenerator MarkLabel2(this ILGenerator generator, Label label)
         {
             generator.MarkLabel(label);
+            return generator;
+        }
+
+#endregion
+
+#region DeclareLocal
+
+        public static ILGenerator DeclareLocals(this ILGenerator generator, (Type, Type) tuple, out LocalBuilder local1, out LocalBuilder local2)
+        {
+            local1 = generator.DeclareLocal(tuple.Item1);
+            local2 = generator.DeclareLocal(tuple.Item2);
+            return generator;
+        }
+
+        public static ILGenerator DeclareLocals(this ILGenerator generator, (Type, Type, Type) tuple, out LocalBuilder local1, out LocalBuilder local2, out LocalBuilder local3)
+        {
+            local1 = generator.DeclareLocal(tuple.Item1);
+            local2 = generator.DeclareLocal(tuple.Item2);
+            local3 = generator.DeclareLocal(tuple.Item3);
             return generator;
         }
 

@@ -10,9 +10,12 @@ namespace ExtensionsAndStuff.BaseTypesExtensions
                  : (int)date.DayOfWeek - 1));
          
          public static int Week(this DateTime date)
-             => date.DayOfYear % 7 > 0 
-                 ? date.DayOfYear / 7 + 1
-                 : date.DayOfYear / 7;
+         {
+             var div = Math.DivRem(date.DayOfYear, 7, out var rem);
+             return rem > 0
+                 ? div + 1
+                 : div;
+         }
 
          public static TimeSpan Time(this DateTime date)
              => date - date.Date;

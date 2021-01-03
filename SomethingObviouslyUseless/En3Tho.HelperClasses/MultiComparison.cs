@@ -42,40 +42,46 @@ namespace En3Tho.HelperClasses
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator <(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Value.CompareTo(y.Value) < 0);
+        public static MultiComparison<T> operator <(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Result && x.Value.CompareTo(y.Value) < 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator >(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Value.CompareTo(y.Value) > 0);
+        public static MultiComparison<T> operator >(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Result && x.Value.CompareTo(y.Value) > 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator <=(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Value.CompareTo(y.Value) <= 0);
+        public static MultiComparison<T> operator <=(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Result && x.Value.CompareTo(y.Value) <= 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator >=(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Value.CompareTo(y.Value) >= 0);
+        public static MultiComparison<T> operator >=(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Result && x.Value.CompareTo(y.Value) >= 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator ==(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Value.Equals(y.Value));
+        public static MultiComparison<T> operator ==(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Result && x.Value.Equals(y.Value));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator !=(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, !x.Value.Equals(y.Value));
+        public static MultiComparison<T> operator !=(MultiComparison<T> x, MultiComparison<T> y) => new MultiComparison<T>(x.Value, x.Result && !x.Value.Equals(y.Value));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator <(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Value.CompareTo(y) < 0);
+        public static MultiComparison<T> operator <(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Result && x.Value.CompareTo(y) < 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator >(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Value.CompareTo(y) > 0);
+        public static MultiComparison<T> operator >(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Result && x.Value.CompareTo(y) > 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator <=(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Value.CompareTo(y) <= 0);
+        public static MultiComparison<T> operator <=(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Result && x.Value.CompareTo(y) <= 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator >=(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Value.CompareTo(y) >= 0);
+        public static MultiComparison<T> operator >=(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Result && x.Value.CompareTo(y) >= 0);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator ==(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Value.Equals(y));
+        public static MultiComparison<T> operator ==(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Result && x.Value.Equals(y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MultiComparison<T> operator !=(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, !x.Value.Equals(y));
+        public static MultiComparison<T> operator !=(MultiComparison<T> x, T y) => new MultiComparison<T>(x.Value, x.Result && !x.Value.Equals(y));
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MultiComparison<T> operator !=(MultiComparison<T> x, object y) => new MultiComparison<T>(x.Value, x.Result && !x.Value.Equals(y));
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static MultiComparison<T> operator ==(MultiComparison<T> x, object y) => new MultiComparison<T>(x.Value, x.Result && x.Value.Equals(y));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int CompareTo(T other) => Value.CompareTo(other);

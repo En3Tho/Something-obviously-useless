@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace En3Tho.HelperClasses.Views
 {
@@ -22,19 +21,12 @@ namespace En3Tho.HelperClasses.Views
 
         public T this[int index]
         {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => Values[index % Length];
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            set => Values[index & Length] = value;
+            set => Values[index % Length] = value;
         }
 
-        public T Current
-        {
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => Values[_current];
-        }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public T Current => Values[_current];
+
         public void Write(T item)
         {
             var current = (_current + 1) % Length;

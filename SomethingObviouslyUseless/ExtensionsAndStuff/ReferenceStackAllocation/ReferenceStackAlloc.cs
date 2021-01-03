@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace ExtensionsAndStuff.ReferenceStackAllocation
 {
-    public static class StackAlloc
+    public static class ReferenceStackAlloc
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReferenceValueHolder4<T> Alloc4<T>() where T : class

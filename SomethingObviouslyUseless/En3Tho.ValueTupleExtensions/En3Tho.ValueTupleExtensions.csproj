@@ -19,4 +19,8 @@
     <Compile Include="..\En3Tho.HelperClasses\NullableAttributes.cs" Link="NullableAttributes.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+  </ItemGroup>
+
 </Project>

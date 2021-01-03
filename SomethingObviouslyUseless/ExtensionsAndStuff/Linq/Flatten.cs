@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 
 namespace ExtensionsAndStuff.Linq
 {
@@ -34,8 +32,7 @@ namespace ExtensionsAndStuff.Linq
                 if (Enumerator.MoveNext())
                 {
                     Current = Enumerator.Current;
-                    var childCollection = _childCollectionGetter(Current);
-                    if (childCollection is {})
+                    if (_childCollectionGetter(Current) is var childCollection)
                     {
                         var next = _listNode.Next;
                         if (next is null) // recursion is not deep enough, so get a new node.
@@ -115,8 +112,7 @@ namespace ExtensionsAndStuff.Linq
                 foreach (var child in source)
                 {
                     store.Add(child);
-                    var rec = recursion(child);
-                    if (rec is {}) flattenInternal(rec, recursion, store);
+                    if (recursion(child) is var rec) flattenInternal(rec, recursion, store);
                 }
             }
 

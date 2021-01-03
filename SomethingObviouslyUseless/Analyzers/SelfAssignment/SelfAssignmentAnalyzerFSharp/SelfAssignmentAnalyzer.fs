@@ -58,6 +58,8 @@ type SelfAssignmentAnalyzerFSharp() =
                ImmutableArray.Create(SimpleAssignmentAnalysis.rule, CompoundAssignmentAnalysis.rule, PropertyReferenceAnalysis.rule)   
 
     override this.Initialize (context : AnalysisContext) =
+        context.EnableConcurrentExecution();
+        context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze ||| GeneratedCodeAnalysisFlags.ReportDiagnostics);
         context.RegisterOperationAction(SimpleAssignmentAnalysis.analyze, OperationKind.SimpleAssignment)
         context.RegisterOperationAction(CompoundAssignmentAnalysis.analyze, OperationKind.CompoundAssignment)
         context.RegisterOperationAction(PropertyReferenceAnalysis.analyze, OperationKind.PropertyReference)

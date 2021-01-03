@@ -6,7 +6,7 @@ using ExtensionsAndStuff.ReferenceStackAllocation;
 using ExtensionsAndStuff.RefStructs.SpanList;
 using ExtensionsAndStuff.Unsafe.SpanHeapListExtensions;
 
-namespace Benchmarks.Benchmarks
+namespace Benchmarks.BenchmarkDotNet
 {
     [MemoryDiagnoser]
     public class ListVsSpanEnumerable
@@ -41,7 +41,7 @@ namespace Benchmarks.Benchmarks
         [Benchmark]
         public int BenchSpanHeapList()
         {
-            var list = new SpanHeapList<A>(StackAlloc.Alloc64<A>().AsSpan());
+            var list = new SpanHeapList<A>(ReferenceStackAlloc.Alloc64<A>().AsSpan());
             for (int i = 0; i < Array.Length; i++)
             {
                 if (i % 2 == 0)

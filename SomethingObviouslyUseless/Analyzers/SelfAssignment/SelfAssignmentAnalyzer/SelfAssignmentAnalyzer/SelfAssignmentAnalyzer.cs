@@ -19,6 +19,8 @@ namespace SelfAssignmentAnalyzer
 
         public override void Initialize(AnalysisContext context)
         {
+            context.EnableConcurrentExecution();
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.RegisterOperationAction(AnalyzeSimpleAssignment, OperationKind.SimpleAssignment);
             context.RegisterOperationAction(AnalyzeCompoundAssignment, OperationKind.CompoundAssignment);
             context.RegisterOperationAction(AnalyzePropertyReference, OperationKind.PropertyReference);
@@ -26,7 +28,7 @@ namespace SelfAssignmentAnalyzer
 
         private static bool IsMatch<T>(IOperation target, IOperation value)
             => target is T tTarget && value is T tValue && tTarget.Equals(tValue);
-        
+
         private static void AnalyzeSimpleAssignment(OperationAnalysisContext context)
         {
             var operation = (ISimpleAssignmentOperation)context.Operation;

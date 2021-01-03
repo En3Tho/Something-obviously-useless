@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace En3Tho.HelperClasses.Delegates
 {
-    public static class Binder
+    internal static class Binder
     {
         // TODO: Rename params
         // TODO: More overloads
@@ -21,7 +21,8 @@ namespace En3Tho.HelperClasses.Delegates
             fnc(Guid.NewGuid().ToString());
         }
         
-        public static Func<B, C> Curry<A, B, C>(this Func<A, B, C> f, A value) => x => f(value, x); // Capture
+        public static Func<B, C> Capture<A, B, C>(this Func<A, B, C> f, A value) => x => f(value, x); // Capture
+        public static Func<A, C> Capture<A, B, C>(this Func<A, B, C> f, B value) => x => f(x, value); // Capture
 
         public static Func<T, T> ToFunc<T>(this Action<T> f) => x =>
         {

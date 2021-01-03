@@ -2,7 +2,7 @@
 using BenchmarkDotNet.Jobs;
 using Benchmarks.Classes;
 
-namespace Benchmarks.Benchmarks
+namespace Benchmarks.BenchmarkDotNet
 {
     [SimpleJob(RuntimeMoniker.NetCoreApp31, baseline: true)]
     [SimpleJob(RuntimeMoniker.NetCoreApp50)]

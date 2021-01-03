@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using En3Tho.ILEqualityComparer;
 
+#nullable disable
+
 namespace LearnIntermediateLanguage
 {
     public struct A
@@ -44,7 +46,7 @@ namespace LearnIntermediateLanguage
 
         public bool Equals(C other) => true;
         
-        public override bool Equals(object? obj) => true;
+        public override bool Equals(object obj) => true;
         public override int GetHashCode() => 0;
     }
 

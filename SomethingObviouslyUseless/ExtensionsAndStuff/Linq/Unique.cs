@@ -21,23 +21,19 @@ namespace ExtensionsAndStuff.Linq
 
         private static IEnumerable<TSource> UniqueIterator<TSource>(IEnumerable<TSource> first, IEnumerable<TSource> second, IEqualityComparer<TSource>? comparer)
         {
-            var set = new ValueTrackingSet<TSource>(comparer);
-            set.UnionWith(second);
+            var setFirst = new ValueTrackingSet<TSource>(comparer);
+            setFirst.UnionWith(first);
+            
+            var setSecond = new ValueTrackingSet<TSource>(comparer);
+            setSecond.UnionWith(second);
 
-            foreach (var element in first)
-            {
-                if (!set.Remove(element))
-                {
-                    yield return element;
-                }
-            }
+            foreach (var element in setFirst.Slots)
+                if (element._hasValue && !setSecond.Remove(element._value))
+                    yield return element._value;
 
-            var slots = set.Slots;
-            for (int i = 0; i < slots.Length; i++)
-            {
-                if (slots[i]._hasValue)
-                    yield return slots[i]._value;
-            }
+            foreach (var element in setSecond.Slots)
+                if (element._hasValue)
+                    yield return element._value;
         }
     }
 }

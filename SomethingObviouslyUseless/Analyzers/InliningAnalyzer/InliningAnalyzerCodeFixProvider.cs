@@ -32,6 +32,8 @@ namespace InliningAnalyzer
             return Task.CompletedTask;
         }
 
+        public override FixAllProvider GetFixAllProvider() => null;
+
         private static async Task<Document> InlineMethod(Document document, Diagnostic diagnostic, CancellationToken cancellationToken)
         {            
             var root = await document.GetSyntaxRootAsync(cancellationToken);
@@ -69,6 +71,6 @@ namespace InliningAnalyzer
             // var invocationExpression = generator.InvocationExpression(callRent, argumentExpression);
 
             return document.WithSyntaxRoot(root.ReplaceNode(originalExpression, generator.InvocationExpression(null)));
-        }
+        }        
     }
 }

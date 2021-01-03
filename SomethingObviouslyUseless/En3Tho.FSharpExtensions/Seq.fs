@@ -1,7 +1,12 @@
 ﻿namespace En3Tho.FSharpExtensions
+open System
+open System.Collections.Generic
 open System.Linq
+open En3Tho.FSharpExtensions.EqualityComparer
 
-module Seq = // TODO: Seq exts
+module Seq =
+    let intersect left right = Enumerable.Intersect(left, right)
+    let intersectBy<'a, 'b when 'b : equality> (map : 'a -> 'b) left right = Enumerable.Intersect(left, right, EqualityComparer<'a>.Create(map))
     let toResizeArray = Enumerable.ToList
     let ofType<'a> = Enumerable.OfType<'a>
     let notEmpty = Enumerable.Any

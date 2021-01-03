@@ -6,7 +6,7 @@ using ExtensionsAndStuff.ReferenceStackAllocation;
 using ExtensionsAndStuff.RefStructs;
 using ExtensionsAndStuff.RefStructs.SpanList;
 
-namespace Benchmarks.Benchmarks
+namespace Benchmarks.BenchmarkDotNet
 {
     [MemoryDiagnoser]
     public class SpanHeapListVsList
@@ -48,7 +48,7 @@ namespace Benchmarks.Benchmarks
         [Benchmark]
         public void SpanHeapList()
         {
-            var list = new SpanHeapList<object>(StackAlloc.Alloc64<object>().AsSpan());
+            var list = new SpanHeapList<object>(ReferenceStackAlloc.Alloc64<object>().AsSpan());
             foreach (var item in Objects)
             {
                 list.Add(item);

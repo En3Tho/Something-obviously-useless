@@ -7,7 +7,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
     public static partial class ValueTupleLinqLikeExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4, ICollection<T> v5, ICollection<T> v6, ICollection<T> v7) tuple)
+        public static T[] ToArray<T>(in this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4, ICollection<T> v5, ICollection<T> v6, ICollection<T> v7) tuple)
         {
             var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count + tuple.v5.Count + tuple.v6.Count + tuple.v7.Count;
             if (count == 0) return Array.Empty<T>();
@@ -30,7 +30,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4, ICollection<T> v5, ICollection<T> v6) tuple)
+        public static T[] ToArray<T>(in this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4, ICollection<T> v5, ICollection<T> v6) tuple)
         {
             var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count + tuple.v5.Count + tuple.v6.Count;
             if (count == 0) return Array.Empty<T>();
@@ -51,7 +51,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4, ICollection<T> v5) tuple)
+        public static T[] ToArray<T>(in this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4, ICollection<T> v5) tuple)
         {
             var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count + tuple.v5.Count;
             if (count == 0) return Array.Empty<T>();
@@ -70,7 +70,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4) tuple)
+        public static T[] ToArray<T>(in this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3, ICollection<T> v4) tuple)
         {
             var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count + tuple.v4.Count;
             if (count == 0) return Array.Empty<T>();
@@ -87,7 +87,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3) tuple)
+        public static T[] ToArray<T>(in this (ICollection<T> v1, ICollection<T> v2, ICollection<T> v3) tuple)
         {
             var count = tuple.v1.Count + tuple.v2.Count + tuple.v3.Count;
             if (count == 0) return Array.Empty<T>();
@@ -103,7 +103,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (ICollection<T> v1, ICollection<T> v2) tuple)
+        public static T[] ToArray<T>(in this (ICollection<T> v1, ICollection<T> v2) tuple)
         {
             var count = tuple.v1.Count + tuple.v2.Count;
             if (count == 0) return Array.Empty<T>();
@@ -115,7 +115,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] v1, T[] v2, T[] v3, T[] v4, T[] v5, T[] v6, T[] v7) tuple)
+        public static T[] ToArray<T>(in this (T[] v1, T[] v2, T[] v3, T[] v4, T[] v5, T[] v6, T[] v7) tuple)
         {
             var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length + tuple.v5.Length + tuple.v6.Length + tuple.v7.Length;
             if (length == 0) return Array.Empty<T>();
@@ -139,7 +139,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] v1, T[] v2, T[] v3, T[] v4, T[] v5, T[] v6) tuple)
+        public static T[] ToArray<T>(in this (T[] v1, T[] v2, T[] v3, T[] v4, T[] v5, T[] v6) tuple)
         {
             var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length + tuple.v5.Length + tuple.v6.Length;
             if (length == 0) return Array.Empty<T>();
@@ -161,7 +161,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] v1, T[] v2, T[] v3, T[] v4, T[] v5) tuple)
+        public static T[] ToArray<T>(in this (T[] v1, T[] v2, T[] v3, T[] v4, T[] v5) tuple)
         {
             var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length + tuple.v5.Length;
             if (length == 0) return Array.Empty<T>();
@@ -181,7 +181,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] v1, T[] v2, T[] v3, T[] v4) tuple)
+        public static T[] ToArray<T>(in this (T[] v1, T[] v2, T[] v3, T[] v4) tuple)
         {
             var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length + tuple.v4.Length;
             if (length == 0) return Array.Empty<T>();
@@ -199,7 +199,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] v1, T[] v2, T[] v3) tuple)
+        public static T[] ToArray<T>(in this (T[] v1, T[] v2, T[] v3) tuple)
         {
             var length = tuple.v1.Length + tuple.v2.Length + tuple.v3.Length;
             if (length == 0) return Array.Empty<T>();
@@ -215,7 +215,7 @@ namespace En3Tho.ValueTupleExtensions.LinqLikeExtensions
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] ToArray<T>(this (T[] v1, T[] v2) tuple)
+        public static T[] ToArray<T>(in this (T[] v1, T[] v2) tuple)
         {
             var length = tuple.v1.Length + tuple.v2.Length;
             if (length == 0) return Array.Empty<T>();

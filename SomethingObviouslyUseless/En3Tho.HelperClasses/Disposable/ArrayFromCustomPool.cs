@@ -6,28 +6,28 @@ namespace En3Tho.HelperClasses.Disposable.RefStructs
 {
     public readonly ref struct ArrayFromCustomPool<T>
     {
-        private readonly ArrayPool<T> m_Pool;
-        private readonly bool m_ClearOnReturn;
+        private readonly ArrayPool<T>? _pool;
+        private readonly bool _clearOnReturn;
 
-        public readonly T[] Value
+        public T[]? Value
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ArrayFromCustomPool(ArrayPool<T> pool, int minimumLength, bool clearOnReturn = true)
+        public ArrayFromCustomPool(ArrayPool<T> pool, int minimumLength, bool clearOnReturn = false)
         {
-            m_Pool = pool ?? ThrowHelper.ThrowArgumentNullException(pool, nameof(pool))!;
-            m_ClearOnReturn = clearOnReturn;
-            Value = m_Pool!.Rent(minimumLength);
+            _pool = pool ?? ThrowHelper.ThrowArgumentNullException(pool, nameof(pool))!;
+            _clearOnReturn = clearOnReturn;
+            Value = _pool!.Rent(minimumLength);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Dispose()
         {
             if (Value is {})
-                m_Pool.Return(Value, m_ClearOnReturn);
+                _pool?.Return(Value, _clearOnReturn);
         }
     }
 }

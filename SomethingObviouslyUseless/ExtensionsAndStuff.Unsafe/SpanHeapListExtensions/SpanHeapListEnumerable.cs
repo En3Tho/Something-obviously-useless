@@ -7,7 +7,7 @@ using static System.Runtime.CompilerServices.Unsafe;
 
 namespace ExtensionsAndStuff.Unsafe.SpanHeapListExtensions
 {
-    public unsafe struct SpanHeapListEnumerable<T> : IEnumerable<T>
+    public readonly unsafe struct SpanHeapListEnumerable<T> : IEnumerable<T>
     {
         private readonly void* _sourceRef;
         private readonly int _sourceLength;
@@ -49,7 +49,7 @@ namespace ExtensionsAndStuff.Unsafe.SpanHeapListExtensions
             return GetEnumerator();
         }
 
-        public struct Enumerator : IEnumerator<T>
+        private struct Enumerator : IEnumerator<T>
         {
             private readonly SpanHeapListEnumerable<T> _wrapper;
             private int _index;
