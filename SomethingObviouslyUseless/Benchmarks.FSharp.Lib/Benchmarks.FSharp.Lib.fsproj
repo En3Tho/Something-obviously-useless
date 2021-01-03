@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>        
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="ListAndSeqBenchmarks.fs" />
+        <Compile Include="ApplyBenchmark.fs" />
+        <Compile Include="FSharpOptimizerBenchmarks.fs" />
+        <Compile Include="FormatBenchmark.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+      <PackageReference Include="BenchmarkDotNet.Annotations" Version="0.12.1" />
+      <PackageReference Include="TypeShape" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\En3Tho.FSharpExtensions\En3Tho.FSharpExtensions.fsproj" />
+    </ItemGroup>
+
+</Project>
