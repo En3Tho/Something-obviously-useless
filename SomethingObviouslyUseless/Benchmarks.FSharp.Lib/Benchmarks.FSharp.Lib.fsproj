@@ -9,6 +9,11 @@
         <Compile Include="ApplyBenchmark.fs" />
         <Compile Include="FSharpOptimizerBenchmarks.fs" />
         <Compile Include="FormatBenchmark.fs" />
+        <Compile Include="SRTPBenchmarks.fs" />
+        <Compile Include="FuncsVsFSharpFuncs.fs" />
+        <Compile Include="ActivePatterns.fs" />
+        <Compile Include="HexToDec.fs" />
+        <Compile Include="ComponentBagBenchmark.fs" />
     </ItemGroup>
 
     <ItemGroup>

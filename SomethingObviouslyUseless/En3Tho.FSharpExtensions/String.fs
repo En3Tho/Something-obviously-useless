@@ -3,12 +3,15 @@
 open System
 
 let getLastTwoElements (lst: 'a list) =
-    let rec scrollToLast2Elements (lst: 'a list) =
-        if lst.Length > 2 then scrollToLast2Elements lst.Tail else lst
-
-    match scrollToLast2Elements lst with
-    | [pre; last] -> pre, last
-    | _ -> invalidOp "Sas"
+    match lst with
+    | [] | [_] -> invalidOp "Sas"
+    | _ ->
+        let rec go lst =
+            match lst with
+            | [x; y] -> x, y
+            | _ :: rest -> go rest
+            | def -> go def // will never hit this
+        go lst
 
 module ActivePatterns =
     let (|OrdinalIgnoreCase|_|) str str2 = if String.Equals(str, str2, StringComparison.OrdinalIgnoreCase) then Some() else None

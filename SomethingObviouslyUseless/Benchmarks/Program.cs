@@ -17,7 +17,7 @@ namespace Benchmarks
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<JsonVsEncodingBenchmarks>();            
+            BenchmarkRunner.Run<PInvokeBenchmark>();
             Console.ReadLine();
         }
     }

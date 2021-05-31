@@ -53,6 +53,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Benchmarks.FSharp.Lib", "Be
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Gists.FSharp", "Gists.FSharp\Gists.FSharp.fsproj", "{A01D2580-D199-4CE5-B0AF-A007BC16AC3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSharpHelpers", "FSharpHelpers\FSharpHelpers.csproj", "{C5D6E035-2F50-4D98-A3A7-A6E3CE6A1074}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +145,10 @@ Global
 		{A01D2580-D199-4CE5-B0AF-A007BC16AC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A01D2580-D199-4CE5-B0AF-A007BC16AC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A01D2580-D199-4CE5-B0AF-A007BC16AC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5D6E035-2F50-4D98-A3A7-A6E3CE6A1074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5D6E035-2F50-4D98-A3A7-A6E3CE6A1074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5D6E035-2F50-4D98-A3A7-A6E3CE6A1074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5D6E035-2F50-4D98-A3A7-A6E3CE6A1074}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -43,13 +43,13 @@ namespace En3Tho.ILEqualityComparer
             private static int ILEqualityComparerGetHashCode<T>(T obj) => ILEqualityComparer<T>.Default.GetHashCode(obj!);
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static bool NoMembersEquals<T>(T left, T right) => left is {} && right is {} || left is null && right is null;
+            private static bool NoMembersEquals<T>(T left, T right) => left is { } && right is { } || left is null && right is null;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static int NoMembersGetHashCode<T>(T obj) => obj is null ? 0 : 1;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static bool ArrayBasicEqualityChecks<T>(T[] left, T[] right)
+            private static bool ArrayBasicEqualityChecks<T>(T[]? left, T[]? right)
             {
                 if (ReferenceEquals(left, right)) return true;
                 if (left is null || right is null) return false;
@@ -77,13 +77,13 @@ namespace En3Tho.ILEqualityComparer
 #pragma warning restore CS8509
                 {
                     0 => hashCode,
-                    1 => HashCode.Combine(array[^1], hashCode),
-                    2 => HashCode.Combine(array[^1], array[^2], hashCode),
-                    3 => HashCode.Combine(array[^1], array[^2], array[^3], hashCode),
-                    4 => HashCode.Combine(array[^1], array[^2], array[^3], array[^4], hashCode),
-                    5 => HashCode.Combine(array[^1], array[^2], array[^3], array[^4], array[^5], hashCode),
-                    6 => HashCode.Combine(array[^1], array[^2], array[^3], array[^4], array[^5], array[^6], hashCode),
-                    7 => HashCode.Combine(array[^1], array[^2], array[^3], array[^4], array[^5], array[^6], array[^7], hashCode)
+                    1 => HashCode.Combine(array[0], hashCode),
+                    2 => HashCode.Combine(array[0], array[1], hashCode),
+                    3 => HashCode.Combine(array[0], array[1], array[2], hashCode),
+                    4 => HashCode.Combine(array[0], array[1], array[2], array[3], hashCode),
+                    5 => HashCode.Combine(array[0], array[1], array[2], array[3], array[4], hashCode),
+                    6 => HashCode.Combine(array[0], array[1], array[2], array[3], array[4], array[5], hashCode),
+                    7 => HashCode.Combine(array[0], array[1], array[2], array[3], array[4], array[5], array[6], hashCode)
                 };
             }
 
@@ -105,15 +105,15 @@ namespace En3Tho.ILEqualityComparer
 #pragma warning restore CS8509
                 {
                     0 => hashCode,
-                    1 => HashCode.Combine(array[^1].GetHashCode(), hashCode),
-                    2 => HashCode.Combine(array[^1].GetHashCode(), array[^2].GetHashCode(), hashCode),
-                    3 => HashCode.Combine(array[^1].GetHashCode(), array[^2].GetHashCode(), array[^3].GetHashCode(), hashCode),
-                    4 => HashCode.Combine(array[^1].GetHashCode(), array[^2].GetHashCode(), array[^3].GetHashCode(), array[^4].GetHashCode(), hashCode),
-                    5 => HashCode.Combine(array[^1].GetHashCode(), array[^2].GetHashCode(), array[^3].GetHashCode(), array[^4].GetHashCode(), array[^5].GetHashCode(), hashCode),
-                    6 => HashCode.Combine(array[^1].GetHashCode(), array[^2].GetHashCode(), array[^3].GetHashCode(), array[^4].GetHashCode(), array[^5].GetHashCode(), array[^6].GetHashCode(),
+                    1 => HashCode.Combine(array[0].GetHashCode(), hashCode),
+                    2 => HashCode.Combine(array[0].GetHashCode(), array[1].GetHashCode(), hashCode),
+                    3 => HashCode.Combine(array[0].GetHashCode(), array[1].GetHashCode(), array[2].GetHashCode(), hashCode),
+                    4 => HashCode.Combine(array[0].GetHashCode(), array[1].GetHashCode(), array[2].GetHashCode(), array[3].GetHashCode(), hashCode),
+                    5 => HashCode.Combine(array[0].GetHashCode(), array[1].GetHashCode(), array[2].GetHashCode(), array[3].GetHashCode(), array[4].GetHashCode(), hashCode),
+                    6 => HashCode.Combine(array[0].GetHashCode(), array[1].GetHashCode(), array[2].GetHashCode(), array[3].GetHashCode(), array[4].GetHashCode(), array[5].GetHashCode(),
                         hashCode),
-                    7 => HashCode.Combine(array[^1].GetHashCode(), array[^2].GetHashCode(), array[^3].GetHashCode(), array[^4].GetHashCode(), array[^5].GetHashCode(), array[^6].GetHashCode(),
-                        array[^7].GetHashCode(), hashCode)
+                    7 => HashCode.Combine(array[0].GetHashCode(), array[1].GetHashCode(), array[2].GetHashCode(), array[3].GetHashCode(), array[4].GetHashCode(), array[5].GetHashCode(),
+                        array[6].GetHashCode(), hashCode)
                 };
             }
 
@@ -140,15 +140,15 @@ namespace En3Tho.ILEqualityComparer
 #pragma warning restore CS8509
                 {
                     0 => hashCode,
-                    1 => HashCode.Combine(comp.GetHashCode(array[^1]), hashCode),
-                    2 => HashCode.Combine(comp.GetHashCode(array[^1]), comp.GetHashCode(array[^2]), hashCode),
-                    3 => HashCode.Combine(comp.GetHashCode(array[^1]), comp.GetHashCode(array[^2]), comp.GetHashCode(array[^3]), hashCode),
-                    4 => HashCode.Combine(comp.GetHashCode(array[^1]), comp.GetHashCode(array[^2]), comp.GetHashCode(array[^3]), comp.GetHashCode(array[^4]), hashCode),
-                    5 => HashCode.Combine(comp.GetHashCode(array[^1]), comp.GetHashCode(array[^2]), comp.GetHashCode(array[^3]), comp.GetHashCode(array[^4]), comp.GetHashCode(array[^5]), hashCode),
-                    6 => HashCode.Combine(comp.GetHashCode(array[^1]), comp.GetHashCode(array[^2]), comp.GetHashCode(array[^3]), comp.GetHashCode(array[^4]), comp.GetHashCode(array[^5]),
-                        comp.GetHashCode(array[^6]), hashCode),
-                    7 => HashCode.Combine(comp.GetHashCode(array[^1]), comp.GetHashCode(array[^2]), comp.GetHashCode(array[^3]), comp.GetHashCode(array[^4]), comp.GetHashCode(array[^5]),
-                        comp.GetHashCode(array[^6]), comp.GetHashCode(array[^7]), hashCode)
+                    1 => HashCode.Combine(comp.GetHashCode(array[0]), hashCode),
+                    2 => HashCode.Combine(comp.GetHashCode(array[0]), comp.GetHashCode(array[1]), hashCode),
+                    3 => HashCode.Combine(comp.GetHashCode(array[0]), comp.GetHashCode(array[1]), comp.GetHashCode(array[2]), hashCode),
+                    4 => HashCode.Combine(comp.GetHashCode(array[0]), comp.GetHashCode(array[1]), comp.GetHashCode(array[2]), comp.GetHashCode(array[3]), hashCode),
+                    5 => HashCode.Combine(comp.GetHashCode(array[0]), comp.GetHashCode(array[1]), comp.GetHashCode(array[2]), comp.GetHashCode(array[3]), comp.GetHashCode(array[4]), hashCode),
+                    6 => HashCode.Combine(comp.GetHashCode(array[0]), comp.GetHashCode(array[1]), comp.GetHashCode(array[2]), comp.GetHashCode(array[3]), comp.GetHashCode(array[4]),
+                        comp.GetHashCode(array[5]), hashCode),
+                    7 => HashCode.Combine(comp.GetHashCode(array[0]), comp.GetHashCode(array[1]), comp.GetHashCode(array[2]), comp.GetHashCode(array[3]), comp.GetHashCode(array[4]),
+                        comp.GetHashCode(array[5]), comp.GetHashCode(array[6]), hashCode)
                 };
             }
 
@@ -273,7 +273,7 @@ namespace En3Tho.ILEqualityComparer
                     ? (Helpers.GenerateNoMembersEquals(t), nameof(Helpers.GenerateNoMembersEquals))
                     : (Helpers.GenerateObjectEquals(t), nameof(Helpers.GenerateObjectEquals));
 
-            var func = new DynamicMethodBuilder<Func<T, T, bool>>($"{nameof(ILEqualityComparer<T>)}<{typeof(T).Name}>.{name.Substring(8)}{eq.GetHashCode()}")
+            var func = new DynamicMethodBuilder<Func<T, T, bool>>($"{nameof(ILEqualityComparer<T>)}<{typeof(T).Name}>.{name[8..]}{eq.GetHashCode()}")
                       .IL(il => il.Call(eq, il.LoadArgument(0, 1)).Return())
                       .Build();
             return func;

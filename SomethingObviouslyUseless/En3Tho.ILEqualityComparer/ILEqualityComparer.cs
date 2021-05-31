@@ -67,7 +67,7 @@ namespace En3Tho.ILEqualityComparer
         }
 
         public bool Equals([AllowNull] T x, [AllowNull] T y) => ReferenceEquals(x, y)
-                                                             || x is {} && y is {} && _equals(x, y);
+                                                                                || (x, y) is ({}, {}) && _equals(x, y);
 
         public int GetHashCode(T obj) => obj is {} ? _ghc(obj) : 0;
     }
