@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Nullable>enable</Nullable>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
     <Title>ExtensionsAndStuff</Title>
     <Authors>En3Tho-</Authors>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Nullable>Enable</Nullable>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <LangVersion>8</LangVersion>
+    <LangVersion>9</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>En3Tho.ValueTupleExtensions</Title>
     <Description>Various ValueTuple extensions for pattern matching and qol</Description>
@@ -12,6 +12,9 @@
     <PackageLicenseUrl>https://github.com/En3Tho/Something-obviously-useless/blob/master/Licence.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/En3Tho/Something-obviously-useless/tree/master/SomethingObviouslyUseless</RepositoryUrl>
     <Authors>En3Tho-</Authors>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>ValueTupleExtensions.snk</AssemblyOriginatorKeyFile>
+    <PublicSign>true</PublicSign>
   </PropertyGroup>
 
   <ItemGroup>
