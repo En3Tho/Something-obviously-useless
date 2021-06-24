@@ -2,18 +2,17 @@
 
 open System
 
-let (^) f x = f x
+open Core
 
-let Some' = Some()
+let inline (|Eq|_|) with' what = what = with' |> Option.ofBool
+let inline (|Neq|_|) with' what = what <> with'  |> Option.ofBool
+let inline (|Gt|_|) with' what = what > with'  |> Option.ofBool
+let inline (|GtEq|_|) with' what = what >= with'  |> Option.ofBool
+let inline (|Lt|_|) with' what = what < with'  |> Option.ofBool
+let inline (|LtEq|_|) with' what = what <= with'  |> Option.ofBool
+let inline (|RefEq|_|) with' what = referenceEquals with' what |> Option.ofBool
 
-let inline (|Eq|_|) with' what = if what = with' then Some' else None
-let inline (|Neq|_|) with' what = if what <> with' then Some' else None
-let inline (|Gt|_|) with' what = if what > with' then Some' else None
-let inline (|GtEq|_|) with' what = if what >= with' then Some' else None
-let inline (|Lt|_|) with' what = if what < with' then Some' else None
-let inline (|LtEq|_|) with' what = if what <= with' then Some' else None
-
-module Validation =
+module Validate =
     let inline (|NotNull|) (obj: 'a when 'a: not struct) = if Object.ReferenceEquals(obj, null) then nullArg "Value cannot be null" else obj
     let inline (|Eq|) value obj = if obj = value then obj else invalidArg "" $"Value should be equal to {value}"
     let inline (|Neq|) value obj = if obj <> value then obj else invalidArg "" $"Value should not be equal to {value}"
@@ -22,8 +21,43 @@ module Validation =
     let inline (|Lt|) value obj = if obj < value then obj else invalidArg "" $"Value should be less than {value}"
     let inline (|LtEq|) value obj = if obj <= value then obj else invalidArg "" $"Value should be less than or equal to {value}"
 
-let test = function
-    | Eq 10
-    | Eq 15
-    | Eq 20 -> printfn "ok"
-    | _ -> ()
+module It =
+    let inline (|Id|) a = (^a: (member Id: ^b) a)
+    let inline (|Name|) a = (^a: (member Name: ^b) a)
+    let inline (|Value|) a = (^a: (member Value: ^b) a)
+    let inline (|Values|) a = (^a: (member Values: ^b) a)
+    let inline (|Item|) a = (^a: (member Item: ^b) a)
+    let inline (|Items|) a = (^a: (member Items: ^b) a)
+    let inline (|Index|) a = (^a: (member Index: ^b) a)
+    let inline (|Type|) a = (^a: (member Type: ^b) a)
+    let inline (|Current|) a = (^a: (member Current: ^b) a)
+    let inline (|Length|) a = (^a: (member Length: ^b) a)
+    let inline (|Count|) a = (^a: (member Count: ^b) a)
+    let inline (|Message|) a = (^a: (member Message: ^b) a)
+    let inline (|Text|) a = (^a: (member Text: ^b) a)
+    let inline (|GetHashCode|) a = (^a: (member GetHashCode: unit -> int) a)
+    let inline (|ToString|) a = (^a: (member ToString: unit -> string) a)
+
+    let inline Id a = (^a: (member Id: ^b) a)
+    let inline Name a = (^a: (member Name: ^b) a)
+    let inline Value a = (^a: (member Value: ^b) a)
+    let inline Values a = (^a: (member Values: ^b) a)
+    let inline Item a = (^a: (member Item: ^b) a)
+    let inline Items a = (^a: (member Items: ^b) a)
+    let inline Index a = (^a: (member Index: ^b) a)
+    let inline Type a = (^a: (member Type: ^b) a)
+    let inline Current a = (^a: (member Current: ^b) a)
+    let inline Length a = (^a: (member Length: ^b) a)
+    let inline Count a = (^a: (member Count: ^b) a)
+    let inline Message a = (^a: (member Message: ^b) a)
+    let inline Text a = (^a: (member Text: ^b) a)
+
+    let inline GetHashCode a = (^a: (member GetHashCode: unit -> int) a)
+    let inline ToString a = (^a: (member ToString: unit -> string) a)
+    let inline GetType a = (^a: (member GetType: unit -> Type) a)
+    let inline Add b a = (^a: (member Add: ^b -> ^c) a, b)
+    let inline TryAdd b a = (^a: (member TryAdd: ^b -> ^c) a, b)
+    let inline Remove b a = (^a: (member Remove: ^b -> ^c) a, b)
+    let inline TryRemove b a = (^a: (member TryRemove: ^b -> ^c) a, b)
+    let inline Update b a = (^a: (member Update: ^b -> ^c) a, b)
+    let inline TryUpdate b a = (^a: (member TryUpdate: ^b -> ^c) a, b)

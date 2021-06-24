@@ -16,170 +16,63 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace AutoDecoratorGenerator
 {
-    internal static class SymbolDisplayFormats
+    internal static class Diagnostics
     {
-        // TODO: Clear out unnecessary options
 
-        public static SymbolDisplayFormat PropertyDeclarationFormat { get; } = new(
-            globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
-            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters
-                           | SymbolDisplayGenericsOptions.IncludeTypeConstraints
-                           | SymbolDisplayGenericsOptions.IncludeVariance,
-            memberOptions: SymbolDisplayMemberOptions.IncludeAccessibility
-                         | SymbolDisplayMemberOptions.IncludeParameters
-                         | SymbolDisplayMemberOptions.IncludeExplicitInterface
-                         | SymbolDisplayMemberOptions.IncludeType
-                         | SymbolDisplayMemberOptions.IncludeModifiers
-                         | SymbolDisplayMemberOptions.IncludeExplicitInterface
-                         | SymbolDisplayMemberOptions.IncludeConstantValue,
-            delegateStyle: SymbolDisplayDelegateStyle.NameAndSignature,
-            extensionMethodStyle: SymbolDisplayExtensionMethodStyle.InstanceMethod,
-            parameterOptions: SymbolDisplayParameterOptions.IncludeName
-                            | SymbolDisplayParameterOptions.IncludeType
-                            | SymbolDisplayParameterOptions.IncludeDefaultValue
-                            | SymbolDisplayParameterOptions.IncludeParamsRefOut,
-            propertyStyle: SymbolDisplayPropertyStyle.NameOnly,
-            localOptions: SymbolDisplayLocalOptions.IncludeType,
-            kindOptions: SymbolDisplayKindOptions.IncludeNamespaceKeyword,
-            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
-        );
-
-        public static SymbolDisplayFormat NameOnlyFormat { get; } = new(
-            propertyStyle: SymbolDisplayPropertyStyle.NameOnly
-        );
-
-        public static SymbolDisplayFormat TypeNameAndGenericsFormat { get; } = new(
-            globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
-            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameOnly,
-            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters
-                           | SymbolDisplayGenericsOptions.IncludeTypeConstraints
-                           | SymbolDisplayGenericsOptions.IncludeVariance,
-            memberOptions: SymbolDisplayMemberOptions.IncludeParameters
-                         | SymbolDisplayMemberOptions.IncludeExplicitInterface
-                         | SymbolDisplayMemberOptions.IncludeType
-                         | SymbolDisplayMemberOptions.IncludeModifiers
-                         | SymbolDisplayMemberOptions.IncludeExplicitInterface
-                         | SymbolDisplayMemberOptions.IncludeConstantValue,
-            delegateStyle: SymbolDisplayDelegateStyle.NameAndSignature,
-            extensionMethodStyle: SymbolDisplayExtensionMethodStyle.InstanceMethod,
-            parameterOptions: SymbolDisplayParameterOptions.IncludeName
-                            | SymbolDisplayParameterOptions.IncludeType
-                            | SymbolDisplayParameterOptions.IncludeDefaultValue
-                            | SymbolDisplayParameterOptions.IncludeParamsRefOut,
-            propertyStyle: SymbolDisplayPropertyStyle.NameOnly,
-            localOptions: SymbolDisplayLocalOptions.IncludeType,
-            kindOptions: SymbolDisplayKindOptions.IncludeNamespaceKeyword,
-            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
-        );
-
-        public static SymbolDisplayFormat ExplicitInterfacePropertyDeclarationFormat { get; } = new(
-            globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
-            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters
-                           | SymbolDisplayGenericsOptions.IncludeTypeConstraints
-                           | SymbolDisplayGenericsOptions.IncludeVariance,
-            memberOptions: SymbolDisplayMemberOptions.IncludeParameters
-                         | SymbolDisplayMemberOptions.IncludeExplicitInterface
-                         | SymbolDisplayMemberOptions.IncludeType
-                         | SymbolDisplayMemberOptions.IncludeModifiers
-                         | SymbolDisplayMemberOptions.IncludeExplicitInterface
-                         | SymbolDisplayMemberOptions.IncludeConstantValue,
-            delegateStyle: SymbolDisplayDelegateStyle.NameAndSignature,
-            extensionMethodStyle: SymbolDisplayExtensionMethodStyle.InstanceMethod,
-            parameterOptions: SymbolDisplayParameterOptions.IncludeName
-                            | SymbolDisplayParameterOptions.IncludeType
-                            | SymbolDisplayParameterOptions.IncludeDefaultValue
-                            | SymbolDisplayParameterOptions.IncludeParamsRefOut,
-            propertyStyle: SymbolDisplayPropertyStyle.NameOnly,
-            localOptions: SymbolDisplayLocalOptions.IncludeType,
-            kindOptions: SymbolDisplayKindOptions.IncludeNamespaceKeyword,
-            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
-        );
-
-        public static SymbolDisplayFormat MethodDeclarationFormat { get; } = new(
-            globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
-            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters
-                           | SymbolDisplayGenericsOptions.IncludeTypeConstraints
-                           | SymbolDisplayGenericsOptions.IncludeVariance,
-            memberOptions: SymbolDisplayMemberOptions.IncludeAccessibility
-                         | SymbolDisplayMemberOptions.IncludeParameters
-                         | SymbolDisplayMemberOptions.IncludeExplicitInterface
-                         | SymbolDisplayMemberOptions.IncludeType
-                         | SymbolDisplayMemberOptions.IncludeModifiers
-                         | SymbolDisplayMemberOptions.IncludeExplicitInterface
-                         | SymbolDisplayMemberOptions.IncludeConstantValue,
-            delegateStyle: SymbolDisplayDelegateStyle.NameAndSignature,
-            extensionMethodStyle: SymbolDisplayExtensionMethodStyle.InstanceMethod,
-            parameterOptions: SymbolDisplayParameterOptions.IncludeName
-                            | SymbolDisplayParameterOptions.IncludeType
-                            | SymbolDisplayParameterOptions.IncludeDefaultValue
-                            | SymbolDisplayParameterOptions.IncludeParamsRefOut,
-            propertyStyle: SymbolDisplayPropertyStyle.NameOnly,
-            localOptions: SymbolDisplayLocalOptions.IncludeType,
-            kindOptions: SymbolDisplayKindOptions.IncludeNamespaceKeyword,
-            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
-        );
-
-        public static SymbolDisplayFormat ExplicitInterfaceMethodDeclarationFormat { get; } = new(
-            globalNamespaceStyle: SymbolDisplayGlobalNamespaceStyle.Omitted,
-            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
-            genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters
-                           | SymbolDisplayGenericsOptions.IncludeTypeConstraints
-                           | SymbolDisplayGenericsOptions.IncludeVariance,
-            memberOptions: SymbolDisplayMemberOptions.IncludeParameters
-                         | SymbolDisplayMemberOptions.IncludeExplicitInterface
-                         | SymbolDisplayMemberOptions.IncludeType
-                         | SymbolDisplayMemberOptions.IncludeModifiers
-                         | SymbolDisplayMemberOptions.IncludeExplicitInterface
-                         | SymbolDisplayMemberOptions.IncludeConstantValue,
-            delegateStyle: SymbolDisplayDelegateStyle.NameAndSignature,
-            extensionMethodStyle: SymbolDisplayExtensionMethodStyle.InstanceMethod,
-            parameterOptions: SymbolDisplayParameterOptions.IncludeName
-                            | SymbolDisplayParameterOptions.IncludeType
-                            | SymbolDisplayParameterOptions.IncludeDefaultValue
-                            | SymbolDisplayParameterOptions.IncludeParamsRefOut,
-            propertyStyle: SymbolDisplayPropertyStyle.NameOnly,
-            localOptions: SymbolDisplayLocalOptions.IncludeType,
-            kindOptions: SymbolDisplayKindOptions.IncludeNamespaceKeyword,
-            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
-        );
     }
 
-    internal static class RawSources
+    internal static class GeneratedTypeChecks
     {
-        public const string DecorateAttribute = @"
-using System;
+        public static bool CheckClassIsNotStatic(INamedTypeSymbol symbol, GeneratorExecutionContext context)
+        {
+            if (symbol.IsStatic)
+            {
+                context.ReportDiagnostic(null); // TODO: Diagnostic
+                return false;
+            }
 
-namespace AutoDecorated
-{
-    /// <summary>
-    /// Placed on a field of a class or struct to indicate a decoration base
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-    public sealed class DecorateAttribute : Attribute { }
-}
-";
+            return true;
+        }
 
-        public const string OverrideAttribute = @"
-using System;
+        public static bool CheckClassIsPartial(INamedTypeSymbol symbol, GeneratorExecutionContext context)
+        {
+            if (symbol.IsStatic)
+            {
+                context.ReportDiagnostic(null); // TODO: Diagnostic
+                return false;
+            }
 
-namespace AutoDecorated
-{
-    /// <summary>
-    /// Indicates that a Method or a Property with such name and signature is manually overriden and should not be auto generated.
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Method, AllowMultiple = false)]
-    public sealed class OverrideAttribute : Attribute { }
-}
-";
+            return true;
+        }
 
-        public const string DecorateAttributeName = "AutoDecorated.DecorateAttribute";
-        public const string OverrideAttributeName = "AutoDecorated.OverrideAttribute";
+        public static bool CheckClassIsPublicOrInternal(INamedTypeSymbol symbol, GeneratorExecutionContext context)
+        {
+            switch (symbol.DeclaredAccessibility)
+            {
+                case Accessibility.Internal:
+                case Accessibility.Public:
+                    return true;
+                default:
+                    context.ReportDiagnostic(null); // TODO: Diagnostic
+                    return false;
+            }
+        }
+
+        public static bool CheckClassIsTopLevel(INamedTypeSymbol symbol, GeneratorExecutionContext context)
+        {
+            if (!symbol.ContainingSymbol.Equals(symbol.ContainingNamespace, SymbolEqualityComparer.Default))
+            {
+                context.ReportDiagnostic(null); // TODO: Diagnostic
+                return false;
+            }
+            return true;
+        }
     }
 
-    internal static class Diagnostics { }
+    public static class GeneratedMembersChecks
+    {
+
+    }
 
     [Generator]
     public class AutoDecoratorGenerator : ISourceGenerator
@@ -189,18 +82,18 @@ namespace AutoDecorated
             context.RegisterForSyntaxNotifications(() => new DecoratedAttributeFieldsSyntaxReceiver());
 
             // Register the attribute source
-            context.RegisterForPostInitialization((i) =>
+            context.RegisterForPostInitialization(generatorPostInitializationContext =>
             {
-                i.AddSource(nameof(RawSources.DecorateAttribute), RawSources.DecorateAttribute);
-                i.AddSource(nameof(RawSources.OverrideAttribute), RawSources.OverrideAttribute);
+                generatorPostInitializationContext.AddSource(nameof(RawSources.DecorateAttributeName), RawSources.DecorateAttribute);
+                generatorPostInitializationContext.AddSource(nameof(RawSources.OverrideAttributeName), RawSources.OverrideAttribute);
             });
         }
 
         public void Execute(GeneratorExecutionContext context)
         {
 #if DEBUG
-            // if (!Debugger.IsAttached)
-            //     Debugger.Launch();
+            if (!Debugger.IsAttached)
+                Debugger.Launch();
 #endif
 
             if (context.SyntaxContextReceiver is not DecoratedAttributeFieldsSyntaxReceiver receiver)
@@ -219,20 +112,23 @@ namespace AutoDecorated
             {
                 // TODO: Group by type via foreach (IGrouping<INamedTypeSymbol, IFieldSymbol> group in receiver.Fields.GroupBy(f => f.ContainingType))
                 // and check if there are conflicting fields or types
-
+                // check if class is partial
+                // check if class is public or internal
+                // check if class is not static
+                // check for conflicting fields
                 var classSource = GeneratePartialClassSource(fieldSymbol.ContainingType, fieldSymbol, decorateSymbol, overrideSymbol, context);
-                var classSourceTimed = classSource + $"{Environment.NewLine}// Source was generated in: {sw.Elapsed}";
-                context.AddSource($"{fieldSymbol.ContainingType.Name}_AutoDecorated.cs", SourceText.From(classSourceTimed, Encoding.UTF8));
+                classSource.AppendLine($"// Source was generated in: {sw.Elapsed}");
+                context.AddSource($"{fieldSymbol.ContainingType.Name}_AutoDecorated.cs", SourceText.From(classSource.ToString(), Encoding.UTF8));
             }
         }
 
-        private string GeneratePartialClassSource(INamedTypeSymbol classSymbol, IFieldSymbol fieldSymbol, ISymbol decorateSymbol, ISymbol overrideSymbol, GeneratorExecutionContext context)
+        private StringBuilder GeneratePartialClassSource(INamedTypeSymbol classSymbol, IFieldSymbol fieldSymbol, ISymbol decorateSymbol, ISymbol overrideSymbol, GeneratorExecutionContext context)
         {
             // TODO: find a way to issue proper diagnostics
 
             if (!classSymbol.ContainingSymbol.Equals(classSymbol.ContainingNamespace, SymbolEqualityComparer.Default))
             {
-                return ""; //TODO: issue a diagnostic that it must be top level
+                return new StringBuilder(); // TODO: issue a diagnostic that it must be top level
             }
 
             var namespaceName = classSymbol.ContainingNamespace.ToDisplayString();
@@ -268,8 +164,8 @@ namespace AutoDecorated
 
             var membersToGenerate =
                 decoratedClassMembers
-                   .AsEnumerable()
-                   .Where(member =>
+                    .AsEnumerable()
+                    .Where(member =>
                     {
                         var isNotValid =
                             SymbolIsConstructor(member)
@@ -279,7 +175,7 @@ namespace AutoDecorated
                                                                 || MatchMembersAsMethods(member, overriden));
                         return !isNotValid;
                     })
-                   .ToArray();
+                    .ToArray();
 
             var propertiesToGenerate =
                 membersToGenerate
@@ -292,14 +188,14 @@ namespace AutoDecorated
                    .Where(method => !propertiesToGenerate.Any(property => IsMethodSameAsProperty(method, property)))
                    .ToArray();
 
-            // TODO: Filter methods that are properties
+            // TODO: Pass source through
 
             StringBuilder source = new($@"
 namespace {namespaceName}
 {{
     {GetUsingDeclarationsFromInterfacesOfDecoratedObjects(decoratedInterfaces)}
 
-    public {GetPartialTypeClassificationSource(classSymbol)} {classSymbol.ToDisplayString(SymbolDisplayFormats.TypeNameAndGenericsFormat)}
+    {GetAccessibilityDisplayString(classSymbol.DeclaredAccessibility)} {GetPartialTypeClassificationSource(classSymbol)} {classSymbol.ToDisplayString(SymbolDisplayFormats.TypeNameAndGenericsFormat)}
         {(classSymbol.IsRefLikeType ? "" : $": {string.Join("," + Environment.NewLine, decoratedInterfaces.Select(GetInterfaceName))}")}
     {{
 ");
@@ -314,8 +210,18 @@ namespace {namespaceName}
                 ProcessMember(source, fieldSymbol, memberSymbol);
             }
 
-            source.Append("} }");
-            return source.ToString();
+            source.AppendLine("} }");
+            return source;
+        }
+
+        private static string GetAccessibilityDisplayString(Accessibility accessibility)
+        {
+            return accessibility switch
+            {
+                Accessibility.Internal => "internal",
+                Accessibility.Public   => "public",
+                _                      => throw new NotSupportedException("Works only with public or internal classes")
+            };
         }
 
         private static string GetUsingDeclarationsFromInterfacesOfDecoratedObjects(IEnumerable<INamedTypeSymbol> interfaces)
@@ -348,7 +254,8 @@ namespace {namespaceName}
                     source.AppendLine(";");
                     break;
 
-                case IPropertySymbol { Parameters: { Length: > 0 } } indexerProperty: // Not every property is reported as IsIndexer = true, this is a workaround
+                // Not every property is reported as IsIndexer = true, this is a workaround for https://github.com/dotnet/roslyn/issues/53911
+                case IPropertySymbol { Parameters: { Length: > 0 } } indexerProperty:
                     var isIndexedFromInterface = IsPropertyExplicitlyImplementedByInterface(indexerProperty);
                     var indexedPropertySource =
                         $"{GetIndexerPropertyDeclarationSource(indexerProperty)} {GetIndexerPropertyImplementationSource(indexerProperty, fieldName, isIndexedFromInterface)}";
@@ -385,7 +292,7 @@ namespace {namespaceName}
             return methodSymbol.ExplicitInterfaceImplementations.Length > 0;
         }
 
-        private static string GetInterfaceName(ISymbol INamedTypeSymbol)
+        private static string GetInterfaceName(INamedTypeSymbol INamedTypeSymbol)
         {
             return INamedTypeSymbol.ToDisplayString();
         }
@@ -403,7 +310,9 @@ namespace {namespaceName}
 
         private static string GetIndexerPropertyDeclarationSource(IPropertySymbol propertySymbol)
         {
-            return GetPropertyDeclarationSource(propertySymbol).Replace("Item[", "this["); // Workaround as some "Item" properties are not reported as indexers
+            // Workaround as some "Item" properties are not reported as indexers
+            // https://github.com/dotnet/roslyn/issues/53911
+            return GetPropertyDeclarationSource(propertySymbol).Replace("Item[", "this[");
         }
 
         private static string GetPropertyImplementationSource(IPropertySymbol propertySymbol, string decoratedFieldName, bool isExplicitlyFromInterface)
@@ -549,8 +458,10 @@ namespace {namespaceName}
         /// </summary>
         public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
         {
-            // if (!Debugger.IsAttached)
-            //     Debugger.Launch();
+#if DEBUG
+            if (!Debugger.IsAttached)
+                Debugger.Launch();
+#endif
 
             // any field with at least one attribute is a candidate for property generation
             if (context.Node is FieldDeclarationSyntax { AttributeLists: { Count: > 0 } } fieldDeclarationSyntax)

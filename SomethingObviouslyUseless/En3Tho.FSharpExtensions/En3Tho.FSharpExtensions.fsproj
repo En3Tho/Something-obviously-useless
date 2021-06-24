@@ -1,21 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Object.fs" />
-    <Compile Include="Byref.fs" />
-    <Compile Include="EqualityComparer.fs" />
-    <Compile Include="Seq.fs" />
-    <Compile Include="Span.fs" />
-    <Compile Include="Functions.fs" />
-    <Compile Include="String.fs" />
-    <Compile Include="Union.fs" />
-    <Compile Include="Record.fs" />
-    <Compile Include="Option.fs" />
+    <Compile Include="Disposables.fs" />
+    <Compile Include="Modules.fs" />
     <Compile Include="ActivePatterns.fs" />
+    <Compile Include="GSeq.fs" />
+    <Compile Include="ComputationExpressions.fs" />
   </ItemGroup>
 
 </Project>

@@ -320,7 +320,7 @@ namespace En3Tho.ILEqualityComparer
             return il.Call(ghc);
         }
 
-        private static Func<T, int> GenerateGetHashCodeFuncInternal<T>(PropertyInfo[] properties, FieldInfo[] fields)
+        private static Func<T, int> GenerateGetHashCodeFuncInternal<T>(PropertyInfo[] properties, FieldInfo[] fields) // TODO: Copy Roslyn?
         {
             var func = new DynamicMethodBuilder<Func<T, int>>($"{nameof(ILEqualityComparer<T>)}<{typeof(T).Name}>.GetHashCode{HashCode.Combine(properties, properties.Length, fields, fields.Length)}")
                       .Locals<Types<int>>()

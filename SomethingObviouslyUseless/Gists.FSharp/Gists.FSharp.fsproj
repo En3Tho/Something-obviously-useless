@@ -8,6 +8,7 @@
         <Compile Include="Pointers.fs" />
         <Compile Include="ICollectionCE.fs" />
         <Compile Include="Structs.fs" />
+        <Compile Include="Environment.fs" />
     </ItemGroup>
 
 </Project>

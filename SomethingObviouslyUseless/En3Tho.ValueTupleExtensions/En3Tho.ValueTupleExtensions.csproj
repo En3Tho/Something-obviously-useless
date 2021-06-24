@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Nullable>Enable</Nullable>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
-    <LangVersion>9</LangVersion>
+    <LangVersion>default</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>En3Tho.ValueTupleExtensions</Title>
     <Description>Various ValueTuple extensions for pattern matching and qol</Description>

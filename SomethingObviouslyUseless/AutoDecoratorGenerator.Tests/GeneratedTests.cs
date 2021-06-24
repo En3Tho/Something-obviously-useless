@@ -10,7 +10,8 @@ namespace AutoDecoratorGenerator.Tests
         [Decorate]
         private readonly Dictionary<TKey, TValue> _dictionary;
 
-        public DictionaryDecorator(Dictionary<TKey, TValue> dictionary) {
+        public DictionaryDecorator(Dictionary<TKey, TValue> dictionary)
+        {
             _dictionary = dictionary;
         }
     }
@@ -19,14 +20,14 @@ namespace AutoDecoratorGenerator.Tests
     {
         [Decorate]
         private readonly Span<T> _span;
-        public SpanDecorator(Span<T> span) {
+        public SpanDecorator(Span<T> span)
+        {
             _span = span;
         }
     }
 
     public class GeneratedTests
     {
-
         [Fact]
         public void DictionaryTest()
         {

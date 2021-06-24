@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
-        <LangVersion>9</LangVersion>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

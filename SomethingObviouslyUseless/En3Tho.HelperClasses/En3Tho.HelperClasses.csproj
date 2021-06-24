@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Nullable>Enable</Nullable>
-    <LangVersion>9</LangVersion>
+    <LangVersion>default</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Title>En3Tho.HelperClasses</Title>
     <Authors>En3Tho-</Authors>
