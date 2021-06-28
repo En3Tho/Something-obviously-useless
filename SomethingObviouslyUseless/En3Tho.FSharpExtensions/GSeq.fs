@@ -187,5 +187,29 @@ module GSeq =
         while enum.MoveNext() do
             action enum.Current
 
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let iter2 action (enum: StructEnumerator<'i,'e>) (enum2: StructEnumerator<'i2,'e2>) =
+        let mutable enum = enum
+        let mutable enum2 = enum2
+        while enum.MoveNext() && enum2.MoveNext() do
+            action enum.Current enum2.Current
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let iteri action (enum: StructEnumerator<'i,'e>) =
+        let mutable enum = enum
+        let mutable i = 0
+        while enum.MoveNext() do
+            action i enum.Current
+            i <- i + 1
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let iteri2 action (enum: StructEnumerator<'i,'e>) (enum2: StructEnumerator<'i2,'e2>) =
+        let mutable enum = enum
+        let mutable enum2 = enum2
+        let mutable i = 0
+        while enum.MoveNext() && enum2.MoveNext() do
+            action i enum.Current enum2.Current
+            i <- i + 1
+
     // TODO: Match Seq's module functions
     // TODO: ActivePatterns

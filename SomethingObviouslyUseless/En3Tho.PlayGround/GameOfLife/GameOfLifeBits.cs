@@ -9,16 +9,24 @@ namespace En3Tho.PlayGround.GameOfLife
     
     public unsafe class GameOfLifeBits
     {
-        private readonly int _gbyteHeight;
-        private readonly int _gbyteWidth;
-        private readonly int _gbyteLength;
+        // Inner map contains actual values of calculation which then can be read of transferred somewhere
+        // Outer map adds an another layer of values to contain mirrored value
+        // Basically it looks like this:
+        // [ o o o o o o o ]
+        // [ o i i i i i o ]
+        // [ o i i i i i o ]
+        // [ o o o o o o o ]
 
-        private readonly int _ibyteWidth;
-        private readonly int _ibyteHeight;
+        private readonly int _outerMapByteHeight;
+        private readonly int _outerMapByteWidth;
+        private readonly int _outerMapByteLength;
 
-        private readonly byte* _gWorld;
-        private readonly byte* _iWorld;
-        private readonly byte* _buffer;
+        private readonly int _innerMapByteWidth;
+        private readonly int _innerMapByteHeight;
+
+        private readonly byte* _outerMapStart;
+        private readonly byte* _innerMapStart;
+        private readonly byte* _buffer; // buffer has size of 2 rows of inner map
 
         private readonly byte* _lookupTable;
 
@@ -33,19 +41,23 @@ namespace En3Tho.PlayGround.GameOfLife
             if (height < 2)
                 throw new ArgumentException($"{nameof(height)} must not be less than 2");
 
-            _ibyteWidth = width / 8;
-            _ibyteHeight = height;
+            _innerMapByteWidth = width / 8;
+            _innerMapByteHeight = height;
 
-            _gbyteWidth = _ibyteWidth + 2;
-            _gbyteHeight = _ibyteHeight + 2;
-            _gbyteLength = _gbyteWidth * _gbyteHeight;
+            _outerMapByteWidth = _innerMapByteWidth + 2;
+            _outerMapByteHeight = _innerMapByteHeight + 2;
+            _outerMapByteLength = _outerMapByteWidth * _outerMapByteHeight;
 
-            var globalBuffer = new byte[_gbyteLength];
+            var outerMap = GC.AllocateArray<byte>(_outerMapByteLength, pinned: true);
 
-            _gWorld = (byte*)GCHandle.Alloc(globalBuffer, GCHandleType.Pinned).AddrOfPinnedObject();
-            _iWorld = _gWorld + _gbyteWidth + 1;
-            _buffer = (byte*)GCHandle.Alloc(new byte[_ibyteWidth * 2], GCHandleType.Pinned).AddrOfPinnedObject();
-            _lookupTable = GetLookupTable();
+            _outerMapStart = (byte*)Unsafe.AsPointer(ref outerMap);//(byte*)GCHandle.Alloc(globalBuffer, GCHandleType.Pinned).AddrOfPinnedObject();
+            _innerMapStart = _outerMapStart + _outerMapByteWidth + 1; // [1][1] index
+
+            var buffer = GC.AllocateArray<byte>(_innerMapByteWidth * 2, pinned: true);
+            _buffer = (byte*)Unsafe.AsPointer(ref buffer);
+
+            var lookupTable = GetLookupTable();
+            _lookupTable = (byte*)Unsafe.AsPointer(ref lookupTable);
             
             init(BitBuffer);
             CopySideBytes();
@@ -54,32 +66,32 @@ namespace En3Tho.PlayGround.GameOfLife
         private void CopySideBytes()
         {
             // top row
-            var iBotRight = _gWorld + _gbyteLength - _gbyteWidth - 2;
-            *_gWorld = *iBotRight;
-            var iBotLeft = iBotRight - _ibyteWidth + 1;
-            Buffer.MemoryCopy(iBotLeft, _gWorld + 1, _ibyteWidth, _ibyteWidth);
-            *(_gWorld + _gbyteWidth - 1) = *iBotLeft;
+            var innerBottomRight = _outerMapStart + _outerMapByteLength - _outerMapByteWidth - 2;
+            *_outerMapStart = *innerBottomRight;
+            var innerBottomLeft = innerBottomRight - _innerMapByteWidth + 1;
+            Buffer.MemoryCopy(innerBottomLeft, _outerMapStart + 1, _innerMapByteWidth, _innerMapByteWidth);
+            *(_outerMapStart + _outerMapByteWidth - 1) = *innerBottomLeft;
 
             // sides
-            for (int i = 1; i < _gbyteHeight - 1; i++)
+            for (int i = 1; i < _outerMapByteHeight - 1; i++)
             {
-                var gFirst = _gWorld + i * _gbyteWidth;
-                var gLast = gFirst + _gbyteWidth - 1;
-                *gFirst = *(gLast - 1);
-                *gLast = *(gFirst + 1);
+                var outerMapFirst = _outerMapStart + i * _outerMapByteWidth;
+                var outerMapLast = outerMapFirst + _outerMapByteWidth - 1;
+                *outerMapFirst = *(outerMapLast - 1);
+                *outerMapLast = *(outerMapFirst + 1);
             }
 
             //bottom row
-            var gBotLeft = _gWorld + _gbyteLength - _gbyteWidth;
-            *gBotLeft = *(_iWorld + _ibyteWidth - 1);
-            Buffer.MemoryCopy(_iWorld, gBotLeft + 1, _ibyteWidth, _ibyteWidth);
-            *(gBotLeft + _gbyteWidth - 1) = *_iWorld;
+            var outerBottomLeft = _outerMapStart + _outerMapByteLength - _outerMapByteWidth;
+            *outerBottomLeft = *(_innerMapStart + _innerMapByteWidth - 1);
+            Buffer.MemoryCopy(_innerMapStart, outerBottomLeft + 1, _innerMapByteWidth, _innerMapByteWidth);
+            *(outerBottomLeft + _outerMapByteWidth - 1) = *_innerMapStart;
         }
 
         public GameOfLifeBitsView BitBuffer
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new GameOfLifeBitsView(new Span<byte>(_gWorld, _gbyteLength), _gbyteWidth);
+            get => new GameOfLifeBitsView(new Span<byte>(_outerMapStart, _outerMapByteLength), _outerMapByteWidth);
         }
 
         public bool MoveNext()
@@ -91,34 +103,34 @@ namespace En3Tho.PlayGround.GameOfLife
 
         private void MoveNextInternal2()
         {
-            var world = _iWorld;
-            var pWorld = _iWorld;
+            var world = _innerMapStart;
+            var pWorld = _innerMapStart;
             var bufferRow1 = _buffer;
-            var bufferRow2 = _buffer + _ibyteWidth;
+            var bufferRow2 = _buffer + _innerMapByteWidth;
 
-            ProcessMiddleBlock(world, bufferRow1, 2, _ibyteWidth);
-            world += _gbyteWidth << 1;
+            ProcessMiddleBlock(world, bufferRow1, 2, _innerMapByteWidth);
+            world += _outerMapByteWidth << 1;
 
-            while (world < _gWorld + _gbyteLength - _gbyteWidth - 1)
+            while (world < _outerMapStart + _outerMapByteLength - _outerMapByteWidth - 1)
             {
-                Buffer.MemoryCopy(bufferRow1, pWorld, _ibyteWidth, _ibyteWidth);
-                ProcessMiddleBlock(world, bufferRow1, 1, _ibyteWidth);
-                Buffer.MemoryCopy(bufferRow2, pWorld + _gbyteWidth, _ibyteWidth, _ibyteWidth);
-                ProcessMiddleBlock(world + _ibyteWidth, bufferRow2, 1, _ibyteWidth);
-                world += _gbyteWidth << 1;
-                pWorld += _gbyteWidth << 1;
+                Buffer.MemoryCopy(bufferRow1, pWorld, _innerMapByteWidth, _innerMapByteWidth);
+                ProcessMiddleBlock(world, bufferRow1, 1, _innerMapByteWidth);
+                Buffer.MemoryCopy(bufferRow2, pWorld + _outerMapByteWidth, _innerMapByteWidth, _innerMapByteWidth);
+                ProcessMiddleBlock(world + _innerMapByteWidth, bufferRow2, 1, _innerMapByteWidth);
+                world += _outerMapByteWidth << 1;
+                pWorld += _outerMapByteWidth << 1;
             }
 
-            var lastRowStart = _gWorld + _gbyteLength - _gbyteWidth - _ibyteWidth - 1;
+            var lastRowStart = _outerMapStart + _outerMapByteLength - _outerMapByteWidth - _innerMapByteWidth - 1;
 
-            if (_ibyteHeight % 2 == 0)
+            if (_innerMapByteHeight % 2 == 0)
             {
-                Buffer.MemoryCopy(bufferRow1, lastRowStart - _gbyteWidth, _ibyteWidth, _ibyteWidth);
-                Buffer.MemoryCopy(bufferRow2, lastRowStart, _ibyteWidth, _ibyteWidth);
+                Buffer.MemoryCopy(bufferRow1, lastRowStart - _outerMapByteWidth, _innerMapByteWidth, _innerMapByteWidth);
+                Buffer.MemoryCopy(bufferRow2, lastRowStart, _innerMapByteWidth, _innerMapByteWidth);
             }
             else
             {
-                Buffer.MemoryCopy(bufferRow1, lastRowStart, _ibyteWidth, _ibyteWidth);
+                Buffer.MemoryCopy(bufferRow1, lastRowStart, _innerMapByteWidth, _innerMapByteWidth);
             }
         }
 
@@ -141,16 +153,16 @@ namespace En3Tho.PlayGround.GameOfLife
             // 7  8  9  10 11 12 13 14 15 16 -> 0, 10, 20
             // 15 16 17 18 19 20 21 22 23 24 -> 0, 10, 20
 
-            for (int currentRow = 0, startIndex = 0; currentRow < rows; currentRow++, startIndex += _gbyteWidth)
+            for (int currentRow = 0, startIndex = 0; currentRow < rows; currentRow++, startIndex += _outerMapByteWidth)
             {
                 for (int cellIndex = startIndex; cellIndex < startIndex + rowWidth; cellIndex += 2)
                 {
                     const uint FirstByteLookupMask = 0x1FF80;    // [0001][1111][1111][1000][0000]
                     const uint SecondByteLookupMask = 0x1FF8000; // [0001][1111][1111][1000][0000][0000][0000]
 
-                    var firstRow = *(uint*)(source + cellIndex - _gbyteWidth - 1);
+                    var firstRow = *(uint*)(source + cellIndex - _outerMapByteWidth - 1);
                     var secondRow = *(uint*)(source + cellIndex - 1);
-                    var thirdRow = *(uint*)(source + cellIndex + _gbyteWidth - 1);
+                    var thirdRow = *(uint*)(source + cellIndex + _outerMapByteWidth - 1);
 
                     var lookupLeft = (firstRow & FirstByteLookupMask) >> 7   // 7 -> 0
                                    | (secondRow & FirstByteLookupMask) << 3  // 7 -> 10
@@ -224,9 +236,9 @@ namespace En3Tho.PlayGround.GameOfLife
             return result;
         }
 
-        private static byte* GetLookupTable() // Todo: settings?
+        private static byte[] GetLookupTable() // Todo: settings?
         {
-            var lookup = new byte[2 << 17]; // 2^18
+            var lookup = GC.AllocateArray<byte>(2 << 17, pinned: true); // 2^18
             for (uint lookupIndex = 0; lookupIndex < lookup.Length; lookupIndex++)
             {
                 // convert from 0  1  2  3  4  5  to 0  1  2  3  4  5  and then process by 0  1  2  squares shifting 4 times
@@ -260,7 +272,7 @@ namespace En3Tho.PlayGround.GameOfLife
                 lookup[lookupIndex] = (byte)lookupValue;
             }
 
-            return (byte*)GCHandle.Alloc(lookup, GCHandleType.Pinned).AddrOfPinnedObject();
+            return lookup;
         }
     }
 }

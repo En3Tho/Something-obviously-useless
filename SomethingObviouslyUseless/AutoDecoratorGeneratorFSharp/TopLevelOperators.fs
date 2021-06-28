@@ -1,7 +1,6 @@
 ﻿namespace AutoDecoratorGeneratorFSharp.Core
 
 open System
-open System.Collections.Generic
 open System.Linq
 
 [<AutoOpen>]
