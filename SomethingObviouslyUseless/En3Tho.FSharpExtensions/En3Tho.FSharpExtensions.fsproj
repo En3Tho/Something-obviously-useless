@@ -10,6 +10,10 @@
     <Compile Include="ActivePatterns.fs" />
     <Compile Include="GSeq.fs" />
     <Compile Include="ComputationExpressions.fs" />
+    <Compile Include="DomainAndValidation\Validation.fs" />
+    <Compile Include="DomainAndValidation\DomainEntities.fs" />
+    <Compile Include="DomainAndValidation\ExnValidation.fs" />
+    <Compile Include="DomainAndValidation\ExnDomainEntities.fs" />
   </ItemGroup>
 
 </Project>

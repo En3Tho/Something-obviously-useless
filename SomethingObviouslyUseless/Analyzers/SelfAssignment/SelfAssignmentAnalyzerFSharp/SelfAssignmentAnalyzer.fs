@@ -20,7 +20,7 @@ module Operation =
 module SimpleAssignmentAnalysis =
     let rule = DiagnosticDescriptor("SAFS0001", "Self assignment detected by F#", "Redundant self assignment detected by F#.", "SelfAssignment F#",
                                     DiagnosticSeverity.Warning, true, null, null, array.Empty<string>())        
-    let analyze (context : OperationAnalysisContext) =
+    let analyze (context: OperationAnalysisContext) =
         let operation = context.Operation :?> ISimpleAssignmentOperation
         
         match operation.Target, operation.Value with
@@ -32,7 +32,7 @@ module SimpleAssignmentAnalysis =
 module PropertyReferenceAnalysis =
     let rule = DiagnosticDescriptor("SAFS0002", "Property self reference detected by F#", "Property self reference detected by F#. Potentially a bug.", "SelfAssignment F#",
                                     DiagnosticSeverity.Warning, true, null, null, array.Empty<string>())
-    let analyze (context : OperationAnalysisContext) =
+    let analyze (context: OperationAnalysisContext) =
         let operation = context.Operation :?> IPropertyReferenceOperation
     
         match context.ContainingSymbol with
@@ -43,7 +43,7 @@ module PropertyReferenceAnalysis =
 module CompoundAssignmentAnalysis =
     let rule =  DiagnosticDescriptor("SAFS0003", "Property self compound assignment detected by F#", "Property self compound assignment detected by F#. Change this to a method.", "SelfAssignment F#",
                                      DiagnosticSeverity.Warning, true, null, null, array.Empty<string>());        
-    let analyze (context : OperationAnalysisContext) =
+    let analyze (context: OperationAnalysisContext) =
         let operation = context.Operation :?> ICompoundAssignmentOperation
     
         match operation.Target, operation.Value with
@@ -57,7 +57,7 @@ type SelfAssignmentAnalyzerFSharp() =
     override this.SupportedDiagnostics =
                ImmutableArray.Create(SimpleAssignmentAnalysis.rule, CompoundAssignmentAnalysis.rule, PropertyReferenceAnalysis.rule)   
 
-    override this.Initialize (context : AnalysisContext) =
+    override this.Initialize (context: AnalysisContext) =
         context.EnableConcurrentExecution();
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze ||| GeneratedCodeAnalysisFlags.ReportDiagnostics);
         context.RegisterOperationAction(SimpleAssignmentAnalysis.analyze, OperationKind.SimpleAssignment)

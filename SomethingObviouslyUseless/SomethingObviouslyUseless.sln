@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31423.177
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearnIntermediateLanguage", "LearnIntermediateLanguage\LearnIntermediateLanguage.csproj", "{AC950505-CEFE-4CFC-B6E4-2B737BCDD984}"
 EndProject
@@ -29,37 +29,45 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Be
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionsAndStuff.Unsafe", "ExtensionsAndStuff.Unsafe\ExtensionsAndStuff.Unsafe.csproj", "{D8DFDF9D-A346-4E66-BBD0-CE08CD709A71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "En3Tho.ValueTupleExtensions", "En3Tho.ValueTupleExtensions\En3Tho.ValueTupleExtensions.csproj", "{09100D99-16E4-46A9-92AE-8A5024800BFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "En3Tho.ValueTupleExtensions", "En3Tho.ValueTupleExtensions\En3Tho.ValueTupleExtensions.csproj", "{09100D99-16E4-46A9-92AE-8A5024800BFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "En3Tho.HelperClasses", "En3Tho.HelperClasses\En3Tho.HelperClasses.csproj", "{2953F701-7906-4C62-B84F-411A564A4F1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "En3Tho.HelperClasses", "En3Tho.HelperClasses\En3Tho.HelperClasses.csproj", "{2953F701-7906-4C62-B84F-411A564A4F1A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inlining", "Inlining", "{5BD27D3E-4FD9-4C9C-B156-B134C6AE70C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InliningAnalyzer", "Analyzers\InliningAnalyzer\InliningAnalyzer.csproj", "{8B3C513A-C0CC-47E4-B3D1-FD0398A5D7CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InliningAnalyzer", "Analyzers\InliningAnalyzer\InliningAnalyzer.csproj", "{8B3C513A-C0CC-47E4-B3D1-FD0398A5D7CD}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "En3Tho.FSharpExtensions", "En3Tho.FSharpExtensions\En3Tho.FSharpExtensions.fsproj", "{CB6876E5-B35C-4326-A52C-D7A62BA2B77E}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "En3Tho.FSharpExtensions", "En3Tho.FSharpExtensions\En3Tho.FSharpExtensions.fsproj", "{CB6876E5-B35C-4326-A52C-D7A62BA2B77E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "En3Tho.ILEqualityComparer", "En3Tho.ILEqualityComparer\En3Tho.ILEqualityComparer.csproj", "{F47C7D42-41D3-45C7-95B9-EFFFCC126C68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "En3Tho.ILEqualityComparer", "En3Tho.ILEqualityComparer\En3Tho.ILEqualityComparer.csproj", "{F47C7D42-41D3-45C7-95B9-EFFFCC126C68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "En3Tho.ILHelpers", "En3Tho.ILHelpers\En3Tho.ILHelpers.csproj", "{4B4CE411-C0D8-4314-861E-3E2992B4AB70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "En3Tho.ILHelpers", "En3Tho.ILHelpers\En3Tho.ILHelpers.csproj", "{4B4CE411-C0D8-4314-861E-3E2992B4AB70}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "En3Tho.ILEqualityComparer.Tests", "En3Tho.ILEqualityComparer.Tests\En3Tho.ILEqualityComparer.Tests.fsproj", "{18B03B7B-2123-45CA-A5C0-1E0C54EF84E6}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "En3Tho.ILEqualityComparer.Tests", "En3Tho.ILEqualityComparer.Tests\En3Tho.ILEqualityComparer.Tests.fsproj", "{18B03B7B-2123-45CA-A5C0-1E0C54EF84E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "En3Tho.PlayGround", "En3Tho.PlayGround\En3Tho.PlayGround.csproj", "{E0D2982C-320A-4489-9F7E-CBABED50D8D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "En3Tho.PlayGround", "En3Tho.PlayGround\En3Tho.PlayGround.csproj", "{E0D2982C-320A-4489-9F7E-CBABED50D8D0}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Benchmarks.FSharp", "Benchmarks.FSharp\Benchmarks.FSharp.fsproj", "{6A700218-E2AC-4121-BD10-5F5C13787AE3}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Benchmarks.FSharp", "Benchmarks.FSharp\Benchmarks.FSharp.fsproj", "{6A700218-E2AC-4121-BD10-5F5C13787AE3}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Benchmarks.FSharp.Lib", "Benchmarks.FSharp.Lib\Benchmarks.FSharp.Lib.fsproj", "{51310EB6-6728-4AA1-8B46-2A127B9CD081}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Benchmarks.FSharp.Lib", "Benchmarks.FSharp.Lib\Benchmarks.FSharp.Lib.fsproj", "{51310EB6-6728-4AA1-8B46-2A127B9CD081}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Gists.FSharp", "Gists.FSharp\Gists.FSharp.fsproj", "{A01D2580-D199-4CE5-B0AF-A007BC16AC3A}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Gists.FSharp", "Gists.FSharp\Gists.FSharp.fsproj", "{A01D2580-D199-4CE5-B0AF-A007BC16AC3A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceGenerators", "SourceGenerators", "{F97F7FD0-88D0-438D-A179-406A778A2A29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoDecoratorGenerator", "AutoDecoratorGenerator\AutoDecoratorGenerator.csproj", "{9F4C54DE-0CA4-4BDE-AD90-336319460E1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoDecoratorGenerator", "AutoDecoratorGenerator\AutoDecoratorGenerator.csproj", "{9F4C54DE-0CA4-4BDE-AD90-336319460E1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoDecoratorGenerator.Tests", "AutoDecoratorGenerator.Tests\AutoDecoratorGenerator.Tests.csproj", "{EA7A4D2A-2B38-4089-8F9D-39136C598135}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoDecoratorGenerator.Tests", "AutoDecoratorGenerator.Tests\AutoDecoratorGenerator.Tests.csproj", "{EA7A4D2A-2B38-4089-8F9D-39136C598135}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AutoDecoratorGeneratorFSharp", "AutoDecoratorGeneratorFSharp\AutoDecoratorGeneratorFSharp.fsproj", "{59C39272-429D-4A53-B377-DAF18DD9AD19}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "AutoDecoratorGeneratorFSharp", "AutoDecoratorGeneratorFSharp\AutoDecoratorGeneratorFSharp.fsproj", "{59C39272-429D-4A53-B377-DAF18DD9AD19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FSharpDiscriminatedUnion", "FSharpDiscriminatedUnion", "{30755036-B824-417F-BABB-6C74184C7128}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpDiscriminatedUnionAnalyzer", "FSharpDiscriminatedUnionAnalyzer\FSharpDiscriminatedUnionAnalyzer.fsproj", "{40795813-34C2-4CBE-BFF4-2D2521E68E2D}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpDiscriminatedUnion.Test.FSharp", "FSharpDiscriminatedUnion.Test.FSharp\FSharpDiscriminatedUnion.Test.FSharp.fsproj", "{85AFCB9C-DFE0-4CBC-84A9-21F26F491C25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSharpDiscriminatedUnion.Test.CSharp", "FSharpDiscriminatedUnion.Test.CSharp\FSharpDiscriminatedUnion.Test.CSharp.csproj", "{D09527D3-EBB8-4FBE-B746-AA628404B39C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,6 +171,18 @@ Global
 		{59C39272-429D-4A53-B377-DAF18DD9AD19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59C39272-429D-4A53-B377-DAF18DD9AD19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59C39272-429D-4A53-B377-DAF18DD9AD19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40795813-34C2-4CBE-BFF4-2D2521E68E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40795813-34C2-4CBE-BFF4-2D2521E68E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40795813-34C2-4CBE-BFF4-2D2521E68E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40795813-34C2-4CBE-BFF4-2D2521E68E2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85AFCB9C-DFE0-4CBC-84A9-21F26F491C25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85AFCB9C-DFE0-4CBC-84A9-21F26F491C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85AFCB9C-DFE0-4CBC-84A9-21F26F491C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85AFCB9C-DFE0-4CBC-84A9-21F26F491C25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D09527D3-EBB8-4FBE-B746-AA628404B39C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D09527D3-EBB8-4FBE-B746-AA628404B39C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D09527D3-EBB8-4FBE-B746-AA628404B39C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D09527D3-EBB8-4FBE-B746-AA628404B39C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -180,6 +200,10 @@ Global
 		{9F4C54DE-0CA4-4BDE-AD90-336319460E1C} = {F97F7FD0-88D0-438D-A179-406A778A2A29}
 		{EA7A4D2A-2B38-4089-8F9D-39136C598135} = {F97F7FD0-88D0-438D-A179-406A778A2A29}
 		{59C39272-429D-4A53-B377-DAF18DD9AD19} = {F97F7FD0-88D0-438D-A179-406A778A2A29}
+		{30755036-B824-417F-BABB-6C74184C7128} = {2BC76B9E-E47C-407E-A5FA-D6490FAF1ADA}
+		{40795813-34C2-4CBE-BFF4-2D2521E68E2D} = {30755036-B824-417F-BABB-6C74184C7128}
+		{85AFCB9C-DFE0-4CBC-84A9-21F26F491C25} = {30755036-B824-417F-BABB-6C74184C7128}
+		{D09527D3-EBB8-4FBE-B746-AA628404B39C} = {30755036-B824-417F-BABB-6C74184C7128}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2A37D076-8F95-4E76-81AF-6B7358F0D814}

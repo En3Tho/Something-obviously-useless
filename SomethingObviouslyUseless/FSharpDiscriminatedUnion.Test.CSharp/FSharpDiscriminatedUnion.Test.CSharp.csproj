@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Analyzers\SelfAssignment\SelfAssignmentAnalyzerFSharp\SelfAssignmentAnalyzerFSharp.fsproj"
+                          PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="analyzer"/>
+        <ProjectReference Include="..\FSharpDiscriminatedUnion.Test.FSharp\FSharpDiscriminatedUnion.Test.FSharp.fsproj"/>
+        <ProjectReference Include="..\FSharpDiscriminatedUnionAnalyzer\FSharpDiscriminatedUnionAnalyzer.fsproj"
+                          PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="analyzer"/>
+    </ItemGroup>
+
+</Project>

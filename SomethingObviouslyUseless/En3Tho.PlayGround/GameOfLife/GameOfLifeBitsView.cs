@@ -6,23 +6,23 @@ namespace En3Tho.PlayGround.GameOfLife
     public readonly ref struct GameOfLifeBitsView
     {
         private readonly Span<byte> _span;
-        private readonly int _iWidth;
-        private readonly int _iStart;
+        private readonly int _innerWidth;
+        private readonly int _innerStart;
         public int Length { get; }
 
-        public GameOfLifeBitsView(Span<byte> span, int globalWidth)
+        public GameOfLifeBitsView(Span<byte> span, int outerWidth)
         {
-            _iWidth = globalWidth - 2;
-            _iStart = globalWidth + 1;
+            _innerWidth = outerWidth - 2;
+            _innerStart = outerWidth + 1;
             _span = span;
-            Length = (span.Length / globalWidth - 2) * _iWidth * 8;
+            Length = (span.Length / outerWidth - 2) * _innerWidth * 8;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private (int byteIndex, int bitIndex) ComputeIndices(int index)
         {
             var byteIndex = Math.DivRem(index, 8, out var remainder);
-            return (_iStart + byteIndex + byteIndex / _iWidth * 2, remainder);
+            return (_innerStart + byteIndex + byteIndex / _innerWidth * 2, remainder);
         }
 
         public int this[int index]
