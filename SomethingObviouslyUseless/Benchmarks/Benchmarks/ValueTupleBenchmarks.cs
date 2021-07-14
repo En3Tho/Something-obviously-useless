@@ -30,13 +30,13 @@ namespace Benchmarks.BenchmarkDotNet
         [Benchmark]
         public int[] TestTupleToArrayAsCollection()
         {
-            return AsCollection.ToArray();
+            return AsCollection.ConcatToArray();
         }
 
         [Benchmark]
         public int[] TestTupleToArray()
         {
-            return (Array1, Array2, Array3).ToArray();
+            return (Array1, Array2, Array3).ConcatToArray();
         }
 
         [Benchmark]

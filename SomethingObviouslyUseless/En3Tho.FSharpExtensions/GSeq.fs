@@ -9,7 +9,7 @@ module GenericEnumeratorsImpl =
 
     [<Struct; NoComparison; NoEquality>]
     type StructSelectEnumerator<'i, 'res, 'e when 'e: struct
-                                         and 'e :> IEnumerator<'i>> =
+                                              and 'e :> IEnumerator<'i>> =
 
         val mutable private enumerator: StructEnumerator<'i, 'e>
         val private map: 'i -> 'res

@@ -9,8 +9,7 @@ type ForExpression<'a> = 'a -> unit
 
 module StringBuilderCE =
     type StringBuilder with
-        member inline this.Yield (value: string) = this.Append value |> ignore
-        member inline this.YieldFrom (value: string) = this.AppendLine value |> ignore
+        member inline this.Yield (value: string) = this.Append value |> ignore        
         member inline this.While (moveNext, whileExpr: WhileExpression) = while moveNext() do whileExpr()
         member inline this.For (values, forExpr: ForExpression<_>) = for value in values do forExpr value
         member inline this.Combine (appendResult, cexpr) = cexpr()
@@ -21,6 +20,7 @@ module StringBuilderCE =
 module ICollectionCE =
     type ICollection<'a> with
         member inline this.Yield (value: 'a) = this.Add value // to AnyAdd?
+        member inline this.YieldFrom (values: 'a seq) = for value in values do this.Add value
         member inline this.While (moveNext, whileExpr: WhileExpression) = while moveNext() do whileExpr()
         member inline this.For (values, forExpr: ForExpression<_>) = for value in values do forExpr value
         member inline this.Combine (addResult, cexpr) = cexpr()
