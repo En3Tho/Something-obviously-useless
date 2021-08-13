@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <TargetFrameworks>net5.0;netstandard2.1</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="BasicTypes.fs" />
+        <Compile Include="Validation.fs" />
+        <Compile Include="Extensions.fs" />
+        <Compile Include="Builder.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+    </ItemGroup>
+
+</Project>

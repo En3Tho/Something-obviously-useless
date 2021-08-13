@@ -7,11 +7,13 @@ open System
 open System.Runtime.InteropServices
 open System.Threading
 open System.Threading.Tasks
+open Gists.FSharp
+open Gists.FSharp.Structs.StackAlloc
 open Microsoft.FSharp.NativeInterop
 
 #nowarn "9"
-module StackAlloc =
 
+module DisposableRefCounters =
     type RentedDisposableValue<'a when 'a :> IDisposable>(disposable: DisposableRefCounter<'a>, value: 'a) =
         let mutable valueGiven = 0
         let mutable valueReturned = 0
@@ -177,29 +179,8 @@ module StackAlloc =
 
         tasks
 
-//    type RefCountingConcurrentDictionary<'key, 'value when 'value :> IAsyncDisposable>() =
-//        let dict = ConcurrentDictionary<'key, 'value AsyncDisposableRefCounter>()
-//
-//        member _.TryGetValue key =
-//            match dict.TryGetValue key with
-//            | true, value ->
-//                ValueSome (value.Rent())
-//            | _ -> ValueNone
-//
-//        member _.TryRemove key =
-//            match dict.TryRemove key with
-//            | true, value ->
-//                value.RequestDispose()
-//                true
-//            | _ -> false
-//
-//        member _.TryAdd key value =
-//            let value = AsyncDisposableRefCounter value
-//            dict.TryAdd(key, value)
-//
-//        member _.SetValue key value =
-//
-
+module StackAlloc =
+    
     [<Struct; IsByRefLike>]
     type RefHolder4<'a when 'a: not struct> =
         [<DefaultValue(false)>] val mutable value1: 'a
@@ -361,3 +342,21 @@ module StackAlloc =
             new StackOrPooled<'a>(MemoryMarshal.CreateSpan(&values.value1.value1.value1.value1.value1.value1.value1.value1, 512))
         else
             new StackOrPooled<'a>(ArrayPool<'a>.Shared.Rent len)
+            
+type [<Struct; IsByRefLike>] StackReferenceList64<'a when 'a: not struct> =
+    [<DefaultValue(false)>] val mutable private values: StackAlloc.RefHolder64<'a>
+    [<DefaultValue(false)>] val mutable private length: int
+    [<DefaultValue(false)>] val mutable private list: ResizeArray<'a>
+    
+    member this.Span = MemoryMarshal.CreateSpan(&this.values.value1.value1.value1.value1.value1, 64)
+    member private this.AddToList value =
+        if this.list = null then
+            this.list <- ResizeArray()
+        this.list.Add value
+        this.length <- this.length + 1
+    member this.Add value =
+        if this.length < 64 then
+            this.Span.[this.length] <- value
+            this.length <- this.length + 1
+        else
+            this.AddToList value

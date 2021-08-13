@@ -16,13 +16,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
     <PackageReference Include="System.Text.Json" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\En3Tho.FSharpExtensions\En3Tho.FSharpExtensions.fsproj" />
-    <ProjectReference Include="..\En3Tho.ValueTupleExtensions\En3Tho.ValueTupleExtensions.csproj" />
+    <ProjectReference Include="..\En3Tho.FSharp.Extensions\En3Tho.FSharp.Extensions.fsproj" />
     <ProjectReference Include="..\ExtensionsAndStuff.Unsafe\ExtensionsAndStuff.Unsafe.csproj" />
     <ProjectReference Include="..\ExtensionsAndStuff\ExtensionsAndStuff.csproj" />
   </ItemGroup>

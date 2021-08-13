@@ -158,16 +158,16 @@ module PrettyPrinting =
     let getInterfaceName (symbol: INamedTypeSymbol) = symbol.ToDisplayString()
     
     let getPropertyDeclarationSource (propertySymbol: IPropertySymbol ) =
-            let format =
-                match propertySymbol.DeclaredAccessibility with
-                | Accessibility.Public -> DisplayFormats.PropertyDeclarationFormat
-                | _ -> DisplayFormats.ExplicitInterfacePropertyDeclarationFormat
-                
-            propertySymbol.ToDisplayString(format);
+        let format =
+            match propertySymbol.DeclaredAccessibility with
+            | Accessibility.Public -> DisplayFormats.PropertyDeclarationFormat
+            | _ -> DisplayFormats.ExplicitInterfacePropertyDeclarationFormat
+            
+        propertySymbol.ToDisplayString(format);
 
     // Workaround as some "Item" properties are not reported as indexers
     // https://github.com/dotnet/roslyn/issues/53911
-    let getIndexerPropertyDeclarationSource (propertySymbol: IPropertySymbol ) =
+    let getIndexerPropertyDeclarationSource (propertySymbol: IPropertySymbol ) = // TODO: ActivePattern?
         getPropertyDeclarationSource(propertySymbol).Replace("Item[", "this[");
 
 type GenerationError =

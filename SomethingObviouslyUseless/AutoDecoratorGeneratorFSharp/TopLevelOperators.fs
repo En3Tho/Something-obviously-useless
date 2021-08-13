@@ -28,14 +28,14 @@ module Seq =
 
         moveNext()
 
-    let identicalBy valueEqualsTo (seq2: 'a seq) (seq1: 'a seq) =
+    let identicalBy equals (seq2: 'a seq) (seq1: 'a seq) =
         use enum1 = seq1.GetEnumerator()
         use enum2 = seq2.GetEnumerator()
 
         let rec moveNext() =
             match enum1.MoveNext(), enum2.MoveNext() with
             | true, true ->
-                enum1.Current |> valueEqualsTo enum2.Current
+                enum1.Current |> equals enum2.Current
                 && moveNext()
             | false, false -> true
             | _ -> false

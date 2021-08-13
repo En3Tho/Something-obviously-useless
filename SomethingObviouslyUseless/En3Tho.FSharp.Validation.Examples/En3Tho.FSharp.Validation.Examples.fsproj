@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\En3Tho.FSharp.Validation.CommonTypes\En3Tho.FSharp.Validation.CommonTypes.fsproj" />
+      <ProjectReference Include="..\En3Tho.FSharp.Validation\En3Tho.FSharp.Validation.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="ExnDomainEntities.fs" />
+    </ItemGroup>
+
+</Project>

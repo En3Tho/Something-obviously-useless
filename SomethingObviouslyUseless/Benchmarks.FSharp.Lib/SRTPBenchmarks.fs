@@ -17,7 +17,7 @@ let readFrom = [|
 
 [<MemoryDiagnoser>]
 [<SimpleJob(RuntimeMoniker.NetCoreApp31)>]
-[<SimpleJob(RuntimeMoniker.NetCoreApp50)>]
+[<SimpleJob(RuntimeMoniker.Net50)>]
 type CustomIter() =
     member _.LibraryIter() =
         let mutable sum = 0

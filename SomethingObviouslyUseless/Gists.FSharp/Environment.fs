@@ -11,11 +11,17 @@ module GenericDeps =
 
     let consumeStringEnv (env: #IEnv<string>) value = env.Value |> ignore
     let consumeIntEnv (env: #IEnv<int>) value = env.Value |> ignore
-
+    
+    let consumeEnv<'a, 'b when 'a :> IEnv<'b>> (env: 'a) = env.Value
+    
     let consumeBothEnvs env =
         consumeStringEnv env ()
         consumeIntEnv env () // The type 'ISomeDep2' does not match the type 'ISomeDep'. Why?
-
+    
+    let consumeBothEnvs2 env =
+        consumeEnv<_, string> env |> ignore
+        consumeEnv<_, int> env |> ignore // type int does not match the type string
+    
     Environment("", 0) |> consumeBothEnvs
 
 module NonGenericDeps =
@@ -30,7 +36,7 @@ module NonGenericDeps =
 
     let consumeStringEnv (env: #IStringEnv) value = env.Value |> ignore
     let consumeIntEnv (env: #IIntEnv) value = env.Value |> ignore
-
+    
     let consumeBothEnvs env = // works ok
         consumeStringEnv env ()
         consumeIntEnv env ()

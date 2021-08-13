@@ -1,22 +1,25 @@
-﻿namespace En3Tho.FSharpExtensions
+﻿namespace En3Tho.FSharp.Extensions
 
 open System
 open System.Collections
 open System.Collections.Concurrent
 open System.Collections.Generic
+open System.Collections.Immutable
 open System.Linq
 open System.Reflection
 open System.Reflection.Emit
 open System.Runtime.ExceptionServices
 open System.Threading.Tasks
-open En3Tho.FSharpExtensions
 open FSharp.NativeInterop
 open Microsoft.FSharp.Reflection
-open En3Tho.FSharpExtensions.Disposables
+open En3Tho.FSharp.Extensions.Disposables
 
 #nowarn "0077"
 #nowarn "0042"
+                
+type block<'a> = ImmutableArray<'a>
 
+[<AutoOpen>]
 module Core =
     let someObj = Some()
     let inline (^) f x = f x
@@ -29,7 +32,7 @@ module Core =
 
     /// unsafe cast like in C#
     let inline ucast<'a, 'b> (a: 'a): 'b = (# "" a: 'b #)
-    let inline defer f = new ActionDisposable(f)
+    let inline defer f = new UnitDisposable(f)
     let inline deferv f value = new ValueDisposable<'a>(value, f)
     let ignore2 _ _ = ()
     let ignore3 _ _ _ = ()
@@ -43,8 +46,8 @@ module Core =
     [<Obsolete("Just a placeholder")>]
     let inline TODO<'a> = raise ^ NotImplementedException()
 
-    let inline (|Null|_|) value = if isNull value then someObj else None
-    let inline (|NotNull|_|) value = if isNotNull value then someObj else None
+    let inline (|NullRef|_|) value = if isNull value then someObj else None
+    let inline (|NotNullRef|_|) value = if isNotNull value then someObj else None
 
 
 module Object =
@@ -68,7 +71,7 @@ module Object =
     let inline defaultWith defThunk arg = if arg &== null then defThunk() else arg
     let inline nullCheck argName arg = if arg &== null then nullArg argName |> ignore
     let inline ensureNotNull argName arg = if arg &== null then nullArg argName else arg
-    let toStringSafe  str = if isNull str then "" else str.ToString()
+    let toStringSafe str = if isNull str then "" else str.ToString()
 
 module Functions =
     module Operators =
@@ -141,33 +144,33 @@ module String =
     let inline defaultValue def str = if String.IsNullOrEmpty str then def else str
     let inline defaultValueW def str = if String.IsNullOrWhiteSpace str then def else str
     let inline truncate maxLength (str: string) = if str.Length <= maxLength then str else str.Substring(0, maxLength)
-
-    let inline (|NullOrEmpty|_|) (str: string) = String.IsNullOrEmpty(str) |> Option.ofBool
-    let inline (|NullOrWhiteSpace|_|) (str: string) = String.IsNullOrWhiteSpace(str) |> Option.ofBool
-
-    let inline (|ContainsOrdinal|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.Ordinal) |> Option.ofBool
-    let inline (|ContainsOrdinalIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
-    let inline (|ContainsCurrentCulture|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.CurrentCulture) |> Option.ofBool
-    let inline (|ContainsCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
-    let inline (|ContainsInvariantCulture|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.InvariantCulture) |> Option.ofBool
-    let inline (|ContainsInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
-    let inline (|ContainsChar|_|) (pattern: char) (str: string) = str.Contains(pattern) |> Option.ofBool
-
-    let inline (|StartsWithOrdinal|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.Ordinal) |> Option.ofBool
-    let inline (|StartsWithOrdinalIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
-    let inline (|StartsWithCurrentCulture|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.CurrentCulture) |> Option.ofBool
-    let inline (|StartsWithCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
-    let inline (|StartsWithInvariantCulture|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.InvariantCulture) |> Option.ofBool
-    let inline (|StartsWithInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
-    let inline (|StartsWithChar|_|) (pattern: char) (str: string) = str.StartsWith(pattern) |> Option.ofBool
-
-    let inline (|EndsWithOrdinal|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.Ordinal) |> Option.ofBool
-    let inline (|EndsWithOrdinalIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
-    let inline (|EndsWithCurrentCulture|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.CurrentCulture) |> Option.ofBool
-    let inline (|EndsWithCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
-    let inline (|EndsWithInvariantCulture|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.InvariantCulture) |> Option.ofBool
-    let inline (|EndsWithInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
-    let inline (|EndsWithChar|_|) (pattern: char) (str: string) = str.EndsWith(pattern) |> Option.ofBool
+    module ActivePatterns =
+        let inline (|NullOrEmpty|_|) (str: string) = String.IsNullOrEmpty(str) |> Option.ofBool
+        let inline (|NullOrWhiteSpace|_|) (str: string) = String.IsNullOrWhiteSpace(str) |> Option.ofBool
+    
+        let inline (|Contains|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.Ordinal) |> Option.ofBool
+        let inline (|ContainsIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
+        let inline (|ContainsCurrentCulture|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.CurrentCulture) |> Option.ofBool
+        let inline (|ContainsCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
+        let inline (|ContainsInvariantCulture|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.InvariantCulture) |> Option.ofBool
+        let inline (|ContainsInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
+        let inline (|ContainsChar|_|) (pattern: char) (str: string) = str.Contains(pattern) |> Option.ofBool
+    
+        let inline (|StartsWith|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.Ordinal) |> Option.ofBool
+        let inline (|StartsWithIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
+        let inline (|StartsWithCurrentCulture|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.CurrentCulture) |> Option.ofBool
+        let inline (|StartsWithCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
+        let inline (|StartsWithInvariantCulture|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.InvariantCulture) |> Option.ofBool
+        let inline (|StartsWithInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
+        let inline (|StartsWithChar|_|) (pattern: char) (str: string) = str.StartsWith(pattern) |> Option.ofBool
+    
+        let inline (|EndsWith|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.Ordinal) |> Option.ofBool
+        let inline (|EndsWithIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
+        let inline (|EndsWithCurrentCulture|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.CurrentCulture) |> Option.ofBool
+        let inline (|EndsWithCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
+        let inline (|EndsWithInvariantCulture|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.InvariantCulture) |> Option.ofBool
+        let inline (|EndsWithInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
+        let inline (|EndsWithChar|_|) (pattern: char) (str: string) = str.EndsWith(pattern) |> Option.ofBool
 
 type EnumShape<'enum when 'enum: struct
                       and 'enum :> Enum
@@ -756,7 +759,7 @@ module ConcurrentDictionary =
     let inline tryGetValue key (cd: ConcurrentDictionary<'key, 'value>) =
         cd.TryGetValue key |> Option.ofTryPattern
 
-    let inline tryRemove key (cd: ConcurrentDictionary<'key, 'value>) =
+    let inline tryRemove (key: 'key) (cd: ConcurrentDictionary<'key, 'value>) =
         cd.TryRemove key |> Option.ofTryPattern
 
     let inline tryAdd key value (cd: ConcurrentDictionary<'key, 'value>) =

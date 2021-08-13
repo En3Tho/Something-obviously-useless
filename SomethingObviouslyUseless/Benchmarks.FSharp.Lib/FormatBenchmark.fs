@@ -224,7 +224,7 @@ let toStringCreate (record: StringFieldRecord) =
 
 [<MemoryDiagnoser>]
 [<SimpleJob(RuntimeMoniker.NetCoreApp31)>]
-[<SimpleJob(RuntimeMoniker.NetCoreApp50)>]
+[<SimpleJob(RuntimeMoniker.Net50)>]
 type Formatter() =
     let someNum = DateTime.Now.Millisecond;
     let someString = DateTime.Now.ToString()

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;netstandard2.1</TargetFrameworks>
+    <AssemblyName>En3Tho.FSharp.Extensions</AssemblyName>
+    <RootNamespace>En3Tho.FSharp.Extensions</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Disposables.fs" />
+    <Compile Include="Modules.fs" />
+    <Compile Include="ActivePatterns.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>

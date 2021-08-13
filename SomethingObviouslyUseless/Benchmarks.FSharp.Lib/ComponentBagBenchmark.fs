@@ -9,7 +9,7 @@ let inline (^) f x = f x
 let inline (|>>) f g = fun x -> f x |> ignore; g x
 
 module Object =
-    let inline createNew<'a when 'a: (new : unit -> 'a)>() = new 'a()
+    let inline createNew<'a when 'a: (new : unit -> 'a)> = new 'a()
 
 module Dictionary =
     let inline tryGetValue key (dict: Dictionary<'a, 'b>) =
@@ -51,7 +51,7 @@ type ComponentDataProvider() =
         let list = getComponentDataList obj
         list
         |> Seq.tryFind ^ fun struct (localType, _) -> localType = typeof<'a>
-        |> Option.defaultWith ^ fun() -> Object.createNew<'a>() |> this.AddData list
+        |> Option.defaultWith ^ fun() -> Object.createNew<'a> |> this.AddData list
         |> fun struct (_, counterData) -> counterData :?> 'a
 
     member this.GetData2<'TType, 'TKey, 'TValue> key =
@@ -60,7 +60,7 @@ type ComponentDataProvider() =
         | Some value ->
             value
         | None ->
-            let value = Object.createNew<'TValue>()
+            let value = Object.createNew<'TValue>
             bag.[key] <- value
             value
 
@@ -70,7 +70,7 @@ type ComponentDataProvider() =
         | true, value ->
             value
         | _ ->
-            let value = Object.createNew<'TValue>()
+            let value = Object.createNew<'TValue>
             bag.[key] <- value
             value
 
@@ -79,7 +79,7 @@ type ComponentDataProvider() =
         match ComponentValueDictionary<'TType, 'TKey, 'TValue>.KeyValueBag |> Dictionary.tryGetValue key with
         | Some value -> value
         | None ->
-            let value = Object.createNew<'TValue>()
+            let value = Object.createNew<'TValue>
             ComponentValueDictionary<'TType, 'TKey, 'TValue>.KeyValueBag.[key] <- value
             value
     member this.GetData22<'TType, 'TKey, 'TValue> key =
@@ -88,7 +88,7 @@ type ComponentDataProvider() =
         | Some value ->
             value
         | None ->
-            let value = Object.createNew<'TValue>()
+            let value = Object.createNew<'TValue>
             bag.[key] <- value
             value
 
@@ -98,7 +98,7 @@ type ComponentDataProvider() =
         | true, value ->
             value
         | _ ->
-            let value = Object.createNew<'TValue>()
+            let value = Object.createNew<'TValue>
             bag.[key] <- value
             value
 
@@ -108,7 +108,7 @@ type ComponentDataProvider() =
         match bag |> Dictionary.tryGetValue key with
         | Some value -> value
         | None ->
-            let value = Object.createNew<'TValue>()
+            let value = Object.createNew<'TValue>
             bag.[key] <- value
             value
 
@@ -116,43 +116,43 @@ type ComponentData() =
     member val Val = 0 with get, set
 
 [<MemoryDiagnoser>]
-[<SimpleJob(RuntimeMoniker.NetCoreApp50)>]
+[<SimpleJob(RuntimeMoniker.Net50)>]
 type ValueBag() =
-    let component = ComponentData(Val = 10)
+    let componentData = ComponentData(Val = 10)
     let provider = ComponentDataProvider()
     let func = Func<_,_>(fun (c: ComponentData) -> c.Val)
 
     [<Benchmark>]
     member _.GetData1() =
-        let a: ComponentData = provider.GetData(struct (typeof<ComponentData>, component.Val))
+        let a: ComponentData = provider.GetData(struct (typeof<ComponentData>, componentData.Val))
         ignore a
 
     [<Benchmark>]
     member _.GetData2() =
-        let a: ComponentData = provider.GetData2<ComponentData, int, ComponentData>(component.Val)
+        let a: ComponentData = provider.GetData2<ComponentData, int, ComponentData>(componentData.Val)
         ignore a
 
     [<Benchmark>]
     member _.GetData3() =
-        let a: ComponentData = provider.GetData3 component func
+        let a: ComponentData = provider.GetData3 componentData func
         ignore a
 
     [<Benchmark>]
     member _.GetData4() =
-        let a: ComponentData = provider.GetData4<ComponentData, int, ComponentData>(component.Val)
+        let a: ComponentData = provider.GetData4<ComponentData, int, ComponentData>(componentData.Val)
         ignore a
 
     [<Benchmark>]
     member _.GetData22() =
-        let a: ComponentData = provider.GetData22<ComponentData, int, ComponentData>(component.Val)
+        let a: ComponentData = provider.GetData22<ComponentData, int, ComponentData>(componentData.Val)
         ignore a
 
     [<Benchmark>]
     member _.GetData32() =
-        let a: ComponentData = provider.GetData32 component func
+        let a: ComponentData = provider.GetData32 componentData func
         ignore a
 
     [<Benchmark>]
     member _.GetData42() =
-        let a: ComponentData = provider.GetData42<ComponentData, int, ComponentData>(component.Val)
+        let a: ComponentData = provider.GetData42<ComponentData, int, ComponentData>(componentData.Val)
         ignore a

@@ -15,7 +15,7 @@ type SomeRecord2 = {
 
 [<MemoryDiagnoser>]
 [<SimpleJob(RuntimeMoniker.NetCoreApp31)>]
-[<SimpleJob(RuntimeMoniker.NetCoreApp50)>]
+[<SimpleJob(RuntimeMoniker.Net50)>]
 type ListAndSeqBench() =
     [<Params(10, 50, 100)>]
     member val Count = 0 with get, set

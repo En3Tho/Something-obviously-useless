@@ -1,4 +1,4 @@
-﻿module En3Tho.FSharpExtensions.ActivePatterns
+﻿module En3Tho.FSharp.Extensions.ActivePatterns
 
 open System
 open Core

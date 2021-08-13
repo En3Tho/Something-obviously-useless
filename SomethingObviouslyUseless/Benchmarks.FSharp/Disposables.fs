@@ -5,11 +5,6 @@ open System.Collections.Concurrent
 open System.Threading
 open System.Threading.Tasks
 
-[<Struct>]
-type DisposableValue<'a when 'a :> IDisposable> =
-    | Disposed
-    | NotDisposed of 'a
-
 /// A borrowed ref counted value
 type RentedDisposableValue<'a when 'a :> IDisposable>(disposable: DisposableRefCounter<'a>) =
     let mutable valueGiven = 0

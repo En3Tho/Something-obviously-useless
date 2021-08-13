@@ -1,31 +1,20 @@
-﻿module En3Tho.FSharpExtensions.DomainAndValidation.ExnValidation.DomainEntities
+﻿module En3Tho.FSharp.Validation.DomainEntities
 
 open System
+open System.Collections.Generic
 open System.Text.RegularExpressions
-open En3Tho.FSharpExtensions.DomainAndValidation.ExnValidation
-
-module NonEmptyString =
-    exception IsNullOrEmpty
-
-    let private validate value =
-        if String.IsNullOrEmpty value then Error IsNullOrEmpty
-        else Ok value
-
-    type [<Struct>] Validator =
-        interface IValidator<string> with
-            member this.Validate value = validate value
-
-module NonEmptyGuid =
-    exception IsEmpty
+open En3Tho.FSharp.Validation
+open En3Tho.FSharp.Validation.CommonTypes
+module NonDefaultValue =
+    exception ValueIsDefault
     
     let private validate value =
-        if Guid.Empty = value then Error IsEmpty
+        if value = Unchecked.defaultof<_> then Error ValueIsDefault
         else Ok value
         
-    type [<Struct>] Validator =
-         interface IValidator<Guid> with
-             member this.Validate value = validate value
-     
+    type [<Struct>] Validator<'a when 'a: equality> =
+         interface IValidator<'a> with
+             member this.Validate value = validate value  
 
 module StringOfMaxLength50 =
     exception LengthIsGreaterThan50
@@ -48,25 +37,23 @@ module StringOfMinLength10 =
     type [<Struct>] Validator =
         interface IValidator<string> with
             member this.Validate value = validate value
-
-module OmniUserId =
-    exception StringIsNotGuidParseable
-
-    let private validate (value: string) =
-        match Guid.TryParse value with
-        | true, _ -> Ok value
-        | _ -> Error StringIsNotGuidParseable
-
-    type [<Struct>] Validator =
-        interface IValidator<string> with
-            member this.Validate value = validate value
-
-module ExistsInSomeCollection =
-    exception DoesNotExistsInSomeCollection
+module ValueShouldBeUnique =
+    exception ValueIsNotUnique
 
     let private validate collection value =
-        if collection |> Seq.contains value then Ok value
-        else Error DoesNotExistsInSomeCollection
+        if collection |> Seq.contains value then Error ValueIsNotUnique
+        else Ok value
+
+    type Validator(collection) = // injected?
+        interface IValidator<string> with
+            member this.Validate value = value |> validate collection
+
+module ValueShouldBeStorageAccepted =
+    exception ValueIsNoAcceptedByStorage
+    
+    let private validate collection value =
+        if collection |> Seq.contains value then Error ValueIsNoAcceptedByStorage
+        else Ok value
 
     type Validator(collection) = // injected?
         interface IValidator<string> with
@@ -74,7 +61,7 @@ module ExistsInSomeCollection =
 
 module Email =
     exception StringIsEmpty
-    exception StringIsNotAnEmail
+    exception StringIsNotAnEmail    
 
     let private validate value =
         if String.IsNullOrEmpty value then Error StringIsEmpty
@@ -85,36 +72,28 @@ module Email =
         interface IValidator<string> with
             member this.Validate value = validate value
 
-module NonNegativeInt =
-    exception ValueIsNegative
+type OmniUserId = GuidParseableString
 
-    let private validate value =
-        if value < 0 then Error ValueIsNegative
-        else Ok value
-
-    type [<Struct>] Validator =
-        interface IValidator<int> with
-            member this.Validate value = validate value
-
-// Should only be called with CreateWith. How to constrain?
-type ExistsInSomeCollection = DomainEntity01<string, ExistsInSomeCollection.Validator>
-type OmniUserId = DomainEntity10<string, OmniUserId.Validator>
-
-type NonEmptyString = DomainEntity10<string, NonEmptyString.Validator>
-type NonNegativeInt = DomainEntity10<int, NonNegativeInt.Validator>
-
-type NonEmptyGuid = DomainEntity10<Guid, NonEmptyGuid.Validator>
+type ValueShouldBeUnique = DomainEntity11<string, NonEmptyString.Validator, ValueShouldBeUnique.Validator>
 
 type FirstName = DomainEntity20<string, StringOfMinLength10.Validator, StringOfMaxLength50.Validator>
 type LastName = NonEmptyString
-type Age = NonNegativeInt
+type Age = NonNegativeValue<int>
 type Email = DomainEntity10<string, Email.Validator>
+
+type DepartmentName = ValueShouldBeUnique
+type DepartmentWorkerCount = NonNegativeValue<int>
 
 type User = {
     FirstName: FirstName
     LastName: LastName
     Age: Age
     Email: Email voption
+}
+
+type Department = {
+    Name: DepartmentName
+    WorkerCount: DepartmentWorkerCount
 }
 
 type UserWithId = {
@@ -129,11 +108,16 @@ type CreateUserRequest = {
     Email: string voption
 }
 
+type CreateDepartmentRequest = {
+    Name: string
+    WorkerCount: int
+}
+
+open DomainEntityExtensions
+open ValidateComputationExpression
+open ExceptionExtensions    
+
 module User =
-    open DomainEntityExtensions
-    open ValidateCE
-    open ExceptionExtensions
-    
     let createFromRequest (request: CreateUserRequest) = validate {
         let! firstName = FirstName.Create request.FirstName
         let! lastName = LastName.Create request.LastName
@@ -154,3 +138,15 @@ module User =
             | ValueSome err -> raise err
             | _ -> ()
         | _ -> ()
+        
+module Department =
+    let private departmentNames = [| "dep1"; "dep2"; "dep3" |] // get a list of all department names
+    let create (request: CreateDepartmentRequest) = validate {
+        let departmentNameShouldBeUnique = ValueShouldBeUnique.Validator departmentNames
+        let! name = DepartmentName.Create (request.Name, departmentNameShouldBeUnique) // this could be async
+        let! workerCount = DepartmentWorkerCount.Create request.WorkerCount
+        return {
+            Department.Name = name
+            WorkerCount = workerCount
+        }
+    }

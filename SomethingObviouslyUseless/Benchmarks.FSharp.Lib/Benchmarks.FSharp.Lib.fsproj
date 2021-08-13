@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>        
+        <TargetFramework>net5.0</TargetFramework>        
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,16 +14,19 @@
         <Compile Include="ActivePatterns.fs" />
         <Compile Include="HexToDec.fs" />
         <Compile Include="ComponentBagBenchmark.fs" />
+        <Compile Include="CustomBuildersVsLibraryBuilders.fs" />
+        <Compile Include="GSeq.fs" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
-      <PackageReference Include="BenchmarkDotNet.Annotations" Version="0.12.1" />
+      <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+      <PackageReference Include="BenchmarkDotNet.Annotations" Version="0.13.1" />
       <PackageReference Include="TypeShape" Version="9.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\En3Tho.FSharpExtensions\En3Tho.FSharpExtensions.fsproj" />
+      <ProjectReference Include="..\En3Tho.FSharp.Extensions\En3Tho.FSharp.Extensions.fsproj" />
+      <ProjectReference Include="..\En3Tho.FSharp.GSeq\En3Tho.FSharp.GSeq.fsproj" />
     </ItemGroup>
 
 </Project>

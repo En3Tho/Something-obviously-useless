@@ -1,4 +1,4 @@
-﻿namespace En3Tho.FSharpExtensions.Disposables
+﻿namespace En3Tho.FSharp.Extensions.Disposables
 
 open System
 
@@ -9,6 +9,6 @@ type ValueDisposable<'a>(value: 'a, dispose: 'a -> unit) =
         member this.Dispose() = dispose value
 
 [<Struct>]
-type ActionDisposable(dispose: unit -> unit) =
+type UnitDisposable(dispose: unit -> unit) =
     interface IDisposable with
         member this.Dispose() = dispose()

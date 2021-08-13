@@ -10,7 +10,7 @@ namespace Benchmarks
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<PInvokeBenchmark>();
+            BenchmarkRunner.Run<PossiblyEmptyMethodBench>();
             Console.ReadLine();
         }
     }

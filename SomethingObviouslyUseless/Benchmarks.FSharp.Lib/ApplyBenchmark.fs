@@ -2,7 +2,6 @@
 
 open System
 open BenchmarkDotNet.Attributes
-open En3Tho.FSharpExtensions
 
 type RecordType3 = { Id : int; Name : string; SomeNum : float }
 type RecordType4 = { Id : int; Name : string; SomeNum : float; SomeText : string }
@@ -32,15 +31,15 @@ type Applier() =
     [<Benchmark>]
     member _.ApplyFSharp55() = { basicType5 with Id = valueToApply5.Id; Name = valueToApply5.Name; SomeNum = valueToApply5.SomeNum; SomeText = valueToApply5.SomeText; SomeValue = valueToApply5.SomeValue }
 
-    [<Benchmark>]
-    member _.ApplyGenerated32() = Record.apply basicType3 valueToApply2
-    [<Benchmark>]
-    member _.ApplyGenerated33() = Record.apply basicType3 valueToApply3
-    [<Benchmark>]
-    member _.ApplyGenerated43() = Record.apply basicType4 valueToApply3
-    [<Benchmark>]
-    member _.ApplyGenerated44() = Record.apply basicType4 valueToApply4
-    [<Benchmark>]
-    member _.ApplyGenerated54() = Record.apply basicType5 valueToApply4
-    [<Benchmark>]
-    member _.ApplyGenerated55() = Record.apply basicType5 valueToApply5
+//    [<Benchmark>]
+//    member _.ApplyGenerated32() = Record.apply basicType3 valueToApply2
+//    [<Benchmark>]
+//    member _.ApplyGenerated33() = Record.apply basicType3 valueToApply3
+//    [<Benchmark>]
+//    member _.ApplyGenerated43() = Record.apply basicType4 valueToApply3
+//    [<Benchmark>]
+//    member _.ApplyGenerated44() = Record.apply basicType4 valueToApply4
+//    [<Benchmark>]
+//    member _.ApplyGenerated54() = Record.apply basicType5 valueToApply4
+//    [<Benchmark>]
+//    member _.ApplyGenerated55() = Record.apply basicType5 valueToApply5
