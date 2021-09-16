@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="ActivePatterns.fs" />
+        <Compile Include="Framework.fs" />
+        <Compile Include="Pipelines.fs" />
+        <Compile Include="ServiceCollectionExtensions.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CraftTalk.FSharp.SystemTextJson" Version="5.0.100" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+      <PackageReference Include="Ply" Version="0.3.1" />
+      <PackageReference Update="FSharp.Core" Version="5.0.2" />
+    </ItemGroup>
+
+</Project>

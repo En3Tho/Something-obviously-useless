@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <WarnOn>3390;$(WarnOn)</WarnOn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Primitives.fs" />
+        <Compile Include="Contracts.fs" />
+        <Compile Include="Implementation.InMemory.fs" />
+        <Compile Include="Contracts.Telegram.fs" />
+        <Compile Include="Implementation.Telegram.InMemory.fs" />
+        <Compile Include="TelegramApi.ActivePatterns.fs" />
+        <Compile Include="TelegramButtonUI.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\En3Tho.FSharp.ComputationExpressions\En3Tho.FSharp.ComputationExpressions.fsproj" />
+      <ProjectReference Include="..\En3Tho.FSharp.Validation.CommonTypes\En3Tho.FSharp.Validation.CommonTypes.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+      <PackageReference Include="Ply" Version="0.3.1" />
+      <PackageReference Include="Telegram.Bot" Version="16.0.2" />
+      <PackageReference Include="Telegram.Bot.Extensions.Polling" Version="0.2.0" />
+    </ItemGroup>
+
+</Project>
