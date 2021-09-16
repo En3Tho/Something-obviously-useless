@@ -9,6 +9,13 @@
         <Compile Include="ICollectionCE.fs" />
         <Compile Include="Structs.fs" />
         <Compile Include="Environment.fs" />
+        <Compile Include="Capabilities.fs" />
+        <Compile Include="Lua.fs" />
+        <Compile Include="Stuff.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Ply" Version="0.3.1" />
     </ItemGroup>
 
 </Project>

@@ -3,6 +3,7 @@
 open System
 open System.Collections.Generic
 open System.Runtime.CompilerServices
+open En3Tho.FSharp.Validation.ValidateComputationExpression
 
 #nowarn "0058"
 
@@ -14,7 +15,7 @@ type [<Struct>] internal ValidatorEnumerator02<'value, 'validator, 'validator2 w
                                                                                 and 'validator2 :> IValidator<'value>>
     (value: 'value) =
     [<DefaultValue(false)>] val mutable private state: int
-    [<DefaultValue(false)>] val mutable private current: ValidationResult<'value>
+    [<DefaultValue(false)>] val mutable private current: EResult<'value>
     member this.MoveNext() =
         match this.state with
         | 0 ->
@@ -34,14 +35,14 @@ type [<Struct>] internal ValidatorEnumerator02<'value, 'validator, 'validator2 w
         this.state <- 0
         this.current <- Unchecked.defaultof<_>
     
-    interface IEnumerator<ValidationResult<'value>> with
+    interface IEnumerator<EResult<'value>> with
         member this.Current = this.Current :> obj
         member this.Current = this.Current
         member this.Dispose() = ()
         member this.MoveNext() = this.MoveNext()
         member this.Reset() = this.Reset()
 
-type [<Struct; IsReadOnly>] DomainEntity10<'value, 'validator when 'validator: struct
+type [<Struct; IsReadOnly;>] DomainEntity10<'value, 'validator when 'validator: struct
                                                                and 'validator: (new: unit -> 'validator)
                                                                and 'validator :> IValidator<'value>>                                                       
 #if DEBUG
@@ -57,13 +58,13 @@ type [<Struct; IsReadOnly>] DomainEntity10<'value, 'validator when 'validator: s
 
     override this.ToString() = this.Value.ToString()
 
-    static member Create value : ValidationResult<DomainEntity10<'value, 'validator>> =
+    static member Try value : EResult<DomainEntity10<'value, 'validator>> =
         match (new 'validator()).Validate value with
         | Ok value -> DomainEntity10 value |> Ok
         | Error err -> Error err
 
-type [<Struct>] DomainEntity01<'value, 'validator when 'validator: not struct
-                                                   and 'validator :> IValidator<'value>>
+type [<Struct; IsReadOnly;>] DomainEntity01<'value, 'validator when 'validator: not struct
+                                                                and 'validator :> IValidator<'value>>
 #if DEBUG
     private (value: 'value, wasValidated: bool) =
     private new(value) = DomainEntity01(value, true)
@@ -75,7 +76,7 @@ type [<Struct>] DomainEntity01<'value, 'validator when 'validator: not struct
     member _.Value = value
 #endif
 
-    static member Create (validator: 'validator, value) : ValidationResult<DomainEntity01<'value, 'validator>> =
+    static member Try (validator: 'validator, value) : EResult<DomainEntity01<'value, 'validator>> =
         match validator.Validate value with
         | Ok value -> DomainEntity01 value |> Ok
         | Error err -> Error err
@@ -97,7 +98,7 @@ type [<Struct; IsReadOnly>] DomainEntity20<'value, 'validator, 'validator2 when 
 
     member _.Value = value
 #endif
-    static member Create value : ValidationResult<DomainEntity20<'value, 'validator, 'validator2>> =
+    static member Try value : EResult<DomainEntity20<'value, 'validator, 'validator2>> =
         match (new 'validator()).Validate value with
         | Ok value ->
             match (new 'validator2()).Validate value with
@@ -105,7 +106,7 @@ type [<Struct; IsReadOnly>] DomainEntity20<'value, 'validator, 'validator2 when 
             | Error err -> Error err
         | Error err -> Error err    
     
-    static member CreateAggregate value : ValidationResult<DomainEntity20<'value, 'validator, 'validator2>> =
+    static member TryAggregate value : EResult<DomainEntity20<'value, 'validator, 'validator2>> =
         let mutable enum = new ValidatorEnumerator02<'value, 'validator, 'validator2>(value)
         let mutable exnBag = ExnBag7() // stack/span list is nice here.
         while enum.MoveNext() do
@@ -132,7 +133,7 @@ type [<Struct; IsReadOnly>] DomainEntity02<'value, 'validator, 'validator2 when 
 
     member _.Value = value
 #endif
-    static member Create (value, validator: 'validator, validator2: 'validator2) : ValidationResult<DomainEntity02<'value, 'validator, 'validator2>> =
+    static member Try (value, validator: 'validator, validator2: 'validator2) : EResult<DomainEntity02<'value, 'validator, 'validator2>> =
         match validator.Validate value with
         | Ok value ->
             match validator2.Validate value with
@@ -140,7 +141,7 @@ type [<Struct; IsReadOnly>] DomainEntity02<'value, 'validator, 'validator2 when 
             | Error err -> Error err
         | Error err -> Error err
     
-//    static member CreateAggregate value : ValidationResult<DomainEntity20<'validator, 'validator2, 'value>> =
+//    static member TryAggregate value : ValidationResult<DomainEntity20<'validator, 'validator2, 'value>> =
 //        let mutable enum = new ValidatorEnumerator02<'validator, 'validator2, 'value>(value)
 //        let mutable exnBag = ExnBag7() // stack/span list is nice here.
 //        while enum.MoveNext() do
@@ -168,7 +169,7 @@ type [<Struct; IsReadOnly>] DomainEntity11<'value, 'validator, 'validator2 when 
 
     member _.Value = value
 #endif
-    static member Create (value, validator: 'validator2) : ValidationResult<DomainEntity11<'value, 'validator, 'validator2>> =
+    static member Try (value, validator: 'validator2) : EResult<DomainEntity11<'value, 'validator, 'validator2>> =
     match (new 'validator()).Validate value with
     | Ok value ->
         match validator.Validate value with
@@ -176,7 +177,7 @@ type [<Struct; IsReadOnly>] DomainEntity11<'value, 'validator, 'validator2 when 
         | Error err -> Error err
     | Error err -> Error err
   
-//    static member CreateAggregate value : ValidationResult<DomainEntity11<'validator, 'validator2, 'value>> =
+//    static member TryAggregate value : ValidationResult<DomainEntity11<'validator, 'validator2, 'value>> =
 //        let mutable enum = new ValidatorEnumerator11<'validator, 'validator2, 'value>(value)
 //        let mutable exnBag = ExnBag7()
 //        while enum.MoveNext() do
@@ -212,8 +213,8 @@ type [<Struct; IsReadOnly>] DomainEntity07<'value, 'validator, 'validator2, 'val
     private (value: 'value) =
     member _.Value = value
 #endif
-    static member Create (value, validator: 'validator, validator2: 'validator2, validator3: 'validator3, validator4: 'validator4, validator5: 'validator5, validator6: 'validator6, validator7: 'validator7)
-        : ValidationResult<DomainEntity07<'value, 'validator, 'validator2, 'validator3, 'validator4, 'validator5, 'validator6, 'validator7>> =
+    static member Try (value, validator: 'validator, validator2: 'validator2, validator3: 'validator3, validator4: 'validator4, validator5: 'validator5, validator6: 'validator6, validator7: 'validator7)
+        : EResult<DomainEntity07<'value, 'validator, 'validator2, 'validator3, 'validator4, 'validator5, 'validator6, 'validator7>> =
         match validator.Validate value with
         | Ok value ->
             match validator2.Validate value with
@@ -269,32 +270,14 @@ type [<Struct; IsReadOnly>] DomainEntity70<'value, 'validator, 'validator2, 'val
     private (value: 'value) =
     member _.Value = value
 #endif
-    static member Create value
-        : ValidationResult<DomainEntity70<'value, 'validator, 'validator2, 'validator3, 'validator4, 'validator5, 'validator6, 'validator7>> =
-        match (new 'validator()).Validate value with
-        | Ok value ->
-            match (new 'validator2()).Validate value with
-            | Ok value ->
-                match (new 'validator3()).Validate value with
-                | Ok value ->
-                    match (new 'validator4()).Validate value with
-                    | Ok value ->
-                        match (new 'validator5()).Validate value with
-                        | Ok value ->
-                            match (new 'validator6()).Validate value with
-                            | Ok value ->
-                                match (new 'validator7()).Validate value with
-                                | Ok value ->
-                                    DomainEntity70 value |> Ok
-                                | Error err -> Error err
-                            | Error err -> Error err
-                        | Error err -> Error err
-                    | Error err -> Error err
-                | Error err -> Error err
-            | Error err -> Error err
-        | Error err -> Error err
-
-module DomainEntity =
-    let update update (entity: DomainEntity10<'a,'b>) = entity.Value |> update |> DomainEntity10<'a,'b>.Create
-    let updateUnwrap update (entity: DomainEntity10<'a,'b>) =
-        entity.Value |> update |> DomainEntity10<'a,'b>.Create |> ValidationResult.unwrap
+    static member Try value
+        : EResult<DomainEntity70<'value, 'validator, 'validator2, 'validator3, 'validator4, 'validator5, 'validator6, 'validator7>> = eresult {
+            let! _ = (new 'validator()).Validate value
+            let! _ = (new 'validator2()).Validate value
+            let! _ = (new 'validator3()).Validate value
+            let! _ = (new 'validator4()).Validate value
+            let! _ = (new 'validator5()).Validate value
+            let! _ = (new 'validator6()).Validate value
+            let! _ = (new 'validator7()).Validate value
+            return DomainEntity70 value
+        }

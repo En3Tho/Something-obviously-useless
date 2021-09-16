@@ -2,18 +2,22 @@
 
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <TargetFrameworks>net5.0;netstandard2.1</TargetFrameworks>
+        <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
         <Compile Include="BasicTypes.fs" />
+        <Compile Include="Builder.fs" />
         <Compile Include="Validation.fs" />
         <Compile Include="Extensions.fs" />
-        <Compile Include="Builder.fs" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\En3Tho.FSharp.Extensions\En3Tho.FSharp.Extensions.fsproj" />
     </ItemGroup>
 
 </Project>

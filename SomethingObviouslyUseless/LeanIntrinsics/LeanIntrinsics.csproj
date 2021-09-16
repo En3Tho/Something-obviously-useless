@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <AssemblyName>LearnIntrinsics</AssemblyName>
     <RootNamespace>LearnIntrinsics</RootNamespace>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,5 +16,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="input-text.txt" />
+  </ItemGroup>
 
 </Project>

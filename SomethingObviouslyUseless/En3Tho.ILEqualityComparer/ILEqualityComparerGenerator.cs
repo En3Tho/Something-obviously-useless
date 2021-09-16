@@ -232,7 +232,8 @@ namespace En3Tho.ILEqualityComparer
 
         private static Func<T, T, bool> GenerateEqualsFuncInternal<T>(PropertyInfo[] properties, FieldInfo[] fields)
         {
-            var func = new DynamicMethodBuilder<Func<T, T, bool>>($"{nameof(ILEqualityComparer<T>)}<{typeof(T).Name}>.Equals{HashCode.Combine(properties, properties.Length, fields, fields.Length)}")
+            var methodName = $"{nameof(ILEqualityComparer<T>)}<{typeof(T).Name}>.Equals{HashCode.Combine(properties, properties.Length, fields, fields.Length)}";
+            var func = new DynamicMethodBuilder<Func<T, T, bool>>(methodName)
                       .Locals<Types<bool>>()
                       .IL(il =>
                        {

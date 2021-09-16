@@ -4,29 +4,15 @@ open System.Runtime.CompilerServices
 open System.Runtime.InteropServices
 open System.Threading.Tasks
 
-type ValidationResult<'value> = Result<'value, exn>
-
-module ValidationResult =
-    let unwrap (result: ValidationResult<'a>) =
-        match result with
-        | Ok value -> value
-        | Error err -> raise err
-        
-    let defaultValue defaultValue (result: ValidationResult<'a>) =
-        match result with
-        | Ok value -> value
-        | _ -> defaultValue
-    
-    let defaultWith defThunk (result: ValidationResult<'a>) =
-        match result with
-        | Ok value -> value
-        | Error exn -> defThunk exn
+type EResult<'value> = Result<'value, exn>
+type AsyncEResult<'value> = ValueTask<EResult<'value>>
 
 type IAsyncValidator<'value> =
-    abstract member Validate: 'value -> ValidationResult<'value> ValueTask // TODO: AsyncVersion?
+    abstract member Validate: 'value -> EResult<'value> ValueTask // TODO: AsyncVersion?
 
 type IValidator<'value> =
-    abstract member Validate: 'value -> ValidationResult<'value>
+    inherit IAsyncValidator<'value>
+    abstract member Validate: 'value -> EResult<'value>
 
 type [<Struct>] internal ExnBag7 = // ToStackList ? GetEnumerator?
     val mutable private count: int
@@ -52,4 +38,3 @@ type [<Struct>] internal ExnBag7 = // ToStackList ? GetEnumerator?
         | arrayLength ->
             let span = MemoryMarshal.CreateSpan(&this.exn1, arrayLength)
             span.ToArray()
-

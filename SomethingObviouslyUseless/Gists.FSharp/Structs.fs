@@ -7,11 +7,24 @@ open System
 open System.Runtime.InteropServices
 open System.Threading
 open System.Threading.Tasks
-open Gists.FSharp
-open Gists.FSharp.Structs.StackAlloc
 open Microsoft.FSharp.NativeInterop
 
 #nowarn "9"
+
+type [<Struct>] RentedDisposable<'a when 'a :> IDisposable>(value: 'a) =
+    member _.Value = value
+
+type [<Struct>] OwnedDisposable<'a when 'a :> IDisposable>(value: 'a) =
+    member _.Value = value
+    member _.Dispose() = value.Dispose()
+    interface IDisposable with
+        member this.Dispose() = this.Dispose()
+
+type [<Struct>] Owned<'a>(value: 'a) =
+    member _.Value = value
+
+type [<Struct>] Rented<'a>(value: 'a) =
+    member _.Value = value
 
 module DisposableRefCounters =
     type RentedDisposableValue<'a when 'a :> IDisposable>(disposable: DisposableRefCounter<'a>, value: 'a) =

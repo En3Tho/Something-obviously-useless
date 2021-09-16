@@ -16,10 +16,8 @@ let inline private stackalloc<'a when 'a: unmanaged> size =
 
 let someObj = Some()
 
-type And = And
+type [<Struct>] And = And
 let inline (|Between|_|) a (_: And) b value = if value >= a && value <= b then someObj else None
-
-let inline opxor (x: int) (y: int) : int = (# "xor" x y : int32 #)
 
 let createHexToDecLut (converter: int -> 'a) = [|
     for i = 0 to 255 do

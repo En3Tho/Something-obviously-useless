@@ -3,6 +3,7 @@
 open System
 open System.Collections.Generic
 open System.Text.RegularExpressions
+open System.Threading.Tasks
 open En3Tho.FSharp.Validation
 open En3Tho.FSharp.Validation.CommonTypes
 module NonDefaultValue =
@@ -14,7 +15,9 @@ module NonDefaultValue =
         
     type [<Struct>] Validator<'a when 'a: equality> =
          interface IValidator<'a> with
-             member this.Validate value = validate value  
+             member this.Validate value : EResult<'a> = validate value // for some reason type inference fails here
+             member this.Validate value : ValueTask<EResult<'a>> = validate value |> ValueTask<_> // and here
+
 
 module StringOfMaxLength50 =
     exception LengthIsGreaterThan50
@@ -26,6 +29,7 @@ module StringOfMaxLength50 =
     type [<Struct>] Validator =
         interface IValidator<string> with
             member this.Validate value = validate value
+            member this.Validate value = validate value |> ValueTask<_>
 
 module StringOfMinLength10 =
     exception LengthIsLesserThan10
@@ -37,6 +41,7 @@ module StringOfMinLength10 =
     type [<Struct>] Validator =
         interface IValidator<string> with
             member this.Validate value = validate value
+            member this.Validate value = validate value |> ValueTask<_>
 module ValueShouldBeUnique =
     exception ValueIsNotUnique
 
@@ -44,9 +49,10 @@ module ValueShouldBeUnique =
         if collection |> Seq.contains value then Error ValueIsNotUnique
         else Ok value
 
-    type Validator(collection) = // injected?
+    type Validator(collection) =
         interface IValidator<string> with
             member this.Validate value = value |> validate collection
+            member this.Validate value = value |> validate collection |> ValueTask<_>
 
 module ValueShouldBeStorageAccepted =
     exception ValueIsNoAcceptedByStorage
@@ -55,13 +61,14 @@ module ValueShouldBeStorageAccepted =
         if collection |> Seq.contains value then Error ValueIsNoAcceptedByStorage
         else Ok value
 
-    type Validator(collection) = // injected?
-        interface IValidator<string> with
-            member this.Validate value = value |> validate collection
+    type Validator<'a when 'a: equality>(collection) =
+        interface IValidator<'a> with
+            member this.Validate value : EResult<'a> = value |> validate collection
+            member this.Validate value = value |> validate collection |> ValueTask<_>
 
 module Email =
     exception StringIsEmpty
-    exception StringIsNotAnEmail    
+    exception StringIsNotAnEmail
 
     let private validate value =
         if String.IsNullOrEmpty value then Error StringIsEmpty
@@ -71,8 +78,9 @@ module Email =
     type [<Struct>] Validator =
         interface IValidator<string> with
             member this.Validate value = validate value
+            member this.Validate value = validate value |> ValueTask<_>
 
-type OmniUserId = GuidParseableString
+type OmniUserId = GuidString
 
 type ValueShouldBeUnique = DomainEntity11<string, NonEmptyString.Validator, ValueShouldBeUnique.Validator>
 
@@ -118,11 +126,11 @@ open ValidateComputationExpression
 open ExceptionExtensions    
 
 module User =
-    let createFromRequest (request: CreateUserRequest) = validate {
-        let! firstName = FirstName.Create request.FirstName
-        let! lastName = LastName.Create request.LastName
-        let! age = Age.Create request.Age
-        let! email = Email.Create request.Email
+    let createFromRequest (request: CreateUserRequest) = eresult {
+        let! firstName = FirstName.Try request.FirstName
+        let! lastName = LastName.Try request.LastName
+        let! age = Age.Try request.Age
+        let! email = Email.Try request.Email
         return {
             User.FirstName = firstName
             LastName = lastName
@@ -141,10 +149,10 @@ module User =
         
 module Department =
     let private departmentNames = [| "dep1"; "dep2"; "dep3" |] // get a list of all department names
-    let create (request: CreateDepartmentRequest) = validate {
+    let create (request: CreateDepartmentRequest) = eresult {
         let departmentNameShouldBeUnique = ValueShouldBeUnique.Validator departmentNames
-        let! name = DepartmentName.Create (request.Name, departmentNameShouldBeUnique) // this could be async
-        let! workerCount = DepartmentWorkerCount.Create request.WorkerCount
+        let! name = DepartmentName.Try (request.Name, departmentNameShouldBeUnique) // this could be async
+        let! workerCount = DepartmentWorkerCount.Try request.WorkerCount
         return {
             Department.Name = name
             WorkerCount = workerCount

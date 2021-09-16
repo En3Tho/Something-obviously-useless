@@ -4,7 +4,7 @@ open System
 open System.Linq
 
 [<AutoOpen>]
-module internal TopLevelOperators =
+module TopLevelOperators =
     let inline (^) f x = f x
     let someObj = Some()
     let inline (|NotNull|_|) (value: 'a when 'a: not struct) = if Object.ReferenceEquals(value, null) |> not then someObj else None

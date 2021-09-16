@@ -3,28 +3,13 @@
 open System.Collections.Generic
 open System.Collections.Immutable
 open System.Runtime.CompilerServices
-open En3Tho.FSharp.Extensions.Core
+open En3Tho.FSharp.Extensions
 open En3Tho.FSharp.Extensions.Byref.Operators
 open En3Tho.FSharp.ComputationExpressions.ArrayPoolBasedBuilders
 
 module GenericEnumeratorsImpl =
-    type StructEnumerator<'i, 'e when 'e: struct
+    type SStructEnumerator<'i, 'e when 'e: struct
                                   and 'e :> IEnumerator<'i>> = 'e
-
-    type IInvocable<'a, 'b> =
-        abstract member Invoke: value: 'a -> 'b
-
-    type IInvocable<'a, 'b, 'c> =
-        abstract member Invoke: value: 'a * value2: 'b -> 'c
-
-    type IInvocable<'a, 'b, 'c, 'd> =
-        abstract member Invoke: value: 'a * value2: 'b * value3: 'c -> 'd
-
-    type StructFunc<'f, 'a, 'b when 'f: struct
-                                and 'f :> IInvocable<'a, 'b>> = 'f
-
-    type StructFunc<'f, 'a, 'b, 'c when 'f: struct
-                                    and 'f :> IInvocable<'a, 'b, 'c>> = 'f
 
     [<Struct; NoComparison; NoEquality>]
     type StructIEnumeratorWrapper<'i>(enumerator: IEnumerator<'i>) =
@@ -68,6 +53,54 @@ module GenericEnumeratorsImpl =
             member this.Reset() = ()
 
     [<Struct; NoComparison; NoEquality>]
+    type StructResizeArrayEnumerator<'i> =
+        val private array: 'i ResizeArray
+        val mutable private index: int
+
+        new (array) = { index = -1; array = array; }
+
+        [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+        member this.MoveNext() =
+            &this.index +<- 1
+            uint32 this.index < uint32 this.array.Count
+
+        member this.Current with [<MethodImpl(MethodImplOptions.AggressiveInlining)>] get() =
+            this.array.[this.index]
+
+        member this.Dispose() = ()
+
+        interface IEnumerator<'i> with
+            member this.Current = this.Current :> obj
+            member this.Current = this.Current
+            member this.Dispose() = ()
+            member this.MoveNext() = this.MoveNext()
+            member this.Reset() = ()
+
+    [<Struct; NoComparison; NoEquality>]
+    type StructIListEnumerator<'i> =
+        val private array: 'i IList
+        val mutable private index: int
+
+        new (array) = { index = -1; array = array; }
+
+        [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+        member this.MoveNext() =
+            &this.index +<- 1
+            uint32 this.index < uint32 this.array.Count
+
+        member this.Current with [<MethodImpl(MethodImplOptions.AggressiveInlining)>] get() =
+            this.array.[this.index]
+
+        member this.Dispose() = ()
+
+        interface IEnumerator<'i> with
+            member this.Current = this.Current :> obj
+            member this.Current = this.Current
+            member this.Dispose() = ()
+            member this.MoveNext() = this.MoveNext()
+            member this.Reset() = ()
+
+    [<Struct; NoComparison; NoEquality>]
     type StructArrayRevEnumerator<'i> =
         val private array: 'i[]
         val mutable private index: int
@@ -78,6 +111,54 @@ module GenericEnumeratorsImpl =
         member this.MoveNext() =
             &this.index -<- 1
             uint32 this.index < uint32 this.array.Length
+
+        member this.Current with [<MethodImpl(MethodImplOptions.AggressiveInlining)>] get() =
+            this.array.[this.index]
+
+        member this.Dispose() = ()
+
+        interface IEnumerator<'i> with
+            member this.Current = this.Current :> obj
+            member this.Current = this.Current
+            member this.Dispose() = ()
+            member this.MoveNext() = this.MoveNext()
+            member this.Reset() = ()
+
+    [<Struct; NoComparison; NoEquality>]
+    type StructResizeArrayRevEnumerator<'i> =
+        val private array: 'i ResizeArray
+        val mutable private index: int
+
+        new (array) = { array = array; index = array.Count }
+
+        [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+        member this.MoveNext() =
+            &this.index -<- 1
+            uint32 this.index < uint32 this.array.Count
+
+        member this.Current with [<MethodImpl(MethodImplOptions.AggressiveInlining)>] get() =
+            this.array.[this.index]
+
+        member this.Dispose() = ()
+
+        interface IEnumerator<'i> with
+            member this.Current = this.Current :> obj
+            member this.Current = this.Current
+            member this.Dispose() = ()
+            member this.MoveNext() = this.MoveNext()
+            member this.Reset() = ()
+
+    [<Struct; NoComparison; NoEquality>]
+    type StructIListRevEnumerator<'i> =
+        val private array: 'i IList
+        val mutable private index: int
+
+        new (array) = { array = array; index = array.Count }
+
+        [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+        member this.MoveNext() =
+            &this.index -<- 1
+            uint32 this.index < uint32 this.array.Count
 
         member this.Current with [<MethodImpl(MethodImplOptions.AggressiveInlining)>] get() =
             this.array.[this.index]
@@ -169,7 +250,7 @@ module GenericEnumeratorsImpl =
     type StructMapEnumerator<'i, 'res, 'e when 'e: struct
                                            and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val private map: 'i -> 'res
 
         new (map, enumerator) = { enumerator = enumerator; map = map; }
@@ -193,7 +274,7 @@ module GenericEnumeratorsImpl =
     type StructMapVEnumerator<'i, 'state, 'res, 'e when 'e: struct
                                            and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val private state: 'state
         val private map: OptimizedClosures.FSharpFunc<'state, 'i, 'res>
 
@@ -217,36 +298,10 @@ module GenericEnumeratorsImpl =
             member this.Reset() = ()
 
     [<Struct; NoComparison; NoEquality>]
-    type StructMapEnumeratorExperimental<'i, 'res, 'e, 'f when 'e: struct
-                                                           and 'e :> IEnumerator<'i>
-                                                           and 'f: struct
-                                                           and 'f :> IInvocable<'i, 'res>> =
-
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val private map: 'f
-
-        new (map, enumerator) = { enumerator = enumerator; map = map; }
-
-        [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-        member this.MoveNext() = this.enumerator.MoveNext()
-
-        member this.Current with [<MethodImpl(MethodImplOptions.AggressiveInlining)>] get() =
-            this.enumerator.Current |> this.map.Invoke
-
-        member this.Dispose() = ()
-
-        interface IEnumerator<'res> with
-            member this.Current = this.Current :> obj
-            member this.Current = this.Current
-            member this.Dispose() = ()
-            member this.MoveNext() = this.MoveNext()
-            member this.Reset() = ()
-
-    [<Struct; NoComparison; NoEquality>]
     type StructMapiEnumerator<'i, 'res, 'e when 'e: struct
                                            and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val mutable private count: int
         val private map: OptimizedClosures.FSharpFunc<int, 'i, 'res>
 
@@ -274,7 +329,7 @@ module GenericEnumeratorsImpl =
     type StructMapiVEnumerator<'i, 'state, 'res, 'e when 'e: struct
                                            and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val mutable private count: int
         val private state: 'state
         val private map: OptimizedClosures.FSharpFunc<int, 'state, 'i, 'res>
@@ -305,8 +360,8 @@ module GenericEnumeratorsImpl =
                                                       and 'e2: struct
                                                       and 'e2 :> IEnumerator<'i2>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
         val private map: OptimizedClosures.FSharpFunc<'i2, 'i, 'res>
 
         new (map, enumerator, enumerator2) =
@@ -333,8 +388,8 @@ module GenericEnumeratorsImpl =
                                                       and 'e2: struct
                                                       and 'e2 :> IEnumerator<'i2>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
         val private map: OptimizedClosures.FSharpFunc<'state, 'i2, 'i, 'res>
         val private state: 'state
 
@@ -362,8 +417,8 @@ module GenericEnumeratorsImpl =
                                                       and 'e2: struct
                                                       and 'e2 :> IEnumerator<'i2>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
         val mutable private count: int
         val private map: OptimizedClosures.FSharpFunc<int, 'i2, 'i, 'res>
 
@@ -394,8 +449,8 @@ module GenericEnumeratorsImpl =
                                                       and 'e2: struct
                                                       and 'e2 :> IEnumerator<'i2>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
         val mutable private count: int
         val private map: OptimizedClosures.FSharpFunc<int, 'state, 'i2, 'i, 'res>
         val private state: 'state
@@ -429,9 +484,9 @@ module GenericEnumeratorsImpl =
                                                                 and 'e3: struct
                                                                 and 'e3 :> IEnumerator<'i3>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
-        val mutable private enumerator3: StructEnumerator<'i3, 'e3>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
+        val mutable private enumerator3: SStructEnumerator<'i3, 'e3>
         val private map: OptimizedClosures.FSharpFunc<'i2, 'i3, 'i, 'res>
 
         new (map, enumerator, enumerator2, enumerator3) =
@@ -463,9 +518,9 @@ module GenericEnumeratorsImpl =
                                                                 and 'e3: struct
                                                                 and 'e3 :> IEnumerator<'i3>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
-        val mutable private enumerator3: StructEnumerator<'i3, 'e3>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
+        val mutable private enumerator3: SStructEnumerator<'i3, 'e3>
         val private map: OptimizedClosures.FSharpFunc<'state, 'i2, 'i3, 'i, 'res>
         val private state: 'state
 
@@ -498,9 +553,9 @@ module GenericEnumeratorsImpl =
                                                                 and 'e3: struct
                                                                 and 'e3 :> IEnumerator<'i3>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
-        val mutable private enumerator3: StructEnumerator<'i3, 'e3>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
+        val mutable private enumerator3: SStructEnumerator<'i3, 'e3>
         val mutable private count: int
         val private map: OptimizedClosures.FSharpFunc<int, 'i2, 'i3, 'i, 'res>
 
@@ -534,9 +589,9 @@ module GenericEnumeratorsImpl =
                                                                 and 'e3: struct
                                                                 and 'e3 :> IEnumerator<'i3>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
-        val mutable private enumerator3: StructEnumerator<'i3, 'e3>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
+        val mutable private enumerator3: SStructEnumerator<'i3, 'e3>
         val mutable private count: int
         val private map: OptimizedClosures.FSharpFunc<int, 'state, 'i2, 'i3, 'i, 'res>
         val private state: 'state
@@ -567,7 +622,7 @@ module GenericEnumeratorsImpl =
     type StructFilterEnumerator<'i, 'e when 'e: struct
                                         and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val private filter: 'i -> bool
 
         new (filter, enumerator) = { enumerator = enumerator; filter = filter; }
@@ -594,7 +649,7 @@ module GenericEnumeratorsImpl =
     type StructFilterVEnumerator<'i, 'state, 'e when 'e: struct
                                         and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val private filter: OptimizedClosures.FSharpFunc<'state, 'i, bool>
         val private state: 'state
 
@@ -619,39 +674,10 @@ module GenericEnumeratorsImpl =
             member this.Reset() = ()
 
     [<Struct; NoComparison; NoEquality>]
-    type StructFilterEnumeratorExperimental<'i, 'e, 'f when 'e: struct
-                                                        and 'e :> IEnumerator<'i>
-                                                        and 'f: struct
-                                                        and 'f :> IInvocable<'i, bool>> =
-
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val private filter: 'f
-
-        new (filter, enumerator) = { enumerator = enumerator; filter = filter; }
-
-        [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-        member this.MoveNext() =
-            let mutable found = false
-            while not found && this.enumerator.MoveNext() do
-                found <- this.enumerator.Current |> this.filter.Invoke
-            found
-        member this.Current with [<MethodImpl(MethodImplOptions.AggressiveInlining)>] get() =
-            this.enumerator.Current
-
-        member this.Dispose() = ()
-
-        interface IEnumerator<'i> with
-            member this.Current = this.Current :> obj
-            member this.Current = this.Current
-            member this.Dispose() = ()
-            member this.MoveNext() = this.MoveNext()
-            member this.Reset() = ()
-
-    [<Struct; NoComparison; NoEquality>]
     type StructTakeEnumerator<'i, 'e when 'e: struct
                                       and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val mutable private count: int
 
         new (count, enumerator) = { enumerator = enumerator; count = count; }
@@ -678,7 +704,7 @@ module GenericEnumeratorsImpl =
     type StructTakeWhileEnumerator<'i, 'e when 'e: struct
                                            and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val private filter: 'i -> bool
 
         new (filter, enumerator) = { enumerator = enumerator; filter = filter }
@@ -703,7 +729,7 @@ module GenericEnumeratorsImpl =
     type StructTakeWhileVEnumerator<'i, 'state, 'e when 'e: struct
                                            and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val private filter: OptimizedClosures.FSharpFunc<'state, 'i, bool>
         val private state: 'state
 
@@ -729,7 +755,7 @@ module GenericEnumeratorsImpl =
     type StructSkipEnumerator<'i, 'e when 'e: struct
                                       and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val mutable private count: int
 
         new (count, enumerator) = { enumerator = enumerator; count = count; }
@@ -756,7 +782,7 @@ module GenericEnumeratorsImpl =
     type StructSkipWhileEnumerator<'i, 'e when 'e: struct
                                            and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val private filter: 'i -> bool
         val mutable private flag: int
 
@@ -790,7 +816,7 @@ module GenericEnumeratorsImpl =
     type StructSkipWhileVEnumerator<'i, 'state, 'e when 'e: struct
                                            and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val private filter: OptimizedClosures.FSharpFunc<'state, 'i, bool>
         val mutable private flag: int
         val private state: 'state
@@ -824,7 +850,7 @@ module GenericEnumeratorsImpl =
     [<Struct; NoComparison; NoEquality>]
     type StructChooseEnumerator<'i, 'res, 'e when 'e: struct
                                               and 'e :> IEnumerator<'i>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val mutable private current: 'res option
         val private chooser: 'i -> 'res option
 
@@ -852,7 +878,7 @@ module GenericEnumeratorsImpl =
     type StructChooseVEnumerator<'i, 'state, 'res, 'e when 'e: struct
                                                          and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val mutable private current: 'res option
         val private chooser: OptimizedClosures.FSharpFunc<'state, 'i, 'res option>
         val private state: 'state
@@ -882,8 +908,8 @@ module GenericEnumeratorsImpl =
                                                          and 'e :> IEnumerator<'i>
                                                          and 'e2: struct
                                                          and 'e2 :> IEnumerator<'i2>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
         val mutable private current: 'res option
         val private chooser: OptimizedClosures.FSharpFunc<'i2, 'i, 'res option>
 
@@ -912,8 +938,8 @@ module GenericEnumeratorsImpl =
                                                          and 'e :> IEnumerator<'i>
                                                          and 'e2: struct
                                                          and 'e2 :> IEnumerator<'i2>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
         val mutable private current: 'res option
         val private chooser: OptimizedClosures.FSharpFunc<'state, 'i2, 'i, 'res option>
         val private state: 'state
@@ -946,9 +972,9 @@ module GenericEnumeratorsImpl =
                                                                    and 'e2 :> IEnumerator<'i2>
                                                                    and 'e3: struct
                                                                    and 'e3 :> IEnumerator<'i3>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
-        val mutable private enumerator3: StructEnumerator<'i3, 'e3>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
+        val mutable private enumerator3: SStructEnumerator<'i3, 'e3>
         val mutable private current: 'res option
         val private chooser: OptimizedClosures.FSharpFunc<'i2, 'i3, 'i, 'res option>
 
@@ -980,9 +1006,9 @@ module GenericEnumeratorsImpl =
                                                                    and 'e2 :> IEnumerator<'i2>
                                                                    and 'e3: struct
                                                                    and 'e3 :> IEnumerator<'i3>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
-        val mutable private enumerator3: StructEnumerator<'i3, 'e3>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
+        val mutable private enumerator3: SStructEnumerator<'i3, 'e3>
         val mutable private current: 'res option
         val private chooser: OptimizedClosures.FSharpFunc<'state, 'i2, 'i3, 'i, 'res option>
         val private state: 'state
@@ -1011,7 +1037,7 @@ module GenericEnumeratorsImpl =
     [<Struct; NoComparison; NoEquality>]
     type StructValueChooseEnumerator<'i, 'res, 'e when 'e: struct
                                                    and 'e :> IEnumerator<'i>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val mutable private current: 'res voption
         val private chooser: 'i -> 'res voption
 
@@ -1038,7 +1064,7 @@ module GenericEnumeratorsImpl =
     [<Struct; NoComparison; NoEquality>]
     type StructValueChooseVEnumerator<'i, 'state, 'res, 'e when 'e: struct
                                                    and 'e :> IEnumerator<'i>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
         val mutable private current: 'res voption
         val private chooser: OptimizedClosures.FSharpFunc<'state, 'i, 'res voption>
         val private state: 'state
@@ -1068,8 +1094,8 @@ module GenericEnumeratorsImpl =
                                                               and 'e :> IEnumerator<'i>
                                                               and 'e2: struct
                                                               and 'e2 :> IEnumerator<'i2>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
         val mutable private current: 'res voption
         val private chooser: OptimizedClosures.FSharpFunc<'i2, 'i, 'res voption>
 
@@ -1099,8 +1125,8 @@ module GenericEnumeratorsImpl =
                                                               and 'e :> IEnumerator<'i>
                                                               and 'e2: struct
                                                               and 'e2 :> IEnumerator<'i2>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
         val mutable private current: 'res voption
         val private chooser: OptimizedClosures.FSharpFunc<'state, 'i2, 'i, 'res voption>
         val private state: 'state
@@ -1133,9 +1159,9 @@ module GenericEnumeratorsImpl =
                                                                         and 'e2 :> IEnumerator<'i2>
                                                                         and 'e3: struct
                                                                         and 'e3 :> IEnumerator<'i3>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
-        val mutable private enumerator3: StructEnumerator<'i3, 'e3>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
+        val mutable private enumerator3: SStructEnumerator<'i3, 'e3>
         val mutable private current: 'res voption
         val private chooser: OptimizedClosures.FSharpFunc<'i2, 'i3, 'i, 'res voption>
 
@@ -1167,9 +1193,9 @@ module GenericEnumeratorsImpl =
                                                                         and 'e2 :> IEnumerator<'i2>
                                                                         and 'e3: struct
                                                                         and 'e3 :> IEnumerator<'i3>> =
-        val mutable private enumerator: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
-        val mutable private enumerator3: StructEnumerator<'i3, 'e3>
+        val mutable private enumerator: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
+        val mutable private enumerator3: SStructEnumerator<'i3, 'e3>
         val mutable private current: 'res voption
         val private chooser: OptimizedClosures.FSharpFunc<'state, 'i2, 'i3, 'i, 'res voption>
         val private state: 'state
@@ -1199,8 +1225,8 @@ module GenericEnumeratorsImpl =
     type StructAppendEnumerator<'i, 'e when 'e: struct
                                         and 'e :> IEnumerator<'i>> =
 
-        val mutable private enumerator1: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i, 'e>
+        val mutable private enumerator1: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i, 'e>
         val mutable private index: int
 
         new (enumerator1, enumerator2) = { enumerator1 = enumerator1; enumerator2 = enumerator2; index = 0 }
@@ -1237,8 +1263,8 @@ module GenericEnumeratorsImpl =
                                                and 'e2: struct
                                                and 'e2 :> IEnumerator<'i2>> =
 
-        val mutable private enumerator1: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
+        val mutable private enumerator1: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
 
         new (enumerator1, enumerator2) = { enumerator1 = enumerator1; enumerator2 = enumerator2 }
 
@@ -1264,8 +1290,8 @@ module GenericEnumeratorsImpl =
                                                     and 'e :> IEnumerator<'i>
                                                     and 'e2: struct
                                                     and 'e2 :> IEnumerator<'i2>> =
-        val mutable private enumerator1: StructEnumerator<'i, 'e>
-        val mutable private enumerator2: StructEnumerator<'i2, 'e2>
+        val mutable private enumerator1: SStructEnumerator<'i, 'e>
+        val mutable private enumerator2: SStructEnumerator<'i2, 'e2>
 
         new (enumerator1, enumerator2) = { enumerator1 = enumerator1; enumerator2 = enumerator2 }
 
@@ -1339,8 +1365,8 @@ module GSeq =
 
     let inline getEnumerator<'i, 'e, ^seq when 'e: struct
                                            and 'e :> IEnumerator<'i>
-                                           and ^seq: (member GetEnumerator: unit -> StructEnumerator<'i, 'e>)> (seq: ^seq) =
-        (^seq: (member GetEnumerator: unit ->  StructEnumerator<'i, 'e>) seq)
+                                           and ^seq: (member GetEnumerator: unit -> SStructEnumerator<'i, 'e>)> (seq: ^seq) =
+        (^seq: (member GetEnumerator: unit ->  SStructEnumerator<'i, 'e>) seq)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
     let ofIEnumerator enumerator = StructIEnumeratorWrapper(enumerator)
@@ -1350,6 +1376,21 @@ module GSeq =
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
     let ofArray array = StructArrayEnumerator(array)
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let ofArrayRev array = StructArrayRevEnumerator(array)
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let ofResizeArray array = StructResizeArrayEnumerator(array)
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let ofResizeArrayRev array = StructResizeArrayRevEnumerator(array)
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let ofIList array = StructIListEnumerator(array)
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let ofIListRev array = StructIListRevEnumerator(array)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
     let ofBlock array = StructImmutableArrayEnumerator(array)
@@ -1365,9 +1406,6 @@ module GSeq =
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
     let filterv state filter enumerator = StructFilterVEnumerator(state, filter, enumerator)
-
-    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let filterExperimental filter enumerator = StructFilterEnumeratorExperimental(filter, enumerator)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
     let choose chooser enumerator = StructChooseEnumerator(chooser, enumerator)
@@ -1421,13 +1459,10 @@ module GSeq =
     let mapv state map enumerator = StructMapVEnumerator(state, map, enumerator)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let mapExperimental map enumerator = StructMapEnumeratorExperimental(map, enumerator)
+    let mapi map enumerator = StructMapiEnumerator(map, enumerator)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let mapi map enumerator = StructMapEnumerator(map, enumerator)
-
-    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let mapiv state map enumerator = StructMapVEnumerator(state, map, enumerator)
+    let mapiv state map enumerator = StructMapiVEnumerator(state, map, enumerator)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
     let map2 map enumerator2 enumerator = StructMap2Enumerator(map, enumerator, enumerator2)
@@ -1460,7 +1495,26 @@ module GSeq =
     let takeWhilev state filter enumerator = StructTakeWhileVEnumerator(state, filter, enumerator)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryFind filter (enumerator: StructEnumerator<'i,'e>) =
+    let tryFind filter (enumerator: SStructEnumerator<'i,'e>) =
+        let mutable enumerator = enumerator
+        let mutable result = None
+        while result.IsNone && enumerator.MoveNext() do
+            let value = enumerator.Current
+            if value |> filter then result <- Some value
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let tryFindv state filter (enumerator: SStructEnumerator<'i,'e>) =
+        let filter = OptimizedClosures.FSharpFunc<_,_,_>.Adapt filter
+        let mutable enumerator = enumerator
+        let mutable result = None
+        while result.IsNone && enumerator.MoveNext() do
+            let value = enumerator.Current
+            if filter.Invoke(state, value) then result <- Some value
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let tryValueFind filter (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         let mutable result = ValueNone
         while result.IsNone && enumerator.MoveNext() do
@@ -1469,7 +1523,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryFindv state filter (enumerator: StructEnumerator<'i,'e>) =
+    let tryValueFindv state filter (enumerator: SStructEnumerator<'i,'e>) =
         let filter = OptimizedClosures.FSharpFunc<_,_,_>.Adapt filter
         let mutable enumerator = enumerator
         let mutable result = ValueNone
@@ -1479,7 +1533,45 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let exists filter (enumerator: StructEnumerator<'i,'e>) =
+    let tryPick filter (enumerator: SStructEnumerator<'i,'e>) =
+        let mutable enumerator = enumerator
+        let mutable result = None
+        while result.IsNone && enumerator.MoveNext() do
+            let value = enumerator.Current
+            result <- filter value
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let tryPickv state filter (enumerator: SStructEnumerator<'i,'e>) =
+        let filter = OptimizedClosures.FSharpFunc<_,_,_>.Adapt filter
+        let mutable enumerator = enumerator
+        let mutable result = None
+        while result.IsNone && enumerator.MoveNext() do
+            let value = enumerator.Current
+            result <- filter.Invoke(state, value)
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let tryValuePick filter (enumerator: SStructEnumerator<'i,'e>) =
+        let mutable enumerator = enumerator
+        let mutable result = ValueNone
+        while result.IsNone && enumerator.MoveNext() do
+            let value = enumerator.Current
+            result <- filter value
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let tryValuePickv state filter (enumerator: SStructEnumerator<'i,'e>) =
+        let filter = OptimizedClosures.FSharpFunc<_,_,_>.Adapt filter
+        let mutable enumerator = enumerator
+        let mutable result = ValueNone
+        while result.IsNone && enumerator.MoveNext() do
+            let value = enumerator.Current
+            result <- filter.Invoke(state, value)
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let exists filter (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         let mutable found = false
         while not found && enumerator.MoveNext() do
@@ -1488,7 +1580,7 @@ module GSeq =
         found
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let existsv state filter (enumerator: StructEnumerator<'i,'e>) =
+    let existsv state filter (enumerator: SStructEnumerator<'i,'e>) =
         let filter = OptimizedClosures.FSharpFunc<_,_,_>.Adapt filter
         let mutable enumerator = enumerator
         let mutable found = false
@@ -1498,7 +1590,7 @@ module GSeq =
         found
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let forall filter (enumerator: StructEnumerator<'i,'e>) =
+    let forall filter (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         let mutable result = true
         while result && enumerator.MoveNext() do
@@ -1507,7 +1599,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let forallv state filter (enumerator: StructEnumerator<'i,'e>) =
+    let forallv state filter (enumerator: SStructEnumerator<'i,'e>) =
         let filter = OptimizedClosures.FSharpFunc<_,_,_>.Adapt filter
         let mutable enumerator = enumerator
         let mutable result = true
@@ -1517,7 +1609,49 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let contains value (enumerator: StructEnumerator<'i,'e>) =
+    let forall2 (enumerator2: SStructEnumerator<'i2,'e2>) filter (enumerator: SStructEnumerator<'i,'e>) =
+        let filter = OptimizedClosures.FSharpFunc<_,_,_>.Adapt filter
+        let mutable enumerator = enumerator
+        let mutable enumerator2 = enumerator2
+        let mutable result = true
+        while result && enumerator.MoveNext() && enumerator2.MoveNext() do
+            result <- filter.Invoke(enumerator2.Current, enumerator.Current)
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let forallv2 state (enumerator2: SStructEnumerator<'i2,'e2>) filter (enumerator: SStructEnumerator<'i,'e>) =
+        let filter = OptimizedClosures.FSharpFunc<_,_,_,_>.Adapt filter
+        let mutable enumerator = enumerator
+        let mutable enumerator2 = enumerator2
+        let mutable result = true
+        while result && enumerator.MoveNext() && enumerator2.MoveNext() do
+            result <- filter.Invoke(state, enumerator2.Current, enumerator.Current)
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let forall3 (enumerator2: SStructEnumerator<'i2,'e2>) (enumerator3: SStructEnumerator<'i2,'e2>) filter (enumerator: SStructEnumerator<'i,'e>) =
+        let filter = OptimizedClosures.FSharpFunc<_,_,_,_>.Adapt filter
+        let mutable enumerator = enumerator
+        let mutable enumerator2 = enumerator2
+        let mutable enumerator3 = enumerator3
+        let mutable result = true
+        while result && enumerator.MoveNext() && enumerator2.MoveNext() && enumerator3.MoveNext() do
+            result <- filter.Invoke(enumerator2.Current, enumerator3.Current, enumerator.Current)
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let forallv3 state (enumerator2: SStructEnumerator<'i2,'e2>) (enumerator3: SStructEnumerator<'i2,'e2>) filter (enumerator: SStructEnumerator<'i,'e>) =
+        let filter = OptimizedClosures.FSharpFunc<_,_,_,_,_>.Adapt filter
+        let mutable enumerator = enumerator
+        let mutable enumerator2 = enumerator2
+        let mutable enumerator3 = enumerator3
+        let mutable result = true
+        while result && enumerator.MoveNext() && enumerator2.MoveNext() && enumerator3.MoveNext() do
+            result <- filter.Invoke(state, enumerator2.Current, enumerator3.Current, enumerator.Current)
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let contains value (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         let mutable found = false
         while not found && enumerator.MoveNext() do
@@ -1526,7 +1660,7 @@ module GSeq =
         found
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryValueItem index (enumerator: StructEnumerator<'i,'e>) =
+    let tryValueItem index (enumerator: SStructEnumerator<'i,'e>) =
         if index < 0 then ValueNone else
         let mutable enumerator = enumerator
         let mutable counter = 0
@@ -1535,7 +1669,7 @@ module GSeq =
         else ValueNone
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryItem index (enumerator: StructEnumerator<'i,'e>) =
+    let tryItem index (enumerator: SStructEnumerator<'i,'e>) =
         if index < 0 then None else
         let mutable enumerator = enumerator
         let mutable counter = 0
@@ -1544,7 +1678,27 @@ module GSeq =
         else None
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let fold initial folder (enumerator: StructEnumerator<'i,'e>) =
+    let fold initial folder (enumerator: SStructEnumerator<'i,'e>) =
+        let folder = OptimizedClosures.FSharpFunc<_,_,_>.Adapt folder
+        let mutable enumerator = enumerator
+        let mutable result = initial
+        while enumerator.MoveNext() do
+            result <- folder.Invoke(result, enumerator.Current)
+        result
+
+    [<AbstractClass>]
+    type GSeq2() =
+        [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+        static member foldTest(initial, folder, enumerator: SStructEnumerator<'i,'e>) =
+            let folder = OptimizedClosures.FSharpFunc<_,_,_>.Adapt folder
+            let mutable enumerator = enumerator
+            let mutable result = initial
+            while enumerator.MoveNext() do
+                result <- folder.Invoke(result, enumerator.Current)
+            result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let foldTest (initial, folder, enumerator: SStructEnumerator<'i,'e>) =
         let folder = OptimizedClosures.FSharpFunc<_,_,_>.Adapt folder
         let mutable enumerator = enumerator
         let mutable result = initial
@@ -1553,7 +1707,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let foldv state initial folder (enumerator: StructEnumerator<'i,'e>) =
+    let foldv state initial folder (enumerator: SStructEnumerator<'i,'e>) =
         let folder = OptimizedClosures.FSharpFunc<_,_,_,_>.Adapt folder
         let mutable enumerator = enumerator
         let mutable result = initial
@@ -1562,15 +1716,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let foldExperimental initial (folder: StructFunc<_, _, _, _>) (enumerator: StructEnumerator<'i,'e>) =
-        let mutable enumerator = enumerator
-        let mutable result = initial
-        while enumerator.MoveNext() do
-            result <- folder.Invoke(result, enumerator.Current)
-        result
-
-    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let fold2 (enumerator2: StructEnumerator<'i2,'e2>) initial folder (enumerator: StructEnumerator<'i,'e>) =
+    let fold2 (enumerator2: SStructEnumerator<'i2,'e2>) initial folder (enumerator: SStructEnumerator<'i,'e>) =
         let folder = OptimizedClosures.FSharpFunc<_,_,_,_>.Adapt folder
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1580,7 +1726,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let fold2v state initial (enumerator2: StructEnumerator<'i2,'e2>) folder (enumerator: StructEnumerator<'i,'e>) =
+    let fold2v state initial (enumerator2: SStructEnumerator<'i2,'e2>) folder (enumerator: SStructEnumerator<'i,'e>) =
         let folder = OptimizedClosures.FSharpFunc<_,_,_,_,_>.Adapt folder
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1590,7 +1736,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let foldi initial folder (enumerator: StructEnumerator<'i,'e>) =
+    let foldi initial folder (enumerator: SStructEnumerator<'i,'e>) =
         let folder = OptimizedClosures.FSharpFunc<_,_,_,_>.Adapt folder
         let mutable enumerator = enumerator
         let mutable count = 0
@@ -1601,7 +1747,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let foldiv state initial folder (enumerator: StructEnumerator<'i,'e>) =
+    let foldiv state initial folder (enumerator: SStructEnumerator<'i,'e>) =
         let folder = OptimizedClosures.FSharpFunc<_,_,_,_,_>.Adapt folder
         let mutable enumerator = enumerator
         let mutable count = 0
@@ -1612,7 +1758,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let foldi2 (enumerator2: StructEnumerator<'i2,'e2>) initial folder (enumerator: StructEnumerator<'i,'e>) =
+    let foldi2 (enumerator2: SStructEnumerator<'i2,'e2>) initial folder (enumerator: SStructEnumerator<'i,'e>) =
         let folder = OptimizedClosures.FSharpFunc<_,_,_,_,_>.Adapt folder
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1624,7 +1770,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let foldi2v state initial (enumerator2: StructEnumerator<'i2,'e2>) folder (enumerator: StructEnumerator<'i,'e>) =
+    let foldi2v state initial (enumerator2: SStructEnumerator<'i2,'e2>) folder (enumerator: SStructEnumerator<'i,'e>) =
         let folder = OptimizedClosures.FSharpFunc<_,_,_,_,_,_>.Adapt folder
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1636,20 +1782,20 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iter action (enumerator: StructEnumerator<'i,'e>) =
+    let iter action (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         while enumerator.MoveNext() do
             action enumerator.Current
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iterv state action (enumerator: StructEnumerator<'i,'e>) =
+    let iterv state action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_>.Adapt action
         let mutable enumerator = enumerator
         while enumerator.MoveNext() do
             action.Invoke(state, enumerator.Current)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iter2 action (enumerator2: StructEnumerator<'i2,'e2>) (enumerator: StructEnumerator<'i,'e>) =
+    let iter2 (enumerator2: SStructEnumerator<'i2,'e2>) action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_>.Adapt action
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1657,7 +1803,15 @@ module GSeq =
             action.Invoke(enumerator2.Current, enumerator.Current)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iter2v state (enumerator2: StructEnumerator<'i2,'e2>) action (enumerator: StructEnumerator<'i,'e>) =
+    let iter2test action (seq2: seq<'b>) (seq1: seq<'a>) =
+        let action = OptimizedClosures.FSharpFunc<_,_,_>.Adapt action
+        use enumerator1 = seq1.GetEnumerator()
+        use enumerator2 = seq2.GetEnumerator()
+        while enumerator1.MoveNext() && enumerator2.MoveNext() do
+            action.Invoke(enumerator2.Current, enumerator1.Current)
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let iter2v state (enumerator2: SStructEnumerator<'i2,'e2>) action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_,_>.Adapt action
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1665,7 +1819,7 @@ module GSeq =
             action.Invoke(state, enumerator2.Current, enumerator.Current)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iter3 (enumerator2: StructEnumerator<'i2,'e2>) (enumerator3: StructEnumerator<'i3,'e3>) action (enumerator: StructEnumerator<'i,'e>) =
+    let iter3 (enumerator2: SStructEnumerator<'i2,'e2>) (enumerator3: SStructEnumerator<'i3,'e3>) action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_,_>.Adapt action
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1674,7 +1828,7 @@ module GSeq =
             action.Invoke(enumerator2.Current, enumerator3.Current, enumerator.Current)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iter3v state (enumerator2: StructEnumerator<'i2,'e2>) (enumerator3: StructEnumerator<'i3,'e3>) action (enumerator: StructEnumerator<'i,'e>) =
+    let iter3v state (enumerator2: SStructEnumerator<'i2,'e2>) (enumerator3: SStructEnumerator<'i3,'e3>) action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_,_,_>.Adapt action
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1683,7 +1837,7 @@ module GSeq =
             action.Invoke(state, enumerator2.Current, enumerator3.Current, enumerator.Current)
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iteri action (enumerator: StructEnumerator<'i,'e>) =
+    let iteri action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_>.Adapt action
         let mutable enumerator = enumerator
         let mutable i = 0
@@ -1692,7 +1846,7 @@ module GSeq =
             &i +<- 1
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iteriv state action (enumerator: StructEnumerator<'i,'e>) =
+    let iteriv state action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_,_>.Adapt action
         let mutable enumerator = enumerator
         let mutable i = 0
@@ -1701,7 +1855,7 @@ module GSeq =
             &i +<- 1
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iteri2 (enumerator2: StructEnumerator<'i2,'e2>) action (enumerator: StructEnumerator<'i,'e>) =
+    let iteri2 (enumerator2: SStructEnumerator<'i2,'e2>) action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_,_>.Adapt action
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1711,7 +1865,7 @@ module GSeq =
             &i +<- 1
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iteri2v state (enumerator2: StructEnumerator<'i2,'e2>) action (enumerator: StructEnumerator<'i,'e>) =
+    let iteri2v state (enumerator2: SStructEnumerator<'i2,'e2>) action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_,_,_>.Adapt action
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1721,7 +1875,7 @@ module GSeq =
             &i +<- 1
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iteri3 (enumerator2: StructEnumerator<'i2,'e2>) (enumerator3: StructEnumerator<'i3,'e3>) action (enumerator: StructEnumerator<'i,'e>) =
+    let iteri3 (enumerator2: SStructEnumerator<'i2,'e2>) (enumerator3: SStructEnumerator<'i3,'e3>) action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_,_,_>.Adapt action
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1732,7 +1886,7 @@ module GSeq =
             &i +<- 1
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let iteri3v state (enumerator2: StructEnumerator<'i2,'e2>) (enumerator3: StructEnumerator<'i3,'e3>) action (enumerator: StructEnumerator<'i,'e>) =
+    let iteri3v state (enumerator2: SStructEnumerator<'i2,'e2>) (enumerator3: SStructEnumerator<'i3,'e3>) action (enumerator: SStructEnumerator<'i,'e>) =
         let action = OptimizedClosures.FSharpFunc<_,_,_,_,_,_>.Adapt action
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1743,7 +1897,7 @@ module GSeq =
             &i +<- 1
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let identical (enumerator2: StructEnumerator<'i,'e>) (enumerator: StructEnumerator<'i,'e>) =
+    let identical (enumerator2: SStructEnumerator<'i,'e>) (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
         let mutable state = 0
@@ -1756,7 +1910,7 @@ module GSeq =
         state = 1
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let identicalBy (enumerator2: StructEnumerator<'i,'e>) comparer (enumerator: StructEnumerator<'i,'e>) =
+    let identicalBy (enumerator2: SStructEnumerator<'i,'e>) comparer (enumerator: SStructEnumerator<'i,'e>) =
         let comparer = OptimizedClosures.FSharpFunc<_,_,_>.Adapt comparer
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1770,7 +1924,7 @@ module GSeq =
         flag = 1
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let identicalByv state (enumerator2: StructEnumerator<'i,'e>) comparer (enumerator: StructEnumerator<'i,'e>) =
+    let identicalByv state (enumerator2: SStructEnumerator<'i,'e>) comparer (enumerator: SStructEnumerator<'i,'e>) =
         let comparer = OptimizedClosures.FSharpFunc<_,_,_,_>.Adapt comparer
         let mutable enumerator = enumerator
         let mutable enumerator2 = enumerator2
@@ -1783,14 +1937,14 @@ module GSeq =
                 | _ -> -1
         flag = 1
 
-    let inline private minImpl (enumerator: StructEnumerator<'i,'e> byref) =
+    let inline private minImpl (enumerator: SStructEnumerator<'i,'e> byref) =
         let mutable current = enumerator.Current
         while enumerator.MoveNext() do
             current <- Operators.min current enumerator.Current
         current
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let min (enumerator: StructEnumerator<'i,'e>) =
+    let min (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             invalidOp "Seq is empty"
@@ -1798,7 +1952,7 @@ module GSeq =
             minImpl &enumerator
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryMin (enumerator: StructEnumerator<'i,'e>) =
+    let tryMin (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             None
@@ -1806,21 +1960,21 @@ module GSeq =
             minImpl &enumerator |> Some
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryValueMin (enumerator: StructEnumerator<'i,'e>) =
+    let tryValueMin (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             ValueNone
         else
             minImpl &enumerator |> ValueSome
 
-    let inline private maxImpl (enumerator: StructEnumerator<'i,'e> byref) =
+    let inline private maxImpl (enumerator: SStructEnumerator<'i,'e> byref) =
         let mutable current = enumerator.Current
         while enumerator.MoveNext() do
             current <- Operators.max current enumerator.Current
         current
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let max (enumerator: StructEnumerator<'i,'e>) =
+    let max (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             invalidOp "Seq is empty"
@@ -1828,7 +1982,7 @@ module GSeq =
             maxImpl &enumerator
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryMax (enumerator: StructEnumerator<'i,'e>) =
+    let tryMax (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             None
@@ -1836,14 +1990,14 @@ module GSeq =
             maxImpl &enumerator |> Some
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryValueMax (enumerator: StructEnumerator<'i,'e>) =
+    let tryValueMax (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             ValueNone
         else
             maxImpl &enumerator |> ValueSome
 
-    let inline private minByImpl map (enumerator: StructEnumerator<'i,'e> byref) =
+    let inline private minByImpl map (enumerator: SStructEnumerator<'i,'e> byref) =
         let mutable result = enumerator.Current
         let mutable mapping = map result
         while enumerator.MoveNext() do
@@ -1854,7 +2008,7 @@ module GSeq =
                 result <- next
         result
 
-    let inline private minByvImpl state map (enumerator: StructEnumerator<'i,'e> byref) =
+    let inline private minByvImpl state map (enumerator: SStructEnumerator<'i,'e> byref) =
         let map = OptimizedClosures.FSharpFunc<_,_,_>.Adapt map
         let mutable result = enumerator.Current
         let mutable mapping = map.Invoke(state, result)
@@ -1867,7 +2021,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let minBy map (enumerator: StructEnumerator<'i,'e>) =
+    let minBy map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             invalidOp "Seq is empty"
@@ -1875,7 +2029,7 @@ module GSeq =
             minByImpl map &enumerator
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let minByv state map (enumerator: StructEnumerator<'i,'e>) =
+    let minByv state map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             invalidOp "Seq is empty"
@@ -1883,7 +2037,7 @@ module GSeq =
             minByvImpl state map &enumerator
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryMinBy map (enumerator: StructEnumerator<'i,'e>) =
+    let tryMinBy map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             None
@@ -1891,7 +2045,7 @@ module GSeq =
             minByImpl map &enumerator |> Some
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryMinByv state map (enumerator: StructEnumerator<'i,'e>) =
+    let tryMinByv state map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             None
@@ -1899,7 +2053,7 @@ module GSeq =
             minByvImpl state map &enumerator |> Some
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryValueMinBy map (enumerator: StructEnumerator<'i,'e>) =
+    let tryValueMinBy map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             ValueNone
@@ -1907,14 +2061,14 @@ module GSeq =
             minByImpl map &enumerator |> ValueSome
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryValueMinByv state map (enumerator: StructEnumerator<'i,'e>) =
+    let tryValueMinByv state map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             ValueNone
         else
             minByvImpl state map &enumerator |> ValueSome
 
-    let inline private maxByImpl map (enumerator: StructEnumerator<'i,'e> byref) =
+    let inline private maxByImpl map (enumerator: SStructEnumerator<'i,'e> byref) =
         let mutable result = enumerator.Current
         let mutable mapping = map result
         while enumerator.MoveNext() do
@@ -1925,7 +2079,7 @@ module GSeq =
                 result <- next
         result
 
-    let inline private maxByvImpl state map (enumerator: StructEnumerator<'i,'e> byref) =
+    let inline private maxByvImpl state map (enumerator: SStructEnumerator<'i,'e> byref) =
         let map = OptimizedClosures.FSharpFunc<_,_,_>.Adapt map
         let mutable result = enumerator.Current
         let mutable mapping = map.Invoke(state,  result)
@@ -1938,7 +2092,7 @@ module GSeq =
         result
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let maxBy map (enumerator: StructEnumerator<'i,'e>) =
+    let maxBy map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             invalidOp "Seq is empty"
@@ -1946,7 +2100,7 @@ module GSeq =
             maxByImpl map &enumerator
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let maxByv state map (enumerator: StructEnumerator<'i,'e>) =
+    let maxByv state map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             invalidOp "Seq is empty"
@@ -1954,7 +2108,7 @@ module GSeq =
             maxByvImpl state map &enumerator
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryMaxBy map (enumerator: StructEnumerator<'i,'e>) =
+    let tryMaxBy map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             None
@@ -1962,7 +2116,7 @@ module GSeq =
             maxByImpl map &enumerator |> Some
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryMaxByv state map (enumerator: StructEnumerator<'i,'e>) =
+    let tryMaxByv state map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             None
@@ -1970,7 +2124,7 @@ module GSeq =
             maxByvImpl state map &enumerator |> Some
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryValueMaxBy map (enumerator: StructEnumerator<'i,'e>) =
+    let tryValueMaxBy map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             ValueNone
@@ -1978,35 +2132,45 @@ module GSeq =
             maxByImpl map &enumerator |> ValueSome
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let tryValueMaxByv state map (enumerator: StructEnumerator<'i,'e>) =
+    let tryValueMaxByv state map (enumerator: SStructEnumerator<'i,'e>) =
         let mutable enumerator = enumerator
         if not ^ enumerator.MoveNext() then
             ValueNone
         else
             maxByvImpl state map &enumerator |> ValueSome
 
+    let inline sum (enumerator: SStructEnumerator<'i,'e>) = Core.TODO<'obj>
+
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let toArray (enumerator: StructEnumerator<'i,'e>) = arr {
+    let length (enumerator: SStructEnumerator<'i,'e>) =
+        let mutable result = 0
+        let mutable enumerator = enumerator
+        while enumerator.MoveNext() do
+            &result +<- 1
+        result
+
+    [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
+    let toArray (enumerator: SStructEnumerator<'i,'e>) = arr {
         let mutable enumerator = enumerator
         while enumerator.MoveNext() do
             enumerator.Current
     }
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let toResizeArray (enumerator: StructEnumerator<'i,'e>) = rsz {
+    let toResizeArray (enumerator: SStructEnumerator<'i,'e>) = rsz {
         let mutable enumerator = enumerator
         while enumerator.MoveNext() do
             enumerator.Current
     }
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
-    let toBlock (enumerator: StructEnumerator<'i,'e>) = block {
+    let toBlock (enumerator: SStructEnumerator<'i,'e>) = block {
         let mutable enumerator = enumerator
         while enumerator.MoveNext() do
             enumerator.Current
     }
 
-    let toSeq (enumerator: StructEnumerator<'i,'e>) =
+    let toSeq (enumerator: SStructEnumerator<'i,'e>) =
         let boxed = enumerator :> IEnumerator<'i>
         { new IEnumerable<'i> with
             member _.GetEnumerator() = boxed :> System.Collections.IEnumerator

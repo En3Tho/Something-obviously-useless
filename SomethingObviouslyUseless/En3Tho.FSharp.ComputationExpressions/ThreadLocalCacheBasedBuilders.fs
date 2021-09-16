@@ -2,6 +2,24 @@ module En3Tho.FSharp.ComputationExpressions.ThreadLocalCacheBasedBuilders
 
 open System
 open System.Collections.Immutable
+open En3Tho.FSharp.Extensions.Byref.Operators
+
+type [<Struct>] ArenaItem<'a> = Value of 'a
+type SimpleNonThreadSafeArena<'a>(capacity, ctor) =
+    let items = Array.zeroCreate<ArenaItem<'a>> capacity
+    let mutable index = 0
+    member _.Rent() =
+        if uint index >= uint items.Length then
+            ctor()
+        else
+            let value = &items.[index]
+            if Object.ReferenceEquals(value, null) then
+                value <- ctor()
+            &index +<- 1
+            value
+
+    member _.Clear() =
+        index <- 0
 
 type ImmutableArrayBuilder<'a> = System.Collections.Immutable.ImmutableArray.Builder<'a>
 [<AbstractClass>]

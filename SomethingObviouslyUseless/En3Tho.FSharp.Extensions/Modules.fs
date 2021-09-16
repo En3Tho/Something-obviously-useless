@@ -43,12 +43,11 @@ module Core =
     let inline nullRef< ^a when ^a: not struct> = Unchecked.defaultof< ^a>
     let inline nullVal< ^a when ^a: struct> = Unchecked.defaultof< ^a>
 
-    [<Obsolete("Just a placeholder")>]
+    [<Obsolete("This logic needs to be implemented")>]
     let inline TODO<'a> = raise ^ NotImplementedException()
 
-    let inline (|NullRef|_|) value = if isNull value then someObj else None
-    let inline (|NotNullRef|_|) value = if isNotNull value then someObj else None
-
+    let inline (|Null|_|) value = if isNull value then someObj else None
+    let inline (|NotNull|_|) value = if isNotNull value then someObj else None
 
 module Object =
     module Operators =
@@ -92,9 +91,11 @@ module Functions =
     let inline invokeWith x f = f x
     let inline revArgs2 (f: ^a -> ^b -> ^c) = fun (b: ^b) (a: ^a) -> f a b
     let inline revArgs3 (f: ^a -> ^b -> ^c -> ^d) = fun (c: ^c) (b: ^b) (a: ^a) -> f a b c
-    
+
+#if NET5_0_OR_GREATER
 module Exception =
     let inline reraise ex = ExceptionDispatchInfo.Throw ex; Unchecked.defaultof<'a>
+#endif
 
 module Printf =
     type T = T with
@@ -144,34 +145,432 @@ module String =
     let inline defaultValue def str = if String.IsNullOrEmpty str then def else str
     let inline defaultValueW def str = if String.IsNullOrWhiteSpace str then def else str
     let inline truncate maxLength (str: string) = if str.Length <= maxLength then str else str.Substring(0, maxLength)
-    module ActivePatterns =
-        let inline (|NullOrEmpty|_|) (str: string) = String.IsNullOrEmpty(str) |> Option.ofBool
-        let inline (|NullOrWhiteSpace|_|) (str: string) = String.IsNullOrWhiteSpace(str) |> Option.ofBool
-    
-        let inline (|Contains|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.Ordinal) |> Option.ofBool
-        let inline (|ContainsIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
-        let inline (|ContainsCurrentCulture|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.CurrentCulture) |> Option.ofBool
-        let inline (|ContainsCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
-        let inline (|ContainsInvariantCulture|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.InvariantCulture) |> Option.ofBool
-        let inline (|ContainsInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
-        let inline (|ContainsChar|_|) (pattern: char) (str: string) = str.Contains(pattern) |> Option.ofBool
-    
-        let inline (|StartsWith|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.Ordinal) |> Option.ofBool
-        let inline (|StartsWithIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
-        let inline (|StartsWithCurrentCulture|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.CurrentCulture) |> Option.ofBool
-        let inline (|StartsWithCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
-        let inline (|StartsWithInvariantCulture|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.InvariantCulture) |> Option.ofBool
-        let inline (|StartsWithInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
-        let inline (|StartsWithChar|_|) (pattern: char) (str: string) = str.StartsWith(pattern) |> Option.ofBool
-    
-        let inline (|EndsWith|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.Ordinal) |> Option.ofBool
-        let inline (|EndsWithIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
-        let inline (|EndsWithCurrentCulture|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.CurrentCulture) |> Option.ofBool
-        let inline (|EndsWithCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
-        let inline (|EndsWithInvariantCulture|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.InvariantCulture) |> Option.ofBool
-        let inline (|EndsWithInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
-        let inline (|EndsWithChar|_|) (pattern: char) (str: string) = str.EndsWith(pattern) |> Option.ofBool
 
+    let inline (|NullOrEmpty|_|) (str: string) = String.IsNullOrEmpty(str) |> Option.ofBool
+    let inline (|NotNullOrEmpty|_|) (str: string) = String.IsNullOrEmpty(str) |> not |> Option.ofBool
+    let inline (|NullOrWhiteSpace|_|) (str: string) = String.IsNullOrWhiteSpace(str) |> Option.ofBool
+    let inline (|NotNullOrWhiteSpace|_|) (str: string) = String.IsNullOrWhiteSpace(str) |> not |> Option.ofBool
+
+    let inline (|Equals|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.Ordinal) |> Option.ofBool
+    let inline (|EqualsIgnoreCase|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
+    let inline (|EqualsCurrentCulture|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.CurrentCulture) |> Option.ofBool
+    let inline (|EqualsCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
+    let inline (|EqualsInvariantCulture|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.InvariantCulture) |> Option.ofBool
+    let inline (|EqualsInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
+    let inline (|EqualsChar|_|) (pattern: char) (str: string) = (str.Length = 1 && str.[0] = pattern) |> Option.ofBool
+
+    let inline (|EqualsNot|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.Ordinal) |> not |> Option.ofBool
+    let inline (|EqualsNotIgnoreCase|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.OrdinalIgnoreCase) |> not |> Option.ofBool
+    let inline (|EqualsNotCurrentCulture|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.CurrentCulture) |> not |> Option.ofBool
+    let inline (|EqualsNotCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.CurrentCultureIgnoreCase) |> not |> Option.ofBool
+    let inline (|EqualsNotInvariantCulture|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.InvariantCulture) |> not |> Option.ofBool
+    let inline (|EqualsNotInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Equals(pattern, StringComparison.InvariantCultureIgnoreCase) |> not |> Option.ofBool
+    let inline (|EqualsNotChar|_|) (pattern: char) (str: string) = (str.Length = 1 && str.[0] = pattern) |> not |> Option.ofBool
+
+    let private equalsAnyArray (patterns: string[]) (comparison: StringComparison) (str: string) =
+        let mutable i = 0
+        let mutable found = false
+        while not found && i < patterns.Length do
+            let pattern = patterns.[i]
+            found <-  str.Equals(pattern, comparison)
+        found
+
+    let private equalsAnyList (patterns: string list) (comparison: StringComparison) (str: string) =
+        let mutable list = patterns
+        let mutable found = false
+        while not found &&
+            (match list with
+             | pattern :: rest ->
+                 found <- str.Equals(pattern, comparison)
+                 list <- rest
+                 true
+             | [] ->
+                 false) do ()
+        found
+
+    let private equalsAnySeq (patterns: string seq) (comparison: StringComparison) (str: string) =
+        use enumerator = patterns.GetEnumerator()
+        let mutable found = false
+        while not found && enumerator.MoveNext() do
+             let pattern = enumerator.Current
+             found <- str.Equals(pattern, comparison)
+        found
+
+    let private equalsAnyCharArray (patterns: char[]) (str: string) =
+        if str.Length > 1 then false else
+        let mutable i = 0
+        let mutable found = false
+        while not found && i < patterns.Length do
+            let pattern = patterns.[i]
+            found <- str.[0] = pattern
+        found
+
+    let private equalsAnyCharList (patterns: char list) (str: string) =
+        if str.Length > 1 then false else
+        let mutable list = patterns
+        let mutable found = false
+        while not found &&
+            (match list with
+             | pattern :: rest ->
+                 found <- str.[0] = pattern
+                 list <- rest
+                 true
+             | [] ->
+                 false) do ()
+        found
+
+    let private equalsAnyCharSeq (patterns: char seq) (str: string) =
+        if str.Length > 1 then false else
+        use enumerator = patterns.GetEnumerator()
+        let mutable found = false
+        while not found && enumerator.MoveNext() do
+             let pattern = enumerator.Current
+             found <- str.[0] = pattern
+        found
+
+    let equalsAny (patterns: string seq) (comparison: StringComparison) (str: string) =
+        match patterns with
+        | :? (string[]) as patterns -> equalsAnyArray patterns comparison str
+        | :? (string list) as patterns -> equalsAnyList patterns comparison str
+        | _ -> equalsAnySeq patterns comparison str
+
+    let equalsAnyChar (patterns: char seq) (str: string) =
+        match patterns with
+        | :? (char[]) as patterns -> equalsAnyCharArray patterns str
+        | :? (char list) as patterns -> equalsAnyCharList patterns str
+        | _ -> equalsAnyCharSeq patterns str
+
+    let inline (|EqualsAny|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.Ordinal |> Option.ofBool
+    let inline (|EqualsAnyIgnoreCase|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.OrdinalIgnoreCase |> Option.ofBool
+    let inline (|EqualsAnyCurrentCulture|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.CurrentCulture |> Option.ofBool
+    let inline (|EqualsAnyCurrentCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.CurrentCultureIgnoreCase |> Option.ofBool
+    let inline (|EqualsAnyInvariantCulture|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.InvariantCulture |> Option.ofBool
+    let inline (|EqualsAnyInvariantCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.InvariantCultureIgnoreCase |> Option.ofBool
+    let inline (|EqualsAnyChar|_|) (patterns: char[]) (str: string) = str |> equalsAnyChar patterns |> Option.ofBool
+
+    let inline (|EqualsAnyNot|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.Ordinal |> not |> Option.ofBool
+    let inline (|EqualsAnyNotIgnoreCase|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.OrdinalIgnoreCase |> not |> Option.ofBool
+    let inline (|EqualsAnyNotCurrentCulture|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.CurrentCulture |> not |> Option.ofBool
+    let inline (|EqualsAnyNotCurrentCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.CurrentCultureIgnoreCase |> not |> Option.ofBool
+    let inline (|EqualsAnyNotInvariantCulture|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.InvariantCulture |> not |> Option.ofBool
+    let inline (|EqualsAnyNotInvariantCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> equalsAny patterns StringComparison.InvariantCultureIgnoreCase |> not |> Option.ofBool
+    let inline (|EqualsAnyNotChar|_|) (patterns: char[]) (str: string) = str |> equalsAnyChar patterns |> not |> Option.ofBool
+#if NET5_0_OR_GREATER
+    let inline (|Contains|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.Ordinal) |> Option.ofBool
+    let inline (|ContainsIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
+    let inline (|ContainsCurrentCulture|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.CurrentCulture) |> Option.ofBool
+    let inline (|ContainsCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
+    let inline (|ContainsInvariantCulture|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.InvariantCulture) |> Option.ofBool
+    let inline (|ContainsInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
+    let inline (|ContainsChar|_|) (pattern: char) (str: string) = str.Contains(pattern) |> Option.ofBool
+
+    let inline (|ContainsNot|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.Ordinal) |> not |> Option.ofBool
+    let inline (|ContainsNotIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.OrdinalIgnoreCase) |> not |> Option.ofBool
+    let inline (|ContainsNotCurrentCulture|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.CurrentCulture) |> not |> Option.ofBool
+    let inline (|ContainsNotCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.CurrentCultureIgnoreCase) |> not |> Option.ofBool
+    let inline (|ContainsNotInvariantCulture|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.InvariantCulture) |> not |> Option.ofBool
+    let inline (|ContainsNotInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.Contains(pattern, StringComparison.InvariantCultureIgnoreCase) |> not |> Option.ofBool
+    let inline (|ContainsNotChar|_|) (pattern: char) (str: string) = str.Contains(pattern) |> not |> Option.ofBool
+
+    let private containsAnyArray (patterns: string[]) (comparison: StringComparison) (str: string) =
+        let mutable i = 0
+        let mutable found = false
+        while not found && i < patterns.Length do
+            let pattern = patterns.[i]
+            found <-  str.Contains(pattern, comparison)
+        found
+
+    let private containsAnyList (patterns: string list) (comparison: StringComparison) (str: string) =
+        let mutable list = patterns
+        let mutable found = false
+        while not found &&
+            (match list with
+             | pattern :: rest ->
+                 found <- str.Contains(pattern, comparison)
+                 list <- rest
+                 true
+             | [] ->
+                 false) do ()
+        found
+
+    let private containsAnySeq (patterns: string seq) (comparison: StringComparison) (str: string) =
+        use enumerator = patterns.GetEnumerator()
+        let mutable found = false
+        while not found && enumerator.MoveNext() do
+             let pattern = enumerator.Current
+             found <- str.Contains(pattern, comparison)
+        found
+
+    let private containsAnyCharArray (patterns: char[]) (str: string) =
+        if str.Length <> 1 then false else
+        let mutable i = 0
+        let mutable found = false
+        while not found && i < patterns.Length do
+            let pattern = patterns.[i]
+            found <- str.Contains(pattern)
+        found
+
+    let private containsAnyCharList (patterns: char list) (str: string) =
+        if str.Length <> 1 then false else
+        let mutable list = patterns
+        let mutable found = false
+        while not found &&
+            (match list with
+             | pattern :: rest ->
+                 found <- str.Contains(pattern)
+                 list <- rest
+                 true
+             | [] ->
+                 false) do ()
+        found
+
+    let private containsAnyCharSeq (patterns: char seq) (str: string) =
+        if str.Length <> 1 then false else
+        use enumerator = patterns.GetEnumerator()
+        let mutable found = false
+        while not found && enumerator.MoveNext() do
+             let pattern = enumerator.Current
+             found <- str.Contains(pattern)
+        found
+
+    let containsAny (patterns: string seq) (comparison: StringComparison) (str: string) =
+        match patterns with
+        | :? (string[]) as patterns -> containsAnyArray patterns comparison str
+        | :? (string list) as patterns -> containsAnyList patterns comparison str
+        | _ -> containsAnySeq patterns comparison str
+
+    let containsAnyChar (patterns: char seq) (str: string) =
+        match patterns with
+        | :? (char[]) as patterns -> containsAnyCharArray patterns str
+        | :? (char list) as patterns -> containsAnyCharList patterns str
+        | _ -> containsAnyCharSeq patterns str
+    
+    let inline (|ContainsAny|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.Ordinal |> Option.ofBool
+    let inline (|ContainsAnyIgnoreCase|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.OrdinalIgnoreCase |> Option.ofBool
+    let inline (|ContainsAnyCurrentCulture|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.CurrentCulture |> Option.ofBool
+    let inline (|ContainsAnyCurrentCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.CurrentCultureIgnoreCase |> Option.ofBool
+    let inline (|ContainsAnyInvariantCulture|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.InvariantCulture |> Option.ofBool
+    let inline (|ContainsAnyInvariantCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.InvariantCultureIgnoreCase |> Option.ofBool
+    let inline (|ContainsAnyChar|_|) (patterns: char[]) (str: string) = str |> containsAnyChar patterns |> Option.ofBool
+
+    let inline (|ContainsAnyNot|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.Ordinal |> not |> Option.ofBool
+    let inline (|ContainsAnyNotIgnoreCase|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.OrdinalIgnoreCase |> not |> Option.ofBool
+    let inline (|ContainsAnyNotCurrentCulture|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.CurrentCulture |> not |> Option.ofBool
+    let inline (|ContainsAnyNotCurrentCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.CurrentCultureIgnoreCase |> not |> Option.ofBool
+    let inline (|ContainsAnyNotInvariantCulture|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.InvariantCulture |> not |> Option.ofBool
+    let inline (|ContainsAnyNotInvariantCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> containsAny patterns StringComparison.InvariantCultureIgnoreCase |> not |> Option.ofBool
+    let inline (|ContainsAnyNotChar|_|) (patterns: char[]) (str: string) = str |> containsAnyChar patterns |> not |> Option.ofBool
+
+    let inline (|StartsWith|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.Ordinal) |> Option.ofBool
+    let inline (|StartsWithIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
+    let inline (|StartsWithCurrentCulture|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.CurrentCulture) |> Option.ofBool
+    let inline (|StartsWithCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
+    let inline (|StartsWithInvariantCulture|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.InvariantCulture) |> Option.ofBool
+    let inline (|StartsWithInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
+    let inline (|StartsWithChar|_|) (pattern: char) (str: string) = str.StartsWith(pattern) |> Option.ofBool
+
+    let inline (|StartsWithNot|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.Ordinal) |> not |> Option.ofBool
+    let inline (|StartsWithNotIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.OrdinalIgnoreCase) |> not |> Option.ofBool
+    let inline (|StartsWithNotCurrentCulture|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.CurrentCulture) |> not |> Option.ofBool
+    let inline (|StartsWithNotCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.CurrentCultureIgnoreCase) |> not |> Option.ofBool
+    let inline (|StartsWithNotInvariantCulture|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.InvariantCulture) |> Option.ofBool
+    let inline (|StartsWithNotInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.StartsWith(pattern, StringComparison.InvariantCultureIgnoreCase) |> not |> Option.ofBool
+    let inline (|StartsWithNotChar|_|) (pattern: char) (str: string) = str.StartsWith(pattern) |> not |> Option.ofBool
+    
+    let private startsWithAnyArray (patterns: string[]) (comparison: StringComparison) (str: string) =
+        let mutable i = 0
+        let mutable found = false
+        while not found && i < patterns.Length do
+            let pattern = patterns.[i]
+            found <-  str.StartsWith(pattern, comparison)
+        found
+
+    let private startsWithAnyList (patterns: string list) (comparison: StringComparison) (str: string) =
+        let mutable list = patterns
+        let mutable found = false
+        while not found &&
+            (match list with
+             | pattern :: rest ->
+                 found <- str.StartsWith(pattern, comparison)
+                 list <- rest
+                 true
+             | [] ->
+                 false) do ()
+        found
+
+    let private startsWithAnySeq (patterns: string seq) (comparison: StringComparison) (str: string) =
+        use enumerator = patterns.GetEnumerator()
+        let mutable found = false
+        while not found && enumerator.MoveNext() do
+             let pattern = enumerator.Current
+             found <- str.StartsWith(pattern, comparison)
+        found
+
+    let private startsWithAnyCharArray (patterns: char[]) (str: string) =
+        if str.Length <> 1 then false else
+        let mutable i = 0
+        let mutable found = false
+        while not found && i < patterns.Length do
+            let pattern = patterns.[i]
+            found <- str.StartsWith(pattern)
+        found
+
+    let private startsWithAnyCharList (patterns: char list) (str: string) =
+        if str.Length <> 1 then false else
+        let mutable list = patterns
+        let mutable found = false
+        while not found &&
+            (match list with
+             | pattern :: rest ->
+                 found <- str.StartsWith(pattern)
+                 list <- rest
+                 true
+             | [] ->
+                 false) do ()
+        found
+
+    let private startsWithAnyCharSeq (patterns: char seq) (str: string) =
+        if str.Length <> 1 then false else
+        use enumerator = patterns.GetEnumerator()
+        let mutable found = false
+        while not found && enumerator.MoveNext() do
+             let pattern = enumerator.Current
+             found <- str.StartsWith(pattern)
+        found
+
+    let startsWithAny (patterns: string seq) (comparison: StringComparison) (str: string) =
+        match patterns with
+        | :? (string[]) as patterns -> startsWithAnyArray patterns comparison str
+        | :? (string list) as patterns -> startsWithAnyList patterns comparison str
+        | _ -> startsWithAnySeq patterns comparison str
+
+    let startsWithAnyChar (patterns: char seq) (str: string) =
+        match patterns with
+        | :? (char[]) as patterns -> startsWithAnyCharArray patterns str
+        | :? (char list) as patterns -> startsWithAnyCharList patterns str
+        | _ -> startsWithAnyCharSeq patterns str
+    
+    let inline (|StartsWithAny|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.Ordinal |> Option.ofBool
+    let inline (|StartsWithAnyIgnoreCase|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.OrdinalIgnoreCase |> Option.ofBool
+    let inline (|StartsWithAnyCurrentCulture|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.CurrentCulture |> Option.ofBool
+    let inline (|StartsWithAnyCurrentCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.CurrentCultureIgnoreCase |> Option.ofBool
+    let inline (|StartsWithAnyInvariantCulture|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.InvariantCulture |> Option.ofBool
+    let inline (|StartsWithAnyInvariantCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.InvariantCultureIgnoreCase |> Option.ofBool
+    let inline (|StartsWithAnyChar|_|) (patterns: char[]) (str: string) = str |> startsWithAnyChar patterns |> Option.ofBool
+
+    let inline (|StartsWithAnyNot|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.Ordinal |> not |> Option.ofBool
+    let inline (|StartsWithAnyNotIgnoreCase|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.OrdinalIgnoreCase |> not |> Option.ofBool
+    let inline (|StartsWithAnyNotCurrentCulture|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.CurrentCulture |> not |> Option.ofBool
+    let inline (|StartsWithAnyNotCurrentCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.CurrentCultureIgnoreCase |> not |> Option.ofBool
+    let inline (|StartsWithAnyNotInvariantCulture|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.InvariantCulture |> not |> Option.ofBool
+    let inline (|StartsWithAnyNotInvariantCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> startsWithAny patterns StringComparison.InvariantCultureIgnoreCase |> not |> Option.ofBool
+    let inline (|StartsWithAnyNotChar|_|) (patterns: char[]) (str: string) = str |> startsWithAnyChar patterns |> not |> Option.ofBool
+    
+    let inline (|EndsWith|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.Ordinal) |> Option.ofBool
+    let inline (|EndsWithIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.OrdinalIgnoreCase) |> Option.ofBool
+    let inline (|EndsWithCurrentCulture|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.CurrentCulture) |> Option.ofBool
+    let inline (|EndsWithCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.CurrentCultureIgnoreCase) |> Option.ofBool
+    let inline (|EndsWithInvariantCulture|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.InvariantCulture) |> Option.ofBool
+    let inline (|EndsWithInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.InvariantCultureIgnoreCase) |> Option.ofBool
+    let inline (|EndsWithChar|_|) (pattern: char) (str: string) = str.EndsWith(pattern) |> Option.ofBool
+
+    let inline (|EndsWithNot|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.Ordinal) |> not |> Option.ofBool
+    let inline (|EndsWithNotIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.OrdinalIgnoreCase) |> not |> Option.ofBool
+    let inline (|EndsWithNotCurrentCulture|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.CurrentCulture) |> not |> Option.ofBool
+    let inline (|EndsWithNotCurrentCultureIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.CurrentCultureIgnoreCase) |> not |> Option.ofBool
+    let inline (|EndsWithNotInvariantCulture|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.InvariantCulture) |> not |> Option.ofBool
+    let inline (|EndsWithNotInvariantCultureIgnoreCase|_|) (pattern: string) (str: string) = str.EndsWith(pattern, StringComparison.InvariantCultureIgnoreCase) |> not |> Option.ofBool
+    let inline (|EndsWithNotChar|_|) (pattern: char) (str: string) = str.EndsWith(pattern) |> not |> Option.ofBool
+    
+    let private endsWithAnyArray (patterns: string[]) (comparison: StringComparison) (str: string) =
+        let mutable i = 0
+        let mutable found = false
+        while not found && i < patterns.Length do
+            let pattern = patterns.[i]
+            found <-  str.EndsWith(pattern, comparison)
+        found
+
+    let private endsWithAnyList (patterns: string list) (comparison: StringComparison) (str: string) =
+        let mutable list = patterns
+        let mutable found = false
+        while not found &&
+            (match list with
+             | pattern :: rest ->
+                 found <- str.EndsWith(pattern, comparison)
+                 list <- rest
+                 true
+             | [] ->
+                 false) do ()
+        found
+
+    let private endsWithAnySeq (patterns: string seq) (comparison: StringComparison) (str: string) =
+        use enumerator = patterns.GetEnumerator()
+        let mutable found = false
+        while not found && enumerator.MoveNext() do
+             let pattern = enumerator.Current
+             found <- str.EndsWith(pattern, comparison)
+        found
+
+    let private endsWithAnyCharArray (patterns: char[]) (str: string) =
+        if str.Length <> 1 then false else
+        let mutable i = 0
+        let mutable found = false
+        while not found && i < patterns.Length do
+            let pattern = patterns.[i]
+            found <- str.EndsWith(pattern)
+        found
+
+    let private endsWithAnyCharList (patterns: char list) (str: string) =
+        if str.Length <> 1 then false else
+        let mutable list = patterns
+        let mutable found = false
+        while not found &&
+            (match list with
+             | pattern :: rest ->
+                 found <- str.EndsWith(pattern)
+                 list <- rest
+                 true
+             | [] ->
+                 false) do ()
+        found
+
+    let private endsWithAnyCharSeq (patterns: char seq) (str: string) =
+        if str.Length <> 1 then false else
+        use enumerator = patterns.GetEnumerator()
+        let mutable found = false
+        while not found && enumerator.MoveNext() do
+             let pattern = enumerator.Current
+             found <- str.EndsWith(pattern)
+        found
+
+    let endsWithAny (patterns: string seq) (comparison: StringComparison) (str: string) =
+        match patterns with
+        | :? (string[]) as patterns -> endsWithAnyArray patterns comparison str
+        | :? (string list) as patterns -> endsWithAnyList patterns comparison str
+        | _ -> endsWithAnySeq patterns comparison str
+
+    let endsWithAnyChar (patterns: char seq) (str: string) =
+        match patterns with
+        | :? (char[]) as patterns -> endsWithAnyCharArray patterns str
+        | :? (char list) as patterns -> endsWithAnyCharList patterns str
+        | _ -> endsWithAnyCharSeq patterns str
+    
+    let inline (|EndsWithAny|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.Ordinal |> Option.ofBool
+    let inline (|EndsWithAnyIgnoreCase|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.OrdinalIgnoreCase |> Option.ofBool
+    let inline (|EndsWithAnyCurrentCulture|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.CurrentCulture |> Option.ofBool
+    let inline (|EndsWithAnyCurrentCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.CurrentCultureIgnoreCase |> Option.ofBool
+    let inline (|EndsWithAnyInvariantCulture|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.InvariantCulture |> Option.ofBool
+    let inline (|EndsWithAnyInvariantCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.InvariantCultureIgnoreCase |> Option.ofBool
+    let inline (|EndsWithAnyChar|_|) (patterns: char[]) (str: string) = str |> endsWithAnyChar patterns |> Option.ofBool
+
+    let inline (|EndsWithAnyNot|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.Ordinal |> not |> Option.ofBool
+    let inline (|EndsWithAnyNotIgnoreCase|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.OrdinalIgnoreCase |> not |> Option.ofBool
+    let inline (|EndsWithAnyNotCurrentCulture|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.CurrentCulture |> not |> Option.ofBool
+    let inline (|EndsWithAnyNotCurrentCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.CurrentCultureIgnoreCase |> not |> Option.ofBool
+    let inline (|EndsWithAnyNotInvariantCulture|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.InvariantCulture |> not |> Option.ofBool
+    let inline (|EndsWithAnyNotInvariantCultureIgnoreCase|_|) (patterns: string seq) (str: string) = str |> endsWithAny patterns StringComparison.InvariantCultureIgnoreCase |> not |> Option.ofBool
+    let inline (|EndsWithAnyNotChar|_|) (patterns: char[]) (str: string) = str |> endsWithAnyChar patterns |> not |> Option.ofBool
+#endif
 type EnumShape<'enum when 'enum: struct
                       and 'enum :> Enum
                       and 'enum: (static member (|||): 'enum -> 'enum -> 'enum )
@@ -258,7 +657,7 @@ module Async =
             logf (DateTime.Now - start)
             return result
         }
-
+#if NET5_0_OR_GREATER
     module Extensions =
         type Async<'a> with
             static member inline AwaitValueTask (valueTask: ValueTask) =
@@ -268,7 +667,7 @@ module Async =
             static member inline AwaitValueTask (valueTask: ValueTask<_>) =
                 if valueTask.IsCompletedSuccessfully then valueTask.Result |> ofObj
                 else valueTask.AsTask() |> Async.AwaitTask
-
+#endif
 module Byref =
     module Operators =
         let inline inc (a: 'a byref) = a <- a + LanguagePrimitives.GenericOne
@@ -336,6 +735,12 @@ module Array =
         while i >= 0 && not ^ f arr.[i] do dec &i
         if i >= 0 then Some arr.[i] else None
 
+    let inline (|NullOrEmpty|_|) (arr: 'a[]) =
+        (Object.ReferenceEquals(arr, null) || arr.Length = 0) |> Option.ofBool
+
+    let inline (|NotNullOrEmpty|_|) (arr: 'a[]) =
+        (Object.ReferenceEquals(arr, null) || arr.Length = 0) |> not |> Option.ofBool
+
 module List =
     let inline replace original replacement list =
         list |> List.map (fun value -> if value = original then replacement else value)
@@ -344,6 +749,12 @@ module List =
     let inline ofObj x = [ x ]
     let inline ofObj2 x1 x2 = [ x1; x2 ]
     let inline ofObj3 x1 x2 x3 = [ x1; x2; x3 ]
+
+    let inline (|NullOrEmpty|_|) (list: 'a list) =
+        (Object.ReferenceEquals(list, null) || list.IsEmpty) |> Option.ofBool
+
+    let inline (|NotNullOrEmpty|_|) (list: 'a list) =
+        (Object.ReferenceEquals(list, null) || list.IsEmpty) |> not |> Option.ofBool
 
 // From https://github.com/fsharp/fsharp/blob/master/src/utils/ResizeArray.fs
 module ResizeArray =
@@ -676,7 +1087,9 @@ module ReadOnlySpan =
     let inline sliceTo index (span: ReadOnlySpan<_>) = span.Slice(0, index)
     let inline fromPtr count (ptr: nativeptr<'a>) = ReadOnlySpan<'a>(ptr |> NativePtr.toVoidPtr, count)
     let inline fromVoidPtr<'a when 'a: unmanaged> count ptr = ReadOnlySpan<'a>(ptr, count)
+#if NET5_0_OR_GREATER
     let inline fromString (str: string): ReadOnlySpan<char> = String.op_Implicit str
+#endif
     let inline fromSpan (span: Span<_>): ReadOnlySpan<_> = Span.op_Implicit span
     let inline fromArray (array: 'a[]): ReadOnlySpan<_> = ReadOnlySpan.op_Implicit array
     let inline fromArraySegment (array: 'a ArraySegment): ReadOnlySpan<_> = ReadOnlySpan.op_Implicit array
@@ -703,11 +1116,11 @@ module ReadOnlyMemory =
 
 module Seq =
     open EqualityComparer
-    let intersect left right = Enumerable.Intersect(left, right)
-    let intersectBy<'a, 'b when 'b: equality> (map: 'a -> 'b) left right = Enumerable.Intersect(left, right, EqualityComparer<'a>.Create map)
-    let toResizeArray = Enumerable.ToList
-    let ofType<'a> = Enumerable.OfType<'a>
-    let isNotEmpty = Enumerable.Any
+    let inline intersect left right = Enumerable.Intersect(left, right)
+    let inline intersectBy<'a, 'b when 'b: equality> (map: 'a -> 'b) left right = Enumerable.Intersect(left, right, EqualityComparer<'a>.Create map)
+    let inline toResizeArray seq = Enumerable.ToList seq
+    let inline ofType<'a> seq = Enumerable.OfType<'a> seq
+    let inline isNotEmpty seq = Enumerable.Any seq
     let inline isNullOrEmpty seq = isNull seq || seq |> Enumerable.Any |> not
     let inline toLookup (keySelector: 'a -> 'b) (elementSelector: 'a -> 'c) seq = Enumerable.ToLookup(seq, keySelector, elementSelector)
     let inline ofGenericEnumerator enumerator =
@@ -729,10 +1142,10 @@ module Dictionary =
 
     let inline tryGetValue key (d: Dictionary<'key, 'value>) =
         d.TryGetValue key |> Option.ofTryPattern
-
+#if NET5_0_OR_GREATER
     let inline tryAddValue key value (d: Dictionary<'key, 'value>) =
         d.TryAdd(key, value)
-
+#endif
     let inline addValue key value (d: Dictionary<'key, 'value>) =
         d.Add(key, value)
 
@@ -778,6 +1191,7 @@ module Action =
 module Tuple =
     let inline ofResVal f x = f x, x
 
+#if NET5_0_OR_GREATER
 /// Provides functions to get Union public fields which are not visible from F#
 module Union =
     [<AbstractClass; Sealed>]
@@ -819,3 +1233,4 @@ module Union =
     let getTag unionObj = unionObj |> TagGetter.GetTag
     /// Gets the name of the union case of the underlying union object
     let getName unionObj = unionObj |> NameGetter<'a>.GetName
+#endif

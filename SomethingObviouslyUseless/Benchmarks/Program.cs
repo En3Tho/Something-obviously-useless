@@ -10,7 +10,7 @@ namespace Benchmarks
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<PossiblyEmptyMethodBench>();
+            BenchmarkRunner.Run<ArrayHashCodeBenchmark>();
             Console.ReadLine();
         }
     }
