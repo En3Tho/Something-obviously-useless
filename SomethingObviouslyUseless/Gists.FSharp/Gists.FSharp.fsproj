@@ -12,6 +12,7 @@
         <Compile Include="Capabilities.fs" />
         <Compile Include="Lua.fs" />
         <Compile Include="Stuff.fs" />
+        <Compile Include="Cancellables.fs" />
     </ItemGroup>
 
     <ItemGroup>

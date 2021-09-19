@@ -7,8 +7,8 @@ open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open TGOrganizer.Contracts
-open TGOrganizer.Implementation
-open TGOrganizer.TelegramInfrastructure
+open TGOrganizer.Implementation.InMemory
+open TGOrganizer.Implementation.Telegram.InMemory
 
 [<AutoOpen>]
 module ServiceCollectionExtensions =
@@ -33,8 +33,6 @@ module ServiceCollectionExtensions =
 
 type Startup() =
 
-    // This method gets called by the runtime. Use this method to add services to the container.
-    // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     member _.ConfigureServices(services: IServiceCollection) =
         services
             .AddSingletonAsOpenGeneric<IEventBus<_>, InMemoryEventBus<_>>()
@@ -48,7 +46,6 @@ type Startup() =
             .AddHostedService<InMemoryHostedService>()
         |> ignore
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     member _.Configure(app: IApplicationBuilder, env: IWebHostEnvironment) =
         if env.IsDevelopment() then
             app.UseDeveloperExceptionPage() |> ignore

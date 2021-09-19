@@ -4,7 +4,9 @@ open System
 open System.Collections.Generic
 open System.Threading
 open System.Threading.Tasks
+open En3Tho.FSharp.Validation
 open En3Tho.FSharp.Validation.CommonTypes
+open En3Tho.FSharp.ComputationExpressions.ICollectionBuilder
 open FSharp.Control.Tasks
 
 [<AutoOpen>]
@@ -51,3 +53,38 @@ let inline (|ValidDateTimeOffset|) (value: ValidDateTimeOffset) = value.Value
 
 type ValidTimeSpan = TimeSpan NonNegativeValue
 let inline (|ValidTimeSpan|) (value: ValidTimeSpan) = value.Value
+
+type BacktrackingCancelableExecution<'state> =
+    | Success of Value: EResult<'state>
+    | Cancel
+    | Back
+
+let runBacktrackingCancelables (state: 'a) (steps: ('a -> Task<BacktrackingCancelableExecution<'a>>) IList) = task {
+    if steps.Count = 0 then
+        return Error (OperationCanceledException() :> exn)
+    else
+    let mutable x = 0
+    let mutable states = ResizeArray() { state }
+    let rec goNext() = task {
+        let step = steps.[x]
+        let state = states.TakeLast()
+        match! step state with
+        | Success (Ok state) when x = steps.Count - 1 ->
+            return Ok state
+        | Success (Error exn) ->
+            return Error exn
+        | Back when x = 0 ->
+            return Error (OperationCanceledException() :> exn)
+        | Cancel ->
+            return Error (OperationCanceledException() :> exn)
+        | Success (Ok state) ->
+            states.Add state
+            x <- x + 1
+            return! goNext()
+        | Back ->
+            states.RemoveLast()
+            x <- x - 1
+            return! goNext()
+    }
+    return! goNext()
+}
