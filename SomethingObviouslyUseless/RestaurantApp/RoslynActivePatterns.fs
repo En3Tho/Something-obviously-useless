@@ -3,7 +3,7 @@
 open System
 open System.Reflection
 open System.Text
-open En3Tho.FSharp.Extensions.ComputationExpressions
+open En3Tho.FSharp.ComputationExpressions
 open Microsoft.CodeAnalysis
 open StringBuilderExtensionBuilder
 

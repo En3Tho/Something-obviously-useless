@@ -61,36 +61,42 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "AutoDecoratorGeneratorFShar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FSharpDiscriminatedUnion", "FSharpDiscriminatedUnion", "{30755036-B824-417F-BABB-6C74184C7128}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpDiscriminatedUnionAnalyzer", "FSharpDiscriminatedUnionAnalyzer\FSharpDiscriminatedUnionAnalyzer.fsproj", "{40795813-34C2-4CBE-BFF4-2D2521E68E2D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharpDiscriminatedUnionAnalyzer", "FSharpDiscriminatedUnionAnalyzer\FSharpDiscriminatedUnionAnalyzer.fsproj", "{40795813-34C2-4CBE-BFF4-2D2521E68E2D}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpDiscriminatedUnion.Test.FSharp", "FSharpDiscriminatedUnion.Test.FSharp\FSharpDiscriminatedUnion.Test.FSharp.fsproj", "{85AFCB9C-DFE0-4CBC-84A9-21F26F491C25}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharpDiscriminatedUnion.Test.FSharp", "FSharpDiscriminatedUnion.Test.FSharp\FSharpDiscriminatedUnion.Test.FSharp.fsproj", "{85AFCB9C-DFE0-4CBC-84A9-21F26F491C25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSharpDiscriminatedUnion.Test.CSharp", "FSharpDiscriminatedUnion.Test.CSharp\FSharpDiscriminatedUnion.Test.CSharp.csproj", "{D09527D3-EBB8-4FBE-B746-AA628404B39C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FSharpDiscriminatedUnion.Test.CSharp", "FSharpDiscriminatedUnion.Test.CSharp\FSharpDiscriminatedUnion.Test.CSharp.csproj", "{D09527D3-EBB8-4FBE-B746-AA628404B39C}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "En3Tho.FSharp.Validation", "En3Tho.FSharp.Validation\En3Tho.FSharp.Validation.fsproj", "{BD45BB71-8228-4C30-BE56-8D40924497DB}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "En3Tho.FSharp.Validation", "En3Tho.FSharp.Validation\En3Tho.FSharp.Validation.fsproj", "{BD45BB71-8228-4C30-BE56-8D40924497DB}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "En3Tho.FSharp.Validation.Examples", "En3Tho.FSharp.Validation.Examples\En3Tho.FSharp.Validation.Examples.fsproj", "{9CD7C876-BB54-4C06-BED7-D1775BDA7A8E}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "En3Tho.FSharp.Validation.Examples", "En3Tho.FSharp.Validation.Examples\En3Tho.FSharp.Validation.Examples.fsproj", "{9CD7C876-BB54-4C06-BED7-D1775BDA7A8E}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "RestaurantApp", "RestaurantApp\RestaurantApp.fsproj", "{3D794054-C38B-40DD-8934-DD060808A5D8}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "RestaurantApp", "RestaurantApp\RestaurantApp.fsproj", "{3D794054-C38B-40DD-8934-DD060808A5D8}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "En3Tho.FSharp.GSeq", "En3Tho.FSharp.GSeq\En3Tho.FSharp.GSeq.fsproj", "{D81EBD8B-B752-47BC-B13B-8FDDA30B7C22}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "En3Tho.FSharp.GSeq", "En3Tho.FSharp.GSeq\En3Tho.FSharp.GSeq.fsproj", "{D81EBD8B-B752-47BC-B13B-8FDDA30B7C22}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "En3Tho.FSharp.Validation.CommonTypes", "En3Tho.FSharp.Validation.CommonTypes\En3Tho.FSharp.Validation.CommonTypes.fsproj", "{F278CE92-83A3-4A28-8A97-CE62C2BD0575}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "En3Tho.FSharp.Validation.CommonTypes", "En3Tho.FSharp.Validation.CommonTypes\En3Tho.FSharp.Validation.CommonTypes.fsproj", "{F278CE92-83A3-4A28-8A97-CE62C2BD0575}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "En3Tho.FSharp.ComputationExpressions", "En3Tho.FSharp.ComputationExpressions\En3Tho.FSharp.ComputationExpressions.fsproj", "{3D00A86D-7B86-45DE-9633-2AB4C1094F01}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "En3Tho.FSharp.ComputationExpressions", "En3Tho.FSharp.ComputationExpressions\En3Tho.FSharp.ComputationExpressions.fsproj", "{3D00A86D-7B86-45DE-9633-2AB4C1094F01}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "MinimalApisWithPipelines", "MinimalApisWithPipelines\MinimalApisWithPipelines.fsproj", "{FEB27AD0-6DED-42F5-B3EE-43F59EEAE92A}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "MinimalApisWithPipelines", "MinimalApisWithPipelines\MinimalApisWithPipelines.fsproj", "{FEB27AD0-6DED-42F5-B3EE-43F59EEAE92A}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TGOrganizer", "TGOrganizer\TGOrganizer.fsproj", "{4FFBA1C8-4F42-4584-B5F4-FE710A6E33A8}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "TGOrganizer", "TGOrganizer\TGOrganizer.fsproj", "{4FFBA1C8-4F42-4584-B5F4-FE710A6E33A8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{B2F97B17-634A-4A62-A9CB-310849FEC995}"
-ProjectSection(SolutionItems) = preProject
-	global.json = global.json
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.CSharp.Lib", "Benchmarks.CSharp.Lib\Benchmarks.CSharp.Lib.csproj", "{362EF46F-FE8B-4D0F-97F6-AC854F98B7DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks.CSharp.Lib", "Benchmarks.CSharp.Lib\Benchmarks.CSharp.Lib.csproj", "{362EF46F-FE8B-4D0F-97F6-AC854F98B7DB}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TGOrganizer.Host", "TGOrganizer.Host\TGOrganizer.Host.fsproj", "{7CFEECB7-09E4-4BC3-A696-2CAA3B36F0AF}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "TGOrganizer.Host", "TGOrganizer.Host\TGOrganizer.Host.fsproj", "{7CFEECB7-09E4-4BC3-A696-2CAA3B36F0AF}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PoshRedisViewer", "PoshRedisViewer\PoshRedisViewer.fsproj", "{AF83AA18-098D-40BC-BA5E-E4C38B74E51F}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PoshRedisViewerModule", "PoshRedisViewerModule\PoshRedisViewerModule.fsproj", "{33797CA3-6154-44D9-A8E1-60093DFE10E0}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "PoshRedisViewerHost", "PoshRedisViewerHost\PoshRedisViewerHost.fsproj", "{964B8FD4-2BDF-47B0-A0EF-2F03FF62E3E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -242,6 +248,18 @@ Global
 		{7CFEECB7-09E4-4BC3-A696-2CAA3B36F0AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CFEECB7-09E4-4BC3-A696-2CAA3B36F0AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CFEECB7-09E4-4BC3-A696-2CAA3B36F0AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF83AA18-098D-40BC-BA5E-E4C38B74E51F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF83AA18-098D-40BC-BA5E-E4C38B74E51F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF83AA18-098D-40BC-BA5E-E4C38B74E51F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF83AA18-098D-40BC-BA5E-E4C38B74E51F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33797CA3-6154-44D9-A8E1-60093DFE10E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33797CA3-6154-44D9-A8E1-60093DFE10E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33797CA3-6154-44D9-A8E1-60093DFE10E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33797CA3-6154-44D9-A8E1-60093DFE10E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{964B8FD4-2BDF-47B0-A0EF-2F03FF62E3E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{964B8FD4-2BDF-47B0-A0EF-2F03FF62E3E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{964B8FD4-2BDF-47B0-A0EF-2F03FF62E3E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{964B8FD4-2BDF-47B0-A0EF-2F03FF62E3E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

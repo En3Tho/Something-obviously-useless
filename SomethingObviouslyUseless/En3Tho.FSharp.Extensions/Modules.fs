@@ -49,6 +49,24 @@ module Core =
     let inline (|Null|_|) value = if isNull value then someObj else None
     let inline (|NotNull|_|) value = if isNotNull value then someObj else None
 
+    type Task with
+        static member inline RunSynchronously (task: Task) =
+            if task.IsCompletedSuccessfully then () else
+            task.ConfigureAwait(false).GetAwaiter().GetResult()
+
+        static member inline RunSynchronously (task: Task<'a>) =
+            if task.IsCompletedSuccessfully then task.Result else
+            task.ConfigureAwait(false).GetAwaiter().GetResult()
+
+    type ValueTask with
+        static member inline RunSynchronously (task: ValueTask) =
+            if task.IsCompletedSuccessfully then () else
+            task.ConfigureAwait(false).GetAwaiter().GetResult()
+
+        static member inline RunSynchronously (task: ValueTask<'a>) =
+            if task.IsCompletedSuccessfully then task.Result else
+            task.ConfigureAwait(false).GetAwaiter().GetResult()
+
 module Object =
     module Operators =
         let inline (&==) (a: ^a when ^a: not struct) b = Object.ReferenceEquals(a, b)

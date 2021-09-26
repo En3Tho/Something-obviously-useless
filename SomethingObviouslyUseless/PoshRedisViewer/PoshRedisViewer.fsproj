@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <WarnOn>3390;$(WarnOn)</WarnOn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Redis.fs" />
+        <Compile Include="UIUtil.fs" />
+        <Compile Include="UI.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Ply" Version="0.3.1" />
+      <PackageReference Include="StackExchange.Redis" Version="2.2.50" />
+      <PackageReference Include="Terminal.Gui" Version="1.2.1" />
+      <PackageReference Update="FSharp.Core" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\En3Tho.FSharp.Extensions\En3Tho.FSharp.Extensions.fsproj" />
+    </ItemGroup>
+
+</Project>

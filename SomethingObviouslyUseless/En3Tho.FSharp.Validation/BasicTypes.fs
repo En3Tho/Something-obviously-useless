@@ -1,11 +1,28 @@
 namespace En3Tho.FSharp.Validation
 
+open System
 open System.Runtime.CompilerServices
 open System.Runtime.InteropServices
 open System.Threading.Tasks
 
 type EResult<'value> = Result<'value, exn>
 type AsyncEResult<'value> = ValueTask<EResult<'value>>
+
+/// Indicates an error when trying to map DTO to domain type. Maps to BadRequest when used with REST. TODO: ResourceManagement, Localization
+type ValidationException(message, innerException: Exception) =
+    inherit Exception(message, innerException)
+    new (message) = ValidationException(message, null)
+
+/// Indicates a domain processing error. Maps to UnprocessableEntity when used with REST.
+type DomainException(message, innerException: Exception) =
+    inherit Exception(message, innerException)
+    new (message) = DomainException(message, null)
+
+/// Indicates an error which doesn't come from domain. Used to wrap an unknown exception we can do nothing about
+type FatalException(message, innerException: Exception) =
+    inherit Exception(message, innerException)
+    new (message) = FatalException(message, null)
+    new (innerException) = FatalException("Fatal exception occured", innerException)
 
 type IAsyncValidator<'value> =
     abstract member Validate: 'value -> EResult<'value> ValueTask // TODO: AsyncVersion?

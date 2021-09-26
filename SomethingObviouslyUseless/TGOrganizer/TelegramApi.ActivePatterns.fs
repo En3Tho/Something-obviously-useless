@@ -36,7 +36,6 @@ module Update =
         | UpdateType.EditedMessage -> Some update.EditedMessage
         | _ -> None
 
-
     let inline (|ChannelPost|_|) (update: Update) =
         match update.Type with
         | UpdateType.ChannelPost -> Some update.ChannelPost
@@ -61,7 +60,6 @@ module Update =
         match update.Type with
         | UpdateType.Poll -> Some update.Poll
         | _ -> None
-
 
     let inline (|PollAnswer|_|) (update: Update) =
         match update.Type with

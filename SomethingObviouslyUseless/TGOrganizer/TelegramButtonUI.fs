@@ -14,9 +14,11 @@ open En3Tho.FSharp.Validation
 open TGOrganizer.Primitives
 open TGOrganizer.Contracts
 open TGOrganizer.TelegramApi.ActivePatterns
+open Telegram.Bot
+open Telegram.Bot.Types
 open Telegram.Bot.Types.ReplyMarkups
 
-type SessionId = NonDefaultValue<int64>
+type SessionId = NonDefaultValue<int64> // always positive ?
 
 // SessionId : NonEmptyInt64
 
@@ -24,13 +26,30 @@ type ITelegramButton =
     abstract Description: NonEmptyString
     abstract CallbackQuery: NonEmptyString
 
-type Screen =
+module MenuActions =
+    let [<Literal>] Register = "/register"
+    let [<Literal>] TodoTasks = "/todotasks"
+    let [<Literal>] Notifications = "/notifications"
+    let [<Literal>] Notes = "/notes"
+
+type UserScreen =
+    | Register
     | TodoTasks
     | Notifications
     | Notes
     interface ITelegramButton with
-        member this.Description = this |> Union.getName |> NonEmptyString.Make
+        member this.Description = this |> Union.getName |> NonEmptyString.Make // Culture?
         member this.CallbackQuery = this |> JsonSerializer.Serialize |> NonEmptyString.Make
+
+let getRegisteredUserMainMenu() = [|
+        InlineKeyboardButton.WithCallbackData(nameof(TodoTasks), MenuActions.TodoTasks)
+        InlineKeyboardButton.WithCallbackData(nameof(Notifications), MenuActions.Notifications)
+        InlineKeyboardButton.WithCallbackData(nameof(Notes), MenuActions.Notes)
+    |]
+
+let getUnregisteredUserMainMenu() = [|
+        InlineKeyboardButton.WithCallbackData(nameof(Register), MenuActions.Register)
+    |]
 
 type TodoTaskScreen =
     | Show
@@ -81,5 +100,33 @@ module TodoTaskScreenCreate =
         | Back
         | Ok
 
+// UserState = MainMenu | CreatingTask of TaskCreationStep | ShowingTasks | ExaminingTask of TaskId
+
+// send create task description
+//
+
+let sendInlineCallbackKeyboard (chatId: int64) (client: ITelegramBotClient) =
+        let replyKeyboardMarkup = InlineKeyboardMarkup(inlineKeyboard = [|
+            [|
+                InlineKeyboardButton.WithCallbackData("1.1", "11")
+                InlineKeyboardButton.WithCallbackData("1.2", "12")
+            |]
+            [|
+                InlineKeyboardButton.WithCallbackData("2.1", "22")
+                InlineKeyboardButton.WithCallbackData("2.2", "22")
+            |]
+        |])
+
+        client.SendTextMessageAsync(
+            chatId = ChatId.op_Implicit chatId,
+            text = "A message with an inline keyboard markup",
+            replyMarkup = replyKeyboardMarkup
+        )
+
+module TelegramTodoTaskMaker =
+
+    type TelegramTodoTaskData = {
+        Body: string
+    }
 
 // Description

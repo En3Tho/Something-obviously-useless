@@ -22,24 +22,6 @@ module TopLevelOperators =
             Monitor.Exit lockObj
     }
 
-    type Task with
-        static member inline RunSynchronously (task: Task) =
-            if task.IsCompletedSuccessfully then () else
-            task.ConfigureAwait(false).GetAwaiter().GetResult()
-
-        static member inline RunSynchronously (task: Task<'a>) =
-            if task.IsCompletedSuccessfully then task.Result else
-            task.ConfigureAwait(false).GetAwaiter().GetResult()
-
-    type ValueTask with
-        static member inline RunSynchronously (task: ValueTask) =
-            if task.IsCompletedSuccessfully then () else
-            task.ConfigureAwait(false).GetAwaiter().GetResult()
-
-        static member inline RunSynchronously (task: ValueTask<'a>) =
-            if task.IsCompletedSuccessfully then task.Result else
-            task.ConfigureAwait(false).GetAwaiter().GetResult()
-
     type List<'a> with
         member this.RemoveLast() = this.RemoveAt(this.Count - 1)
         member this.TakeLast() = this.[this.Count - 1]
@@ -47,6 +29,12 @@ module TopLevelOperators =
             let result = this.TakeLast()
             this.RemoveLast()
             result
+
+    type IServiceProvider with
+        member this.GetService<'a>() =
+            match this.GetService(typeof<'a>) with
+            | null -> failwith ("Unable to find service of type " + typeof<'a>.FullName)
+            | service -> service :?> 'a
 
 type ValidDateTimeOffset = DateTimeOffset NonDefaultValue
 let inline (|ValidDateTimeOffset|) (value: ValidDateTimeOffset) = value.Value

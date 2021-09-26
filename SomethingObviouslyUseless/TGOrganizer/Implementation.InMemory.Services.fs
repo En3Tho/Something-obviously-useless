@@ -1,4 +1,4 @@
-﻿module TGOrganizer.Implementation.InMemory
+﻿module TGOrganizer.Implementation.InMemory.Services
 
 open System
 open System.Collections.Concurrent
@@ -12,19 +12,6 @@ open Microsoft.Extensions.Logging
 open TGOrganizer.Contracts
 open FSharp.Control.Tasks
 open TGOrganizer.Primitives
-
-type InMemoryBusChannel<'a>(consumers: seq<IEventConsumer<'a>>) =
-    let channel = Channel.CreateUnbounded<'a>()
-    do
-        Task.Run(fun() -> unitTask {
-            while true do
-                let! message = channel.Reader.ReadAsync()
-                for consumer in consumers do
-                    do! consumer.Consume message
-        }) |> ignore
-
-    interface IEventBus<'a> with
-        member _.Publish event = vtask { do! channel.Writer.WriteAsync event }
 
 type InMemoryTodoTaskStorage(logger: ILogger<InMemoryTodoTaskStorage>) =
     let userItemStorage = ConcurrentDictionary<_, ConcurrentDictionary<_,_>>()
@@ -55,14 +42,14 @@ type InMemoryTodoTaskStorage(logger: ILogger<InMemoryTodoTaskStorage>) =
         | true, oldItem ->
             usersItems.[todoItem.Id] <- todoItem
             Ok oldItem
-        | _ -> Error (TodoTaskDoesNotExist todoItem)
+        | _ -> Error (TodoTaskDoesNotExistException todoItem :> exn)
         |> Task.FromResult
 
     let removeTodoItem (user: User) (todoItem: TodoTask) =
         let usersItems = getUsersItemsStorage user
         match usersItems.TryRemove(KeyValuePair(todoItem.Id, todoItem)) with
         | true -> Ok ()
-        | false -> Error (TodoTaskDoesNotExist todoItem)
+        | false -> Error (TodoTaskDoesNotExistException todoItem :> exn)
         |> Task.FromResult
 
     let getItems (user: User) =
@@ -79,7 +66,7 @@ type InMemoryTodoTaskStorage(logger: ILogger<InMemoryTodoTaskStorage>) =
         member this.RemoveTodoItem(user, item) = removeTodoItem user item
         member this.GetTodoItems(user) = getItems user
 
-type TodoItemEditorService(logger: ILogger<TodoItemEditorService>, storage: ITodoTaskStorage, bus: IEventBus<_>) =
+type TodoItemEditorService(logger: ILogger<TodoItemEditorService>, storage: ITodoTaskStorage, bus: IEventBus) =
 
     let createTodoItem user command = vtask {
         logger.LogTrace("Creating todo item {item} for user {user}", command, user)
@@ -120,17 +107,15 @@ type TodoItemEditorService(logger: ILogger<TodoItemEditorService>, storage: ITod
         member this.GetTodoItems(user) = ValueTask<_>(task = storage.GetTodoItems user)
         member this.RemoveTodoItem(user, item) = removeTodoItem user item
 
-type InMemoryTodoItemSchedulingService(logger: ILogger<InMemoryTodoItemSchedulingService>, bus: IEventBus<_>, notificationsService: ITodoTaskNotificationsService) =
+type InMemoryTodoItemSchedulingService(logger: ILogger<InMemoryTodoItemSchedulingService>, bus: IEventBus, notificationsService: ITodoTaskNotificationsService) =
     let timeSlots = SortedDictionary()
 
     let getScheduledItems time =
         match timeSlots.TryGetValue time with
         | true, todoItems ->
-            todoItems
+            ValueSome todoItems
         | _ ->
-            let todoItems: TodoTask NonEmptyArray = [||] |> NonEmptyArray.Make
-            timeSlots.[time] <- todoItems
-            todoItems
+            ValueNone
 
     let getItemSlot item =
         timeSlots
@@ -140,21 +125,27 @@ type InMemoryTodoItemSchedulingService(logger: ILogger<InMemoryTodoItemSchedulin
 
     let scheduleTodoItemInternal (time: ValidDateTimeOffset) (item: TodoTask) = vtask {
         if !time < DateTimeOffset.Now then
-            return Error (TodoTaskScheduleDateAlreadyPassed item)
+            return Error (TodoTaskScheduleDateAlreadyPassedException item :> exn)
         else
             return! lockVTask timeSlots ^ fun() -> vtask {
-                let todoItems = getScheduledItems time
-                match !todoItems |> Array.tryFind ^ fun { TodoTask.Id = guid } -> guid = item.Id with
-                | Some todoItem ->
-                    return Error (TodoTaskIsAlreadyScheduled todoItem)
-                | None ->
-                    let newItems = todoItems.MapMake ^ Array.append [| item |]
+                match getScheduledItems time with
+                | ValueSome todoItems ->
+                    match !todoItems |> Array.tryFind ^ fun { TodoTask.Id = guid } -> guid = item.Id with
+                    | Some todoItem ->
+                        return Error (TodoTaskIsAlreadyScheduledException todoItem :> exn)
+                    | None ->
+                        let newItems = todoItems.MapMake ^ Array.append [| item |]
+                        timeSlots.[time] <- newItems
+                        return Ok()
+                | _ ->
+                    let newItems = [| item |] |> NonEmptyArray.Make
                     timeSlots.[time] <- newItems
                     return Ok()
             }
     }
 
-    let scheduleTodoItem time item = vtask {
+    let scheduleTodoItem time (item: TodoTask) = vtask {
+        logger.LogTrace("Dropping todo item: {item}", item)
         let! result = scheduleTodoItemInternal time item
         match result with
         | Ok _ ->
@@ -174,10 +165,11 @@ type InMemoryTodoItemSchedulingService(logger: ILogger<InMemoryTodoItemSchedulin
                 timeSlots.Remove(time) |> ignore
             return Ok ()
         | _ ->
-            return Error (TodoTaskDoesNotExist item)
+            return Error (TodoTaskDoesNotExistException item :> exn)
     }
 
-    let dropScheduling item = vtask {
+    let dropScheduling (item: TodoTask) = vtask {
+        logger.LogTrace("Dropping todo item: {item}", item)
         return! lockVTask timeSlots ^ fun () -> vtask {
             let! result = dropSchedulingInternal item
             match result with
@@ -189,17 +181,18 @@ type InMemoryTodoItemSchedulingService(logger: ILogger<InMemoryTodoItemSchedulin
     }
 
     let rescheduleTodoItem (newTime: ValidDateTimeOffset) (item: TodoTask) = vtask {
-        return! lockVTask timeSlots ^ fun() -> vtask {
+        logger.LogTrace("Rescheduling todo item: {item}", item)
+        return! lockVTask timeSlots ^ fun () -> vtask {
             match! dropSchedulingInternal item with
             | Ok _ ->
                 let! result = scheduleTodoItemInternal newTime item
                 match result with
                 | Ok _ ->
                     do! bus.Publish (TodoItemRescheduled(newTime, item))
-                | _ ->()
+                | _ -> ()
                 return result
-            | _ as err ->
-                return err
+            | error ->
+                return error
         }
     }
 
@@ -212,7 +205,7 @@ type InMemoryTodoItemSchedulingService(logger: ILogger<InMemoryTodoItemSchedulin
             for Kvp (slotTime, slotItems) in timeSlotsToProcess do
                 let todoItemsToRemove = ResizeArray()
                 for todoItem in !slotItems do
-                    match! notificationsService.SendNotification { Time = slotTime; Item = todoItem} with
+                    match! notificationsService.SendNotification { Time = slotTime; Item = todoItem } with
                     | Ok _ ->
                         todoItemsToRemove.Add(todoItem)
                     | Error exn ->
@@ -241,17 +234,60 @@ type InMemoryTodoItemSchedulingService(logger: ILogger<InMemoryTodoItemSchedulin
         member this.Reschedule(newTime, item) = rescheduleTodoItem newTime item
         member this.Schedule(time, item) = scheduleTodoItem time item
 
-type InMemoryEventBus<'a>(consumers: IEventConsumer<'a> seq) =
+type InMemoryEventBus<'a>(logger: ILogger<InMemoryEventBus<'a>>, consumers: IEventConsumer<'a> seq) =
     let consumers = consumers |> Seq.toArray
     let channels = consumers |> Array.map ^ fun _ -> Channel.CreateUnbounded()
     do
         (channels, consumers) ||> Array.iter2 ^ fun channel consumer -> ignore (task {
             while true do
-                let! event = channel.Reader.ReadAsync()
-                do! consumer.Consume event
+                try
+                    let! event = channel.Reader.ReadAsync()
+                    do! consumer.Consume event
+                with exn ->
+                    logger.LogError("Uncaught exception while processing message: {exn}", exn)
         })
     interface IEventBus<'a> with
         member this.Publish(value) = vtask {
             for channel in channels do
                 do! channel.Writer.WriteAsync(value)
         }
+
+type InMemoryUserStorage(logger: ILogger<InMemoryUserStorage>) =
+    let userDictId = ConcurrentDictionary()
+    let userDictLogin = ConcurrentDictionary()
+    let createUser (command: CreateUserCommand) =
+        match userDictLogin.TryGetValue command.Login with
+        | true, user ->
+            Error (UserAlreadyExistsException() :> exn)
+        | _ ->
+            let userGuid = Guid.NewGuid() |> NonEmptyGuid.Make
+            let user: User = {
+                Id = userGuid
+                Login = command.Login
+                Name = command.Name
+            }
+            userDictId.[user.Id] <- user
+            userDictLogin.[user.Login] <- user
+            Ok user
+
+    let changeUser (user: User) =
+        match userDictId.TryGetValue user.Id with
+        | true, oldUser ->
+            userDictId.[user.Id] <- user
+            userDictLogin.[user.Login] <- user
+            Ok oldUser
+        | _ ->
+            Error (UserDoesNotExistException() :> exn)
+
+    let getUserById userId =
+        match userDictId.TryGetValue userId with
+        | true, user ->
+            Ok user
+        | _ ->
+            Error (UserDoesNotExistException() :> exn)
+
+    interface IUserStorage with
+
+        member this.ChangeUser(user) = changeUser user |> Task.FromResult
+        member this.CreateUser(command) = createUser command |> Task.FromResult
+        member this.GetUser(userId) = getUserById userId |> Task.FromResult

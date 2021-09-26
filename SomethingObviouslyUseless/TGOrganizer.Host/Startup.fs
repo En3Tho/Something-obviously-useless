@@ -1,14 +1,16 @@
 namespace TGOrganizer.Host
 
-open System
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
 open TGOrganizer.Contracts
-open TGOrganizer.Implementation.InMemory
-open TGOrganizer.Implementation.Telegram.InMemory
+open TGOrganizer.Contracts.Telegram
+open TGOrganizer.Implementation.InMemory.Consumers
+open TGOrganizer.Implementation.InMemory.Services
+open TGOrganizer.Implementation.Telegram.InMemory.Consumers
+open TGOrganizer.Implementation.Telegram.InMemory.Services
 
 [<AutoOpen>]
 module ServiceCollectionExtensions =
@@ -36,14 +38,24 @@ type Startup() =
     member _.ConfigureServices(services: IServiceCollection) =
         services
             .AddSingletonAsOpenGeneric<IEventBus<_>, InMemoryEventBus<_>>()
+            .AddSingleton<IEventBus, InMemoryServiceProviderBasedEventBus>()
 
-            .AddSingleton<ITodoTaskNotificationsService, TelegramTodoTaskNotificationsService>()
-            .AddSingleton<IEventConsumer<_>, TodoTaskNotificationConsumer>()
-            .AddSingleton<ITodoItemEditorService, TodoItemEditorService>()
+            .AddSingleton<IUserStorage, InMemoryUserStorage>()
             .AddSingleton<ITodoTaskStorage, InMemoryTodoTaskStorage>()
+
+            .AddSingleton<ITodoTaskNotificationsService, InMemoryTelegramTodoTaskNotificationsService>()
+            .AddSingleton<ITodoItemEditorService, TodoItemEditorService>()
             .AddSingleton<ITodoTaskSchedulingService, InMemoryTodoItemSchedulingService>()
 
+            .AddSingleton<IEventConsumer<_>, ReschedulerTodoTaskNotificationConsumer>()
+            .AddSingleton<IEventConsumer<_>, ConsolePrinterTodoTaskNotificationConsumer>()
+            .AddSingleton<IEventConsumer<_>, TelegramTodoTaskNotificationConsumer>()
+
+            .AddSingleton<ITelegramUserStorage, InMemoryTelegramUserStorage>()
+
             .AddHostedService<InMemoryHostedService>()
+
+            .AddLogging()
         |> ignore
 
     member _.Configure(app: IApplicationBuilder, env: IWebHostEnvironment) =

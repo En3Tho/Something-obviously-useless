@@ -18,7 +18,7 @@ module Results =
         | Ok value -> Results.Ok value
         | Error (:? ValidationException as exn) -> Results.BadRequest(exn) // for example
         | Error (:? DomainException as exn) -> Results.UnprocessableEntity(exn) // for example
-        | Error exn ->  Results.BadRequest(exn)
+        | Error exn -> Results.BadRequest(exn)
 
 [<EntryPoint>]
 let main args =

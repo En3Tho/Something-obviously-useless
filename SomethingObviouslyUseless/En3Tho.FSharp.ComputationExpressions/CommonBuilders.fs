@@ -14,8 +14,8 @@ module StringBuilderExtensionBuilder =
         member inline this.Yield (value: string) = this.Append value |> ignore
         member inline this.While (moveNext, whileExpr: WhileExpression) = while moveNext() do whileExpr()
         member inline this.For (values, forExpr: ForExpression<_>) = for value in values do forExpr value
-        member inline this.Combine (appendResult, cexpr) = cexpr()
-        member inline this.Zero() = () // matches .Append |> ignore signature
+        member inline this.Combine (_, cexpr) = cexpr()
+        member inline this.Zero() = ()
         member inline this.Delay beforeAdd = beforeAdd
         member inline this.Run (runExpr: RunExpression) = runExpr(); this
 
@@ -43,7 +43,7 @@ module ThreadLocalCachedStringBuilder =
         member inline this.Yield (value: string) = this.Builder.Append value |> ignore
         member inline this.While (moveNext, whileExpr: WhileExpression) = while moveNext() do whileExpr()
         member inline this.For (values, forExpr: ForExpression<_>) = for value in values do forExpr value
-        member inline this.Combine (appendResult, cexpr) = cexpr()
+        member inline this.Combine (_, cexpr) = cexpr()
         member inline this.Zero() = () // matches .Append |> ignore signature
         member inline this.Delay beforeAdd = beforeAdd
         member inline this.Run (runExpr: RunExpression) =
@@ -55,21 +55,21 @@ module ThreadLocalCachedStringBuilder =
 module ICollectionBuilder =
 
     type List<'a> with
-        member inline this.Yield (value: 'a) = this.Add value // to AnyAdd?
+        member inline this.Yield (value: 'a) = this.Add value
         member inline this.YieldFrom (values: 'a seq) = for value in values do this.Add value
         member inline this.While (moveNext, whileExpr: WhileExpression) = while moveNext() do whileExpr()
         member inline this.For (values, forExpr: ForExpression<_>) = for value in values do forExpr value
-        member inline this.Combine (addResult, cexpr) = cexpr()
-        member inline this.Zero() = () // matches .Add signature
+        member inline this.Combine (_, cexpr) = cexpr()
+        member inline this.Zero() = ()
         member inline this.Delay beforeAdd = beforeAdd
         member inline this.Run (runExpr: RunExpression) = runExpr(); this
 
     type ICollection<'a> with
-        member inline this.Yield (value: 'a) = this.Add value // to AnyAdd?
+        member inline this.Yield (value: 'a) = this.Add value
         member inline this.YieldFrom (values: 'a seq) = for value in values do this.Add value
         member inline this.While (moveNext, whileExpr: WhileExpression) = while moveNext() do whileExpr()
         member inline this.For (values, forExpr: ForExpression<_>) = for value in values do forExpr value
-        member inline this.Combine (addResult, cexpr) = cexpr()
-        member inline this.Zero() = () // matches .Add signature
+        member inline this.Combine (_, cexpr) = cexpr()
+        member inline this.Zero() = ()
         member inline this.Delay beforeAdd = beforeAdd
         member inline this.Run (runExpr: RunExpression) = runExpr(); this
