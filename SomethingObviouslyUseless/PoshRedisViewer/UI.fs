@@ -107,6 +107,17 @@ let runApp(multiplexer: IConnectionMultiplexer) =
         Text = ustr ""
     )
 
+    // TODO: Proper MV* pattern
+
+    // MVU?
+    // type Model = /// or type Update = ... ?
+    // type Command = | ... | ... | ... |
+    // let commandChannel = ...
+    // let updateChannel = ...
+    // commandChannel.Send KeyQueryRequested (multi, db, pattern)
+    // updateChannel.Send model or update?
+    // updater ... -> update ?
+
     View.preventCursorUpDownKeyPressedEvents keyQueryTextField
     let keyQueryHistory = ResultHistoryCache(100)
     keyQueryTextField.add_KeyDown(fun keyDownEvent ->
@@ -115,6 +126,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
             ignore ^ task {
                 let database = dbPickerComboBox.SelectedItem
                 let pattern = keyQueryTextField.Text.ToString()
+                keysFrameView.Title <- ustr "Keys (processing)"
                 let! keys =
                     pattern
                     |> RedisReader.getKeys multiplexer database
@@ -178,6 +190,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
             | value ->
                 let key = value.ToString()
                 let database = dbPickerComboBox.SelectedItem
+                resultsFrameView.Title <- ustr "Results (processing)"
                 let! keyValue = RedisReader.getKeyValue multiplexer database key
                 let source =
                     keyValue
@@ -217,6 +230,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
             ignore ^ task {
                 let database = dbPickerComboBox.SelectedItem
                 let command = commandTextField.Text.ToString()
+                resultsFrameView.Title <- ustr "Results (processing)"
                 let! commandResult =
                     command
                     |> RedisReader.execCommand multiplexer database
