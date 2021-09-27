@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace En3Tho.HelperClasses.Views
 {
-    public ref struct SingleRankCircularIListView<T>
+    public struct SingleRankCircularIListView<T>
     {
         private int _current;
         public readonly int Length;

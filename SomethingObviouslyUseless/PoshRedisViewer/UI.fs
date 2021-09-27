@@ -45,7 +45,8 @@ let runApp(multiplexer: IConnectionMultiplexer) =
     let dbPickerFrameView = new FrameView(ustr "DB",
         X = Pos.Right keyQueryFilterFrameView,
         Width = Dim.Percent(5.f),
-        Height = Dim.Sized 3)
+        Height = Dim.Sized 3
+    )
 
     let dbPickerComboBox = new ComboBox(ustr "0",
         X = Pos.Left dbPickerFrameView + Pos.At 1,

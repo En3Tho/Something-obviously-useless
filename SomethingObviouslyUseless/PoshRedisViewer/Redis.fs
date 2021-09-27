@@ -49,7 +49,7 @@ module RedisResult =
     let fromRedisKey (redisKey: RedisKey) =
         RedisString (toString redisKey)
 
-    let rec fromRedisResult (redisResult: StackExchangeRedisResult) =
+    let rec fromStackExchangeRedisResult (redisResult: StackExchangeRedisResult) =
         if redisResult.IsNull then
             RedisResult.RedisNone
         else
@@ -66,7 +66,7 @@ module RedisResult =
             RedisString (toString redisResult)
         | ResultType.MultiBulk ->
             let results = ecast<_, StackExchangeRedisResult[]> redisResult
-            RedisMultiResult (results |> Array.map fromRedisResult)
+            RedisMultiResult (results |> Array.map fromStackExchangeRedisResult)
         | _ ->
             RedisError (Exception("Unknown type of Enum"))
 
@@ -117,7 +117,7 @@ module RedisReader =
             let args = commandAndArgs.[1..] |> Array.map box
 
             let! result = database.ExecuteAsync(command, args)
-            return RedisResult.fromRedisResult result
+            return RedisResult.fromStackExchangeRedisResult result
         with
         | e ->
             return RedisError e

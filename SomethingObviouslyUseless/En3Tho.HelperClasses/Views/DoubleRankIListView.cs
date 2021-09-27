@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace En3Tho.HelperClasses.Views
 {
-    public readonly ref struct DoubleRankIListView<T>
+    public readonly struct DoubleRankIListView<T>
     {
         public readonly IList<T> Values;
         public readonly int Width;

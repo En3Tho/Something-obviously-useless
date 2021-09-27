@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace En3Tho.HelperClasses.Views
 {
-    public readonly ref struct DoubleRankBitArrayView
+    public readonly struct DoubleRankBitArrayView
     {
         public readonly BitArray Values;
         public readonly int Width;
