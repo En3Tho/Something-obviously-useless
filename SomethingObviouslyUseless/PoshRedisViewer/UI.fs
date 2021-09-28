@@ -177,7 +177,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
                 let filteredSource = source |> StringSource.filter (Ustr.toString keyQueryFilterTextField.Text)
                 keysListView.SetSource filteredSource
             | _ -> ()
-        | Key.CtrlC ->
+        | Key.CopyCommand ->
             clipboard.SetText (keyQueryFilterTextField.Text.ToString())
         | _ -> ()
         keyDownEvent.Handled <- true
@@ -206,7 +206,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
 
     keysListView.add_KeyDown(fun keyDownEvent ->
         match keyDownEvent.KeyEvent.Key with
-        | Key.CtrlC ->
+        | Key.CopyCommand ->
             let source = keysListView.Source.ToList()
             let selectedItem = source.[keysListView.SelectedItem].ToString()
             clipboard.SetText selectedItem
@@ -216,7 +216,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
 
     resultsListView.add_KeyDown(fun keyDownEvent ->
         match keyDownEvent.KeyEvent.Key with
-        | Key.CtrlC ->
+        | Key.CopyCommand ->
             let source = resultsListView.Source.ToList()
             let selectedItem = source.[resultsListView.SelectedItem].ToString()
             clipboard.SetText selectedItem
@@ -278,7 +278,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
                 let filteredSource = source |> StringSource.filter (Ustr.toString resultFilterTextField.Text)
                 resultsListView.SetSource filteredSource
             | _ -> ()
-        | Key.CtrlC ->
+        | Key.CopyCommand ->
             clipboard.SetText(keyQueryFilterTextField.Text.ToString())
         | _ -> ()
         keyDownEvent.Handled <- true

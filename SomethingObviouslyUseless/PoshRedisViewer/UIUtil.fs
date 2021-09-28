@@ -1,6 +1,7 @@
 ﻿module PoshRedisViewer.UIUtil
 
 open System
+open System.Runtime.InteropServices
 open System.Threading
 open System.Threading.Tasks
 open En3Tho.FSharp.Extensions
@@ -133,14 +134,15 @@ module Ustr =
         | _ -> ustr.ToString()
 
 module Key =
-    let (|CtrlC|_|) (key: Key) =
-        key
-        |> Enum.hasFlag (Key.CtrlMask ||| Key.C)
-        |> Option.ofBool
+    let private copyCommandMask =
+        if RuntimeInformation.IsOSPlatform(OSPlatform.Windows) then
+            Key.CtrlMask
+        else
+            Key.CtrlMask ||| Key.ShiftMask
 
-    let (|CtrlV|_|) (key: Key) =
+    let (|CopyCommand|_|) (key: Key) =
         key
-        |> Enum.hasFlag (Key.CtrlMask ||| Key.V)
+        |> Enum.hasFlag (copyCommandMask ||| Key.C)
         |> Option.ofBool
 
 module StringSource =
