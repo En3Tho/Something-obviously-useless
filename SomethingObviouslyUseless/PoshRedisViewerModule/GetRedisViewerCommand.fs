@@ -1,5 +1,6 @@
 ﻿namespace PoshRedisViewerModule
 
+open System
 open System.Management.Automation
 open System.Threading.Tasks
 open PoshRedisViewer
@@ -27,3 +28,6 @@ type GetRedisViewerCommand() =
         |> Task.RunSynchronously
         |> UI.runApp
         |> UI.shutdown
+
+        if not Console.IsInputRedirected then
+            Console.Write("\u001b[?1h\u001b[?1003l") // fixes an issue with certain terminals, same as ocgv
