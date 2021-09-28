@@ -8,8 +8,7 @@ open PoshRedisViewer.UIUtil
 open FSharp.Control.Tasks
 open PoshRedisViewer.UIUtil
 open Terminal.Gui
-
-type TCClipboard = TextCopy.Clipboard
+open Terminal.Gui
 
 type IConnectionMultiplexer = StackExchange.Redis.IConnectionMultiplexer
 
@@ -122,7 +121,6 @@ let runApp(multiplexer: IConnectionMultiplexer) =
     // updateChannel.Send model or update?
     // updater ... -> update ?
 
-    let clipboard = TCClipboard()
     let semaphore = new SemaphoreSlim(1)
 
     View.preventCursorUpDownKeyPressedEvents keyQueryTextField
@@ -178,7 +176,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
                 keysListView.SetSource filteredSource
             | _ -> ()
         | Key.CopyCommand ->
-            clipboard.SetText (keyQueryFilterTextField.Text.ToString())
+            Clipboard.TrySetClipboardData(keyQueryFilterTextField.Text.ToString()) |> ignore
         | _ -> ()
         keyDownEvent.Handled <- true
     )
@@ -209,7 +207,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
         | Key.CopyCommand ->
             let source = keysListView.Source.ToList()
             let selectedItem = source.[keysListView.SelectedItem].ToString()
-            clipboard.SetText selectedItem
+            Clipboard.TrySetClipboardData(keyQueryFilterTextField.Text.ToString()) |> ignore
         | _ -> ()
         keyDownEvent.Handled <- true
     )
@@ -219,7 +217,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
         | Key.CopyCommand ->
             let source = resultsListView.Source.ToList()
             let selectedItem = source.[resultsListView.SelectedItem].ToString()
-            clipboard.SetText selectedItem
+            Clipboard.TrySetClipboardData(keyQueryFilterTextField.Text.ToString()) |> ignore
         | _ -> ()
         keyDownEvent.Handled <- true
     )
@@ -279,7 +277,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
                 resultsListView.SetSource filteredSource
             | _ -> ()
         | Key.CopyCommand ->
-            clipboard.SetText(keyQueryFilterTextField.Text.ToString())
+            Clipboard.TrySetClipboardData(keyQueryFilterTextField.Text.ToString()) |> ignore
         | _ -> ()
         keyDownEvent.Handled <- true
     )
