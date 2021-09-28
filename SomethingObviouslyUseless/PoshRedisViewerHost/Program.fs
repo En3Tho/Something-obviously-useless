@@ -1,3 +1,4 @@
+open System
 open System.Threading.Tasks
 open En3Tho.FSharp.Extensions.Core
 open PoshRedisViewer
@@ -12,4 +13,7 @@ let main argv =
         |> Task.RunSynchronously
 
     UI.runApp(multiplexer)
+    UI.shutdown()
+    if not Console.IsInputRedirected then
+        Console.Write("\u001b[?1h\u001b[?1003l") // fixes an issue with certain terminals, same as ocgv
     0

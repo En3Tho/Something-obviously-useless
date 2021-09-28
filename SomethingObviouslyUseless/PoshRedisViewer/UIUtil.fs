@@ -134,15 +134,15 @@ module Ustr =
         | _ -> ustr.ToString()
 
 module Key =
-    let private copyCommandMask =
+    let private copyCommandKey =
         if RuntimeInformation.IsOSPlatform(OSPlatform.Windows) then
-            Key.CtrlMask
+            Key.CtrlMask ||| Key.C
         else
-            Key.CtrlMask ||| Key.ShiftMask
+            Key.CtrlMask ||| Key.Y
 
     let (|CopyCommand|_|) (key: Key) =
         key
-        |> Enum.hasFlag (copyCommandMask ||| Key.C)
+        |> Enum.hasFlag copyCommandKey
         |> Option.ofBool
 
 module StringSource =

@@ -162,6 +162,8 @@ let runApp(multiplexer: IConnectionMultiplexer) =
                 keysFrameView.Title <- ustr "Keys (From History)"
                 keysListView.SetSource filteredSource
             | _ -> ()
+        | Key.CopyCommand ->
+            Clipboard.TrySetClipboardData(keyQueryTextField.Text.ToString()) |> ignore
         | _ -> ()
         keyDownEvent.Handled <- true
     )
@@ -207,7 +209,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
         | Key.CopyCommand ->
             let source = keysListView.Source.ToList()
             let selectedItem = source.[keysListView.SelectedItem].ToString()
-            Clipboard.TrySetClipboardData(keyQueryFilterTextField.Text.ToString()) |> ignore
+            Clipboard.TrySetClipboardData(selectedItem.ToString()) |> ignore
         | _ -> ()
         keyDownEvent.Handled <- true
     )
@@ -217,7 +219,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
         | Key.CopyCommand ->
             let source = resultsListView.Source.ToList()
             let selectedItem = source.[resultsListView.SelectedItem].ToString()
-            Clipboard.TrySetClipboardData(keyQueryFilterTextField.Text.ToString()) |> ignore
+            Clipboard.TrySetClipboardData(selectedItem.ToString()) |> ignore
         | _ -> ()
         keyDownEvent.Handled <- true
     )
@@ -277,7 +279,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
                 resultsListView.SetSource filteredSource
             | _ -> ()
         | Key.CopyCommand ->
-            Clipboard.TrySetClipboardData(keyQueryFilterTextField.Text.ToString()) |> ignore
+            Clipboard.TrySetClipboardData(resultFilterTextField.Text.ToString()) |> ignore
         | _ -> ()
         keyDownEvent.Handled <- true
     )
