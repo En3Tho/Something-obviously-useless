@@ -17,6 +17,7 @@
       <PackageReference Include="StackExchange.Redis" Version="2.2.50" />
       <PackageReference Include="Terminal.Gui" Version="1.2.1" />
       <PackageReference Update="FSharp.Core" Version="6.0.0" />
+      <PackageReference Include="TextCopy" Version="4.3.1" />
     </ItemGroup>
 
     <ItemGroup>

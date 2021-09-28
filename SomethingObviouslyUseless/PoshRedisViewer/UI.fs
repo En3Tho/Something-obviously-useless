@@ -1,11 +1,15 @@
 ﻿module PoshRedisViewer.UI
 
+open System.Threading
 open En3Tho.FSharp.Extensions
 open NStack
 open PoshRedisViewer.Redis
 open PoshRedisViewer.UIUtil
 open FSharp.Control.Tasks
+open PoshRedisViewer.UIUtil
 open Terminal.Gui
+
+type TCClipboard = TextCopy.Clipboard
 
 type IConnectionMultiplexer = StackExchange.Redis.IConnectionMultiplexer
 
@@ -118,12 +122,15 @@ let runApp(multiplexer: IConnectionMultiplexer) =
     // updateChannel.Send model or update?
     // updater ... -> update ?
 
+    let clipboard = TCClipboard()
+    let semaphore = new SemaphoreSlim(1)
+
     View.preventCursorUpDownKeyPressedEvents keyQueryTextField
     let keyQueryHistory = ResultHistoryCache(100)
     keyQueryTextField.add_KeyDown(fun keyDownEvent ->
         match keyDownEvent.KeyEvent.Key with
         | Key.Enter ->
-            ignore ^ task {
+            ignore ^ Semaphore.runTask semaphore ^ task {
                 let database = dbPickerComboBox.SelectedItem
                 let pattern = keyQueryTextField.Text.ToString()
                 keysFrameView.Title <- ustr "Keys (processing)"
@@ -141,11 +148,6 @@ let runApp(multiplexer: IConnectionMultiplexer) =
                 keysListView.SetSource(filteredSource)
                 keysFrameView.Title <- ustr "Keys"
             }
-        | Key.CtrlV ->
-            match Clipboard.TryGetClipboardData() with
-            | true, data ->
-                keyQueryTextField.Text <- ustr data
-            | _ -> ()
         | Key.CursorUp ->
             match keyQueryHistory.Up() with
             | ValueSome { Key = command; Value = source } ->
@@ -176,7 +178,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
                 keysListView.SetSource filteredSource
             | _ -> ()
         | Key.CtrlC ->
-            Clipboard.TrySetClipboardData(keyQueryFilterTextField.Text.ToString()) |> ignore
+            clipboard.SetText (keyQueryFilterTextField.Text.ToString())
         | _ -> ()
         keyDownEvent.Handled <- true
     )
@@ -184,7 +186,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
     View.preventCursorUpDownKeyPressedEvents dbPickerComboBox
     let mutable keyQueryClickResult = [||]
     keysListView.add_SelectedItemChanged(fun selectedItemChangedEvent ->
-        ignore ^ task {
+        ignore ^ Semaphore.runTask semaphore ^ task {
             match selectedItemChangedEvent.Value with
             | null -> ()
             | value ->
@@ -206,8 +208,8 @@ let runApp(multiplexer: IConnectionMultiplexer) =
         match keyDownEvent.KeyEvent.Key with
         | Key.CtrlC ->
             let source = keysListView.Source.ToList()
-            let item = source.[keysListView.SelectedItem].ToString()
-            Clipboard.TrySetClipboardData(item) |> ignore
+            let selectedItem = source.[keysListView.SelectedItem].ToString()
+            clipboard.SetText selectedItem
         | _ -> ()
         keyDownEvent.Handled <- true
     )
@@ -216,8 +218,8 @@ let runApp(multiplexer: IConnectionMultiplexer) =
         match keyDownEvent.KeyEvent.Key with
         | Key.CtrlC ->
             let source = resultsListView.Source.ToList()
-            let item = source.[resultsListView.SelectedItem].ToString()
-            Clipboard.TrySetClipboardData(item) |> ignore
+            let selectedItem = source.[resultsListView.SelectedItem].ToString()
+            clipboard.SetText selectedItem
         | _ -> ()
         keyDownEvent.Handled <- true
     )
@@ -225,9 +227,16 @@ let runApp(multiplexer: IConnectionMultiplexer) =
     View.preventCursorUpDownKeyPressedEvents commandTextField
     let resultsHistory = ResultHistoryCache(100)
     commandTextField.add_KeyDown(fun keyDownEvent ->
+
+        let filterSourceAndSetCommandResultFromHistory command source =
+            let filteredSource = source |> StringSource.filter (Ustr.toString resultFilterTextField.Text)
+            commandTextField.Text <- ustr command
+            resultsFrameView.Title <- ustr "Results (From History)"
+            resultsListView.SetSource filteredSource
+
         match keyDownEvent.KeyEvent.Key with
         | Key.Enter ->
-            ignore ^ task {
+            ignore ^ Semaphore.runTask semaphore ^ task {
                 let database = dbPickerComboBox.SelectedItem
                 let command = commandTextField.Text.ToString()
                 resultsFrameView.Title <- ustr "Results (processing)"
@@ -248,23 +257,12 @@ let runApp(multiplexer: IConnectionMultiplexer) =
         | Key.CursorUp ->
             match resultsHistory.Up() with
             | ValueSome { Key = command; Value = source } ->
-                let filteredSource = source |> StringSource.filter (Ustr.toString resultFilterTextField.Text)
-                commandTextField.Text <- ustr command
-                resultsFrameView.Title <- ustr "Results (From History)"
-                resultsListView.SetSource filteredSource
+                filterSourceAndSetCommandResultFromHistory command source
             | _ -> ()
         | Key.CursorDown ->
             match resultsHistory.Down() with
             | ValueSome { Key = command; Value = source } ->
-                let filteredSource = source |> StringSource.filter (Ustr.toString resultFilterTextField.Text)
-                commandTextField.Text <- ustr command
-                resultsFrameView.Title <- ustr "Results (From History)"
-                resultsListView.SetSource filteredSource
-            | _ -> ()
-        | Key.CtrlV ->
-            match Clipboard.TryGetClipboardData() with
-            | true, data ->
-                commandTextField.Text <- ustr data
+                filterSourceAndSetCommandResultFromHistory command source
             | _ -> ()
         | _ -> ()
         keyDownEvent.Handled <- true
@@ -274,18 +272,14 @@ let runApp(multiplexer: IConnectionMultiplexer) =
     resultFilterTextField.add_KeyDown(fun keyDownEvent ->
         match keyDownEvent.KeyEvent.Key with
         | Key.Enter ->
-            match keyQueryClickResult with
-            | [||] ->
-                match resultsHistory.TryReadCurrent() with
-                | ValueSome { Value = source } ->
-                    let filteredSource = source |> StringSource.filter (Ustr.toString resultFilterTextField.Text)
-                    resultsListView.SetSource filteredSource
-                | _ -> ()
-            | source ->
+            match keyQueryClickResult, resultsHistory.TryReadCurrent()  with
+            | Array.NotNullOrEmpty as source, _
+            | _, ValueSome { Value = source } ->
                 let filteredSource = source |> StringSource.filter (Ustr.toString resultFilterTextField.Text)
                 resultsListView.SetSource filteredSource
+            | _ -> ()
         | Key.CtrlC ->
-            Clipboard.TrySetClipboardData(keyQueryFilterTextField.Text.ToString()) |> ignore
+            clipboard.SetText(keyQueryFilterTextField.Text.ToString())
         | _ -> ()
         keyDownEvent.Handled <- true
     )

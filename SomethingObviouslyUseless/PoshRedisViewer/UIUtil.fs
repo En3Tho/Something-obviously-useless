@@ -1,10 +1,13 @@
 ﻿module PoshRedisViewer.UIUtil
 
 open System
+open System.Threading
+open System.Threading.Tasks
 open En3Tho.FSharp.Extensions
 open NStack
 open PoshRedisViewer.Redis
 open Terminal.Gui
+open FSharp.Control.Tasks
 
 type HistorySlot<'a, 'b> = {
     Key: 'a
@@ -112,6 +115,15 @@ module View =
                 keyPressEvent.Handled <- true
             | _ -> ()
         )
+
+module Semaphore =
+    let runTask (semaphore: SemaphoreSlim) (job: Task<'a>) = task {
+        do! semaphore.WaitAsync()
+        try
+            return! job
+        finally
+            semaphore.Release() |> ignore
+    }
 
 let ustr (str: string) = ustring.op_Implicit str
 module Ustr =
