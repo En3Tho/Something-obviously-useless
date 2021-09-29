@@ -6,8 +6,6 @@ open NStack
 open PoshRedisViewer.Redis
 open PoshRedisViewer.UIUtil
 open FSharp.Control.Tasks
-open PoshRedisViewer.UIUtil
-open Terminal.Gui
 open Terminal.Gui
 
 type IConnectionMultiplexer = StackExchange.Redis.IConnectionMultiplexer
@@ -110,35 +108,27 @@ let runApp(multiplexer: IConnectionMultiplexer) =
         Text = ustr ""
     )
 
-    // TODO: Proper MV* pattern
-
-    // MVU?
-    // type Model = /// or type Update = ... ?
-    // type Command = | ... | ... | ... |
-    // let commandChannel = ...
-    // let updateChannel = ...
-    // commandChannel.Send KeyQueryRequested (multi, db, pattern)
-    // updateChannel.Send model or update?
-    // updater ... -> update ?
-
     let semaphore = new SemaphoreSlim(1)
 
     View.preventCursorUpDownKeyPressedEvents keyQueryTextField
     let keyQueryHistory = ResultHistoryCache(100)
     keyQueryTextField.add_KeyDown(fun keyDownEvent ->
+
+        let filterSourceAndSetKeyQueryResultFromHistory keyQuery source =
+            let filteredSource = source |> StringSource.filter (Ustr.toString keyQueryFilterTextField.Text)
+            keyQueryTextField.Text <- ustr keyQuery
+            keysFrameView.Title <- ustr "Keys (From History)"
+            keysListView.SetSource filteredSource
+
         match keyDownEvent.KeyEvent.Key with
         | Key.Enter ->
             ignore ^ Semaphore.runTask semaphore ^ task {
                 let database = dbPickerComboBox.SelectedItem
                 let pattern = keyQueryTextField.Text.ToString()
                 keysFrameView.Title <- ustr "Keys (processing)"
-                let! keys =
-                    pattern
-                    |> RedisReader.getKeys multiplexer database
-                let source =
-                    keys
-                    |> RedisResult.toStringArray
 
+                let! keys = pattern |> RedisReader.getKeys multiplexer database
+                let source = keys |> RedisResult.toStringArray
                 source |> Array.sortInPlace
                 let filteredSource = source |> StringSource.filter (Ustr.toString keyQueryFilterTextField.Text)
 
@@ -148,19 +138,13 @@ let runApp(multiplexer: IConnectionMultiplexer) =
             }
         | Key.CursorUp ->
             match keyQueryHistory.Up() with
-            | ValueSome { Key = command; Value = source } ->
-                let filteredSource = source |> StringSource.filter (Ustr.toString keyQueryFilterTextField.Text)
-                keyQueryTextField.Text <- ustr command
-                keysFrameView.Title <- ustr "Keys (From History)"
-                keysListView.SetSource filteredSource
+            | ValueSome { Key = keyQuery; Value = source } ->
+                filterSourceAndSetKeyQueryResultFromHistory keyQuery source
             | _ -> ()
         | Key.CursorDown ->
             match keyQueryHistory.Down() with
-            | ValueSome { Key = command; Value = source } ->
-                let filteredSource = source |> StringSource.filter (Ustr.toString keyQueryFilterTextField.Text)
-                keyQueryTextField.Text <- ustr command
-                keysFrameView.Title <- ustr "Keys (From History)"
-                keysListView.SetSource filteredSource
+            | ValueSome { Key = keyQuery; Value = source } ->
+                filterSourceAndSetKeyQueryResultFromHistory keyQuery source
             | _ -> ()
         | Key.CopyCommand ->
             Clipboard.TrySetClipboardData(keyQueryTextField.Text.ToString()) |> ignore
@@ -184,7 +168,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
     )
 
     View.preventCursorUpDownKeyPressedEvents dbPickerComboBox
-    let mutable keyQueryClickResult = [||]
+    let mutable resultsFromKeyQuery = [||]
     keysListView.add_SelectedItemChanged(fun selectedItemChangedEvent ->
         ignore ^ Semaphore.runTask semaphore ^ task {
             match selectedItemChangedEvent.Value with
@@ -193,12 +177,10 @@ let runApp(multiplexer: IConnectionMultiplexer) =
                 let key = value.ToString()
                 let database = dbPickerComboBox.SelectedItem
                 resultsFrameView.Title <- ustr "Results (processing)"
-                let! keyValue = RedisReader.getKeyValue multiplexer database key
-                let source =
-                    keyValue
-                    |> RedisResult.toStringArray
+                let! keyValue = key |> RedisReader.getKeyValue multiplexer database
+                let source = keyValue |> RedisResult.toStringArray
                 let filteredSource = source |> StringSource.filter (Ustr.toString resultFilterTextField.Text)
-                keyQueryClickResult <- source
+                resultsFromKeyQuery <- source
                 resultsListView.SetSource filteredSource
                 resultsFrameView.Title <- ustr $"Results ({Union.getName keyValue})"
         }
@@ -247,7 +229,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
                     commandResult
                     |> RedisResult.toStringArray
 
-                keyQueryClickResult <- [||]
+                resultsFromKeyQuery <- [||]
                 let filteredSource = source |> StringSource.filter (Ustr.toString resultFilterTextField.Text)
 
                 resultsHistory.Add(command, source)
@@ -272,7 +254,7 @@ let runApp(multiplexer: IConnectionMultiplexer) =
     resultFilterTextField.add_KeyDown(fun keyDownEvent ->
         match keyDownEvent.KeyEvent.Key with
         | Key.Enter ->
-            match keyQueryClickResult, resultsHistory.TryReadCurrent()  with
+            match resultsFromKeyQuery, resultsHistory.TryReadCurrent() with
             | Array.NotNullOrEmpty as source, _
             | _, ValueSome { Value = source } ->
                 let filteredSource = source |> StringSource.filter (Ustr.toString resultFilterTextField.Text)

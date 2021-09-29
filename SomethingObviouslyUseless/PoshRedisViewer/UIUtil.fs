@@ -126,7 +126,7 @@ module Semaphore =
             semaphore.Release() |> ignore
     }
 
-let ustr (str: string) = ustring.op_Implicit str
+let ustr str = icast<string, ustring> str
 module Ustr =
     let toString (ustr: ustring) =
         match ustr with
