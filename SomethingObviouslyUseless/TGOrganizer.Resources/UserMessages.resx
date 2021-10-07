@@ -1,0 +1,29 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="TaskCreateBodyDescription" xml:space="preserve">
+        <value>Wasda</value>
+    </data>
+    <data name="TaskSetDateDescription" xml:space="preserve">
+        <value>gffgd</value>
+    </data>
+    <data name="TaskSetTimeDescription" xml:space="preserve">
+        <value>asds2131</value>
+    </data>
+    <data name="TaskSetConcurrencyPeriodDescription" xml:space="preserve">
+        <value>asdasdasd</value>
+    </data>
+    <data name="Test55" xml:space="preserve">
+        <value>null</value>
+    </data>
+</root>

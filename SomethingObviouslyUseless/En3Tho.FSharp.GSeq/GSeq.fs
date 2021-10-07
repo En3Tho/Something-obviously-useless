@@ -2139,7 +2139,7 @@ module GSeq =
         else
             maxByvImpl state map &enumerator |> ValueSome
 
-    let inline sum (enumerator: SStructEnumerator<'i,'e>) = Core.TODO<'obj>
+    let inline sum (enumerator: SStructEnumerator<'i,'e>) = TODO
 
     [<MethodImpl(MethodImplOptions.AggressiveInlining)>]
     let length (enumerator: SStructEnumerator<'i,'e>) =

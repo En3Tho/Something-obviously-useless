@@ -1,8 +1,9 @@
 ﻿namespace TGOrganizer.Contracts
 
 open System.Threading.Tasks
+open En3Tho.FSharp.Extensions
 open En3Tho.FSharp.Validation
-open En3Tho.FSharp.Validation.CommonTypes
+open En3Tho.FSharp.Validation.CommonValidatedTypes
 open TGOrganizer.Primitives
 
 type User = {
@@ -16,13 +17,13 @@ type CreateUserCommand = {
     Name: NonEmptyString
 }
 
-type UserAlreadyExistsException() = inherit DomainException(nameof(UserAlreadyExistsException))
-type UserDoesNotExistException() = inherit DomainException(nameof(UserDoesNotExistException))
+type UserAlreadyExistsException() = inherit ProcessingException(nameof(UserAlreadyExistsException))
+type UserDoesNotExistException() = inherit ProcessingException(nameof(UserDoesNotExistException))
 
 type IUserStorage =
-    abstract member CreateUser: command: CreateUserCommand -> Task<EResult<User>>
-    abstract member ChangeUser: user: User -> Task<EResult<User>>
-    abstract member GetUser: userId: NonEmptyGuid -> Task<EResult<User>>
+    abstract member CreateUser: command: CreateUserCommand -> Task<ExnResult<User>>
+    abstract member ChangeUser: user: User -> Task<ExnResult<User>>
+    abstract member GetUser: userId: NonEmptyGuid -> Task<ExnResult<User>>
 
 type UserStorageEvent =
     | UserCreated of Time: ValidDateTimeOffset * User: User
@@ -55,10 +56,10 @@ type CreateTodoTaskCommand = {
 }
 
 type ITodoItemEditorService =
-    abstract GetTodoItems: user: User -> AsyncEResult<NonNullValue<array<TodoTask>>>
-    abstract CreateTodoItem: user: User * command: CreateTodoTaskCommand -> AsyncEResult<TodoTask>
-    abstract EditTodoItem: user: User * task: TodoTask -> AsyncEResult<TodoTask>
-    abstract RemoveTodoItem: user: User * task: TodoTask -> AsyncEResult<unit>
+    abstract GetTodoItems: user: User -> AsyncExnResult<NonNullValue<array<TodoTask>>>
+    abstract CreateTodoItem: user: User * command: CreateTodoTaskCommand -> AsyncExnResult<TodoTask>
+    abstract EditTodoItem: user: User * task: TodoTask -> AsyncExnResult<TodoTask>
+    abstract RemoveTodoItem: user: User * task: TodoTask -> AsyncExnResult<unit>
 
 type TodoItemEditorServiceEvents =
     | TodoItemCreated of Item: TodoTask
@@ -66,31 +67,31 @@ type TodoItemEditorServiceEvents =
     | TodoItemRemoved of Item: TodoTask
 
 type TodoTaskAlreadyExistsException(todoTask: TodoTask) =
-    inherit DomainException(nameof(TodoTaskAlreadyExistsException))
+    inherit ProcessingException(nameof(TodoTaskAlreadyExistsException))
     member _.TodoTask = todoTask
 
 type TodoTaskDoesNotExistException(todoTask: TodoTask) =
-    inherit DomainException(nameof(TodoTaskDoesNotExistException))
+    inherit ProcessingException(nameof(TodoTaskDoesNotExistException))
     member _.TodoTask = todoTask
 
 type ITodoTaskStorage =
-    abstract GetTodoItems: user: User -> Task<EResult<NonNullValue<array<TodoTask>>>>
-    abstract CreateTodoItem: user: User * command: CreateTodoTaskCommand -> Task<EResult<TodoTask>>
-    abstract EditTodoItem: user: User * task: TodoTask -> Task<EResult<TodoTask>>
-    abstract RemoveTodoItem: user: User * task: TodoTask -> Task<EResult<unit>>
+    abstract GetTodoItems: user: User -> Task<ExnResult<NonNullValue<array<TodoTask>>>>
+    abstract CreateTodoItem: user: User * command: CreateTodoTaskCommand -> Task<ExnResult<TodoTask>>
+    abstract EditTodoItem: user: User * task: TodoTask -> Task<ExnResult<TodoTask>>
+    abstract RemoveTodoItem: user: User * task: TodoTask -> Task<ExnResult<unit>>
 
 type TodoTaskIsAlreadyScheduledException(todoTask: TodoTask) =
-    inherit DomainException(nameof(TodoTaskIsAlreadyScheduledException))
+    inherit ProcessingException(nameof(TodoTaskIsAlreadyScheduledException))
     member _.TodoTask = todoTask
 
 type TodoTaskScheduleDateAlreadyPassedException(todoTask: TodoTask) =
-    inherit DomainException(nameof(TodoTaskScheduleDateAlreadyPassedException))
+    inherit ProcessingException(nameof(TodoTaskScheduleDateAlreadyPassedException))
     member _.TodoTask = todoTask
 
 type ITodoTaskSchedulingService =
-    abstract Schedule: time: ValidDateTimeOffset * task: TodoTask -> AsyncEResult<unit>
-    abstract Reschedule: time: ValidDateTimeOffset * task: TodoTask -> AsyncEResult<unit>
-    abstract DropScheduling: task: TodoTask -> AsyncEResult<unit>
+    abstract Schedule: time: ValidDateTimeOffset * task: TodoTask -> AsyncExnResult<unit>
+    abstract Reschedule: time: ValidDateTimeOffset * task: TodoTask -> AsyncExnResult<unit>
+    abstract DropScheduling: task: TodoTask -> AsyncExnResult<unit>
 
 type TodoItemSchedulingServiceEvents =
     | TodoItemScheduled of Time: ValidDateTimeOffset * TodoTask: TodoTask
@@ -103,7 +104,7 @@ type TodoTaskNotification = {
 }
 
 type ITodoTaskNotificationsService =
-    abstract SendNotification: notification: TodoTaskNotification -> AsyncEResult<unit>
+    abstract SendNotification: notification: TodoTaskNotification -> AsyncExnResult<unit>
 
 type ILocalizable =
     abstract ToLocalString: unit -> string

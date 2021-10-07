@@ -2,6 +2,7 @@ module Benchmarks.FSharp.Lib.CustomBuildersVsLibraryBuilders
 
 open BenchmarkDotNet.Attributes
 
+open En3Tho.FSharp.Extensions
 open En3Tho.FSharp.ComputationExpressions.ArrayPoolBasedBuilders
 
 [<MemoryDiagnoser>]

@@ -3,9 +3,9 @@
 open System
 open System.Reflection
 open System.Text
-open En3Tho.FSharp.ComputationExpressions
+open En3Tho.FSharp.Extensions
+open En3Tho.FSharp.ComputationExpressions.SStringBuilderBuilder
 open Microsoft.CodeAnalysis
-open StringBuilderExtensionBuilder
 
 let generatePropertyActivePatterns(type': Type) =
     match type'.Name with

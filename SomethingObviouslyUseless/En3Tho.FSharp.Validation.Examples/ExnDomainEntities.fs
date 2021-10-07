@@ -87,7 +87,7 @@ type ValueShouldBeUnique = DomainEntity11<string, NonEmptyString.Validator, Valu
 type FirstName = DomainEntity20<string, StringOfMinLength10.Validator, StringOfMaxLength50.Validator>
 type LastName = NonEmptyString
 type Age = NonNegativeValue<int>
-type Email = DomainEntity10<string, Email.Validator>
+type Email = Validated10<string, Email.Validator>
 
 type DepartmentName = ValueShouldBeUnique
 type DepartmentWorkerCount = NonNegativeValue<int>
@@ -121,7 +121,7 @@ type CreateDepartmentRequest = {
     WorkerCount: int
 }
 
-open DomainEntityExtensions
+open ValidatedExtensions
 open ValidateComputationExpression
 open ExceptionExtensions    
 

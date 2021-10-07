@@ -5,24 +5,24 @@ open System.Collections.Concurrent
 open System.Threading.Tasks
 open FSharp.Control.Tasks
 
-type AsyncEResult<'a> = ValueTask<Result<'a, exn>>
+type AsyncExnResult<'a> = ValueTask<Result<'a, exn>>
 
 type ICapability =
     abstract Id: Guid
 
 type ICapabilitySupervisor =
-    abstract AddCapability: capability: ICapability -> AsyncEResult<unit>
-    abstract RemoveCapability: capability: ICapability -> AsyncEResult<unit>
-    abstract CapabilityExists: capabilityId: Guid -> AsyncEResult<bool>
+    abstract AddCapability: capability: ICapability -> AsyncExnResult<unit>
+    abstract RemoveCapability: capability: ICapability -> AsyncExnResult<unit>
+    abstract CapabilityExists: capabilityId: Guid -> AsyncExnResult<bool>
 
 type ICapability<'a, 'b> =
     inherit ICapability
-    abstract Invoke: supervisor: ICapabilitySupervisor * value: 'a -> AsyncEResult<'b>
+    abstract Invoke: supervisor: ICapabilitySupervisor * value: 'a -> AsyncExnResult<'b>
 
 [<AbstractClass>]
 type Capability<'a, 'b>() =
     member val Id = Guid.NewGuid()
-    abstract Invoke: ICapabilitySupervisor * 'a -> AsyncEResult<'b>
+    abstract Invoke: ICapabilitySupervisor * 'a -> AsyncExnResult<'b>
     interface ICapability<'a, 'b> with
         member this.Id = this.Id
         member this.Invoke(supervisor, value) = vtask {
@@ -40,7 +40,7 @@ type OnlyOnceCapability<'a, 'b>(capability: ICapability<'a, 'b>) =
         | Error exn -> return Error exn
     }
 
-type FuncCapability<'a, 'b>(func: ICapabilitySupervisor * 'a -> AsyncEResult<'b>, supervisor: ICapabilitySupervisor) =
+type FuncCapability<'a, 'b>(func: ICapabilitySupervisor * 'a -> AsyncExnResult<'b>, supervisor: ICapabilitySupervisor) =
     inherit Capability<'a, 'b>()
 
     override this.Invoke(supervisor, value) = func(supervisor, value)

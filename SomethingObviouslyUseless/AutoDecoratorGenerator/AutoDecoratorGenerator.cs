@@ -91,7 +91,7 @@ namespace AutoDecoratorGenerator
 
         public void Execute(GeneratorExecutionContext context)
         {
-#if DEBUG
+#if DEBUG_AUTODECORATOR_GENERATOR
             if (!Debugger.IsAttached)
                 Debugger.Launch();
 #endif
@@ -458,10 +458,10 @@ namespace {namespaceName}
         /// </summary>
         public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
         {
-// #if DEBUG
-//             if (!Debugger.IsAttached)
-//                 Debugger.Launch();
-// #endif
+#if DEBUG_AUTODECORATOR_GENERATOR
+            if (!Debugger.IsAttached)
+                Debugger.Launch();
+#endif
 
             // any field with at least one attribute is a candidate for property generation
             if (context.Node is FieldDeclarationSyntax { AttributeLists: { Count: > 0 } } fieldDeclarationSyntax)

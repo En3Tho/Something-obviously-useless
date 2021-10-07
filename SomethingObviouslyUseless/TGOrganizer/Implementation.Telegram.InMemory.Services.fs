@@ -3,8 +3,7 @@
 open System
 open System.Collections.Concurrent
 open System.Threading.Tasks
-open En3Tho.FSharp.Validation
-open En3Tho.FSharp.Validation.CommonTypes
+open En3Tho.FSharp.Validation.CommonValidatedTypes
 open Microsoft.Extensions.Logging
 open TGOrganizer.Contracts
 open TGOrganizer.Contracts.Telegram

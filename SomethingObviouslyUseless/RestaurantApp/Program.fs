@@ -8,9 +8,9 @@ open System.Text.Json.Serialization
 open System.Threading.Tasks
 open En3Tho.FSharp.Extensions
 open En3Tho.FSharp.GSeq
+open En3Tho.FSharp.ComputationExpressions.ResultBuilder
 open En3Tho.FSharp.Validation
-open En3Tho.FSharp.Validation.CommonTypes
-open En3Tho.FSharp.Validation.ValidateComputationExpression
+open En3Tho.FSharp.Validation.CommonValidatedTypes
 open FSharp.Reflection
 open RestaurantApp
 
@@ -80,7 +80,7 @@ module Restaurant =
         Waiters: Waiter NotEmptyBlock
     }
     
-    let createOrder guestCode items = eresult {
+    let createOrder (guestCode: int) items = eresult {
         let! guestCode = DailyGuestCode.Try guestCode
         return {
             GuestOrder.GuestCode = guestCode
@@ -90,8 +90,7 @@ module Restaurant =
     
     let addGuestOrder order (tableOrder: TableOrder) = eresult {
         let! guestOrders =
-            tableOrder.GuestOrders
-            |> DomainEntity.map ^ fun block ->
+            tableOrder.GuestOrders.MapTry ^ fun block ->
                 block.Add order
         return {
             tableOrder with
@@ -101,8 +100,7 @@ module Restaurant =
         
     let removeGuestOrder order (tableOrder: TableOrder) = eresult {
         let! guestOrders =
-            tableOrder.GuestOrders
-            |> DomainEntity.map ^ fun block ->
+            tableOrder.GuestOrders.MapTry ^ fun block ->
                 block
                 |> GSeq.ofBlock
                 |> GSeq.filter (fun x -> x.GuestCode <> order.GuestCode)
@@ -169,30 +167,24 @@ module AccountingBalance =
 
     exception SumOfParametersIsNotZero
 
-    let validate (value: AccountingBalanceData) =
-        if value.Assets.Value + value.Liabilities.Value + value.Equities.Value + value.BalanceSheet.Value = 0 then Ok value
-        else SumOfParametersIsNotZero2(value) :> exn |> Error
-
     type [<Struct>] Validator =
-        interface IValidator<AccountingBalanceData> with
-            member this.Validate value = validate value
-            member this.Validate value = validate value |> ValueTask<_>
 
-type AccountingBalance = DomainEntity10<AccountingBalanceData, AccountingBalance.Validator>
+        member this.Validate (value: AccountingBalanceData) =
+            if value.Assets.Value + value.Liabilities.Value + value.Equities.Value + value.BalanceSheet.Value = 0 then Ok value
+            else SumOfParametersIsNotZero2(value) :> exn |> Error
+
+        interface IValidator<AccountingBalanceData> with
+            member this.Validate value = this.Validate value
+            member this.Validate value = this.Validate value |> ValueTask<_>
+            member this.ValidateAggregate(value: AccountingBalanceData) = this.Validate value |> Result.mapError AggregateException
+            member this.ValidateAggregate(value: AccountingBalanceData) = this.Validate value |> Result.mapError AggregateException |> ValueTask<_>
+
+type AccountingBalance = NewCtorValidatorValidated<AccountingBalanceData, AccountingBalance.Validator>
 
 [<NoEquality; NoComparison>]
 type A =
     | A of int * int
     | B of Data: string
-
-module private ChoiGoiRecFunc =
-    let rec udodo (z: int byref) = udodo &z
-
-type ChoiGoi() =
-    member this.Udodo(z: int byref) : unit =
-        this.Udodo(&z)
-
-    member this.Udodo2 (z: int byref) = ChoiGoiRecFunc.udodo &z
 
 type Foo = struct
     end

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,10 +13,15 @@
         <Compile Include="Lua.fs" />
         <Compile Include="Stuff.fs" />
         <Compile Include="Cancellables.fs" />
+        <Compile Include="Caches.fs" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
       <PackageReference Include="Ply" Version="0.3.1" />
+      <PackageReference Include="StackExchange.Redis" Version="2.2.50" />
+      <PackageReference Include="System.Runtime.Caching" Version="5.0.0" />
+      <PackageReference Update="FSharp.Core" Version="6.0.0" />
     </ItemGroup>
 
 </Project>

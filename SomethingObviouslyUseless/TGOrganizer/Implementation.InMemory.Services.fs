@@ -6,8 +6,7 @@ open System.Collections.Generic
 open System.Threading.Channels
 open System.Threading.Tasks
 open En3Tho.FSharp.Extensions.Core
-open En3Tho.FSharp.Validation
-open En3Tho.FSharp.Validation.CommonTypes
+open En3Tho.FSharp.Validation.CommonValidatedTypes
 open Microsoft.Extensions.Logging
 open TGOrganizer.Contracts
 open FSharp.Control.Tasks
@@ -124,13 +123,13 @@ type InMemoryTodoItemSchedulingService(logger: ILogger<InMemoryTodoItemSchedulin
                 guid = item.Id
 
     let scheduleTodoItemInternal (time: ValidDateTimeOffset) (item: TodoTask) = vtask {
-        if !time < DateTimeOffset.Now then
+        if time.Value < DateTimeOffset.Now then
             return Error (TodoTaskScheduleDateAlreadyPassedException item :> exn)
         else
             return! lockVTask timeSlots ^ fun() -> vtask {
                 match getScheduledItems time with
                 | ValueSome todoItems ->
-                    match !todoItems |> Array.tryFind ^ fun { TodoTask.Id = guid } -> guid = item.Id with
+                    match todoItems.Value |> Array.tryFind ^ fun { TodoTask.Id = guid } -> guid = item.Id with
                     | Some todoItem ->
                         return Error (TodoTaskIsAlreadyScheduledException todoItem :> exn)
                     | None ->
@@ -145,7 +144,7 @@ type InMemoryTodoItemSchedulingService(logger: ILogger<InMemoryTodoItemSchedulin
     }
 
     let scheduleTodoItem time (item: TodoTask) = vtask {
-        logger.LogTrace("Dropping todo item: {item}", item)
+        logger.LogTrace("Scheduling todo item: {item}", item)
         let! result = scheduleTodoItemInternal time item
         match result with
         | Ok _ ->
@@ -204,7 +203,7 @@ type InMemoryTodoItemSchedulingService(logger: ILogger<InMemoryTodoItemSchedulin
                 |> Seq.toArray
             for Kvp (slotTime, slotItems) in timeSlotsToProcess do
                 let todoItemsToRemove = ResizeArray()
-                for todoItem in !slotItems do
+                for todoItem in slotItems.Value do
                     match! notificationsService.SendNotification { Time = slotTime; Item = todoItem } with
                     | Ok _ ->
                         todoItemsToRemove.Add(todoItem)

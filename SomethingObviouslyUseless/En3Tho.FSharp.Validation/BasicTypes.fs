@@ -25,7 +25,7 @@ type FatalException(message, innerException: Exception) =
     new (innerException) = FatalException("Fatal exception occured", innerException)
 
 type IAsyncValidator<'value> =
-    abstract member Validate: 'value -> EResult<'value> ValueTask // TODO: AsyncVersion?
+    abstract member Validate: 'value -> EResult<'value> ValueTask
 
 type IValidator<'value> =
     inherit IAsyncValidator<'value>

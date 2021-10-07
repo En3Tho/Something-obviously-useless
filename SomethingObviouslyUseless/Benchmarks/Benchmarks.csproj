@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\En3Tho.FSharp.Extensions\En3Tho.FSharp.Extensions.fsproj" />
     <ProjectReference Include="..\ExtensionsAndStuff.Unsafe\ExtensionsAndStuff.Unsafe.csproj" />
     <ProjectReference Include="..\ExtensionsAndStuff\ExtensionsAndStuff.csproj" />
   </ItemGroup>

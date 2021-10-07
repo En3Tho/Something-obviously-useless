@@ -13,4 +13,8 @@
       <ProjectReference Include="..\En3Tho.FSharp.Validation\En3Tho.FSharp.Validation.fsproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Update="FSharp.Core" Version="6.0.0" />
+    </ItemGroup>
+
 </Project>

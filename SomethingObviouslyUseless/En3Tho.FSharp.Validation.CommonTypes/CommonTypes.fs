@@ -13,7 +13,7 @@ module PlainValue =
              member this.Validate value : EResult<'a> = this.Validate value
              member this.Validate value : AsyncEResult<'a> = this.Validate value |> ValueTask.FromResult
 
-type PlainValue<'a> = DomainEntity10<'a, PlainValue.Validator<'a>>
+type PlainValue<'a> = Validated10<'a, PlainValue.Validator<'a>>
 let inline (|PlainValue|) (value: PlainValue<'a>) = value.Value
 
 module NonNullValue =
@@ -28,7 +28,7 @@ module NonNullValue =
             member this.Validate value : EResult<'a> = this.Validate value
             member this.Validate value : AsyncEResult<'a> = this.Validate value |> ValueTask.FromResult
 
-type NonNullValue<'a when 'a: not struct> = DomainEntity10<'a, NonNullValue.Validator<'a>>
+type NonNullValue<'a when 'a: not struct> = Validated10<'a, NonNullValue.Validator<'a>>
 let inline (|NonNullValue|) (value: NonNullValue<'a>) = value.Value
 
 module NonDefaultValue =
@@ -43,7 +43,7 @@ module NonDefaultValue =
             member this.Validate value : EResult<'a> = this.Validate value
             member this.Validate value : AsyncEResult<'a> = this.Validate value |> ValueTask.FromResult
 
-type NonDefaultValue<'a when 'a: struct and 'a: equality> = DomainEntity10<'a, NonDefaultValue.Validator<'a>>
+type NonDefaultValue<'a when 'a: struct and 'a: equality> = Validated10<'a, NonDefaultValue.Validator<'a>>
 let inline (|NonDefaultValue|) (value: NonDefaultValue<'a>) = value.Value
 
 module NonNegativeValue =
@@ -57,7 +57,7 @@ module NonNegativeValue =
             member this.Validate value : EResult<'a> = this.Validate value
             member this.Validate value : AsyncEResult<'a> = this.Validate value |> ValueTask.FromResult
 
-type NonNegativeValue<'a when 'a: comparison and 'a: struct> = DomainEntity10<'a, NonNegativeValue.Validator<'a>>
+type NonNegativeValue<'a when 'a: comparison and 'a: struct> = Validated10<'a, NonNegativeValue.Validator<'a>>
 let inline (|NonNegativeValue|) (value: NonNegativeValue<'a>) = value.Value
 
 module NegativeValue =
@@ -71,7 +71,7 @@ module NegativeValue =
             member this.Validate value : EResult<'a> = this.Validate value
             member this.Validate value : AsyncEResult<'a> = this.Validate value |> ValueTask.FromResult
 
-type NegativeValue<'a when 'a: comparison and 'a: struct> = DomainEntity10<'a, NonNegativeValue.Validator<'a>>
+type NegativeValue<'a when 'a: comparison and 'a: struct> = Validated10<'a, NonNegativeValue.Validator<'a>>
 let inline (|NegativeValue|) (value: NonNegativeValue<'a>) = value.Value
 
 module NonEmptyString =
@@ -87,7 +87,7 @@ module NonEmptyString =
             member this.Validate value = this.Validate value
             member this.Validate value = this.Validate value |> ValueTask.FromResult
 
-type NonEmptyString = DomainEntity10<string, NonEmptyString.Validator>
+type NonEmptyString = Validated10<string, NonEmptyString.Validator>
 let inline (|NonEmptyString|) (value: NonEmptyString) = value.Value
 
 module NonEmptyGuid =
@@ -102,7 +102,7 @@ module NonEmptyGuid =
             member this.Validate value = this.Validate value
             member this.Validate value = this.Validate value |> ValueTask.FromResult
 
-type NonEmptyGuid = DomainEntity10<Guid, NonEmptyGuid.Validator>
+type NonEmptyGuid = Validated10<Guid, NonEmptyGuid.Validator>
 let inline (|NonEmptyGuid|) (value: NonEmptyGuid) = value.Value
 
 module NonEmptyArray =
@@ -119,7 +119,7 @@ module NonEmptyArray =
             member this.Validate value : EResult<'a array> = this.Validate value
             member this.Validate value : AsyncEResult<'a array> = this.Validate value |> ValueTask.FromResult
 
-type NonEmptyArray<'a> = DomainEntity10<'a array, NonEmptyArray.Validator<'a>>
+type NonEmptyArray<'a> = Validated10<'a array, NonEmptyArray.Validator<'a>>
 let inline (|NonEmptyArray|) (value: NonEmptyArray<'a>) = value.Value
 
 module NonEmptyList =
@@ -136,7 +136,7 @@ module NonEmptyList =
             member this.Validate value : EResult<'a list> = this.Validate value
             member this.Validate value : AsyncEResult<'a list> = this.Validate value |> ValueTask.FromResult
 
-type NonEmptyList<'a> = DomainEntity10<'a list, NonEmptyList.Validator<'a>>
+type NonEmptyList<'a> = Validated10<'a list, NonEmptyList.Validator<'a>>
 let inline (|NonEmptyList|) (value: NonEmptyList<'a>) = value.Value
 
 module NonEmptyCollection =
@@ -153,7 +153,7 @@ module NonEmptyCollection =
             member this.Validate value = this.Validate value
             member this.Validate value = this.Validate value |> ValueTask.FromResult
 
-type NonEmptyCollection<'a, 'b when 'a :> ICollection<'b>> = DomainEntity10<'a, NonEmptyCollection.Validator<'a, 'b>>
+type NonEmptyCollection<'a, 'b when 'a :> ICollection<'b>> = Validated10<'a, NonEmptyCollection.Validator<'a, 'b>>
 let inline (|NonEmptyCollection|) (value: NonEmptyCollection<'a, 'b>) = value.Value
 
 module GuidString =
@@ -169,7 +169,7 @@ module GuidString =
             member this.Validate value = this.Validate value
             member this.Validate value = this.Validate value |> ValueTask.FromResult
 
-type GuidString = DomainEntity20<string, NonEmptyString.Validator, GuidString.Validator>
+type GuidString = Validated20<string, NonEmptyString.Validator, GuidString.Validator>
 let inline (|GuidString|) (value: GuidString) = value.Value
 
 module ValidEnumValue =
@@ -184,5 +184,5 @@ module ValidEnumValue =
             member this.Validate value : EResult<'a> = this.Validate value
             member this.Validate value : AsyncEResult<'a> = this.Validate value |> ValueTask.FromResult
 
-type ValidEnumValue<'a when 'a: struct and 'a :> Enum and 'a: (new: unit -> 'a)> = DomainEntity10<'a, ValidEnumValue.Validator<'a>>
+type ValidEnumValue<'a when 'a: struct and 'a :> Enum and 'a: (new: unit -> 'a)> = Validated10<'a, ValidEnumValue.Validator<'a>>
 let inline (|ValidEnum|) (value: ValidEnumValue<'a>) = value.Value

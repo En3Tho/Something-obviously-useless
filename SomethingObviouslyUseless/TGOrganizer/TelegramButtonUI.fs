@@ -1,19 +1,11 @@
 ﻿module TGOrganizer.TelegramButtonUI
 
-open System
-open System.Collections.Generic
 open System.Text.Json
-open System.Threading.Tasks
 open En3Tho.FSharp.Extensions
-open En3Tho.FSharp.Validation.CommonTypes
-open FSharp.Control.Tasks
+open En3Tho.FSharp.Validation.CommonValidatedTypes
 
-open En3Tho.FSharp.ComputationExpressions.ICollectionBuilder
-open En3Tho.FSharp.Validation
 
-open TGOrganizer.Primitives
 open TGOrganizer.Contracts
-open TGOrganizer.TelegramApi.ActivePatterns
 open Telegram.Bot
 open Telegram.Bot.Types
 open Telegram.Bot.Types.ReplyMarkups
@@ -105,6 +97,12 @@ module TodoTaskScreenCreate =
 // send create task description
 //
 
+module MessageIds =
+    let [<Literal>] OnTaskCreation = "OnTaskCreation"
+
+module Messages =
+    let [<Literal>] OnTaskCreation = ""
+
 let sendInlineCallbackKeyboard (chatId: int64) (client: ITelegramBotClient) =
         let replyKeyboardMarkup = InlineKeyboardMarkup(inlineKeyboard = [|
             [|
@@ -124,7 +122,6 @@ let sendInlineCallbackKeyboard (chatId: int64) (client: ITelegramBotClient) =
         )
 
 module TelegramTodoTaskMaker =
-
     type TelegramTodoTaskData = {
         Body: string
     }

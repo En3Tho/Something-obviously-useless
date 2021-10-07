@@ -13,11 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\En3Tho.FSharp.Extensions\En3Tho.FSharp.Extensions.fsproj" />
-    </ItemGroup>
+      <PackageReference Include="En3Tho.FSharp.Extensions" Version="1.0.0" />
+      <PackageReference Update="FSharp.Core" Version="6.0.0" />
+    </ItemGroup>   
 
 </Project>

@@ -1,7 +1,6 @@
 namespace En3Tho.FSharp.Validation
 
 open System
-open System.Runtime.CompilerServices
 open System.Runtime.ExceptionServices
 open En3Tho.FSharp.Extensions.Core
 
@@ -38,38 +37,32 @@ module EResult =
             exn |> ExceptionDispatchInfo.SetCurrentStackTrace :?> 'exn |> Error
         | _ -> result
 
-[<AbstractClass; Extension>]
-type EResultExtensions() =
-    [<Extension>]
-    static member Unwrap value =
-        EResult.unwrap value
-
-module DomainEntity =
-    let map map (entity: DomainEntity10<'a,'b>) = entity.Value |> map |> DomainEntity10<'a,'b>.Try
-    let mapUnwrap map (entity: DomainEntity10<'a,'b>) =
-        entity.Value |> map |> DomainEntity10<'a,'b>.Try |> EResult.unwrap
+module Validated =
+    let map map (entity: Validated10<'a,'b>) = entity.Value |> map |> Validated10<'a,'b>.Try
+    let mapUnwrap map (entity: Validated10<'a,'b>) =
+        entity.Value |> map |> Validated10<'a,'b>.Try |> EResult.unwrap
 
 [<AutoOpen>]
-module DomainEntityExtensions =
-    type DomainEntity10<'value, 'validator when 'validator: struct
+module ValidatedExtensions =
+    type Validated10<'value, 'validator when 'validator: struct
                                             and 'validator: (new: unit -> 'validator)
                                             and 'validator :> IValidator<'value>> with
         static member Try value =
             match value with
             | ValueNone -> ValueNone |> Ok
             | ValueSome value ->
-                match DomainEntity10<'value, 'validator>.Try value with
+                match Validated10<'value, 'validator>.Try value with
                 | Ok value -> value |> ValueSome |> Ok
                 | Error err -> Error err
 
         member this.MapTry map =
-            DomainEntity.map map this
+            Validated.map map this
 
         static member Make value =
-            value |> DomainEntity10<'value, 'validator>.Try |> EResult.unwrap
+            value |> Validated10<'value, 'validator>.Try |> EResult.unwrap
 
         member this.MapMake map =
-            DomainEntity.mapUnwrap map this
+            Validated.mapUnwrap map this
 
 [<AutoOpen>]
 module ExceptionExtensions =

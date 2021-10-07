@@ -1,4 +1,5 @@
 open System
+open System.Globalization
 open System.Threading
 open System.Threading.Tasks
 open En3Tho.FSharp.Extensions
@@ -10,7 +11,9 @@ open Telegram.Bot.Exceptions
 open Telegram.Bot.Types
 open Telegram.Bot.Types.Enums
 open Telegram.Bot.Extensions.Polling
-open Telegram.Bot.Types.ReplyMarkups;
+open Telegram.Bot.Types.ReplyMarkups
+open TGOrganizer.Resources.Extensions
+
 
 module Telegram =
 
@@ -204,6 +207,13 @@ let inline (|{messageType}|_|) (message: Message) =
 
 [<EntryPoint>]
 let main argv =
+
+    let str1 = UserMessages.TaskCreateBodyDescription();
+    let str2 = UserMessages.TaskCreateBodyDescription(CultureInfo("ru-Ru"));
+    let str3 = UserMessages.TaskCreateBodyDescription(CultureInfo("en-Us"))
+
+    let str55 = UserMessages.Test55()
+
     Telegram.startBot()
     |> Task.RunSynchronously
     0

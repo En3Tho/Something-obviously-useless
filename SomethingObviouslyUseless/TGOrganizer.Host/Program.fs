@@ -3,8 +3,8 @@ namespace TGOrganizer.Host
 open System
 open System.Threading
 open System.Threading.Tasks
-open En3Tho.FSharp.Validation
-open En3Tho.FSharp.Validation.CommonTypes
+open En3Tho.FSharp.Extensions
+open En3Tho.FSharp.Validation.CommonValidatedTypes
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
