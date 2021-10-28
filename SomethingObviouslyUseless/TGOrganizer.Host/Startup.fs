@@ -5,6 +5,7 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Hosting
+open TGOrganizer.Implementation
 open TGOrganizer.Contracts
 open TGOrganizer.Contracts.Telegram
 open TGOrganizer.Implementation.InMemory.Consumers
@@ -46,6 +47,8 @@ type Startup() =
             .AddSingleton<ITodoTaskNotificationsService, InMemoryTelegramTodoTaskNotificationsService>()
             .AddSingleton<ITodoItemEditorService, TodoItemEditorService>()
             .AddSingleton<ITodoTaskSchedulingService, InMemoryTodoItemSchedulingService>()
+
+            .AddSingleton<ITelegramWebHookService, TelegramWebHookService>()
 
             .AddSingleton<IEventConsumer<_>, ReschedulerTodoTaskNotificationConsumer>()
             .AddSingleton<IEventConsumer<_>, ConsolePrinterTodoTaskNotificationConsumer>()

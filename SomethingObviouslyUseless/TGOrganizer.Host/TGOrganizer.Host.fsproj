@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Compile Include="TelegramWebhookController.fs" />
         <Compile Include="InMemoryHostedService.fs" />
         <Compile Include="Startup.fs" />
         <Compile Include="Program.fs" />

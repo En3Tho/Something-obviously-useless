@@ -5,7 +5,10 @@ open System.Collections.Generic
 open System.Text.RegularExpressions
 open System.Threading.Tasks
 open En3Tho.FSharp.Validation
+open En3Tho.FSharp.Validation
 open En3Tho.FSharp.Validation.CommonTypes
+
+
 module NonDefaultValue =
     exception ValueIsDefault
     
@@ -87,7 +90,7 @@ type ValueShouldBeUnique = DomainEntity11<string, NonEmptyString.Validator, Valu
 type FirstName = DomainEntity20<string, StringOfMinLength10.Validator, StringOfMaxLength50.Validator>
 type LastName = NonEmptyString
 type Age = NonNegativeValue<int>
-type Email = Validated10<string, Email.Validator>
+type Email = InstanceValidatorValidated<string, Email.Validator>
 
 type DepartmentName = ValueShouldBeUnique
 type DepartmentWorkerCount = NonNegativeValue<int>

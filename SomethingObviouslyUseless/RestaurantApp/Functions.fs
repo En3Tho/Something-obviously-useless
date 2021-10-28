@@ -1,6 +1,5 @@
 ﻿module RestaurantApp.Functions
 
-open System
 
 type BusinessObject = {
     Value: int

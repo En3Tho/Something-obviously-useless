@@ -88,6 +88,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TGOrganizer.Resources", "TG
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoDecoratorGenerator", "AutoDecoratorGenerator", "{4BF31BC5-4B57-459E-90B8-341B4F768B5B}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "En3Tho.FSharp.ILGen", "En3Tho.FSharp.ILGen\En3Tho.FSharp.ILGen.fsproj", "{14234AEE-940E-42E5-A52F-18997D643FE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -226,6 +228,10 @@ Global
 		{2847B366-62BA-4E16-892F-69B32E0545F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2847B366-62BA-4E16-892F-69B32E0545F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2847B366-62BA-4E16-892F-69B32E0545F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14234AEE-940E-42E5-A52F-18997D643FE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14234AEE-940E-42E5-A52F-18997D643FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14234AEE-940E-42E5-A52F-18997D643FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14234AEE-940E-42E5-A52F-18997D643FE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

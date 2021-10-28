@@ -31,7 +31,7 @@ module SwitchCaseAnalysis =
     let rule = DiagnosticDescriptor("FSDU0002", "Property self reference detected by F#", "Property self reference detected by F#. Potentially a bug.", "SelfAssignment F#",
                                     DiagnosticSeverity.Warning, true, null, null, array.Empty<string>())
     let analyze (context: OperationAnalysisContext) =
-#if DEBUG
+#if DEBUG_DU_ANALYZER
         if not Debugger.IsAttached then
             Debugger.Launch() |> ignore
 #endif
@@ -63,7 +63,7 @@ module SwitchExpressionAnalysis =
     let rule =  DiagnosticDescriptor("FSDU0003", "Property self compound assignment detected by F#", "Property self compound assignment detected by F#. Change this to a method.", "SelfAssignment F#",
                                      DiagnosticSeverity.Warning, true, null, null, array.Empty<string>());
     let analyze (context: OperationAnalysisContext) =
-#if DEBUG
+#if DEBUG_DU_ANALYZER
         if not Debugger.IsAttached then
             Debugger.Launch() |> ignore
 #endif
@@ -94,7 +94,7 @@ type FSharpDiscriminatedUnionAnalyzer() =
         ImmutableArray.Create(SwitchExpressionAnalysis.rule, SwitchCaseAnalysis.rule)
 
     override this.Initialize (context: AnalysisContext) =
-#if DEBUG
+#if DEBUG_DU_ANALYZER
         if not Debugger.IsAttached then
             Debugger.Launch() |> ignore
 #endif

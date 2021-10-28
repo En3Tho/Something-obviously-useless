@@ -61,7 +61,7 @@ namespace TGOrganizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wasda.
+        ///   Looks up a localized string similar to Please fill the body of task with data: message, photos, sounds and press &quot;Next&quot; button or enter /next command. To cancel operation please press &quot;Cancel&quot; button or use /cancel command. First text message will be used as a name for the task and should have length of 50 characters max..
         /// </summary>
         internal static string TaskCreateBodyDescription {
             get {
@@ -70,7 +70,7 @@ namespace TGOrganizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to asdasdasd.
+        ///   Looks up a localized string similar to Now pick or skip recurrency period either via recurrency time picker or in &quot;HH.MM&quot; 24 hrs format. To skip either press &quot;Skip&quot; button or enter &quot;/skip&quot; command..
         /// </summary>
         internal static string TaskSetConcurrencyPeriodDescription {
             get {
@@ -79,7 +79,7 @@ namespace TGOrganizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to gffgd.
+        ///   Looks up a localized string similar to Pick a date for your task either with calendar buttons or via text message of &quot;YYYY.MM.DD&quot; format..
         /// </summary>
         internal static string TaskSetDateDescription {
             get {
@@ -88,20 +88,11 @@ namespace TGOrganizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to asds2131.
+        ///   Looks up a localized string similar to Now pick a time either with time picker or via text message of &quot;HH.MM&quot; 24 hrs format..
         /// </summary>
         internal static string TaskSetTimeDescription {
             get {
                 return ResourceManager.GetString("TaskSetTimeDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to null.
-        /// </summary>
-        internal static string Test55 {
-            get {
-                return ResourceManager.GetString("Test55", resourceCulture);
             }
         }
     }

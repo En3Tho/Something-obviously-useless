@@ -6,6 +6,7 @@ open System.Collections.Generic
 open System.Threading.Channels
 open System.Threading.Tasks
 open En3Tho.FSharp.Extensions.Core
+open En3Tho.FSharp.Extensions
 open En3Tho.FSharp.Validation.CommonValidatedTypes
 open Microsoft.Extensions.Logging
 open TGOrganizer.Contracts
@@ -256,7 +257,7 @@ type InMemoryUserStorage(logger: ILogger<InMemoryUserStorage>) =
     let userDictLogin = ConcurrentDictionary()
     let createUser (command: CreateUserCommand) =
         match userDictLogin.TryGetValue command.Login with
-        | true, user ->
+        | true, _ ->
             Error (UserAlreadyExistsException() :> exn)
         | _ ->
             let userGuid = Guid.NewGuid() |> NonEmptyGuid.Make

@@ -16,6 +16,7 @@
 
     <ItemGroup>
       <PackageReference Update="FSharp.Core" Version="6.0.0" />
+      <PackageReference Include="En3Tho.FSharp.Validation" Version="1.0.2" />
     </ItemGroup>
 
 </Project>

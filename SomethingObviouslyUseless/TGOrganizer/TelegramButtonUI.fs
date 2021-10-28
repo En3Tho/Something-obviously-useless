@@ -1,11 +1,14 @@
 ﻿module TGOrganizer.TelegramButtonUI
 
 open System.Text.Json
+open System.Threading.Tasks
 open En3Tho.FSharp.Extensions
 open En3Tho.FSharp.Validation.CommonValidatedTypes
 
 
 open TGOrganizer.Contracts
+open TGOrganizer.Primitives
+open TGOrganizer.Resources.Extensions
 open Telegram.Bot
 open Telegram.Bot.Types
 open Telegram.Bot.Types.ReplyMarkups
@@ -104,26 +107,67 @@ module Messages =
     let [<Literal>] OnTaskCreation = ""
 
 let sendInlineCallbackKeyboard (chatId: int64) (client: ITelegramBotClient) =
-        let replyKeyboardMarkup = InlineKeyboardMarkup(inlineKeyboard = [|
-            [|
-                InlineKeyboardButton.WithCallbackData("1.1", "11")
-                InlineKeyboardButton.WithCallbackData("1.2", "12")
-            |]
-            [|
-                InlineKeyboardButton.WithCallbackData("2.1", "22")
-                InlineKeyboardButton.WithCallbackData("2.2", "22")
-            |]
-        |])
+    let replyKeyboardMarkup = InlineKeyboardMarkup(inlineKeyboard = [|
+        [|
+            InlineKeyboardButton.WithCallbackData("1.1", "11")
+            InlineKeyboardButton.WithCallbackData("1.2", "12")
+        |]
+        [|
+            InlineKeyboardButton.WithCallbackData("2.1", "22")
+            InlineKeyboardButton.WithCallbackData("2.2", "22")
+        |]
+    |])
 
-        client.SendTextMessageAsync(
-            chatId = ChatId.op_Implicit chatId,
-            text = "A message with an inline keyboard markup",
-            replyMarkup = replyKeyboardMarkup
-        )
+    client.SendTextMessageAsync(
+        chatId = ChatId.op_Implicit chatId,
+        text = "A message with an inline keyboard markup",
+        replyMarkup = replyKeyboardMarkup
+    )
 
-module TelegramTodoTaskMaker =
-    type TelegramTodoTaskData = {
-        Body: string
-    }
+type TodoTaskBodyData =
+    | Text of Text: NonEmptyString
+    | Video of VideoLink: NonEmptyString
+    | Audio of AudioLink: NonEmptyString
+
+type TelegramTodoTaskData = {
+    Name: string
+    Body: TodoTaskBodyData NonEmptyArray voption
+    DateAndTime: ValidDateTimeOffset
+}
+
+type TaskBodyUpdate =
+    | UpdateText of Text: NonEmptyString
+    | UpdateVideo of VideoLink: NonEmptyString
+    | UpdateAudio of AudioLink: NonEmptyString
+
+type TelegramTodoTaskUpdate =
+    | UpdateName of Name: NonEmptyString
+    | UpdateBody of Update: TaskBodyUpdate
+    | UpdateDate of Date: ValidDateTimeOffset
+    | UpdateTime of Time: ValidDateTimeOffset
+
+// buttons -> Message, fun() -> ...
+
+// let askUserForMessage = telegram {
+// message ...
+// button (id, action)
+// }
+// let askUserForUserName<string> message buttons (fun) (fun) user
+// -> actor
+
+// UserActorState
+// ActorLives / Dies
+
+// dict [UserId] [userStateMachine]
+
+//type TodoTaskStateMachine(steps: (TelegramTodoTaskData -> Task<TelegramTodoTaskData>) NonEmptyArray) =
+//    let mutable stepIndex = 0
+//    let currentTaskCompletionSource = TaskCompletionSource()
+//
+//module UserRequests =
+//    let askUserForTaskBody = fun (data: TelegramTodoTaskData) -> task {
+//        let message = UserMessages.TaskCreateBodyDescription()
+//        let cts = TaskCompletionSource()
+//    }
 
 // Description

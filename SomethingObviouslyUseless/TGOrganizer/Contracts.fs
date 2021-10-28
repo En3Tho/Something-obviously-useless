@@ -88,6 +88,11 @@ type TodoTaskScheduleDateAlreadyPassedException(todoTask: TodoTask) =
     inherit ProcessingException(nameof(TodoTaskScheduleDateAlreadyPassedException))
     member _.TodoTask = todoTask
 
+type ITodoTaskQueueStorage =
+    abstract AddTodoItem: time: ValidDateTimeOffset * item: TodoTask -> AsyncExnResult<unit>
+    abstract RemoveTodoItem: item: TodoTask -> AsyncExnResult<unit>
+    abstract GetTodoItems: time: ValidDateTimeOffset -> AsyncExnResult<TodoTask NonEmptyArray voption>
+
 type ITodoTaskSchedulingService =
     abstract Schedule: time: ValidDateTimeOffset * task: TodoTask -> AsyncExnResult<unit>
     abstract Reschedule: time: ValidDateTimeOffset * task: TodoTask -> AsyncExnResult<unit>
