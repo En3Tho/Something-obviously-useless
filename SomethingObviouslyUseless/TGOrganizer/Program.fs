@@ -174,6 +174,9 @@ module Telegram =
 
     let startBot() = task {
         let bot = TelegramBotClient("1715734966:AAFWYp_atrc9p3jVW5HmwiCHBq6TG6TXLW4")
+        do! bot.SetMyCommandsAsync(seq {
+            BotCommand(Command = "/authorize", Description = "")
+        })
         let! me = bot.GetMeAsync()
         printfn $"Hello, World! I am user {me.Id} and my name is {me.FirstName}."
 
@@ -207,13 +210,6 @@ let inline (|{messageType}|_|) (message: Message) =
 
 [<EntryPoint>]
 let main argv =
-
-    let str1 = UserMessages.TaskCreateBodyDescription();
-    let str2 = UserMessages.TaskCreateBodyDescription(CultureInfo("ru-Ru"));
-    let str3 = UserMessages.TaskCreateBodyDescription(CultureInfo("en-Us"))
-
-    let str55 = UserMessages.Test55()
-
     Telegram.startBot()
     |> Task.RunSynchronously
     0

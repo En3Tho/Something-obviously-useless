@@ -41,10 +41,13 @@ let inline (|ValidDateTimeOffset|) (value: ValidDateTimeOffset) = value.Value
 type ValidTimeSpan = TimeSpan NonNegativeValue
 let inline (|ValidTimeSpan|) (value: ValidTimeSpan) = value.Value
 
-type BacktrackingCancelableExecution<'state> =
+type [<Struct>] BacktrackingCancelableExecution<'state> =
     | Success of Value: ExnResult<'state>
     | Cancel
     | Back
+
+module NonEmptyGuid =
+    let inline newGuid() = Guid.NewGuid() |> NonEmptyGuid.Make
 
 let inline runBacktrackingCancelables (state: 'a) (steps: ('a -> Task<BacktrackingCancelableExecution<'a>>) IList) = task {
     if steps.Count = 0 then

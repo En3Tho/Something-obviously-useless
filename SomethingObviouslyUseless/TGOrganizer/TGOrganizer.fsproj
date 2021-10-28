@@ -16,6 +16,7 @@
         <Compile Include="Implementation.Telegram.InMemory.Consumers.fs" />
         <Compile Include="TelegramApi.ActivePatterns.fs" />
         <Compile Include="TelegramButtonUI.fs" />
+        <Compile Include="TelegramUserRequests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

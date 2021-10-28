@@ -15,7 +15,7 @@ module NonDefaultValue =
         
     type [<Struct>] Validator<'a when 'a: equality> =
          interface IValidator<'a> with
-             member this.Validate value : EResult<'a> = validate value // for some reason type inference fails here
+             member this.Validate value : ER<'a> = validate value // for some reason type inference fails here
              member this.Validate value : ValueTask<EResult<'a>> = validate value |> ValueTask<_> // and here
 
 

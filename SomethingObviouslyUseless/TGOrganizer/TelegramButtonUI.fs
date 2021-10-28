@@ -104,22 +104,22 @@ module Messages =
     let [<Literal>] OnTaskCreation = ""
 
 let sendInlineCallbackKeyboard (chatId: int64) (client: ITelegramBotClient) =
-        let replyKeyboardMarkup = InlineKeyboardMarkup(inlineKeyboard = [|
-            [|
-                InlineKeyboardButton.WithCallbackData("1.1", "11")
-                InlineKeyboardButton.WithCallbackData("1.2", "12")
-            |]
-            [|
-                InlineKeyboardButton.WithCallbackData("2.1", "22")
-                InlineKeyboardButton.WithCallbackData("2.2", "22")
-            |]
-        |])
+    let replyKeyboardMarkup = InlineKeyboardMarkup(inlineKeyboard = [|
+        [|
+            InlineKeyboardButton.WithCallbackData("1.1", "11")
+            InlineKeyboardButton.WithCallbackData("1.2", "12")
+        |]
+        [|
+            InlineKeyboardButton.WithCallbackData("2.1", "22")
+            InlineKeyboardButton.WithCallbackData("2.2", "22")
+        |]
+    |])
 
-        client.SendTextMessageAsync(
-            chatId = ChatId.op_Implicit chatId,
-            text = "A message with an inline keyboard markup",
-            replyMarkup = replyKeyboardMarkup
-        )
+    client.SendTextMessageAsync(
+        chatId = ChatId.op_Implicit chatId,
+        text = "A message with an inline keyboard markup",
+        replyMarkup = replyKeyboardMarkup
+    )
 
 module TelegramTodoTaskMaker =
     type TelegramTodoTaskData = {
