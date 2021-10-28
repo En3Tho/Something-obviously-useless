@@ -20,6 +20,9 @@ module Telegram =
 
     let startBot() = task {
         let bot = TelegramBotClient("1715734966:AAFWYp_atrc9p3jVW5HmwiCHBq6TG6TXLW4")
+        do! bot.SetMyCommandsAsync(seq {
+            BotCommand(Command = "/authorize", Description = "")
+        })
         let botId = string bot.BotId
         let! me = bot.GetMeAsync()
 
