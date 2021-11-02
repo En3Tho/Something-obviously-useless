@@ -50,7 +50,7 @@ namespace En3Tho.PlayGround.GameOfLife
 
             var outerMap = GC.AllocateArray<byte>(_outerMapByteLength, pinned: true);
 
-            _outerMapStart = (byte*)Unsafe.AsPointer(ref outerMap);//(byte*)GCHandle.Alloc(globalBuffer, GCHandleType.Pinned).AddrOfPinnedObject();
+            _outerMapStart = (byte*)Unsafe.AsPointer(ref outerMap);
             _innerMapStart = _outerMapStart + _outerMapByteWidth + 1; // [1][1] index
 
             var buffer = GC.AllocateArray<byte>(_innerMapByteWidth * 2, pinned: true);
